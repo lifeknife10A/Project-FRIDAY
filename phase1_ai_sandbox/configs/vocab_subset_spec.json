@@ -1,0 +1,13 @@
+{
+  "source_tokenizer": "Qwen/Qwen2.5-0.5B",
+  "source_vocab_size": 151936,
+  "target_vocab_size": 64000,
+  "pruning_policy": {
+    "special_tokens_reserved": 500,
+    "raw_byte_tokens_reserved": 256,
+    "devanagari_hindi_tokens_allocated": 4500,
+    "english_hinglish_frequency_tokens_allocated": 58744
+  },
+  "compression_ratio": 0.4212,
+  "lm_head_memory_footprint_int8_mb": 57.34
+}

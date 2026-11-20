@@ -1,0 +1,53 @@
+Harness,Pin,Net_Name,Signal_Type,Voltage,Trace_Width_mm,Description
+Left,1,PACK_POS,Power,6.0V-8.4V,0.40,Top of 2S series battery pack from Right Cell 2 to Left BQ25887 charger and BQ28Z610 protector
+Left,2,PACK_NEG,Power_Return,0V,0.40,Battery power ground return from Right MP28167 buck-boost to Left Cell 1 negative terminal
+Left,3,CELL_MID_A,Power_Interconnect,3.0V-4.2V,0.30,Midpoint series interconnect connecting Left Cell 1 (+) to Right Cell 2 (-) [Trace A]
+Left,4,CELL_MID_B,Power_Interconnect,3.0V-4.2V,0.30,Midpoint series interconnect connecting Left Cell 1 (+) to Right Cell 2 (-) [Trace B, Parallel RA]
+Left,5,KELVIN_MID,Analog_Sense,3.0V-4.2V,0.15,Dedicated high-impedance sense line to BQ28Z610 fuel gauge and Apollo4 ADC
+Left,6,BAL_BLEED,Power_Bleed,3.0V-4.2V,0.20,Active cell balance bleed tap carrying ~55mA bleed current from BQ25887
+Left,7,SCL_CHG,Digital_I2C,1.8V,0.15,I2C Clock line connecting Apollo4 I2C Master (Right) to TI BQ25887 (Left)
+Left,8,SDA_CHG,Digital_I2C,1.8V,0.15,I2C Data line connecting Apollo4 I2C Master (Right) to TI BQ25887 (Left)
+Left,9,INT_CHG,Digital_Interrupt,1.8V,0.15,Active-low interrupt/status output from BQ25887 to Apollo4 GPIO
+Left,10,CD_INTERLOCK,Digital_Control,1.8V,0.15,Hardware charge disable line driven by Apollo4 open-drain with hardware pull-up
+Left,11,CELL2_NTC,Analog_Sensor,0V-1.8V,0.15,Analog thermistor sense line routing Right Cell 2 NTC to BQ25887 TS pin
+Left,12,I2S_BCLK_L,Digital_Clock,1.8V,0.15,Digital audio bit clock routed from Right audio master to Left MAX98357A amp
+Left,13,I2S_LRCLK_L,Digital_Clock,1.8V,0.15,Digital audio word select (LRCLK) routed from Right audio master to Left MAX98357A amp
+Left,14,I2S_DATA_L,Digital_Data,1.8V,0.15,Digital audio data line routed from Right audio master to Left MAX98357A amp
+Left,15,SD_MODE_L,Digital_Control,1.8V,0.15,Channel select and shutdown control line for Left MAX98357A (10k pullup -> Left)
+Left,16,VAUX_1V8,Power_Aux,1.8V,0.25,Auxiliary 1.8V bootstrapping power routed from Left 5V LDO to Right Apollo4 Lite
+Left,17,DGND_1,Digital_GND,0V,0.30,Isolated digital ground return and reference plane for Left Temple electronics
+Left,18,DGND_2_SHIELD,Digital_Shield,0V,0.30,Chassis shield return and hatched reference ground plane for I2S lines
+Right,1,MIPI_CLK_P,Differential_RF,0.2V-0.4V,0.15,MIPI CSI-2 differential clock positive line (100 ohm differential microstrip)
+Right,2,MIPI_CLK_N,Differential_RF,0.2V-0.4V,0.15,MIPI CSI-2 differential clock negative line (100 ohm differential microstrip)
+Right,3,MIPI_D0_P,Differential_RF,0.2V-0.4V,0.15,MIPI CSI-2 differential data lane 0 positive line (100 ohm microstrip)
+Right,4,MIPI_D0_N,Differential_RF,0.2V-0.4V,0.15,MIPI CSI-2 differential data lane 0 negative line (100 ohm microstrip)
+Right,5,MIPI_D1_P,Differential_RF,0.2V-0.4V,0.15,MIPI CSI-2 differential data lane 1 positive line (100 ohm microstrip)
+Right,6,MIPI_D1_N,Differential_RF,0.2V-0.4V,0.15,MIPI CSI-2 differential data lane 1 negative line (100 ohm microstrip)
+Right,7,CAM_SCL,Digital_I2C,1.8V,0.15,Dedicated I2C camera control clock from RK3576 native camera I2C controller
+Right,8,CAM_SDA,Digital_I2C,1.8V,0.15,Dedicated I2C camera control data from RK3576 native camera I2C controller
+Right,9,CAM_MCLK,Digital_Clock,1.8V,0.15,24MHz master optical clock routed to Sony IMX415 sensor
+Right,10,CAM_RST_N,Digital_Control,1.8V,0.15,Active-low hardware reset signal for IMX415 CMOS sensor
+Right,11,CAM_AVDD_2V9,Power_Analog,2.9V,0.25,Clean low-noise analog power rail for IMX415 analog circuitry
+Right,12,CAM_DVDD_1V8,Power_Digital,1.8V,0.25,Regulated digital I/O and core power rail for IMX415 sensor
+Right,13,CAM_NTC,Analog_Sensor,0V-1.8V,0.15,Thermistor line inside Titanium camera cradle for thermal distortion calibration
+Right,14,MIC_VDD_1V8,Power_Analog,1.8V,0.20,Low-noise LC pi-filtered analog microphone bias power rail
+Right,15,MIC_BCLK,Digital_Clock,1.8V,0.15,Digital audio bit clock for dual MEMS microphone array
+Right,16,MIC_LRCLK,Digital_Clock,1.8V,0.15,Digital word select line for dual MEMS microphone array
+Right,17,MIC_DATA,Digital_Data,1.8V,0.15,Multiplexed digital PDM/I2S data line from dual front microphones
+Right,18,MIC_STAR_GND,Analog_GND,0V,0.25,Dedicated isolated star-ground return for front MEMS microphones via ferrite bead
+Right,19,PACK_POS,Power,6.0V-8.4V,0.40,Top of 2S series battery pack through-traffic to Right Cell 2 positive terminal
+Right,20,PACK_NEG,Power_Return,0V,0.40,Battery power ground return through-traffic from Right MP28167 to Left Cell 1 (-)
+Right,21,CELL_MID_A,Power_Interconnect,3.0V-4.2V,0.30,Midpoint series interconnect through-traffic to Right Cell 2 (-) [Trace A]
+Right,22,CELL_MID_B,Power_Interconnect,3.0V-4.2V,0.30,Midpoint series interconnect through-traffic to Right Cell 2 (-) [Trace B]
+Right,23,KELVIN_MID,Analog_Sense,3.0V-4.2V,0.15,Through-traffic Kelvin sense line to Apollo4 ADC monitoring
+Right,24,BAL_BLEED,Power_Bleed,3.0V-4.2V,0.20,Through-traffic active balance bleed tap to Cell 2 junction
+Right,25,SCL_CHG,Digital_I2C,1.8V,0.15,Charger I2C clock line from Apollo4 I2C Master to Left BQ25887
+Right,26,SDA_CHG,Digital_I2C,1.8V,0.15,Charger I2C data line from Apollo4 I2C Master to Left BQ25887
+Right,27,INT_CHG,Digital_Interrupt,1.8V,0.15,Through-traffic charger interrupt line to Apollo4 GPIO
+Right,28,CD_INTERLOCK,Digital_Control,1.8V,0.15,Through-traffic hardware charge disable line driven by Apollo4 open-drain
+Right,29,CELL2_NTC,Analog_Sensor,0V-1.8V,0.15,Through-traffic thermistor line from Right Cell 2 to Left BQ25887 TS pin
+Right,30,I2S_BCLK_L,Digital_Clock,1.8V,0.15,Left audio digital bit clock through-traffic from Right audio master
+Right,31,I2S_LRCLK_L,Digital_Clock,1.8V,0.15,Left audio word select through-traffic from Right audio master
+Right,32,I2S_DATA_L,Digital_Data,1.8V,0.15,Left audio digital data line through-traffic from Right audio master
+Right,33,SD_MODE_L,Digital_Control,1.8V,0.15,Left amp channel select and shutdown control through-traffic from Apollo4 GPIO
+Right,34,VAUX_1V8,Power_Aux,1.8V,0.25,Auxiliary 1.8V bootstrapping through-traffic to Apollo4 Lite ideal-diode OR switch

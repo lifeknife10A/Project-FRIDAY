@@ -1,0 +1,46 @@
+{
+  "student_architecture": {
+    "model_name": "Friday-Student-496M",
+    "vision_encoder": {
+      "model_type": "siglip",
+      "pretrained_weights": "google/siglip-base-patch16-384",
+      "image_size": 384,
+      "patch_size": 16,
+      "raw_patch_count": 576,
+      "unshuffle_downsample_factor": 2,
+      "compressed_token_count": 144,
+      "embedding_dim": 768
+    },
+    "language_decoder": {
+      "model_type": "qwen2.5",
+      "base_architecture": "Qwen/Qwen2.5-0.5B",
+      "hidden_size": 896,
+      "num_hidden_layers": 24,
+      "num_attention_heads": 14,
+      "num_key_value_heads": 2,
+      "intermediate_size": 4864,
+      "max_position_embeddings": 32768,
+      "target_inference_context_window": 1024,
+      "vocab_size": 64000,
+      "lm_head_quantization": "int8",
+      "transformer_layer_quantization": "int4"
+    },
+    "distillation_parameters": {
+      "teacher_model": "Qwen/Qwen2.5-VL-72B-Instruct",
+      "top_k_support": 64,
+      "epsilon_smoothing": 1e-5,
+      "temperature": 1.0,
+      "dpo_beta": 0.1
+    },
+    "memory_bandwidth_contract": {
+      "weights_traffic_mb_per_token": 233.34,
+      "scales_and_norms_mb_per_token": 16.0,
+      "kv_cache_mb_per_token": 18.0,
+      "total_mb_per_token": 267.34,
+      "target_tokens_per_second": 35.0,
+      "required_bandwidth_gb_s": 9.36,
+      "bus_capacity_gb_s": 13.50,
+      "bus_utilization_pct": 69.3
+    }
+  }
+}
