@@ -16,6 +16,9 @@ phase1_ai_sandbox/
 │   └── vocab_subset_spec.json         # 64,000-token subset pruning policy
 └── src/
     ├── __init__.py
+    ├── audio_earcon.py                # <80ms instant two-tone acknowledgment earcon
+    ├── optical_foveation.py           # 6° down-pitch transform & 2-stage dynamic foveation
+    ├── mac_sandbox_emulator.py        # Milestone 1.4 end-to-end voice-to-vision emulator
     ├── distillation_loss.py           # Normalized, Epsilon-Smoothed Top-64 Forward KD Loss
     ├── student_vlm.py                 # SigLIP-B + 2x2 Spatial Unshuffle + Qwen2.5-0.5B architecture
     └── tokenizer_vocab_pruner.py      # Tokenizer vocabulary subset generation script
@@ -65,4 +68,17 @@ python3 phase1_ai_sandbox/src/student_vlm.py
 
 # 3. Verify Vocabulary Pruning Policy
 python3 phase1_ai_sandbox/src/tokenizer_vocab_pruner.py
+
+# 4. Verify Earcon (<80ms Audio Chime)
+python3 phase1_ai_sandbox/src/audio_earcon.py
+
+# 5. Verify Optical Foveation (6° Down-Pitch & Centroid Text Crop)
+python3 phase1_ai_sandbox/src/optical_foveation.py
+
+# 6. Run Milestone 1.4 End-to-End Voice-to-Vision Emulator (Spoken Audio via Mac Speakers)
+python3 phase1_ai_sandbox/src/mac_sandbox_emulator.py
+
+# Optional: Run with real webcam or silent test mode
+python3 phase1_ai_sandbox/src/mac_sandbox_emulator.py --camera
+python3 phase1_ai_sandbox/src/mac_sandbox_emulator.py --mute
 ```
