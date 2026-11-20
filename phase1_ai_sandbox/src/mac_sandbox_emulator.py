@@ -63,7 +63,7 @@ class FridayMacSandboxEmulator:
             _ = self.unshuffle_downsampler(dummy)
         
         # 3. Audio & Voice Assets
-        self.voice_engine = FridayVoiceEngine(voice="af_bella")
+        self.voice_engine = FridayVoiceEngine(voice="bf_emma")
         self.earcon_path = os.path.join(os.path.dirname(__file__), "../../assets/earcon.wav")
         if not os.path.exists(self.earcon_path):
             generate_earcon_wav(self.earcon_path)

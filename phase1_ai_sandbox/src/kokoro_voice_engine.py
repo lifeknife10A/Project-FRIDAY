@@ -26,7 +26,7 @@ class FridayVoiceEngine:
     """
     def __init__(
         self,
-        voice: str = "af_bella", # High-quality warm female persona (or 'af_sarah', 'am_adam')
+        voice: str = "bf_emma", # Sophisticated British Female persona (locked for Project FRIDAY)
         model_path: Optional[str] = None,
         voices_path: Optional[str] = None
     ):

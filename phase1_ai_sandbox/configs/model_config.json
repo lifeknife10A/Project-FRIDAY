@@ -41,6 +41,14 @@
       "required_bandwidth_gb_s": 9.36,
       "bus_capacity_gb_s": 13.50,
       "bus_utilization_pct": 69.3
+    },
+    "speech_synthesis": {
+      "engine": "Kokoro-82M",
+      "format": "int8_onnx",
+      "model_footprint_mb": 109.0,
+      "voice_persona": "bf_emma",
+      "accent": "British English (Received Pronunciation)",
+      "sample_rate_hz": 24000
     }
   }
 }

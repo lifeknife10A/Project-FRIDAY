@@ -41,7 +41,7 @@ def run_live_camera_hud():
     ).to(torch.device(device))
     unshuffle.eval()
 
-    voice_engine = FridayVoiceEngine(voice="af_bella")
+    voice_engine = FridayVoiceEngine(voice="bf_emma")
     earcon_path = os.path.join(os.path.dirname(__file__), "../../assets/earcon.wav")
     
     # 2. Open FaceTime Camera
