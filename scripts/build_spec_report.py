@@ -608,15 +608,17 @@ add_body_p(doc,
     "Driving high-frequency Class-D PWM speaker currents across the bridge flex introduces unacceptable electromagnetic interference (EMI) "
     "into adjacent MIPI camera lines. FRIDAY deploys two independent MAX98357A mono Class-D amplifiers located locally in each temple arm. "
     "Clean digital I2S lines (BCLK, LRCLK, DATA_L) cross the flex instead of raw speaker pulses. "
-    "In accordance with the Analog Devices MAX98357A datasheet, channel decoding and hardware shutdown are controlled via dedicated resistor networks:")
-add_bullet_p(doc, "Biased via a 100 kOhm precision pull-up to 1.8V. When the Apollo4 control GPIO is in high-impedance, V_pin ~ 1.78V (>1.40V threshold), decoding the LEFT channel. When pulled to GND (<0.16V), the amp enters deep shutdown (<0.1 uA), with the 100 kOhm resistor preventing rail short-circuits.", "Left Temple Amp (SD_MODE_L): ")
-add_bullet_p(doc, "Biased via a 100 kOhm high-side and 130 kOhm low-side resistive divider from 1.8V, establishing V_pin = 1.017V (centered within the 0.77V to 1.40V window), correctly decoding the RIGHT channel. Pulling the node to GND enforces deep sleep (<0.1 uA).", "Right Temple Amp (SD_MODE_R): ")
+    "In accordance with the Analog Devices MAX98357A datasheet, channel decoding and hardware shutdown are controlled via dedicated resistor networks forming dividers against the internal 100 kOhm pulldown (92k to 108k Ohm):")
+add_bullet_p(doc, "Biased via a single <=10 kOhm precision pull-up to 1.8V. When the Apollo4 control GPIO is in high-impedance, V_pin = 1.636V nominal (1.623V min > 1.40V threshold), unconditionally selecting the LEFT channel. When pulled to GND (<0.16V), the amp enters deep shutdown (<0.1 uA), with the 10 kOhm resistor limiting sinking current to 180 uA.", "Left Temple Amp (SD_MODE_L): ")
+add_bullet_p(doc, "Biased via a single 82 kOhm precision pull-up to 1.8V utilizing the internal 100 kOhm pulldown (eliminating external low-side divider resistors), establishing V_pin = 0.989V nominal (0.952V to 1.023V across process corners, securely centered in the 0.77V to 1.40V window), unconditionally decoding the RIGHT channel. Pulling the node to GND enforces deep sleep (<0.1 uA).", "Right Temple Amp (SD_MODE_R): ")
 
-add_heading_2(doc, "6.5 Autonomous Dead-Battery Bootstrapping")
+add_heading_2(doc, "6.5 Autonomous Dead-Battery Bootstrapping & Watchdog Interlock")
 add_body_p(doc, 
-    "When external 5.0V USB power connects to the left temple magnetic pogo port while batteries are fully depleted, a dedicated auxiliary micro-power "
-    "LDO steps 5V down to 3.3V and routes VAUX_3V3 across the bridge to the Apollo4 Lite. The coprocessor boots immediately, validates battery safety, "
-    "and programs BQ25887 charge parameters over I2C, guaranteeing 100% dead-battery recovery.")
+    "The Ambiq Apollo4 Lite operating voltage is strictly 1.71V to 2.2V (nominal 1.8V). When external 5.0V USB power connects to the left temple magnetic pogo port "
+    "while batteries are fully depleted, a dedicated auxiliary micro-power LDO steps 5V down to 1.8V and routes VAUX_1V8 across the bridge behind an ideal-diode OR switch. "
+    "The Apollo4 boots immediately on 1.8V external power, verifies pack safety, programs ICHG = 200 mA over I2C, and enables charging, guaranteeing 100% dead-battery recovery. "
+    "The Apollo4 internal hardware watchdog timer is configured with a 1.0s timeout (shorter than the charger watchdog). If firmware freezes, the WDT forces an immediate MCU hardware "
+    "reset, de-asserting GPIO and releasing CD to float HIGH via hardware pull-up, cutting off charging instantly.")
 
 # ==========================================
 # SECTION 7: PERFORMANCE & LATENCY BUDGETS
