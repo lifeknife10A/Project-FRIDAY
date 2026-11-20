@@ -1,3 +1,9 @@
+# Model weights & binaries
+*.pt
+*.pth
+*.onnx
+*.bin
+
 # Python cache & build
 __pycache__/
 *.py[cod]

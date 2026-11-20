@@ -19,6 +19,7 @@ phase1_ai_sandbox/
     ├── audio_earcon.py                # <80ms instant two-tone acknowledgment earcon
     ├── optical_foveation.py           # 6° down-pitch transform & 2-stage dynamic foveation
     ├── mac_sandbox_emulator.py        # Milestone 1.4 end-to-end voice-to-vision emulator
+    ├── live_camera_hud.py             # Real-time interactive camera HUD & live object detection
     ├── distillation_loss.py           # Normalized, Epsilon-Smoothed Top-64 Forward KD Loss
     ├── student_vlm.py                 # SigLIP-B + 2x2 Spatial Unshuffle + Qwen2.5-0.5B architecture
     └── tokenizer_vocab_pruner.py      # Tokenizer vocabulary subset generation script
@@ -77,6 +78,9 @@ python3 phase1_ai_sandbox/src/optical_foveation.py
 
 # 6. Run Milestone 1.4 End-to-End Voice-to-Vision Emulator (Spoken Audio via Mac Speakers)
 python3 phase1_ai_sandbox/src/mac_sandbox_emulator.py
+
+# 7. Launch Real-Time Interactive Camera HUD (FaceTime Webcam + Live Object Bounding Boxes)
+python3 phase1_ai_sandbox/src/live_camera_hud.py
 
 # Optional: Run with real webcam or silent test mode
 python3 phase1_ai_sandbox/src/mac_sandbox_emulator.py --camera
