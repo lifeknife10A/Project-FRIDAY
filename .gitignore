@@ -4,6 +4,7 @@
 *.onnx
 *.bin
 assets/kokoro/
+assets/voice_samples/
 assets/kokoro_speech.wav
 assets/friday_kokoro_test.wav
 assets/live_capture.jpg
