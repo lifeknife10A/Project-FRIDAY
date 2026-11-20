@@ -38,6 +38,7 @@ import torch
 from audio_earcon import play_earcon, generate_earcon_wav
 from optical_foveation import OpticalFoveationEngine, create_synthetic_prescription_label
 from student_vlm import SpatialUnshuffleDownsampler
+from kokoro_voice_engine import FridayVoiceEngine
 
 class FridayMacSandboxEmulator:
     def __init__(self, use_mps: bool = True, mute_audio: bool = False):
@@ -61,7 +62,8 @@ class FridayMacSandboxEmulator:
         with torch.no_grad():
             _ = self.unshuffle_downsampler(dummy)
         
-        # 3. Audio Assets
+        # 3. Audio & Voice Assets
+        self.voice_engine = FridayVoiceEngine(voice="af_bella")
         self.earcon_path = os.path.join(os.path.dirname(__file__), "../../assets/earcon.wav")
         if not os.path.exists(self.earcon_path):
             generate_earcon_wav(self.earcon_path)
@@ -93,11 +95,11 @@ class FridayMacSandboxEmulator:
         # Default fallback: realistic 1080p medicine prescription bottle
         return create_synthetic_prescription_label()
 
-    def speak_response(self, text: str, voice: str = "Samantha"):
-        """Speaks the response locally on macOS using the native say command."""
+    def speak_response(self, text: str):
+        """Speaks the response locally using Kokoro-82M neural voice (or fallback)."""
         print(f"\n[FRIDAY SPOKEN OUTPUT]: \"{text}\"")
         if not self.mute_audio:
-            subprocess.run(["say", "-v", voice, text], check=False)
+            self.voice_engine.speak(text, blocking=True)
 
     def run_turn(
         self,

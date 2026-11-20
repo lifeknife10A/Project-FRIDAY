@@ -15,12 +15,15 @@ datasets>=2.19.0
 safetensors>=0.4.0
 huggingface-hub>=0.23.0
 
-# Computer Vision & Downsampling Emulation
+# Computer Vision & Real-Time Object Detection
 pillow>=10.0.0
-opencv-python-headless>=4.8.0
+opencv-python>=4.8.0
+ultralytics>=8.1.0
 numpy>=1.24.0
 
-# Audio Processing & Offline Feedback
+# Neural Voice Synthesis & Audio Processing
+kokoro-onnx>=0.6.0
+sounddevice>=0.5.0
 soundfile>=0.12.1
 scipy>=1.11.0
 

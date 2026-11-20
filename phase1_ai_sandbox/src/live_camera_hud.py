@@ -17,6 +17,7 @@ from ultralytics import YOLO
 sys.path.append(os.path.dirname(__file__))
 from audio_earcon import play_earcon
 from student_vlm import SpatialUnshuffleDownsampler
+from kokoro_voice_engine import FridayVoiceEngine
 
 def run_live_camera_hud():
     print("==================================================================")
@@ -40,6 +41,7 @@ def run_live_camera_hud():
     ).to(torch.device(device))
     unshuffle.eval()
 
+    voice_engine = FridayVoiceEngine(voice="af_bella")
     earcon_path = os.path.join(os.path.dirname(__file__), "../../assets/earcon.wav")
     
     # 2. Open FaceTime Camera
@@ -182,8 +184,8 @@ def run_live_camera_hud():
             cv2.imwrite("assets/live_foveal_crop.jpg", foveal_crop)
             print("  [Saved] assets/live_capture.jpg & assets/live_foveal_crop.jpg")
 
-            # Speak response non-blocking via say
-            subprocess.Popen(["say", "-v", "Samantha", speech])
+            # Speak response via Kokoro-82M neural voice (or fallback)
+            voice_engine.speak(speech, blocking=False)
 
         elif key == ord('q') or key == ord('Q') or key == 27: # 27 is ESC
             print("\n[*] Exiting live HUD.")

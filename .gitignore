@@ -3,6 +3,11 @@
 *.pth
 *.onnx
 *.bin
+assets/kokoro/
+assets/kokoro_speech.wav
+assets/friday_kokoro_test.wav
+assets/live_capture.jpg
+assets/live_foveal_crop.jpg
 
 # Python cache & build
 __pycache__/
