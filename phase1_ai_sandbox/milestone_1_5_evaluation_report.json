@@ -1,0 +1,40 @@
+{
+  "overall_pass": true,
+  "gates": {
+    "Gate_1_Optical_Foveation": {
+      "passed": true,
+      "foveation_latency_ms": 11.26,
+      "stream1_resolution": [
+        384,
+        384,
+        3
+      ],
+      "guidance_protocol_active": true
+    },
+    "Gate_2_Spatial_Unshuffle": {
+      "passed": true,
+      "output_tokens": 144,
+      "embedding_dim": 896,
+      "latency_ms": 0.24
+    },
+    "Gate_3_Memory_Bandwidth": {
+      "passed": true,
+      "sustained_bandwidth_gb_s": 9.36,
+      "bus_utilization_pct": 69.3,
+      "continuous_headroom_gb_s": 4.14
+    },
+    "Gate_4_Kokoro_Voice": {
+      "passed": true,
+      "voice_persona": "bf_emma",
+      "sample_rate_hz": 24000,
+      "real_time_factor": 0.83,
+      "faster_than_realtime": true
+    },
+    "Gate_5_Financial_Procurement": {
+      "passed": true,
+      "phase1_outlay_inr": 0.0,
+      "single_shot_wearable_bom_inr": 8920.0,
+      "capital_preserved_inr": 56080.0
+    }
+  }
+}
