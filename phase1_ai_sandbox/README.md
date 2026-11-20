@@ -10,6 +10,7 @@ This directory contains the PyTorch source code, configuration files, and mathem
 ```
 phase1_ai_sandbox/
 ├── README.md                          # Phase 1 technical specification & execution guide
+├── requirements.txt                   # Phase 1 Python dependencies (PyTorch MPS / Colab CUDA)
 ├── configs/
 │   ├── model_config.json              # Student VLM dimensions & distillation parameters
 │   └── vocab_subset_spec.json         # 64,000-token subset pruning policy
@@ -49,10 +50,13 @@ $$\mathcal{L}_{\text{KD}} = \sum_{v \in \Omega_{64}} \tilde{p}_T(v) \log \left( 
 
 ---
 
-## 3. Running Unit Tests Locally (Mac M4)
+## 3. Environment Setup & Running Unit Tests Locally (Mac M4)
 
-To verify the components on your local machine:
+To install dependencies and verify the components on your local machine:
 ```bash
+# 0. Install Dependencies (₹0 Outlay)
+pip3 install -r phase1_ai_sandbox/requirements.txt
+
 # 1. Verify the Distillation Loss Engine
 python3 phase1_ai_sandbox/src/distillation_loss.py
 
