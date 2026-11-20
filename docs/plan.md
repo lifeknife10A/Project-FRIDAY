@@ -290,17 +290,18 @@ To make the Stage 1 Forward KL divergence mathematically closed on a discrete pr
 
 ## 9. Master Implementation Schedule (Phase-Based Execution)
 
-### Phase 1: AI Distillation & Software Emulation Sandbox
-* **Milestone 1.1:** Setup student VLM architecture (SigLIP-B + Qwen-0.5B + 2x2 unshuffle) in PyTorch.
+### Phase 1: AI Distillation & Zero-Rupee Simulation Sandbox
+* **Milestone 1.1:** Setup student VLM architecture (SigLIP-B + Qwen-0.5B + 2x2 unshuffle) in PyTorch locally on MacBook Air 15" M4 (16 GB Unified Memory) for **₹0 out-of-pocket cost**.
 * **Milestone 1.2:** Build the 64k vocabulary as a strict subset of Qwen2.5.
-* **Milestone 1.3:** Execute two-stage distillation: Stage 1 (Renormalized Top-64 Forward KD strictly over $\Omega_{64} \subseteq \mathcal{V}_S$ with normalized $\tilde{p}_S$ and $\epsilon = 10^{-5}$) followed by Stage 2 (On-Policy Sequence DPO).
-* **Milestone 1.4:** Build local Mac M4 sandbox: complete end-to-end voice-to-vision-to-voice simulation with $6^\circ$ down-pitch dynamic text-ROI emulation.
+* **Milestone 1.3:** Execute two-stage distillation: Stage 1 (Renormalized Top-64 Forward KD strictly over $\Omega_{64} \subseteq \mathcal{V}_S$ with normalized $\tilde{p}_S$ and $\epsilon = 10^{-5}$) followed by Stage 2 (On-Policy Sequence DPO) using free Kaggle (dual T4 GPUs) or Google Colab.
+* **Milestone 1.4:** Build local Mac M4 sandbox: complete end-to-end voice-to-vision-to-voice simulation with $6^\circ$ down-pitch dynamic text-ROI emulation using Mac FaceTime webcam / mobile camera feed.
+* **Milestone 1.5 (The Zero-Spend Financial Gate):** Evaluate real-world OCR and scene description quality. If the 0.5B model fails utility criteria, the project halts with **₹0 spent and zero hardware waste**. If successful, proceed directly to single-shot target hardware procurement.
 
-### Phase 2: Embedded Bring-Up & Benchtop Rig
-* **Milestone 2.1:** Procure RK3576 dev platform (6.0 TOPS @ INT8 / native INT4); configure Linux 6.1-LTS with PREEMPT_RT patch and Murata 1XK (NXP IW416) drivers.
-* **Milestone 2.2:** Experimentally measure sustainable LPDDR4x bus bandwidth ($>10.5\text{ GB/s}$ capability) and verify dual-stream capture (`Stream 0` $384\times 384$, `Stream 1` 1:1 foveal crop).
-* **Milestone 2.3:** Write the core Rust orchestration daemon with Multiband DRC and WebRTC AEC3 audio pipeline.
-* **Milestone 2.4:** Benchmark Series 2S power delivery with TI BQ25887 charger, verifying open-drain fail-safe charge interlock, auxiliary 5V LDO dead-battery boot, $45.8\%$ derated balance bleed resistors ($0.114\text{W}$ each), dual MAX98357A mono amps with verified $0.989\text{V}$ (Right) and $1.636\text{V}$ (Left) nominal resistor biasing against the internal $100\text{ k}\Omega$ pulldown, and Apollo4 Lite I2S $<80\text{ms}$ instant earcon.
+### Phase 2: Embedded Bring-Up & Zero-Waste Peripheral Integration
+* **Milestone 2.1 (Free Peripheral Testbed via Raspberry Pi 3B):** Utilize the student's on-hand Raspberry Pi 3B (1 GB LPDDR2) for ₹0 audio peripheral validation: verify hardware I2S clocking (`GPIO 18, 19, 21`) to dual MAX98357A mono amps, test INMP441 MEMS microphone arrays, and benchmark WebRTC AEC3 echo cancellation before purchasing the main compute module.
+* **Milestone 2.2 (Single-Shot Target Hardware Procurement):** Skip intermediate throwaway evaluation boards (no Orange Pi 5). Procure the exact target compact RK3576 module (e.g., Luckfox RK3576 / Core3576, 6.0 TOPS NPU) that mounts directly into the final Track 1 wearable frame.
+* **Milestone 2.3:** Configure Linux 6.1-LTS with PREEMPT_RT patch, measure sustainable LPDDR4x bus bandwidth ($>10.5\text{ GB/s}$ capability), and verify dual-stream capture (`Stream 0` $384\times 384$, `Stream 1` 1:1 foveal crop).
+* **Milestone 2.4:** Benchmark Series 2S power delivery with TP5100 / BQ25887 charger, verifying open-drain fail-safe charge interlock, auxiliary 5V LDO dead-battery boot, $45.8\%$ derated balance bleed resistors ($0.114\text{W}$ each), dual MAX98357A mono amps with verified $0.989\text{V}$ (Right) and $1.636\text{V}$ (Left) nominal resistor biasing against the internal $100\text{ k}\Omega$ pulldown, and Apollo4 Lite I2S $<80\text{ms}$ instant earcon.
 
 ### Phase 3: Hardware Engineering & Physical Fabrication (Two-Track Risk Mitigation Strategy)
 To eliminate single-point hardware failure and guarantee a successful capstone defense, Phase 3 implements an explicit two-track hardware strategy:

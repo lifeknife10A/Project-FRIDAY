@@ -17,19 +17,19 @@ phase2_benchtop_rig/
 
 ---
 
-## 2. Benchtop Development Topology
+## 2. Zero-Waste Benchtop Development Topology
 
-Rather than building directly inside the glasses frame, Phase 2 mounts all components flat on an acrylic breadboard base plate:
-1. **Compute Brain:** Orange Pi 5 (Rockchip RK3588S) or Luckfox RK3576 development board.
-2. **Vision Ingestion:** Sony IMX415 MIPI CSI-2 camera module connected via a 15-pin FFC ribbon.
-3. **Audio Capture:** $2\times$ INMP441 I2S MEMS microphone breakout boards mounted $15\text{ mm}$ apart with isolated star-ground return.
-4. **Audio Playback:** $2\times$ MAX98357A I2S Class-D amplifier breakout boards driving $8\,\Omega$ bone-conduction transducers.
-   * Left Amp: $10\text{ k}\Omega$ pull-up to $1.8\text{V}$ $\implies$ Decodes **LEFT Channel**.
-   * Right Amp: $82\text{ k}\Omega$ pull-up to $1.8\text{V}$ $\implies$ Decodes **RIGHT Channel**.
-5. **Coprocessor Node:** Raspberry Pi Pico (RP2040) or ESP32-S3 emulating the Ambiq Apollo4 Lite:
-   * Plays the $<80\text{ ms}$ earcon chime over I2S upon wake-word detection.
-   * Buffers speech audio in circular SRAM while pulsing host wake GPIO.
-   * Monitors BQ25887 charger telemetry over I2C and asserts the hardware `CD` interlock.
+To eliminate drawer waste and protect student capital:
+1. **Zero-Rupee Audio & Peripheral Pre-Testing (Raspberry Pi 3B):**
+   * Uses the student's on-hand **Raspberry Pi 3B (1 GB)** to validate peripheral circuitry before purchasing any new compute hardware:
+   * **Audio Output:** Test I2S digital audio clocking (`GPIO 18 BCLK`, `GPIO 19 LRCLK`, `GPIO 21 DOUT`) driving dual MAX98357A amplifiers.
+     * Left Amp: $\le 10\text{ k}\Omega$ pull-up to $1.8\text{V} \implies$ Decodes **LEFT Channel**.
+     * Right Amp: Single $82\text{ k}\Omega$ pull-up to $1.8\text{V} \implies$ Decodes **RIGHT Channel**.
+   * **Audio Input:** Connect $2\times$ INMP441 I2S MEMS microphones with an isolated star-ground return and test WebRTC AEC3 echo cancellation in software.
+   * **Cost:** **₹0** out-of-pocket for compute.
+2. **Single-Shot Target Hardware Bring-Up:**
+   * After Phase 1 software and Phase 2 audio peripherals are validated, purchase only the target **Luckfox RK3576 / Core3576 module** (6.0 TOPS NPU) that mounts directly into the final Track 1 thick-temple wearable frame.
+   * Intermediate evaluation boards (e.g. Orange Pi 5) are strictly bypassed.
 
 ---
 

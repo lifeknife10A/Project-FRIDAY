@@ -269,25 +269,27 @@ To ensure rigorous execution and prevent feature creep during capstone implement
 | **Host Linux sleep-transition freeze or crash** | Software | Med | Med | Apollo4 Lite hardware watchdog monitoring suspend/resume handshakes; automated PMIC power cycle fallback. |
 | **Component procurement delays and budget overrun** | Management | Med | Low | Butcher BOM to student-grade components (Robu.in / JLCPCB / FDM PETG); ₹13,500 total spend ceiling. |
 
-### 9.3 Butchered Student Bill of Materials (BOM) & Sourcing Matrix
-By transitioning from industrial prototyping quotes (₹55,000+) to student-grade components sourced via Robu.in, JLCPCB, and local labs, the total hardware procurement cost is reduced to ₹13,500 - ₹15,500 INR (~$160 - $185 USD), while Phase 1 executes at ₹0 on the local Mac M4:
+### 9.3 Lean Zero-Waste Student Bill of Materials (BOM) & Sourcing Matrix
+To protect student capital and eliminate intermediate drawer waste, Project FRIDAY enforces a strict zero-rupee gate:
+1. **The ₹0 Initial Sandbox:** Phase 1 executes entirely for **₹0** on the student's MacBook Air M4 (16 GB Unified Memory) and free cloud GPUs (Kaggle / Google Colab).
+2. **Free Peripheral Bring-Up:** Audio peripheral communication (I2S to MAX98357A, INMP441 capture, WebRTC AEC3) is pre-tested on the student's existing **Raspberry Pi 3B (1 GB)** for **₹0**.
+3. **Single-Shot Wearable Procurement:** Intermediate throwaway evaluation boards (e.g., Orange Pi 5) are strictly bypassed. Procurement occurs only after Phase 1 passes the usability gate, purchasing exclusively the components that install directly onto the Track 1 "Thick-Temple" wearable:
 
-| Subsystem Component | Industrial Specification | Student Capstone Hack | Est. Cost (INR) | Source |
+| Subsystem Component | Target Wearable Specification | Purpose in Prototype | Est. Cost (INR) | Source Channel |
 | :--- | :--- | :--- | :--- | :--- |
-| **Compute Core** | Custom RK3576 SoM + Carrier | Orange Pi 5 (RK3588S) / Luckfox RK3576 | ₹7,800 | Robu.in |
-| **Camera Module** | Bare IMX415 sensor on flex | IMX415 MIPI CSI-2 Module | ₹2,100 | Robu.in |
-| **MEMS Microphones** | Custom Star-GND flex array | 2x INMP441 I2S MEMS Breakouts | ₹360 | Robu.in |
-| **Audio Amplifiers** | Integrated MAX98357A ICs | 2x MAX98357A I2S Mono Breakouts | ₹300 | Robu.in |
-| **Speakers / Drivers** | Micro bone-conduction drivers | 2x Mini Bone Conduction Exciter (8Ω 1W) | ₹500 | Robu.in |
-| **Coprocessor Bridge** | Ambiq Apollo4 Lite BGA | RP2040 Pico / ESP32-S3 Dev Board | ₹400 | Robu.in |
-| **Dual LiPo Batteries** | Custom slim 300mAh cells | 2x 3.7V 300mAh LiPo Cells (Series 2S) | ₹500 | Robu.in |
-| **Battery Charger** | TI BQ25887 IC + balance circuit | TP5100 2S 8.4V LiPo Charger Module | ₹110 | Robu.in |
-| **Eyewear Frame** | SLS 3D Printing in Nylon PA12 | FDM 3D Printing in Black PETG (0.12mm) | ₹350 | College Lab |
-| **Optical Lenses** | High-Index 1.67 Lab Lenses | Reusing Personal Eyeglasses Lenses | ₹0 | Self-Provided |
-| **Carrier & Power PCB** | 4-layer rigid-flex with gold finish | Batch of 5 2-Layer FR4 PCBs | ₹750 | JLCPCB |
-| **Interconnect Wiring** | Micro-etched continuous flex | 0.5mm FFC Flat Ribbon Cables + Wire | ₹180 | Robu.in |
-| **Thermal Assembly** | PureTemp 40 PCM + Graphite Sheet | Copper Shim (0.3mm) + Arctic MX-4 Paste | ₹380 | Amazon.in |
-| **TOTAL HARDWARE COST** | **Industrial: ₹55,000 – ₹70,000** | **Complete Benchtop & Prototype Rig** | **₹13,730** | **Student Hack** |
+| **Compute Core** | Luckfox RK3576 / Core3576 Compact Module | Primary 6 TOPS NPU AI engine in right temple | ₹4,800 | Robu.in / Robocraze |
+| **Camera Module** | IMX415 (or GC4653/OV5648) MIPI CSI-2 Module | Center-bridge 1080p/4K camera ($6^\circ$ down-pitch) | ₹1,650 | Robu.in / ElectronicsComp |
+| **MEMS Microphones** | 2x INMP441 Digital I2S MEMS Breakouts | Dual front-right beamforming audio capture | ₹320 | Robu.in |
+| **Audio Amplifiers** | 2x MAX98357A I2S Mono 3.2W Breakouts | Dual mono temple amps with resistor channel-select | ₹280 | Robu.in |
+| **Speakers / Drivers** | 2x Mini Bone Conduction / Directional (8Ω 1W) | Direct ear-canal acoustic drivers in temple tips | ₹360 | Robu.in / Amazon.in |
+| **Dual LiPo Batteries** | 2x 3.7V 300mAh – 350mAh Pouch Cells | Series 2S power pack (1 cell per temple) | ₹400 | Robu.in |
+| **2S Charger Module** | TP5100 2S 8.4V 1A LiPo Charger Module | Docked 2S active charging circuit | ₹110 | Robu.in |
+| **Eyewear Frame** | FDM 3D Printing in Black PETG (0.12mm) | Heat-resistant front frame & thick temples | ₹350 | NMIMS FabLab / Local Lab |
+| **Optical Lenses** | Student Personal Prescription / Plano Lenses | Repurposed eyewear lenses (zero cutting cost) | ₹0 | Self-Provided |
+| **Carrier PCBs** | Batch of 5 Standard 2-Layer FR4 Boards | Temple breakout boards for wiring & passives | ₹450 | JLCPCB / Robu PCB |
+| **Interconnect Wiring** | 0.5mm FFC Ribbon Cables + 30 AWG Wire | Through-bridge hinge wiring (doubled power runs) | ₹150 | Robu.in |
+| **Thermal Assembly** | 0.3mm Copper Shim + Arctic MX-4 Paste | Conductive heat spreading to exterior chassis | ₹250 | Amazon.in |
+| **TOTAL HARDWARE COST** | **Complete Untethered Wearable Prototype** | **100% Installed on Wearable (Zero Drawer Waste)** | **₹8,920 INR** | **Student Outlay (~$107 USD)** |
 
 ---
 

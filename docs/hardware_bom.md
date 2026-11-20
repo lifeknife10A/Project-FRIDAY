@@ -1,51 +1,89 @@
-# PROJECT FRIDAY: HARDWARE BILL OF MATERIALS (BOM) & SOURCING MATRIX
-## Systems Architecture v9.1.0 – Student Capstone vs. Industrial Prototyping
+# PROJECT FRIDAY: LEAN STUDENT FINANCIAL MATRIX & HARDWARE BOM
+## Systems Architecture v9.1.0 – Zero-Waste Student Financial Sourcing Guide
 
-This document itemizes every physical component, development board, integrated circuit, and structural bracket required for Project FRIDAY, comparing the full-scale industrial quote against the optimized student capstone procurement path.
-
----
-
-## 1. Summary Comparison
-
-| Budget Tier | Target Environment | Total Estimated Spend (INR) | Approx. USD | Key Trade-Offs |
-| :--- | :--- | :--- | :--- | :--- |
-| **Industrial Prototype** | Custom Flex + SLS Nylon PA12 + Bare Silicon SoMs | ₹55,000 – ₹72,000 | ~$660 – $860 | High NRE tooling costs, 4-week PCB turnarounds. |
-| **Student Capstone Hack** | FDM PETG + Standard 2-Layer FR4 + Robu.in / JLCPCB | **₹13,500 – ₹15,500** | **~$160 – $185** | Modular benchtop bring-up, fast iteration, zero tooling debt. |
+This document defines the exact financial decision framework and itemized component procurement plan for Project FRIDAY. It is engineered specifically for an undergraduate student budget, enforcing a **strict zero-waste rule**: **No intermediate development boards, no throwaway test hardware, and ₹0 spent until the software and AI are empirically proven.**
 
 ---
 
-## 2. Itemized Component Sourcing & Pricing Matrix
+## 1. The ₹0 Zero-Risk Phase: What You Already Own
 
-| Component / Subassembly | Industrial Production Spec | Student Capstone Hack | Qty | Unit Price (INR) | Total (INR) | Sourcing Channel |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Compute Core Board** | Custom RK3576 SoM + Rigid-Flex Carrier | Orange Pi 5 (RK3588S, 6 TOPS NPU) / Luckfox RK3576 | 1 | ₹7,800 | ₹7,800 | [Robu.in](https://robu.in) / Robocraze |
-| **Camera Module** | Bare IMX415 sensor on polyimide flex | Sony IMX415 4K MIPI CSI-2 Module | 1 | ₹2,100 | ₹2,100 | Robu.in / Robocraze |
-| **MEMS Microphones** | Custom Star-GND flex array | INMP441 / SPH0645 I2S MEMS Breakout | 2 | ₹180 | ₹360 | Robu.in |
-| **Audio Amplifiers** | Integrated MAX98357A QFN ICs | MAX98357A I2S Mono 3.2W Breakouts | 2 | ₹150 | ₹300 | Robu.in |
-| **Speaker Transducers** | Custom micro-directional exciters | Mini Bone Conduction Exciter / Mini Speaker (8Ω 1W) | 2 | ₹250 | ₹500 | Robu.in / Amazon.in |
-| **Coprocessor Node** | Ambiq Apollo4 Lite BGA | RP2040 (Raspberry Pi Pico) / ESP32-S3 Mini | 1 | ₹400 | ₹400 | Robu.in |
-| **Energy Storage Cells** | Custom 300mAh high-drain pouch cells | 3.7V 300mAh–400mAh LiPo Cells (Series 2S wired) | 2 | ₹250 | ₹500 | Robu.in |
-| **Battery Charger** | TI BQ25887 IC + balance circuit | TP5100 2S 8.4V LiPo Charger Module (Benchtop) | 1 | ₹110 | ₹110 | Robu.in |
-| **Frame Prototyping** | SLS 3D Printing in Nylon PA12 + Vapor Polish | FDM 3D Printing in Black PETG (0.12mm layer height) | 1 | ₹350 | ₹350 | College FabLab / 3D Print Lab |
-| **Optical Lenses** | High-Index 1.67 Lab Cut Lenses | Reusing Personal Glasses Lenses / Plano Lenses | 1 pair | ₹0 | ₹0 | Self-Provided |
-| **Carrier & Power PCB** | 4-layer rigid-flex with immersion gold | Batch of 5 Standard 2-Layer FR4 Boards | 1 batch | ₹750 | ₹750 | [JLCPCB](https://jlcpcb.com) / Robu PCB |
-| **Harness Interconnect** | Micro-etched continuous polyimide flex | 0.5mm pitch FFC Flat Ribbon Cables + Enameled Wire | 1 set | ₹180 | ₹180 | Robu.in |
-| **Thermal Assembly** | PureTemp 40 Composite PCM Pad + Graphite | Copper Shim (0.3mm) + Arctic MX-4 Thermal Paste | 1 set | ₹380 | ₹380 | Amazon.in |
-| **TOTAL ESTIMATED HARDWARE BUDGET** | — | **Complete Benchtop & Wearable Rig** | — | — | **₹13,730 INR** | Fully within capstone budget |
+Before spending a single rupee of your own money, the entire core intelligence, speech processing, audio echo-cancellation, and peripheral communication can be developed and validated using hardware already in your possession:
+
+| Asset Already in Hand | Hardware Specifications | Role in Project FRIDAY | Out-of-Pocket Cost |
+| :--- | :--- | :--- | :---: |
+| **MacBook Air 15" M4** | Apple M4, 16 GB Unified Memory, 120 GB/s bus, 16-Core Neural Engine | **Phase 1 AI Distillation Sandbox:** Runs student VLM, 64k token vocabulary pruning, 2×2 spatial unshuffle, INT4 quantization simulation, speech-to-text (Whisper.cpp), and TTS (Piper) on webcam/phone video feed. | **₹0** |
+| **Free Cloud Compute** | Google Colab (Free T4 GPU) & Kaggle (Free 30 hrs/wk Dual T4 GPUs) | **Model Training & Loss Distillation:** Bounded forward-KL divergence training and Sequence DPO on synthetic first-person QA pairs. | **₹0** |
+| **Raspberry Pi 3B** | Quad Cortex-A53 @ 1.2 GHz, 1 GB LPDDR2, 40-pin GPIO (I2S, I2C, SPI) | **Peripheral & Audio Bring-Up Testbed:** Hardware I2S interface (`GPIO 18, 19, 21`) to test MAX98357A audio amps, INMP441 MEMS microphone arrays, and WebRTC AEC3 echo cancellation without buying an expensive SBC. | **₹0** |
+| **Personal Eyewear Lenses** | High-Index Prescription / Plano Lenses | **Optomechanical Integration:** Repurposed into 3D-printed front frame eyewire bezels, saving ₹3,500+ in lab-cut optical glass. | **₹0** |
+| **TOTAL INITIAL CASH OUTLAY** | — | **Full AI & Software Simulation Validated** | **₹0 INR** |
 
 ---
 
-## 3. Benchtop Prototyping Substitutions & Strategy
+## 2. The Financial Gate: Go / No-Go Decision Rule
 
-1. **Phase 1 (AI Distillation & Local Emulation):**
-   * **Cost: ₹0.**
-   * Runs 100% locally on your **MacBook Air 15" M4 (16 GB Unified Memory)** in PyTorch.
-   * Emulates camera down-pitch, text cropping, token generation, and audio feedback on-device.
+```
+                                      START
+                                        │
+                                        ▼
+                  PHASE 1: Zero-Rupee Sandbox on MacBook Air M4
+                  - Run 64k tokenizer vocabulary pruner
+                  - Run 2x2 spatial downsampler (144 tokens)
+                  - Benchmark student 0.5B VLM on webcam feed (OCR & scene QA)
+                  - Validate WebRTC AEC3 audio loop on Raspberry Pi 3B
+                                        │
+                                        ▼
+                     [ IS THE DISTILLED VLM ACTUALLY USEFUL? ]
+                     (Accurate close-up text reading & <1.5s latency)
+                                        │
+                         ┌──────────────┴──────────────┐
+                         │ NO                          │ YES
+                         ▼                             ▼
+                 [ ABORT PROJECT ]             [ HARDWARE PROCUREMENT ]
+             Total Spent: Exactly ₹0       Proceed to Single-Shot Order:
+             No drawer regret.             Buy ONLY the wearable hardware
+             No wasted scholarship.        (₹7,800 – ₹9,200 INR total).
+```
 
-2. **Phase 2 (Benchtop Dev Rig):**
-   * Procure the **Orange Pi 5** or **Luckfox RK3576**, **IMX415 camera**, **INMP441 mics**, and **MAX98357A amps**.
-   * Mount them flat on an acrylic breadboard base to benchmark kernel boot, Linux `PREEMPT_RT` scheduling, NPU inference, and WebRTC AEC3 audio pipeline before locking mechanical constraints.
+---
 
-3. **Phase 3 (Physical Integration & Wearable Prototype):**
-   * Export frame STL models from Autodesk Fusion 360 and print on FDM in **PETG** (superior impact resistance and thermal stability up to $75^\circ\text{C}$ compared to PLA).
-   * Assemble carrier boards using JLCPCB 2-layer FR4 boards and FFC ribbon interconnects.
+## 3. The Lean "Single-Shot" Wearable Hardware BOM (Track 1 Thick-Temple)
+
+If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a **single lean batch**. Every component listed below is installed **directly onto the wearable prototype** that you will wear and defend in front of the NMIMS evaluation committee. Zero intermediate throwaway hardware.
+
+| Component / Subassembly | Specific Target Part | Purpose in Wearable | Qty | Unit Price (INR) | Total (INR) | Verified Sourcing Channel |
+| :--- | :--- | :--- | :---: | :---: | :---: | :--- |
+| **Compute Core Module** | Luckfox RK3576 / Core3576 Compact Module (6 TOPS NPU, 2GB/4GB LPDDR4x) | Primary AI inference engine mounted inside the 20mm right temple enclosure. | 1 | ₹4,800 | ₹4,800 | [Robu.in](https://robu.in) / Robocraze |
+| **Camera Sensor Module** | Sony IMX415 (or GC4653/OV5648) MIPI CSI-2 Module | 4K / 1080p wide-FOV camera mounted in center bridge ($6^\circ$ down-pitch). | 1 | ₹1,650 | ₹1,650 | Robu.in / ElectronicsComp |
+| **MEMS Microphones** | INMP441 Omnidirectional Digital I2S MEMS Breakouts | Dual front-right beamforming microphone array for voice queries. | 2 | ₹160 | ₹320 | Robu.in |
+| **Audio Amplifiers** | MAX98357A I2S Mono 3.2W Class-D Amplifiers | Dual mono audio amps (one per temple) with resistor-coupled channel select. | 2 | ₹140 | ₹280 | Robu.in |
+| **Speaker Transducers** | 8Ω 1W Micro Bone-Conduction / Directional Transducers | Ear-canal directed audio drivers integrated into temple tips. | 2 | ₹180 | ₹360 | Robu.in / Amazon.in |
+| **LiPo Battery Cells** | 3.7V 300mAh – 350mAh High-Drain LiPo Pouch Cells | Series 2S configuration ($7.4\text{V}$ nominal, 1 cell per temple arm). | 2 | ₹200 | ₹400 | Robu.in |
+| **2S Charger & Protection** | TP5100 2S 8.4V 1A LiPo Charger Breakout Module | Dedicated 2S charging circuit mounted inside dock / left temple. | 1 | ₹110 | ₹110 | Robu.in |
+| **3D Frame Fabrication** | Black PETG Filament (0.12mm layer height, 100% infill) | 3D-printed front frame and thick temple arms ($75^\circ\text{C}$ heat resistant). | 1 | ₹350 | ₹350 | NMIMS FabLab / Local Print Lab |
+| **Carrier Interconnect** | Standard 2-Layer FR4 Breakout PCBs (Batch of 5) | Left & Right temple breakout boards routing power and audio signals. | 1 | ₹450 | ₹450 | JLCPCB / Robu PCB |
+| **Harness & Wiring** | 0.5mm FFC Ribbon Cables + 30 AWG Silicone Wire | Through-bridge hinge wiring (power pairs doubled for $<0.03\,\Omega$). | 1 | ₹150 | ₹150 | Robu.in |
+| **Thermal Dissipation** | 0.3mm Copper Shim + Arctic MX-4 Thermal Paste | Conductive heat spreader sinking RK3576 junction heat to exterior frame. | 1 | ₹250 | ₹250 | Amazon.in |
+| **TOTAL WEARABLE SPEND** | — | **Complete, Untethered Autonomous Glasses** | — | — | **₹8,920 INR** | ~$107 USD Total Outlay |
+
+---
+
+## 4. Comparison: The Expensive Path vs. The Lean Student Path
+
+| Engineering Dimension | Traditional / Throwaway Path | Lean Zero-Waste Path (Project FRIDAY) | Student Savings |
+| :--- | :--- | :--- | :--- |
+| **Phase 1 Exploration** | Buy Orange Pi 5 just to test ($₹12,500$) | 100% on MacBook Air M4 + Free Kaggle/Colab | **Save ₹12,500** |
+| **Audio & Peripheral Testing** | Buy auxiliary test rigs ($₹3,000$) | Repurpose owned Raspberry Pi 3B | **Save ₹3,000** |
+| **Optical Lenses** | Custom optical lab cutting ($₹3,500$) | Reuse existing glasses lenses ($₹0$) | **Save ₹3,500** |
+| **Frame Material** | Industrial SLS Nylon PA12 ($₹8,000$) | Local FDM PETG 3D printing ($₹350$) | **Save ₹7,650** |
+| **PCB Prototyping** | 10-layer custom rigid-flex ($₹45,000$) | 2-layer FR4 + 0.5mm FFC ribbons ($₹600$) | **Save ₹44,400** |
+| **Drawer Waste** | 2–3 boards sitting unused forever | **Zero items in drawer; 100% on the wearable** | **Priceless** |
+| **NET PROJECT COST** | **₹72,000+ INR** | **₹8,920 INR total** | **87.6% Total Savings** |
+
+---
+
+## 5. Local Vendor Directory (Mumbai / Online Delivery)
+
+1. **[Robu.in](https://robu.in):** Best for INMP441 microphones, MAX98357A amplifiers, LiPo cells, TP5100 chargers, and FFC ribbon cables. Standard delivery to Mumbai within 48–72 hours.
+2. **[Robocraze](https://robocraze.com) / [ElectronicsComp](https://electronicscomp.com):** Fast backup for camera modules, jumper wires, silicon cables, and breakout boards.
+3. **[JLCPCB](https://jlcpcb.com):** Cheapest 2-layer FR4 boards ($2 USD for 5 boards + shipping).
+4. **Local 3D Print Vendors (Lamington Road / Vile Parle / College Lab):** Cost for printing PETG frame parts is typically ₹3 to ₹5 per gram (~₹300 to ₹400 total).

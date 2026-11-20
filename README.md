@@ -5,7 +5,8 @@
 [![Mass Budget](https://img.shields.io/badge/AUW-115.0g%20(Audited)-blue.svg)](file:///Users/krish/NMIMS/Friday/docs/plan.md)
 [![Memory Bandwidth](https://img.shields.io/badge/LPDDR4x-9.36%20GB%2Fs%20(69.3%25)-purple.svg)](file:///Users/krish/NMIMS/Friday/phase1_ai_sandbox/README.md)
 [![Battery Architecture](https://img.shields.io/badge/Power-Series%202S%20(7.4V)-brightgreen.svg)](file:///Users/krish/NMIMS/Friday/docs/hardware_bom.md)
-[![Hardware Budget](https://img.shields.io/badge/Student%20BOM-₹13%2C730%20INR-orange.svg)](file:///Users/krish/NMIMS/Friday/docs/hardware_bom.md)
+[![Hardware Budget](https://img.shields.io/badge/Lean%20Wearable%20BOM-₹8%2C920%20INR%20(Zero--Waste)-orange.svg)](file:///Users/krish/NMIMS/Friday/docs/hardware_bom.md)
+[![Phase 1 Outlay](https://img.shields.io/badge/Initial%20Spend-₹0%20(Mac%20M4%20Sandbox)-brightgreen.svg)](file:///Users/krish/NMIMS/Friday/phase1_ai_sandbox/README.md)
 
 ---
 
@@ -126,7 +127,7 @@ Friday/
 | **Memory Bandwidth** | **9.36 GB/s sustained** | $267.34\text{ MB/token}$ at 35 tok/s ($69.3\%$ of RK3576 $13.5\text{ GB/s}$ bus; $4.14\text{ GB/s}$ headroom). |
 | **Visual Token Count** | **Strictly 144 tokens** | $2\times 2$ pixel-unshuffle downsampling reduces 576 patches to 144 tokens ($75\%$ sequence cut). |
 | **Thermal Contract** | **$t_{\text{cool}} \ge 100\text{s}$ at $28^\circ\text{C}$** | $4.0\text{g}$ PCM pad ($600\text{ J}$ latent buffer) absorbs $31.44\text{ J}$ burst. Skin contact $\le 37.5^\circ\text{C}$. |
-| **Student BOM Budget** | **₹13,730 INR (~$165 USD)** | Sourced via Robu.in, JLCPCB, and college FabLab vs. ₹55,000+ industrial quotes. |
+| **Zero-Waste Student Budget** | **₹8,920 INR (~$107 USD)** | Phase 1 runs at **₹0** on M4 Mac; single-shot procurement of final wearable hardware only. |
 
 ---
 
