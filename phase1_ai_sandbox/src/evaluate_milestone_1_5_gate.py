@@ -25,7 +25,7 @@ def evaluate_milestone_1_5_gate():
     print("==================================================================")
     print("Purpose: Empirical validation of edge software, vision downsampling,")
     print("         memory bandwidth, and neural voice quality before spending")
-    print("         a single rupee of the ₹8,920 target hardware budget.\n")
+    print("         a single rupee of the ₹9,595 target hardware budget (₹10,000 cap).\n")
 
     results = {}
     all_passed = True
@@ -104,35 +104,34 @@ def evaluate_milestone_1_5_gate():
     # GATE 3: MEMORY BANDWIDTH & BUS UTILIZATION CONTRACT
     # -------------------------------------------------------------
     print("\n--- [GATE 3/5] AUDITING MEMORY BANDWIDTH & BUS CAPACITY ---")
-    vocab_size = 64000
-    hidden_dim = 896
-    layers_int4_mb = (352e6 * 0.5) / 1e6 # 176.0 MB
-    lm_head_int8_mb = (vocab_size * hidden_dim * 1.0) / 1e6 # 57.34 MB
-    weights_total_mb = layers_int4_mb + lm_head_int8_mb # 233.34 MB
+    weights_int4_mb = 208.43 # All-INT4 packed binary
     scales_norms_mb = 16.0
-    kv_cache_mb = (2 * 24 * 2 * 64 * 1.0 * 1024) / 1e6 # 6.29 MB exact GQA
-    total_mb_per_token = weights_total_mb + scales_norms_mb + kv_cache_mb # 267.34 MB
+    kv_cache_mb = 6.29 # GQA INT8 KV cache for 1024-token context
+    total_mb_per_token = weights_int4_mb + scales_norms_mb + kv_cache_mb # 230.72 MB
     
-    target_tok_s = 25.0 # Contract rate (35 tok/s burst)
-    sustained_bw_gb_s = (total_mb_per_token / 1000.0) * target_tok_s # 6.39 GB/s
-    bus_capacity_gb_s = 13.50 # RK3576 32-bit LPDDR4x @ 2133 MHz
-    bus_utilization_pct = (sustained_bw_gb_s / bus_capacity_gb_s) * 100.0 # 69.3%
-    headroom_gb_s = bus_capacity_gb_s - sustained_bw_gb_s # 4.14 GB/s
+    target_tok_s = 25.0 # Baseline contract rate (35 tok/s burst peak)
+    sustained_bw_gb_s = (total_mb_per_token / 1000.0) * target_tok_s # 5.77 GB/s
+    burst_bw_gb_s = (total_mb_per_token / 1000.0) * 35.0 # 8.08 GB/s
+    bus_capacity_gb_s = 13.50 # RK3576 32-bit LPDDR4x @ 2133 MHz (10.50 GB/s safe ceiling)
+    bus_utilization_pct = (sustained_bw_gb_s / bus_capacity_gb_s) * 100.0 # 42.7%
+    headroom_gb_s = 10.50 - sustained_bw_gb_s # 4.73 GB/s continuous headroom below safe ceiling
     
-    g3_bw_pass = sustained_bw_gb_s < 10.5
+    g3_bw_pass = sustained_bw_gb_s < 10.5 and burst_bw_gb_s < 10.5
     g3_headroom_pass = headroom_gb_s > 3.0
-    g3_util_pass = bus_utilization_pct < 75.0
+    g3_util_pass = bus_utilization_pct < 60.0
     
-    print(f"  Weights Footprint (Layers INT4 + Head INT8): {weights_total_mb:.2f} MB")
+    print(f"  Weights Footprint (All-INT4 Packed): {weights_int4_mb:.2f} MB")
     print(f"  Total Memory Traffic per Token: {total_mb_per_token:.2f} MB/token")
-    print(f"  Sustained Bandwidth @ 35 tok/s: {sustained_bw_gb_s:.2f} GB/s (Target: < 10.5 GB/s) -> {'PASS' if g3_bw_pass else 'FAIL'}")
-    print(f"  Bus Utilization: {bus_utilization_pct:.1f}% of {bus_capacity_gb_s} GB/s (Target: < 75.0%) -> {'PASS' if g3_util_pass else 'FAIL'}")
-    print(f"  Guaranteed Continuous Headroom: {headroom_gb_s:.2f} GB/s (Target: > 3.0 GB/s) -> {'PASS' if g3_headroom_pass else 'FAIL'}")
+    print(f"  Sustained Bandwidth @ 25 tok/s: {sustained_bw_gb_s:.2f} GB/s (Target: < 10.5 GB/s safe ceiling) -> {'PASS' if g3_bw_pass else 'FAIL'}")
+    print(f"  Burst Peak Bandwidth @ 35 tok/s: {burst_bw_gb_s:.2f} GB/s (Target: < 10.5 GB/s safe ceiling) -> {'PASS' if g3_bw_pass else 'FAIL'}")
+    print(f"  Bus Utilization @ 25 tok/s: {bus_utilization_pct:.1f}% of {bus_capacity_gb_s} GB/s -> {'PASS' if g3_util_pass else 'FAIL'}")
+    print(f"  Guaranteed Continuous Headroom below 10.5 GB/s: {headroom_gb_s:.2f} GB/s (Target: > 3.0 GB/s) -> {'PASS' if g3_headroom_pass else 'FAIL'}")
     
     gate3_pass = g3_bw_pass and g3_headroom_pass and g3_util_pass
     results["Gate_3_Memory_Bandwidth"] = {
         "passed": gate3_pass,
         "sustained_bandwidth_gb_s": round(sustained_bw_gb_s, 2),
+        "burst_bandwidth_gb_s": round(burst_bw_gb_s, 2),
         "bus_utilization_pct": round(bus_utilization_pct, 1),
         "continuous_headroom_gb_s": round(headroom_gb_s, 2)
     }
@@ -179,7 +178,7 @@ def evaluate_milestone_1_5_gate():
     # -------------------------------------------------------------
     print("\n--- [GATE 5/5] FINANCIAL PROCUREMENT AUDIT (ZERO DRAWER-WASTE) ---")
     current_phase1_spend = 0.0 # MacBook Air M4 + Colab/Kaggle
-    target_wearable_bom_inr = 8920.0
+    target_wearable_bom_inr = 9595.0
     industrial_quote_inr = 65000.0
     savings_inr = industrial_quote_inr - target_wearable_bom_inr
     
@@ -187,8 +186,8 @@ def evaluate_milestone_1_5_gate():
     g5_bom_pass = (target_wearable_bom_inr <= 10000.0)
     
     print(f"  Phase 1 Out-of-Pocket Outlay: ₹{current_phase1_spend:.2f} (Target: ₹0.00) -> {'PASS' if g5_spend_pass else 'FAIL'}")
-    print(f"  Target Track 1 Wearable BOM: ₹{target_wearable_bom_inr:.2f} INR (~$107 USD, Ceiling: ₹10,000) -> {'PASS' if g5_bom_pass else 'FAIL'}")
-    print(f"  Verified Student Capital Preserved: ₹{savings_inr:.2f} INR (86.3% savings vs Industrial Quotes)")
+    print(f"  Target Track 1 Wearable BOM: ₹{target_wearable_bom_inr:.2f} INR (~$115 USD, Ceiling: ₹10,000) -> {'PASS' if g5_bom_pass else 'FAIL'}")
+    print(f"  Verified Student Capital Preserved: ₹{savings_inr:.2f} INR (85.2% savings vs Industrial Quotes)")
     
     gate5_pass = g5_spend_pass and g5_bom_pass
     results["Gate_5_Financial_Procurement"] = {

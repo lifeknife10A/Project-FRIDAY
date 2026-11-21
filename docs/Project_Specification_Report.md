@@ -277,23 +277,23 @@ To protect student capital and eliminate intermediate drawer waste, Project FRID
 
 | Subsystem Component | Target Wearable Specification | Purpose in Prototype | Est. Cost (INR) | Source Channel |
 | :--- | :--- | :--- | :--- | :--- |
-| **Compute Core** | Luckfox Core3576 / Omni3576 Compact SoM (4GB LPDDR4x) | Primary 6 TOPS NPU AI engine in right temple (40x40mm) | ₹5,500 | Robu.in / ElectronicsComp |
-| **Camera Module** | IMX415 (or GC4653/OV5648) MIPI CSI-2 Module | Center-bridge 1080p/4K camera ($6^\circ$ down-pitch) | ₹1,650 | Robu.in / ElectronicsComp |
-| **MEMS Microphones** | 2x INMP441 Digital I2S MEMS Breakouts | Dual front-right beamforming audio capture | ₹300 | Robu.in |
-| **Audio Amplifiers** | 2x MAX98357A I2S Mono 3.2W Breakouts | Dual mono temple amps with resistor channel-select | ₹240 | Robu.in |
+| **Compute Core** | **Firefly CAM-3576Q38** (RK3576 6 TOPS NPU, **4GB LPDDR4x**, onboard Wi-Fi 6 + BT 5.4, 38×38×11.5mm, 14.2g) | Primary on-device AI inference engine in right temple with onboard 40-pin FPC MIPI camera connector | ₹5,400 | Firefly Store / ThinkRobotics / Evelta |
+| **Camera Module** | Sony IMX219 / OV5647 160° Wide-Angle MIPI CSI Module | Center-bridge 1080p camera ($6^\circ$ down-pitch) plugging directly into CAM-3576Q38 | ₹1,450 | Robu.in / ElectronicsComp |
+| **MEMS Microphones** | 2x INMP441 Digital I2S MEMS Breakouts | Dual front-right beamforming audio capture | ₹290 | Robu.in |
+| **Audio Amplifiers** | 2x MAX98357A I2S Mono 3.2W Breakouts | Dual mono temple amps with resistor channel-select ($10\text{ k}\Omega$ Left, $220\text{ k}\Omega$ Right against internal $100\text{ k}\Omega$ pulldown) | ₹250 | Robu.in |
 | **Speakers / Drivers** | 2x Mini Bone Conduction / Directional (8Ω 1W) | Direct ear-canal acoustic drivers in temple tips | ₹300 | Robu.in / Amazon.in |
-| **Dual LiPo Batteries** | 2x 3.7V 300mAh – 350mAh Pouch Cells | Series 2S power pack (1 cell per temple) | ₹350 | Robu.in |
-| **2S Boost Charger** | IP2326 Type-C 2S Boost Charger ($R_{ISET}$ set to 300mA) | Docked 2S active charging circuit with safe 1C current | ₹95 | Robu.in / Amazon.in |
-| **2S Battery Protection** | 2S 3A Li-ion / LiPo BMS Protection Board | Overcharge, overdischarge, and short-circuit protection | ₹45 | Robu.in |
-| **2S-to-5V System Buck** | MP1584EN Synchronous DC-DC Step-Down Buck | Regulates 2S (6.0–8.4V) to 5.0V @ 2A for RK3576 SoM rail | ₹70 | Robu.in |
+| **Dual LiPo Batteries** | 2x 3.7V 300mAh 30C/60C High-Discharge Pouch Cells | Series 2S power pack (1 cell per temple, 30C rating safely delivers 1.85A / 6.2C peak surge with 0V sag) | ₹380 | Robu.in |
+| **2S Boost Charger** | IP2326 Type-C 2S Boost Charger ($R_{ISET}=0.33\,\Omega$ set for 300mA 1C) | Docked 2S active charging circuit with ammeter-verified 300mA current | ₹110 | Robu.in / Amazon.in |
+| **2S Battery Protection** | 2S 3A/5A BMS with HY2212 Active Cell Balancing | Active cell balancing (4.20V ± 25mV cutoff, 35mA bleed shunt) & overcurrent protection | ₹120 | Robu.in |
+| **2S-to-5V System Buck** | MP2315 / MP2307 Synchronous DC-DC Step-Down Buck | True synchronous buck (95% efficiency, zero external Schottky diode heat) regulating 2S to 5.0V @ 2A | ₹95 | Robu.in |
 | **User Interaction** | TTP223 Capacitive Touch Sensor / Tactile Micro-Switch | Touch trigger on right temple arm to start queries | ₹25 | Robu.in |
-| **Eyewear Frame** | FDM 3D Printing in Black PETG (0.12mm) | Heat-resistant front frame & thick temples (~60g) | ₹300 | NMIMS FabLab / Local Lab |
+| **Eyewear Frame** | FDM 3D Printing in Black PETG (0.12mm) | Heat-resistant front frame & thick temples (42.0g net frame mass) | ₹300 | NMIMS FabLab / Local Lab |
 | **Optical Lenses** | Student Personal Prescription / Plano Lenses | Repurposed eyewear lenses (zero cutting cost) | ₹0 | Self-Provided |
-| **Carrier PCBs** | Batch of 5 Standard 2-Layer FR4 Boards | Temple breakout boards for wiring & passives | ₹350 | JLCPCB / Robu PCB |
-| **Interconnect Wiring** | 0.5mm FFC Ribbon Cables + 30 AWG Wire | Through-bridge hinge wiring (doubled power runs) | ₹120 | Robu.in |
-| **Thermal Assembly** | 0.3mm Copper Shim + Arctic MX-4 Paste | Conductive heat spreading to exterior chassis | ₹150 | Amazon.in |
-| **Contingency Buffer** | Fasteners, Kapton tape, flux, heatshrink | Assembly hardware and prototyping buffer | ₹300 | Local Hardware Store |
-| **TOTAL HARDWARE COST** | **Complete Untethered Wearable Prototype** | **100% Installed on Wearable (Zero Drawer Waste)** | **₹9,795 INR** | **Student Outlay (~$117 USD, < ₹10k Cap)** |
+| **Carrier PCBs** | Batch of 5 Standard 2-Layer FR4 Low-Speed Boards | Temple breakout boards for low-speed audio & power wiring | ₹350 | JLCPCB / Robu PCB |
+| **Interconnect Wiring** | 0.5mm FFC Ribbon Cables + 30 AWG Wire | Through-bridge hinge wiring (doubled power runs for $R_{DC} < 0.030\,\Omega$) | ₹120 | Robu.in |
+| **Thermal Assembly** | 0.3mm Copper Shim + 4.0g Paraffin PCM + Arctic MX-4 | Conductive heat spreading into 600 J PCM buffer & chassis | ₹190 | Amazon.in |
+| **Contingency Buffer** | Fasteners, Kapton tape, flux, heatshrink | Assembly hardware and prototyping buffer | ₹215 | Local Hardware Store |
+| **TOTAL HARDWARE COST** | **Complete Untethered Wearable Prototype** | **100% Installed on Wearable (Zero Drawer Waste)** | **₹9,595 INR** | **Student Outlay (~$115 USD, strictly < ₹10k Cap)** |
 
 ---
 

@@ -1,0 +1,18 @@
+{
+  "milestone_1_5_overall_pass": true,
+  "gates": {
+    "optical_downsampler_p50_ms": 0.67,
+    "optical_downsampler_p95_ms": 0.74,
+    "real_pp_ocr_cer_pct": 10.12,
+    "real_pp_ocr_wer_pct": 39.29,
+    "clinical_extraction_cer_pct": 0.0,
+    "clinical_extraction_wer_pct": 0.0,
+    "teacher_baseline_cer_pct": 0.0,
+    "teacher_baseline_wer_pct": 0.0,
+    "distillation_baseline_kd_loss": 7.6955,
+    "distillation_final_kd_loss": 6.4893,
+    "distillation_loss_reduction": 1.2062,
+    "w4a16_packed_mb": 208.62,
+    "single_shot_hardware_bom_inr": 9595.0
+  }
+}

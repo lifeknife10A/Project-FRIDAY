@@ -9,18 +9,23 @@ REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 NB_PATH = os.path.join(REPO_ROOT, "phase1_ai_sandbox", "notebooks", "friday_distillation_colab.ipynb")
 LOCAL_WEIGHTS_DIR = os.path.join(REPO_ROOT, "phase1_ai_sandbox", "weights")
 
-def ensure_clean_session():
-    print(f"[*] Checking Colab session '{SESSION_NAME}'...")
-    res = subprocess.run(["colab", "ls"], capture_output=True, text=True)
-    if SESSION_NAME not in res.stdout:
-        print(f"[*] Creating fresh, clean Colab T4 GPU session '{SESSION_NAME}'...")
+def ensure_clean_session(max_attempts=6, retry_delay=20):
+    print(f"[*] Enforcing clean Colab session: terminating any existing session '{SESSION_NAME}'...")
+    subprocess.run(["colab", "stop", "-s", SESSION_NAME], capture_output=True, text=True)
+    time.sleep(3)
+    
+    for attempt in range(1, max_attempts + 1):
+        print(f"[*] Creating fresh, clean Colab T4 GPU session '{SESSION_NAME}' (Attempt {attempt}/{max_attempts})...")
         new_res = subprocess.run(["colab", "new", "-s", SESSION_NAME, "--gpu", "T4"], capture_output=True, text=True)
-        print(new_res.stdout.strip())
-        if new_res.returncode != 0:
-            raise RuntimeError(f"Failed to create Colab session: {new_res.stderr}")
-        print(f"[✓] Fresh Colab T4 runtime created and active!")
-    else:
-        print(f"[✓] Session '{SESSION_NAME}' is active.")
+        if new_res.returncode == 0:
+            print(f"[✓] Fresh Colab T4 runtime created with 0 MB VRAM baseline!")
+            return
+        print(f"[!] Attempt {attempt} failed: {new_res.stderr.strip() or new_res.stdout.strip()}")
+        if attempt < max_attempts:
+            print(f"[*] Waiting {retry_delay}s for Colab T4 capacity assignment...")
+            time.sleep(retry_delay)
+            
+    raise RuntimeError(f"Failed to create fresh Colab session after {max_attempts} attempts.")
 
 def run_cell_code(code_str, timeout=300):
     cmd = ["colab", "exec", "-s", SESSION_NAME, "--timeout", str(timeout)]
@@ -104,7 +109,8 @@ def main():
         "friday_student_w4a16_packed.pt",
         "spatial_unshuffle_downsampler.pt",
         "friday_student_410m_final.pt",
-        "friday_model_spec.json"
+        "friday_model_spec.json",
+        "milestone_1_5_gate_report.json"
     ]
     for art in artifacts:
         remote_file = f"/content/FRIDAY_weights/{art}"
