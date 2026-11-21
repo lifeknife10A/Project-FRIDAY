@@ -67,7 +67,7 @@ class HardwareTelemetryProfiler:
         layers_int4_mb = 176.00
         lm_head_int8_mb = (self.vocab_size * self.hidden_dim * 1.0) / 1e6 # 57.34 MB
         scales_norms_mb = 16.00
-        kv_cache_mb = 18.00
+        kv_cache_mb = (2 * 24 * 2 * 64 * 1.0 * 1024) / 1e6 # 6.29 MB GQA0
         
         total_mb_per_token = layers_int4_mb + lm_head_int8_mb + scales_norms_mb + kv_cache_mb
         sustained_bw_gb_s = (total_mb_per_token / 1000.0) * self.target_tok_s
@@ -235,7 +235,7 @@ def run_tests():
     print(f"  Continuous Headroom: {traffic['continuous_headroom_gb_s']:.2f} GB/s")
 
     assert traffic["total_mb_per_token"] == 267.34, f"Unexpected traffic: {traffic['total_mb_per_token']}"
-    assert traffic["sustained_bandwidth_gb_s"] <= 9.36, f"Bandwidth exceeded: {traffic['sustained_bandwidth_gb_s']}"
+    assert traffic["sustained_bandwidth_gb_s"] <= 9.0, f"Bandwidth exceeded: {traffic['sustained_bandwidth_gb_s']}"
     assert traffic["continuous_headroom_gb_s"] >= 4.14, f"Headroom too low: {traffic['continuous_headroom_gb_s']}"
     print("  [PASS] RK3576 Memory Bus Traffic verified (9.36 GB/s sustained, 4.14 GB/s headroom)")
 

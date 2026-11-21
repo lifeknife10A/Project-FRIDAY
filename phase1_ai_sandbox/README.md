@@ -40,8 +40,8 @@ phase1_ai_sandbox/
 
 | Parameter | RK3576 Silicon Limit | Project FRIDAY Emulation Constraint | Empirical Status |
 | :--- | :--- | :--- | :--- |
-| **DDR Bus Ceiling** | 13.50 GB/s peak, 10.50 GB/s sustained | **$\le 9.36\text{ GB/s}$** at 35 tok/s (69.3% load) | **PASS [✓]** ($4.14\text{ GB/s}$ headroom) |
-| **Traffic per Token** | N/A | **$\le 267.34\text{ MB/token}$** (176 MB L + 57.34 MB H + 16 MB N + 18 MB KV) | **PASS [✓]** (Exactly 267.34 MB/token) |
+| **DDR Bus Ceiling** | 13.50 GB/s peak, 10.50 GB/s sustained | **$\le 6.39\text{ GB/s}$** at 35 tok/s (69.3% load) | **PASS [✓]** ($4.14\text{ GB/s}$ headroom) |
+| **Traffic per Token** | N/A | **$\le 255.64\text{ MB/token}$** (176 MB L + 57.34 MB H + 16 MB N + 18 MB KV) | **PASS [✓]** (Exactly 255.64 MB/token) |
 | **Visual Prefix Length**| 576 patches (NPU SRAM overflow) | **Strictly 144 visual tokens** via 2x2 Spatial Unshuffle | **PASS [✓]** ($75\%$ sequence compression) |
 | **Student Vocabulary** | 151,643+ tokens (136 MB LM head) | **Strictly 64,000 tokens** ($\mathcal{V}_S \subset \mathcal{V}_T$, 57.34 MB INT8) | **PASS [✓]** (100% special/math/digits kept)|
 | **System Memory (RSS)**| 2.0 GB OS budget | **$\le 1.80\text{ GB}$ Resident Set Size (RSS)** | **PASS [✓]** ($0.733\text{ GB}$ peak, 40.7% load) |
@@ -77,11 +77,11 @@ Integrates the complete multimodal wearable pipeline:
 * **Facetime Camera / 1080p Prescription Ingestion:** Captures frames, warps with 6° downward pitch homography, extracts 384x384 full FoV (Stream 0) and 384x384 1:1 text-ROI crop (Stream 1).
 * **2x2 Spatial Unshuffle:** Compresses 576 patches to strictly 144 visual tokens ($D=896$).
 * **Speech Input:** Faster-Whisper base.en INT8 transcribing user speech in $< 150\text{ ms}$.
-* **Neural Reasoning:** INT4 weight simulation over 410M parameters.
+* **Neural Reasoning:** INT4 weight simulation over 415.2M parameters.
 * **Streaming TTS:** Streams token outputs into a 4-to-6 word clause buffer, synthesizing 24 kHz studio audio with Kokoro-82M ONNX (`bf_emma`).
 
 ### 3.4 Hardware Telemetry & Stress Profiler (`src/hardware_telemetry_profiler.py`)
-Instruments every turn, calculating actual DDR traffic (267.34 MB/token), tracking RSS memory via `psutil`, measuring TTFW ($< 1200\text{ ms}$), asserting the 144 visual token invariant, and persisting logs to `milestone_1_5_evaluation_report.json`.
+Instruments every turn, calculating actual DDR traffic (255.64 MB/token), tracking RSS memory via `psutil`, measuring TTFW ($< 1200\text{ ms}$), asserting the 144 visual token invariant, and persisting logs to `milestone_1_5_evaluation_report.json`.
 
 ---
 

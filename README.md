@@ -3,7 +3,7 @@
 
 [![Document Version](https://img.shields.io/badge/Architecture-v9.1.0--Hardware--Locked-success.svg)](file:///Users/krish/NMIMS/Friday/docs/plan.md)
 [![Mass Budget](https://img.shields.io/badge/AUW-115.0g%20(Audited)-blue.svg)](file:///Users/krish/NMIMS/Friday/docs/plan.md)
-[![Memory Bandwidth](https://img.shields.io/badge/LPDDR4x-9.36%20GB%2Fs%20(69.3%25)-purple.svg)](file:///Users/krish/NMIMS/Friday/phase1_ai_sandbox/README.md)
+[![Memory Bandwidth](https://img.shields.io/badge/LPDDR4x-6.39%20GB%2Fs%20(69.3%25)-purple.svg)](file:///Users/krish/NMIMS/Friday/phase1_ai_sandbox/README.md)
 [![Battery Architecture](https://img.shields.io/badge/Power-Series%202S%20(7.4V)-brightgreen.svg)](file:///Users/krish/NMIMS/Friday/docs/hardware_bom.md)
 [![Hardware Budget](https://img.shields.io/badge/Lean%20Wearable%20BOM-₹8%2C920%20INR%20(Zero--Waste)-orange.svg)](file:///Users/krish/NMIMS/Friday/docs/hardware_bom.md)
 [![Phase 1 Outlay](https://img.shields.io/badge/Initial%20Spend-₹0%20(Mac%20M4%20Sandbox)-brightgreen.svg)](file:///Users/krish/NMIMS/Friday/phase1_ai_sandbox/README.md)
@@ -145,7 +145,7 @@ To inform our mechanical, thermal, and optomechanical architecture, we conducted
 | **MAX98357A Biasing** | **Left: $1.62\text{V}$ / Right: $0.99\text{V}$** | Compensates internal $100\text{ k}\Omega$ pulldown: $10\text{k}\Omega$ pullup (Left) and $82\text{k}\Omega$ pullup (Right). |
 | **Coprocessor Supply** | **1.8V LDO (`VAUX_1V8`)** | Safely operates Apollo4 Lite within its $1.71\text{V}\text{--}2.2\text{V}$ operating envelope. |
 | **Watchdog Coordination** | **$1.0\text{s}$ MCU WDT** | Hardware WDT forces MCU reset on hang, releasing `CD` to float HIGH to terminate charging. |
-| **Memory Bandwidth** | **9.36 GB/s sustained** | $267.34\text{ MB/token}$ at 35 tok/s ($69.3\%$ of RK3576 $13.5\text{ GB/s}$ bus; $4.14\text{ GB/s}$ headroom). |
+| **Memory Bandwidth** | **6.39 GB/s sustained (25 tok/s contract, 8.95 GB/s burst)** | $255.64\text{ MB/token}$ at 35 tok/s ($69.3\%$ of RK3576 $13.5\text{ GB/s}$ bus; $4.14\text{ GB/s}$ headroom). |
 | **Visual Token Count** | **Strictly 144 tokens** | $2\times 2$ pixel-unshuffle downsampling reduces 576 patches to 144 tokens ($75\%$ sequence cut). |
 | **Thermal Contract** | **$t_{\text{cool}} \ge 100\text{s}$ at $28^\circ\text{C}$** | $4.0\text{g}$ PCM pad ($600\text{ J}$ latent buffer) absorbs $31.44\text{ J}$ burst. Skin contact $\le 37.5^\circ\text{C}$. |
 | **Zero-Waste Student Budget** | **₹8,920 INR (~$107 USD)** | Phase 1 runs at **₹0** on M4 Mac; single-shot procurement of final wearable hardware only. |

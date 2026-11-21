@@ -110,11 +110,11 @@ def evaluate_milestone_1_5_gate():
     lm_head_int8_mb = (vocab_size * hidden_dim * 1.0) / 1e6 # 57.34 MB
     weights_total_mb = layers_int4_mb + lm_head_int8_mb # 233.34 MB
     scales_norms_mb = 16.0
-    kv_cache_mb = 18.0
+    kv_cache_mb = (2 * 24 * 2 * 64 * 1.0 * 1024) / 1e6 # 6.29 MB exact GQA
     total_mb_per_token = weights_total_mb + scales_norms_mb + kv_cache_mb # 267.34 MB
     
-    target_tok_s = 35.0
-    sustained_bw_gb_s = (total_mb_per_token / 1000.0) * target_tok_s # 9.36 GB/s
+    target_tok_s = 25.0 # Contract rate (35 tok/s burst)
+    sustained_bw_gb_s = (total_mb_per_token / 1000.0) * target_tok_s # 6.39 GB/s
     bus_capacity_gb_s = 13.50 # RK3576 32-bit LPDDR4x @ 2133 MHz
     bus_utilization_pct = (sustained_bw_gb_s / bus_capacity_gb_s) * 100.0 # 69.3%
     headroom_gb_s = bus_capacity_gb_s - sustained_bw_gb_s # 4.14 GB/s

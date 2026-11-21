@@ -5,7 +5,7 @@
 **Project Lead:** Krishna  
 **Academic Target:** Capstone Thesis (Phase-Based Execution)  
 **System Target:** Fully Self-Contained Edge Multimodal AI Eyewear  
-**Review Status:** UNCONDITIONALLY CLOSED & DATASHEET-VERIFIED (H-1 to H-4 Hardware Fixes Applied)  
+**Review Status:** PHASE 1 DISTILLATION CLOSING SPRINT — MILESTONE 2.1 [GO] | MILESTONE 2.2 [HOLD] (H-1 to H-4 Hardware Fixes Applied)  
 
 ---
 
@@ -328,6 +328,6 @@ To eliminate single-point hardware failure and guarantee a successful capstone d
 
 ## 10. Academic Novelty & Thesis Deliverables
 
-1. **Machine Learning / IT Contribution:** A mathematically convergent two-stage cross-modal distillation pipeline (Normalized Epsilon-smoothed Top-64 Forward KD bounded strictly over $\Omega_{64} \subseteq \mathcal{V}_S$ + Sequence DPO) using a strict 64k vocabulary subset, compressing a 72B model into a 496M student operating under a $9.36\text{ GB/s}$ INT4 memory bandwidth budget.
+1. **Machine Learning / IT Contribution:** A mathematically convergent two-stage cross-modal distillation pipeline (Normalized Epsilon-smoothed Top-64 Forward KD bounded strictly over $\Omega_{64} \subseteq \mathcal{V}_S$ + Sequence DPO) using a strict 64k vocabulary subset, compressing the model into a 415.2M student operating under an $8.95\text{ GB/s}$ peak / $6.39\text{ GB/s}$ sustained INT4 memory bandwidth budget (39.1% safe headroom).
 2. **Systems Architecture Contribution:** An asynchronous, zero-cost-abstraction edge orchestration runtime written in **Rust** featuring lock-free real-time audio threads, WebRTC AEC3 echo cancellation, dual-temple mono MAX98357A digital I2S amplifiers with hardware-isolated $<0.1\,\mu\text{A}$ shutdown, and a target Time-to-First-Word of **$\sim 1.20\text{ seconds}$ (to be empirically benchmarked in Phase 2)** (preceded by a **$<80\text{ms}$ instant earcon chime**).
 3. **Hardware / Embedded Contribution:** A completely self-contained smart-glasses form factor with Series 2S active-balanced battery packaging, 18-conductor/34-conductor continuous rigid-flex hinge interconnects, Titanium Grade 5 kinematic optomechanics, and an open-drain hardware watchdog architecture operating under a verified **115.0-gram mass envelope** with zero dependence on cloud infrastructure or smartphone coprocessing.

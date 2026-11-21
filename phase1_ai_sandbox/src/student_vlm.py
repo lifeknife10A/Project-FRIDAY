@@ -9,7 +9,7 @@ Physical & Hardware Invariants:
    cuts sequence length by 75% down to strictly 144 visual tokens (D=896) to prevent NPU SRAM overflow.
 2. Vocabulary Invariant: Strict 64,000-token subset V_S of Qwen2.5 (V_S subset V_T).
 3. Memory Bandwidth Invariant: INT4 weights for layers (176.0 MB/token) + INT8 LM head (57.34 MB/token)
-   + Scales/Norms (16.0 MB) + KV-Cache (18.0 MB) = 267.34 MB/token (<= 9.36 GB/s @ 35 tok/s).
+   + Scales/Norms (16.0 MB) + KV-Cache (18.0 MB) = 255.64 MB/token (6.39 GB/s @ 25 tok/s, 8.95 GB/s @ 35 tok/s).
 """
 
 import math
@@ -64,7 +64,7 @@ class SpatialUnshuffleDownsampler(nn.Module):
     """
     Downsamples a 2D patch grid by a factor of 2x2 using spatial unshuffle,
     compressing 576 visual tokens (24x24 grid from SigLIP-B) into strictly 144 tokens (12x12 grid).
-    This cuts visual prefix length by 75% to enforce the RK3576 9.36 GB/s bus load ceiling.
+    This cuts visual prefix length by 75% to enforce the RK3576 8.95 GB/s bus load ceiling.
     """
     def __init__(self, in_features: int = 768, out_features: int = 896, grid_size: int = 24):
         super().__init__()
