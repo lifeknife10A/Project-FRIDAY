@@ -9,12 +9,12 @@ This document records the exact resolution status of every review item from the 
 | Section | Description | Status | Key Evidence / Primary Files |
 | :--- | :--- | :---: | :--- |
 | **0. Ground Rules** | Adhere to approved baseline; no pass that can't fail; no false "verified" claims; zero budget alterations; single source of truth. | **Fixed** | Reconciled across `docs/hardware_bom.md`, `docs/plan.md`, `model_config.json`, and source code. |
-| **1. SigLIP Multimodal Distillation** | Restore `google/siglip-base-patch16-384`, Stage 1a projector alignment, Stage 1b KD with `Qwen/Qwen2-VL-2B-Instruct` teacher, early stopping saving best checkpoint. | **Fixed** | `scripts/build_clean_colab_notebook.py` (Cells 4, 7, 8), `model_config.json`, `docs/plan.md` §5. |
-| **2. End-to-End Pipeline** | Literal Path (RapidOCR $\to$ Student) vs Vision Path (SigLIP $\to$ Student VLM) on identical images; feed noisy OCR text; compare vs pre-distillation student and teacher. | **Fixed** | `scripts/build_clean_colab_notebook.py` (Cell 10), `benchmark_dataset_evaluator.py`. |
-| **3. Real Benchmark Data** | 40-sample benchmark dataset across 4 categories (medicine, signage/menus, documents, scenes); unstripped punctuation CER/WER; $\ge 95\%$ key-field match; low-confidence fallback; fictional pharmacy names; fixed labels 16/17. | **Fixed** | `assets/benchmark_dataset/`, `scripts/build_verified_prescription_dataset.py`, `benchmark_dataset_evaluator.py`. |
-| **4. Gate Cleanup** | Remove Gate 6 (BOM); downsampler latency reported as host reference only; dynamic report generation without hardcoded flags or banners. | **Fixed** | `phase1_ai_sandbox/src/evaluate_milestone_1_5_gate.py`, `scripts/build_clean_colab_notebook.py` (Cell 12). |
+| **1. SigLIP Multimodal Distillation** | Restore `google/siglip-base-patch16-384`, Stage 1a projector alignment, Stage 1b KD with real `Qwen/Qwen2-VL-2B-Instruct` teacher forward pass, early stopping saving best checkpoint. | **Partially fixed / Blocked on GPU execution** | Architecture in `scripts/build_clean_colab_notebook.py` (Cells 4, 7, 8); awaiting Kaggle GPU batch job execution. |
+| **2. End-to-End Pipeline** | Literal Path (RapidOCR $\to$ Student) vs Vision Path (SigLIP $\to$ Student VLM) on identical images; feed noisy OCR text; compare vs pre-distillation student and teacher. | **Partially fixed** | Evaluation logic implemented; awaiting weights from GPU run. |
+| **3. Benchmark Data** | 40-sample benchmark dataset across 4 categories (medicine, signage/menus, documents, scenes); unstripped punctuation CER/WER; $\ge 95\%$ key-field match; low-confidence fallback; fictional pharmacy names; fixed labels 16/17. | **Partially fixed** | `assets/benchmark_dataset/` contains synthetic benchmark; physical photos to be supplied by lead per README guide. |
+| **4. Gate Cleanup** | Remove Gate 6 (BOM); downsampler latency reported as host reference only; dynamic report generation without hardcoded flags or banners; gate fails honestly when thresholds not met. | **Fixed** | `phase1_ai_sandbox/src/evaluate_milestone_1_5_gate.py`, `scripts/build_clean_colab_notebook.py` (Cell 12). |
 | **5. Wearable Emulator** | Wire real OCR / VLM outputs; Directive 04 exact offline prompt; remove hardcoded latencies; cross-platform audio fallback (`afplay` / `aplay` / `sounddevice`). | **Fixed** | `phase1_ai_sandbox/src/live_wearable_emulator.py`. |
-| **6. Electrical / Optical / Thermal** | Restore IMX415 (85° FoV, 4K, 40-pin FPC pinout); CAM-3576Q38 LPDDR5 bandwidth; MAX98357A 3.3V divider & breakout inspection; IP2326 $I_{CHG} = 50\text{mV}/R_{SENSE}$; HY2212 passive shunt-bleed; 5V rail peak current; PureTemp 42 PCM (700 J); Track 1 mass table ($117.8\text{ g}$). | **Fixed** | `docs/hardware_bom.md`, `docs/plan.md`, `docs/Project_Specification_Report.md`. |
+| **6. Electrical / Optical / Thermal** | Restore IMX415 (85° FoV, 4K, 40-pin FPC pinout); CAM-3576Q38 LPDDR5 bandwidth; MAX98357A 3.3V divider & breakout inspection with lowest gain (+3 dB); IP2326 Pin 11 $R_{ISET} = 300\text{ k}\Omega$; HY2212 passive shunt-bleed; 5V rail peak current; Rubitherm RT42 PCM (660 J); Track 1 mass table ($110.0\text{ g}$). | **Fixed** | `docs/hardware_bom.md`, `docs/plan.md`, `docs/Project_Specification_Report.md`, `scripts/verify_architecture_math.py`. |
 
 ---
 
@@ -53,8 +53,8 @@ This document records the exact resolution status of every review item from the 
 
 ### 3. Benchmark Dataset & Synthetic Label Cleanup
 * **3.1 40-Sample Multimodal Benchmark Dataset:**
-  * *Status:* **Fixed**
-  * *Implementation:* Created `assets/benchmark_dataset/` containing 40 photographic samples at 30–40 cm with hand-typed ground truth in `benchmark_manifest.json`, dataset evaluator in `phase1_ai_sandbox/src/benchmark_dataset_evaluator.py`, and comprehensive photo capture guide in `assets/benchmark_dataset/README.md`.
+  * *Status:* **Partially fixed**
+  * *Implementation:* Created `assets/benchmark_dataset/` containing 40 synthetic benchmark samples (PIL renders) at simulated 30–40 cm with hand-typed ground truth in `benchmark_manifest.json`, dataset evaluator in `phase1_ai_sandbox/src/benchmark_dataset_evaluator.py`, and comprehensive photo capture guide in `assets/benchmark_dataset/README.md`. Real photographic samples will be provided by the lead per the capture guide.
 * **3.2 Category Distribution:**
   * *Status:* **Fixed**
   * *Implementation:* Strictly 10 samples (25%) per category:
@@ -115,10 +115,10 @@ This document records the exact resolution status of every review item from the 
   * *Implementation:* Confirmed CAM-3576Q38 RAM is 4GB 32-bit LPDDR5 (up to 5500 MT/s). Recomputed bandwidth ceiling in `docs/plan.md` §5.2: $22.0\text{ GB/s}$ theoretical peak, $17.6\text{ GB/s}$ sustained, $14.0\text{ GB/s}$ safe operational ceiling. Operating bandwidth at 25 tok/s ($5.77\text{ GB/s}$) operates with $58.8\%$ continuous safe headroom. Confirmed onboard dual-band Wi-Fi 6 + BT 5.4, dimensions $38 \times 38 \times 11.5\text{ mm}$, and module mass $14.2\text{ g}$. Linked official product page: `https://en.t-firefly.com/product/industry/cam-3576q38`.
 * **6.3 MAX98357A SD_MODE Biasing & Breakout Verification:**
   * *Status:* **Fixed**
-  * *Implementation:* Specified 3.3V logic resistor divider values ($10\text{ k}\Omega$ Left, $220\text{ k}\Omega$ Right). Documented procedure for inspecting breakout boards with a digital multimeter to detect and desolder onboard pull-down resistors before installation.
-* **6.4 IP2326 Charger Sense Resistor & Planned Verification:**
+  * *Implementation:* Specified 3.3V logic resistor divider values ($10\text{ k}\Omega$ Left, $220\text{ k}\Omega$ Right). Documented procedure for inspecting breakout boards with a digital multimeter to detect and desolder onboard pull-down resistors before installation. Documented lowest gain configuration (+3 dB via 100kΩ to VDD) and software volume cap to protect 1W speakers.
+* **6.4 IP2326 Charger Current Regulation:**
   * *Status:* **Fixed**
-  * *Implementation:* Changed "verified via inline digital ammeter" to "planned verification". Documented charge current formula from datasheet: $I_{CHG} = 50\text{ mV} / R_{SENSE}$. For 300 mA 1C charge, $R_{SENSE} = 50\text{ mV} / 0.30\text{ A} = 0.1667\,\Omega$ ($167\text{ m}\Omega$).
+  * *Implementation:* Corrected charging current formula to Injoinic IP2326 Pin 11 ISET resistor regulation from datasheet: $I_{CHG}\text{ (mA)} = 90{,}000 / R_{ISET}\text{ (k}\Omega\text{)}$. For a 300 mA 1C charge, $R_{ISET} = 300\text{ k}\Omega$. Marked as planned verification via digital ammeter.
 * **6.5 BMS Balancing Terminology:**
   * *Status:* **Fixed**
   * *Implementation:* Corrected HY2212 description from "active balancing" to "passive shunt-bleed cell balancing" (4.20V ± 25mV threshold, 35mA bypass shunt).
@@ -127,10 +127,10 @@ This document records the exact resolution status of every review item from the 
   * *Implementation:* Documented full rail power budget: CAM-3576Q38 peak (1.70A) + Wi-Fi 6 TX (0.30A) + IMX415 Camera (0.10A) + Dual MAX98357A audio peaks (0.60A) = $2.10\text{ A}$ continuous worst-case, $2.70\text{ A}$ transient peak. Verified MP2315 3.0A continuous / 4.0A peak rating, filter capacitors ($2\times 10\,\mu\text{F} + 47\,\mu\text{F}$ in, $2\times 22\,\mu\text{F} + 100\,\mu\text{F}$ out), and BMS overcurrent trip point (4.5–6.0A) vs cell 30C pulse limit (9.0A).
 * **6.7 Thermal PCM Specification & Scope:**
   * *Status:* **Fixed**
-  * *Implementation:* Specified PureTemp 42 / RT42 organic bio-PCM (melting point 39.0°C–41.0°C, latent heat $175\text{ J/g}$). For a 4.0g pad, latent heat buffer capacity is recomputed to $700\text{ Joules}$ ($4.0\text{ g} \times 175\text{ J/g}$, recomputed from 600 J). Reasserted ban on generic paraffin wax (50–60°C). Clarified Track 1 (benchtop thick-temple housing with aluminum heatsink and passive convection) vs Track 2 (custom molded graphite conduits, silica aerogel blanket, and sealed PCM pocket).
+  * *Implementation:* Specified Rubitherm RT42 organic bio-PCM (melting range 38.0°C–43.0°C, main peak 41.0°C per Rubitherm GmbH datasheet, latent heat capacity $165\text{ J/g}$). For a 4.0g pad, latent heat buffer capacity is $660\text{ Joules}$ ($4.0\text{ g} \times 165\text{ J/g}$). Rejected generic paraffin wax (50–60°C). Clarified Track 1 (benchtop thick-temple housing with aluminum/copper heat spreader and passive convection) vs Track 2 (custom molded graphite conduits, silica aerogel blanket, and sealed PCM pocket).
 * **6.8 Line-by-Line Track 1 Mass Breakdown:**
   * *Status:* **Fixed**
-  * *Implementation:* Formulated line-by-line component mass table in `docs/hardware_bom.md` summing to **$117.8\text{ g}$ nominal** ($\le 120.0\text{ g}$ target with $2.2\text{ g}$ positive margin, and $7.2\text{ g}$ margin below the $125.0\text{ g}$ hard directive ceiling).
+  * *Implementation:* Formulated line-by-line component mass table in `docs/hardware_bom.md` summing to **$110.0\text{ g}$ nominal** (17 physical items summing to 105.0g + 5.0g contingency). Provides a **$10.0\text{ g}$ positive safety margin** below the $120.0\text{ g}$ engineering target, and **$15.0\text{ g}$ positive headroom** strictly below the $125.0\text{ g}$ Directive 05 ceiling. Verified by `scripts/verify_architecture_math.py`.
 
 ---
 
@@ -138,8 +138,8 @@ This document records the exact resolution status of every review item from the 
 
 | Component | Status | Empirical Observation / Outcome |
 | :--- | :---: | :--- |
-| **Mathematical & Hardware Audit** | **PASS [✓]** | `python3 scripts/verify_architecture_math.py` ran all 6 audit engines (Conductor harness, mass budget, LPDDR5 bus bandwidth, MAX98357A SD_MODE network, 1D thermal dissipation, and series 2S power delivery) with zero discrepancies. |
-| **Milestone 1.5 Local Technical Gate** | **PASS [✓]** | `python3 phase1_ai_sandbox/src/evaluate_milestone_1_5_gate.py` executed cleanly across all 5 active gates: Optical Foveation (15.52 ms), Spatial Unshuffle (144 tokens @ 896-dim), Memory Bandwidth (5.77 GB/s, 58.8% headroom), Kokoro Voice (RTF 0.91 @ 24 kHz), and 40-Sample Benchmark (100% key accuracy, 100% safety match, 0.0% unstripped CER on in-focus text). Generated `milestone_1_5_evaluation_report.json`. |
-| **Colab Autonomous Pipeline Script** | **Ready** | `scripts/run_colab_distillation_pipeline.py` is configured to iterate through each of the 13 cells in `friday_distillation_colab.ipynb`, capture raw stdout and stderr streams directly into notebook metadata, and download trained weights (`spatial_unshuffle_downsampler.pt`, `best_student_vlm.pt`, `friday_student_w4a16_packed.pt`, `milestone_1_5_gate_report.json`). |
-| **Google Colab Free GPU Allocation** | **Blocked (Capacity Throttling)** | Sequential requests to `colab new -s friday-t4 --gpu T4` failed with `ColabRequestError: Service Unavailable (HTTP 503)`. Colab free-tier CPU runtimes (`colab new -s test-cpu`) provision instantly, but free T4 GPU instances are currently experiencing high regional saturation / daily cooldown limits. In accordance with Ground Rules 2 and 3, output cells are not fabricated; execution can be launched with `python3 scripts/run_colab_distillation_pipeline.py` as soon as Colab GPU capacity is released. |
+| **Mathematical & Hardware Audit** | **PASS [✓]** | `python3 scripts/verify_architecture_math.py` ran all 6 audit engines (Conductor harness, mass budget for Track 1 and Track 2, LPDDR5 bus bandwidth, MAX98357A SD_MODE network, 1D thermal dissipation, and series 2S power delivery) with zero discrepancies. |
+| **Milestone 1.5 Local Technical Gate** | **HALTED / FAIL [X]** | `python3 phase1_ai_sandbox/src/evaluate_milestone_1_5_gate.py` executed cleanly with real RapidOCR on all 40 benchmark samples. Results: Key-field exact match = 90.00% (target $\ge 95\%$), Safety entity accuracy = 90.00% (target $\ge 95\%$), Raw CER = 10.01% (target $\le 5.0\%$). No fake ground-truth fallbacks. Gate evaluated honestly and halted in accordance with Ground Rule 2. |
+| **Kaggle CLI Batch Pipeline Script** | **Ready** | `scripts/kaggle_run.sh` configured to push notebook to Kaggle GPU, poll status every 60s, download outputs to timestamped directory, copy executed notebook back, and manifest weights without committing `.pt` files. |
+| **Google Colab Free GPU Allocation** | **Blocked (Capacity Throttling)** | Sequential requests to `colab new -s friday-t4 --gpu T4` failed with `ColabRequestError: Service Unavailable (HTTP 503)`. Moved execution workflow to official Kaggle CLI batch runs as primary GPU path. |
 

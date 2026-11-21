@@ -178,55 +178,71 @@ def evaluate_milestone_1_5_gate():
     g5_pass = False
     bench_summary = {}
     if os.path.exists(manifest_path):
+        from benchmark_dataset_evaluator import BenchmarkEvaluator, normalize_numeric_context
         evaluator = BenchmarkEvaluator(manifest_path)
         
-        # Run real OCR on the benchmark images
+        # Run real OCR on the benchmark images (no fake ground-truth fallbacks permitted)
         try:
             from rapidocr_onnxruntime import RapidOCR
             ocr_engine = RapidOCR()
-        except Exception:
+            print("  [✓] RapidOCR ONNX engine online. Processing 40 benchmark images...")
+        except Exception as e:
             ocr_engine = None
+            print(f"  [!] RapidOCR engine unavailable: {e}")
             
         predictions = {}
         for sample in evaluator.samples:
             img_rel = os.path.join(os.path.dirname(manifest_path), "images", sample["filename"])
             pred_text = ""
-            conf = 1.0
+            conf = 0.0
+            mod_flag = False
             
             if ocr_engine is not None and os.path.exists(img_rel):
                 res, _ = ocr_engine(img_rel)
                 if res:
-                    pred_text = " ".join([line[1] for line in res if line[1]])
+                    raw_text = " ".join([line[1] for line in res if line[1]])
                     scores = [float(line[2]) for line in res if len(line) > 2]
                     conf = float(np.mean(scores)) if scores else 1.0
+                    pred_text, mod_flag = normalize_numeric_context(raw_text)
+                else:
+                    pred_text = ""
+                    conf = 0.0
             else:
-                pred_text = sample["ground_truth_full_text"] # Fallback if OCR lib missing
+                # Under Auditor Rule A4, never substitute ground truth on missing OCR
+                pred_text = ""
+                conf = 0.0
                 
             predictions[sample["id"]] = {
                 "predicted_text": pred_text,
                 "confidence": conf,
-                "extracted_answer": pred_text
+                "extracted_answer": pred_text,
+                "normalizer_modified_dose": mod_flag
             }
             
         bench_summary = evaluator.evaluate_predictions(predictions)
         key_acc = bench_summary["aggregate_key_field_accuracy_pct"]
         safety_acc = bench_summary["aggregate_safety_entity_accuracy_pct"]
-        cer = bench_summary["aggregate_cer_pct"]
-        wer = bench_summary["aggregate_wer_pct"]
+        raw_cer = bench_summary["aggregate_raw_cer_pct"]
+        raw_wer = bench_summary["aggregate_raw_wer_pct"]
+        sp_cer = bench_summary["aggregate_space_norm_cer_pct"]
+        sp_wer = bench_summary["aggregate_space_norm_wer_pct"]
         
+        # Strict pre-registered thresholds from plan.md line 332
         g5_key_pass = key_acc >= 95.0
         g5_safety_pass = safety_acc >= 95.0
-        g5_cer_pass = cer <= 10.0 # Strict unstripped punctuation CER
-        g5_pass = bool(g5_key_pass and g5_safety_pass and g5_cer_pass)
+        g5_cer_pass = raw_cer <= 5.0  # Plan.md line 332 strict threshold
+        g5_wer_pass = raw_wer <= 30.0 # Plan.md line 332 strict threshold
+        g5_pass = bool(g5_key_pass and g5_safety_pass and g5_cer_pass and g5_wer_pass)
         
         print(f"  Benchmark Total Samples: {bench_summary['total_samples']} across 4 categories")
         print(f"  Key-Field Exact Match: {key_acc:.2f}% (Target: >= 95.0%) -> {'PASS' if g5_key_pass else 'FAIL'}")
         print(f"  Numerical Safety Entity Accuracy: {safety_acc:.2f}% (Target: >= 95.0%) -> {'PASS' if g5_safety_pass else 'FAIL'}")
-        print(f"  Unstripped Punctuation CER: {cer:.2f}% (Target: <= 10.0%) -> {'PASS' if g5_cer_pass else 'FAIL'}")
-        print(f"  Unstripped Punctuation WER: {wer:.2f}%")
-        print("  Per-Category Key Accuracy:")
+        print(f"  Raw Unstripped Punctuation CER: {raw_cer:.2f}% (Target: <= 5.0%) -> {'PASS' if g5_cer_pass else 'FAIL'}")
+        print(f"  Raw Unstripped Punctuation WER: {raw_wer:.2f}% (Target: <= 30.0%) -> {'PASS' if g5_wer_pass else 'FAIL'}")
+        print(f"  Space-Normalized CER / WER: {sp_cer:.2f}% / {sp_wer:.2f}%")
+        print("  Per-Category Performance Breakdown:")
         for cat, c_data in bench_summary["category_breakdown"].items():
-            print(f"    - {cat:<14s}: Key Acc = {c_data['key_field_accuracy_pct']:.1f}% | CER = {c_data['cer_pct']:.2f}%")
+            print(f"    - {cat:<14s}: Key = {c_data['key_field_accuracy_pct']:5.1f}% | Raw CER = {c_data['raw_cer_pct']:5.2f}% | Sp-CER = {c_data['space_norm_cer_pct']:5.2f}%")
     else:
         print("  [!] Benchmark manifest not found!")
         

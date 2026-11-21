@@ -1,9 +1,9 @@
 {
-  "milestone_1_5_overall_pass": true,
+  "milestone_1_5_overall_pass": false,
   "gates": {
     "Gate_1_Optical_Foveation": {
       "passed": true,
-      "foveation_latency_ms": 15.52,
+      "foveation_latency_ms": 10.52,
       "stream1_resolution": [
         384,
         384,
@@ -15,7 +15,7 @@
       "passed": true,
       "output_tokens": 144,
       "embedding_dim": 896,
-      "host_reference_latency_ms": 0.22,
+      "host_reference_latency_ms": 0.57,
       "note": "Host latency reported as reference only; physical RK3576 NPU latency to be measured in Phase 2 bring-up."
     },
     "Gate_3_Memory_Bandwidth": {
@@ -29,46 +29,56 @@
       "passed": true,
       "voice_persona": "bf_emma",
       "sample_rate_hz": 24000,
-      "real_time_factor": 0.91,
+      "real_time_factor": 0.87,
       "faster_than_realtime": true
     },
     "Gate_5_Benchmark_Dataset": {
-      "passed": true,
+      "passed": false,
       "metrics": {
         "total_samples": 40,
-        "aggregate_cer_pct": 0.0,
-        "aggregate_wer_pct": 0.0,
-        "aggregate_key_field_accuracy_pct": 100.0,
-        "aggregate_safety_entity_accuracy_pct": 100.0,
+        "aggregate_raw_cer_pct": 10.01,
+        "aggregate_raw_wer_pct": 59.25,
+        "aggregate_space_norm_cer_pct": 9.55,
+        "aggregate_space_norm_wer_pct": 59.25,
+        "aggregate_key_field_accuracy_pct": 90.0,
+        "aggregate_safety_entity_accuracy_pct": 90.0,
         "category_breakdown": {
           "medicine": {
             "sample_count": 10,
-            "cer_pct": 0.0,
-            "wer_pct": 0.0,
-            "key_field_accuracy_pct": 100.0,
-            "safety_accuracy_pct": 100.0,
-            "fallback_count": 0
+            "raw_cer_pct": 7.48,
+            "raw_wer_pct": 54.29,
+            "space_norm_cer_pct": 5.93,
+            "space_norm_wer_pct": 54.29,
+            "key_field_accuracy_pct": 60.0,
+            "safety_accuracy_pct": 60.0,
+            "fallback_count": 4
           },
           "signage_menu": {
             "sample_count": 10,
-            "cer_pct": 0.0,
-            "wer_pct": 0.0,
+            "raw_cer_pct": 16.88,
+            "raw_wer_pct": 64.49,
+            "space_norm_cer_pct": 16.88,
+            "space_norm_wer_pct": 64.49,
             "key_field_accuracy_pct": 100.0,
             "safety_accuracy_pct": 100.0,
             "fallback_count": 0
           },
           "document": {
             "sample_count": 10,
-            "cer_pct": 0.0,
-            "wer_pct": 0.0,
+            "raw_cer_pct": 7.59,
+            "raw_wer_pct": 49.99,
+            "space_norm_cer_pct": 7.34,
+            "space_norm_wer_pct": 49.99,
             "key_field_accuracy_pct": 100.0,
             "safety_accuracy_pct": 100.0,
             "fallback_count": 0
           },
           "scene_text": {
             "sample_count": 10,
-            "cer_pct": 0.0,
-            "wer_pct": 0.0,
+            "raw_cer_pct": 8.07,
+            "raw_wer_pct": 68.21,
+            "space_norm_cer_pct": 8.07,
+            "space_norm_wer_pct": 68.21,
             "key_field_accuracy_pct": 100.0,
             "safety_accuracy_pct": 100.0,
             "fallback_count": 0
@@ -80,5 +90,5 @@
   "target_architecture": "Rockchip_RK3576",
   "som_module": "Firefly_CAM_3576Q38_LPDDR5",
   "visual_tokens_invariant": 144,
-  "timestamp": "2026-11-21T22:42:06Z"
+  "timestamp": "2026-11-21T23:21:02Z"
 }

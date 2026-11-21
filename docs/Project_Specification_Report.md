@@ -283,15 +283,15 @@ To protect student capital and eliminate intermediate drawer waste, Project FRID
 | **Audio Amplifiers** | 2x MAX98357A I2S Mono 3.2W Breakouts | Dual mono temple amps with 3.3V resistor channel-select ($10\text{ k}\Omega$ Left, $220\text{ k}\Omega$ Right, breakout pulldown verified/desoldered) | ₹250 | Robu.in |
 | **Speakers / Drivers** | 2x Mini Bone Conduction / Directional (8Ω 1W) | Direct ear-canal acoustic drivers in temple tips | ₹300 | Robu.in / Amazon.in |
 | **Dual LiPo Batteries** | 2x 3.7V 300mAh 30C/60C High-Discharge Pouch Cells | Series 2S power pack (1 cell per temple, 30C rating safely delivers 1.85A / 6.2C peak surge with 0V sag) | ₹380 | Robu.in |
-| **2S Boost Charger** | IP2326 Type-C 2S Boost Charger ($R_{SENSE} = 0.1667\,\Omega$ for 300mA 1C) | Docked 2S boost charging circuit with planned ammeter-verified 300mA current | ₹110 | Robu.in / Amazon.in |
+| **2S Boost Charger** | IP2326 Type-C 2S Boost Charger (Pin 11 $R_{ISET} = 300\text{ k}\Omega$ for 300mA 1C) | Docked 2S boost charging circuit with planned ammeter-verified 300mA current | ₹110 | Robu.in / Amazon.in |
 | **2S Battery Protection** | 2S 3A/5A BMS with HY2212 Passive Shunt-Bleed Balancing | Passive shunt-bleed cell balancing (4.20V ± 25mV cutoff, 35mA bleed shunt) & overcurrent protection | ₹120 | Robu.in |
 | **2S-to-5V System Buck** | MP2315 / MP2307 Synchronous DC-DC Step-Down Buck | True synchronous buck (95% efficiency, zero external Schottky diode heat) regulating 2S to 5.0V @ 2.1A continuous (3A rated) | ₹95 | Robu.in |
 | **User Interaction** | TTP223 Capacitive Touch Sensor / Tactile Micro-Switch | Touch trigger on right temple arm to start queries | ₹25 | Robu.in |
-| **Eyewear Frame** | FDM 3D Printing in Black PETG (0.12mm) | Heat-resistant front frame & thick temples (32.0g net frame mass) | ₹300 | NMIMS FabLab / Local Lab |
-| **Optical Lenses** | Student Personal Prescription / Plano Lenses | Repurposed eyewear lenses (zero cutting cost) | ₹0 | Self-Provided |
-| **Carrier PCBs** | Batch of 5 Standard 2-Layer FR4 Low-Speed Boards | Temple breakout boards for low-speed audio & power wiring (16.5g Left+Right) | ₹350 | JLCPCB / Robu PCB |
+| **Eyewear Frame** | FDM 3D Printing in Black PETG (1.2mm walls, 30% gyroid) | Heat-resistant front frame & thick temples (24.0g net mass, reduced from 42g solid) | ₹300 | NMIMS FabLab / Local Lab |
+| **Optical Lenses** | Student Personal Prescription / Plano Lenses | Repurposed clear high-index eyewear lenses (8.5g pair, zero cutting cost) | ₹0 | Self-Provided |
+| **Carrier PCBs** | Combined 0.8mm Thin 2-Layer FR4 Boards (Batch of 5) | Custom 0.8mm thin carriers for low-speed audio & power wiring (4.5g combined mass) | ₹350 | JLCPCB / Robu PCB |
 | **Interconnect Wiring** | 0.5mm FFC Ribbon Cables + 30 AWG Wire | Through-bridge hinge wiring (doubled power runs for $R_{DC} < 0.030\,\Omega$) | ₹120 | Robu.in |
-| **Thermal Assembly** | 0.3mm Copper Shim + 4.0g PureTemp 42 / RT42 (39–41°C) + Arctic MX-4 | Conductive heat spreading into 700 J PCM buffer & chassis heatsink | ₹190 | Amazon.in |
+| **Thermal Assembly** | 0.3mm Copper Shim + 4.0g Rubitherm RT42 (38–43°C, peak 41°C) + Arctic MX-4 | Conductive heat spreading into 660 J PCM buffer & chassis heatsink | ₹190 | Amazon.in |
 | **Contingency Buffer** | Fasteners, Kapton tape, flux, heatshrink | Assembly hardware and prototyping buffer | ₹215 | Local Hardware Store |
 | **TOTAL HARDWARE COST** | **Complete Untethered Wearable Prototype** | **100% Installed on Wearable (Zero Drawer Waste)** | **₹9,595 INR** | **Student Outlay (~$115 USD, strictly < ₹10k Cap)** |
 

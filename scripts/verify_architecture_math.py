@@ -67,7 +67,39 @@ def audit_conductors():
 
 def audit_mass_budget():
     print("--- [2/6] AUDITING ALL-UP MASS BUDGET ---")
-    physical_bom = [
+    # Track 1: P1 Thick-Temple Defense Baseline (Reconciled from docs/hardware_bom.md lines 157-184)
+    track1_bom = [
+        ("Compute Core (Firefly CAM-3576Q38)", 14.2),
+        ("Optical Module (Sony IMX415 + M12 85° lens)", 7.2),
+        ("Optical Lenses (Clear High-Index 1.67 Pair)", 8.5),
+        ("Energy Storage (2x GNB 3.7V 300mAh LiPo)", 16.0),
+        ("Power Management (IP2326 2S Charger PCB)", 2.2),
+        ("Battery Safety (HY2212 2S BMS PCB)", 1.8),
+        ("Voltage Regulation (MP2315 Buck Module)", 1.8),
+        ("Audio Amps (2x MAX98357A Breakouts)", 2.8),
+        ("Acoustic Transducers (2x 8Ω 1W Drivers)", 5.0),
+        ("Microphone Array (2x INMP441 Breakouts)", 1.6),
+        ("User Input (TTP223 Touch Module)", 0.6),
+        ("Interconnect (FPC + 30 AWG harness)", 4.5),
+        ("Carrier Interconnect (2x Thin 0.8mm FR4 PCBs)", 4.5),
+        ("Frame Mechanics (3D PETG frame + temples)", 24.0),
+        ("Phase Change Material (4.0g Rubitherm RT42)", 4.0),
+        ("Thermal Sinks (0.3mm copper foil + paste)", 3.8),
+        ("Mechanical Fasteners (Brass inserts & screws)", 2.5),
+    ]
+    track1_contingency = 5.0
+    track1_phys = round(sum(item[1] for item in track1_bom), 2)
+    track1_total = round(track1_phys + track1_contingency, 2)
+    print(f"  [Track 1 Defense Baseline]: {len(track1_bom)} physical items, {track1_phys}g + {track1_contingency}g contingency = {track1_total}g AUW")
+    assert len(track1_bom) == 17, f"Expected 17 Track 1 physical items, got {len(track1_bom)}"
+    assert track1_phys == 105.0, f"Track 1 physical sum mismatch: {track1_phys}"
+    assert track1_total == 110.0, f"Track 1 total mismatch: {track1_total}"
+    assert track1_total <= 120.0, f"Track 1 target exceeded: {track1_total} > 120.0g"
+    assert track1_total <= 125.0, f"Directive 05 ceiling violated: {track1_total} > 125.0g"
+    print("  [PASS] Track 1 Reconciled to Exactly 110.0g (10.0g margin below 120g target, 15.0g below 125g limit)")
+
+    # Track 2: P2 Research Stretch Goal (25 items, custom rigid-flex)
+    physical_bom_track2 = [
         ("Front Frame (Nylon PA12)", 12.0),
         ("High-Index 1.67 Lenses", 8.5),
         ("Titanium Camera Skeleton & IMX415 Lens", 3.0),
@@ -94,20 +126,14 @@ def audit_mass_budget():
         ("Magnetic Pogo Charging Port (5V/3A)", 1.4),
         ("Solder Paste, Potting & Shielding Cans", 2.9)
     ]
-    contingency = 5.5
-    
-    physical_sum = round(sum(item[1] for item in physical_bom), 2)
-    total_mass = round(physical_sum + contingency, 2)
-    print(f"  Physical Rows Count: {len(physical_bom)}")
-    print(f"  Physical Mass Sum: {physical_sum} g")
-    print(f"  Contingency Margin: {contingency} g ({(contingency/total_mass)*100:.2f}%)")
-    print(f"  Total All-Up Weight (AUW): {total_mass} g")
-    
-    assert len(physical_bom) == 25, f"Expected 25 physical items, got {len(physical_bom)}"
-    assert physical_sum == 109.5, f"Physical sum mismatch: {physical_sum}"
-    assert total_mass == 115.0, f"Total AUW mismatch: {total_mass}"
-    assert total_mass <= 125.0, f"Directive 05 violated! AUW {total_mass} > 125.0g"
-    print("  [PASS] Mass Budget Reconciled to Exactly 115.0g (10.0g Headroom under Directive 05)\n")
+    contingency_track2 = 5.5
+    phys_sum_track2 = round(sum(item[1] for item in physical_bom_track2), 2)
+    total_track2 = round(phys_sum_track2 + contingency_track2, 2)
+    assert len(physical_bom_track2) == 25
+    assert phys_sum_track2 == 109.5
+    assert total_track2 == 115.0
+    print(f"  [Track 2 Stretch Goal]: 25 items, {phys_sum_track2}g + {contingency_track2}g = {total_track2}g AUW")
+    print("  [PASS] Both Track 1 (110.0g) and Track 2 (115.0g) Strictly Comply with Directive 05 (<= 125.0g)\n")
 
 def audit_memory_bandwidth():
     print("--- [3/6] AUDITING MEMORY TRAFFIC & BUS BANDWIDTH ---")
