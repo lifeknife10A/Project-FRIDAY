@@ -2,7 +2,7 @@
   "project": "Project FRIDAY",
   "milestone": "1.5",
   "architecture": "Friday-Student-415M",
-  "total_parameters": 415224832,
+  "total_parameters": 415242112,
   "vocabulary_size": 64000,
   "visual_downsampler": {
     "input_patches": 576,

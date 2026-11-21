@@ -231,9 +231,9 @@ To make the Stage 1 Forward KL divergence mathematically closed on a discrete pr
 * **Exact KV Cache Geometry (1,024 Context Window at INT8):**
   $$2 \text{ (K+V)} \times 24\text{ layers} \times 2\text{ KV heads} \times 64\text{ head\_dim} \times 1\text{ byte} \times 1024\text{ tokens} = \mathbf{6.29\text{ MB}}.$$
 
-* **Primary Deployment Contract: Full All-INT4 W4A16 Quantization (Verified by 208.43 MB Packed Artifact):**
-  * Student Model Parameters: **$415.2\text{M}$ active parameters** ($415,224,832$).
-  * Packed INT4 Weights: $415.2\text{M} \times 0.5\text{ bytes} \approx \mathbf{208.32\text{ MB}}$ ($208.43\text{ MB}$ physical file with byte alignment).
+* **Primary Deployment Contract: Full All-INT4 W4A16 Quantization (Verified by 198.96 MiB / 208.63 MB Packed Artifact):**
+  * Student Model Parameters: **$415.24\text{M}$ active parameters** ($415,242,112$).
+  * Packed INT4 Weights: $415.24\text{M} \times 0.5\text{ bytes} \approx \mathbf{207.62\text{ MB}}$ ($198.96\text{ MiB}$ / $208.63\text{ MB}$ physical binary footprint with scales, biases, and byte-alignment).
   * FP16 Per-Row Scales & RMSNorm Weights: $\mathbf{16.0\text{ MB}}$.
   * Total Realistic Traffic per Token:
     $$\text{Traffic} = 208.32\text{ MB} + 16.0\text{ MB} + 6.29\text{ MB} = \mathbf{230.61\text{ MB/token}}.$$
@@ -320,7 +320,7 @@ To make the Stage 1 Forward KL divergence mathematically closed on a discrete pr
 * **Milestone 1.2:** Build the 64k vocabulary as a strict subset of Qwen2.5.
 * **Milestone 1.3:** Execute two-stage distillation: Stage 1 (Renormalized Top-64 Forward KD strictly over $\Omega_{64} \subseteq \mathcal{V}_S$ with normalized $\tilde{p}_S$ and $\epsilon = 10^{-5}$) followed by Stage 2 (On-Policy Sequence DPO) using free Kaggle (dual T4 GPUs) or Google Colab.
 * **Milestone 1.4:** Build local Mac M4 sandbox: complete end-to-end voice-to-vision-to-voice simulation with $6^\circ$ down-pitch dynamic text-ROI emulation using Mac FaceTime webcam / mobile camera feed.
-* **Milestone 1.5 (The Zero-Spend Financial Gate):** Evaluate real-world OCR and scene description quality. If the 0.5B model fails utility criteria, the project halts with **₹0 spent and zero hardware waste**. If successful, proceed directly to single-shot target hardware procurement.
+* **Milestone 1.5 (The Zero-Spend Financial Gate):** Evaluate real-world prescription OCR and instruction following utility under strict quantitative thresholds: Character Error Rate (CER) $\le 15.0\%$, Word Error Rate (WER) $\le 40.0\%$, Devanagari In-Vocab Coverage $\ge 80.0\%$ with $100.0\%$ character/byte-level exact string roundtrip, 144-token optical downsampler latency $< 10.0\text{ ms}$, and memory bandwidth $\le 10.50\text{ GB/s}$ safe operational bus ceiling. If the 0.5B student model fails any of these criteria, the project halts with **₹0 spent and zero hardware waste**. If successful, proceed directly to single-shot target hardware procurement.
 
 ### Phase 2: Embedded Bring-Up & Zero-Waste Peripheral Integration
 * **Milestone 2.1 (Free Peripheral Testbed via Raspberry Pi 3B):** Utilize the student's on-hand Raspberry Pi 3B (1 GB LPDDR2) for ₹0 audio peripheral validation: verify hardware I2S clocking (`GPIO 18, 19, 21`) to dual MAX98357A mono amps, test INMP441 MEMS microphone arrays, and benchmark WebRTC AEC3 echo cancellation before purchasing the main compute module.

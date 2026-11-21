@@ -1,7 +1,7 @@
 {
   "student_architecture": {
     "model_name": "Friday-Student-415M",
-    "total_parameters": 415224832,
+    "total_parameters": 415242112,
     "vision_encoder": {
       "model_type": "siglip",
       "pretrained_weights": "google/siglip-base-patch16-384",

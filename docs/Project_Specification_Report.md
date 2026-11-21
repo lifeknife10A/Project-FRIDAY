@@ -277,19 +277,23 @@ To protect student capital and eliminate intermediate drawer waste, Project FRID
 
 | Subsystem Component | Target Wearable Specification | Purpose in Prototype | Est. Cost (INR) | Source Channel |
 | :--- | :--- | :--- | :--- | :--- |
-| **Compute Core** | Luckfox RK3576 / Core3576 Compact Module | Primary 6 TOPS NPU AI engine in right temple | ₹4,800 | Robu.in / Robocraze |
+| **Compute Core** | Luckfox Core3576 / Omni3576 Compact SoM (4GB LPDDR4x) | Primary 6 TOPS NPU AI engine in right temple (40x40mm) | ₹5,500 | Robu.in / ElectronicsComp |
 | **Camera Module** | IMX415 (or GC4653/OV5648) MIPI CSI-2 Module | Center-bridge 1080p/4K camera ($6^\circ$ down-pitch) | ₹1,650 | Robu.in / ElectronicsComp |
-| **MEMS Microphones** | 2x INMP441 Digital I2S MEMS Breakouts | Dual front-right beamforming audio capture | ₹320 | Robu.in |
-| **Audio Amplifiers** | 2x MAX98357A I2S Mono 3.2W Breakouts | Dual mono temple amps with resistor channel-select | ₹280 | Robu.in |
-| **Speakers / Drivers** | 2x Mini Bone Conduction / Directional (8Ω 1W) | Direct ear-canal acoustic drivers in temple tips | ₹360 | Robu.in / Amazon.in |
-| **Dual LiPo Batteries** | 2x 3.7V 300mAh – 350mAh Pouch Cells | Series 2S power pack (1 cell per temple) | ₹400 | Robu.in |
-| **2S Charger Module** | TP5100 2S 8.4V 1A LiPo Charger Module | Docked 2S active charging circuit | ₹110 | Robu.in |
-| **Eyewear Frame** | FDM 3D Printing in Black PETG (0.12mm) | Heat-resistant front frame & thick temples | ₹350 | NMIMS FabLab / Local Lab |
+| **MEMS Microphones** | 2x INMP441 Digital I2S MEMS Breakouts | Dual front-right beamforming audio capture | ₹300 | Robu.in |
+| **Audio Amplifiers** | 2x MAX98357A I2S Mono 3.2W Breakouts | Dual mono temple amps with resistor channel-select | ₹240 | Robu.in |
+| **Speakers / Drivers** | 2x Mini Bone Conduction / Directional (8Ω 1W) | Direct ear-canal acoustic drivers in temple tips | ₹300 | Robu.in / Amazon.in |
+| **Dual LiPo Batteries** | 2x 3.7V 300mAh – 350mAh Pouch Cells | Series 2S power pack (1 cell per temple) | ₹350 | Robu.in |
+| **2S Boost Charger** | IP2326 Type-C 2S Boost Charger ($R_{ISET}$ set to 300mA) | Docked 2S active charging circuit with safe 1C current | ₹95 | Robu.in / Amazon.in |
+| **2S Battery Protection** | 2S 3A Li-ion / LiPo BMS Protection Board | Overcharge, overdischarge, and short-circuit protection | ₹45 | Robu.in |
+| **2S-to-5V System Buck** | MP1584EN Synchronous DC-DC Step-Down Buck | Regulates 2S (6.0–8.4V) to 5.0V @ 2A for RK3576 SoM rail | ₹70 | Robu.in |
+| **User Interaction** | TTP223 Capacitive Touch Sensor / Tactile Micro-Switch | Touch trigger on right temple arm to start queries | ₹25 | Robu.in |
+| **Eyewear Frame** | FDM 3D Printing in Black PETG (0.12mm) | Heat-resistant front frame & thick temples (~60g) | ₹300 | NMIMS FabLab / Local Lab |
 | **Optical Lenses** | Student Personal Prescription / Plano Lenses | Repurposed eyewear lenses (zero cutting cost) | ₹0 | Self-Provided |
-| **Carrier PCBs** | Batch of 5 Standard 2-Layer FR4 Boards | Temple breakout boards for wiring & passives | ₹450 | JLCPCB / Robu PCB |
-| **Interconnect Wiring** | 0.5mm FFC Ribbon Cables + 30 AWG Wire | Through-bridge hinge wiring (doubled power runs) | ₹150 | Robu.in |
-| **Thermal Assembly** | 0.3mm Copper Shim + Arctic MX-4 Paste | Conductive heat spreading to exterior chassis | ₹250 | Amazon.in |
-| **TOTAL HARDWARE COST** | **Complete Untethered Wearable Prototype** | **100% Installed on Wearable (Zero Drawer Waste)** | **₹8,920 INR** | **Student Outlay (~$107 USD)** |
+| **Carrier PCBs** | Batch of 5 Standard 2-Layer FR4 Boards | Temple breakout boards for wiring & passives | ₹350 | JLCPCB / Robu PCB |
+| **Interconnect Wiring** | 0.5mm FFC Ribbon Cables + 30 AWG Wire | Through-bridge hinge wiring (doubled power runs) | ₹120 | Robu.in |
+| **Thermal Assembly** | 0.3mm Copper Shim + Arctic MX-4 Paste | Conductive heat spreading to exterior chassis | ₹150 | Amazon.in |
+| **Contingency Buffer** | Fasteners, Kapton tape, flux, heatshrink | Assembly hardware and prototyping buffer | ₹300 | Local Hardware Store |
+| **TOTAL HARDWARE COST** | **Complete Untethered Wearable Prototype** | **100% Installed on Wearable (Zero Drawer Waste)** | **₹9,795 INR** | **Student Outlay (~$117 USD, < ₹10k Cap)** |
 
 ---
 

@@ -52,21 +52,22 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
 
 | Component / Subassembly | Specific Target Part | Purpose in Wearable | Qty | Unit Price (INR) | Total (INR) | Verified Sourcing Channel |
 | :--- | :--- | :--- | :---: | :---: | :---: | :--- |
-| **Compute Core Module** | Radxa ROCK 4D / Luckfox Omni3576 / Core3576 (RK3576, 6 TOPS NPU, **4GB LPDDR4x**) | Primary on-device AI inference engine mounted inside the 20mm right temple enclosure. | 1 | ₹6,200 | ₹6,200 | Robu.in / ElectronicsComp |
+| **Compute Core Module** | Luckfox Core3576 / Omni3576 Compact SoM (RK3576, 6 TOPS NPU, **4GB LPDDR4x**) | Primary on-device AI inference engine mounted inside the 20mm right temple enclosure (40mm x 40mm compact SoM form factor). | 1 | ₹5,500 | ₹5,500 | Robu.in / ElectronicsComp |
 | **Camera Sensor Module** | Sony IMX415 (or GC4653/OV5648) MIPI CSI-2 Module | 4K / 1080p wide-FOV camera mounted in center bridge ($6^\circ$ down-pitch). | 1 | ₹1,650 | ₹1,650 | Robu.in / ElectronicsComp |
-| **MEMS Microphones** | INMP441 Omnidirectional Digital I2S MEMS Breakouts | Dual front-right beamforming microphone array for voice queries. | 2 | ₹160 | ₹320 | Robu.in |
-| **Audio Amplifiers** | MAX98357A I2S Mono 3.2W Class-D Amplifiers | Dual mono audio amps (one per temple) with resistor-coupled channel select. | 2 | ₹140 | ₹280 | Robu.in |
-| **Speaker Transducers** | 8Ω 1W Micro Bone-Conduction / Directional Transducers | Ear-canal directed audio drivers integrated into temple tips. | 2 | ₹180 | ₹360 | Robu.in / Amazon.in |
-| **LiPo Battery Cells** | 3.7V 300mAh – 350mAh High-Drain LiPo Pouch Cells | Series 2S configuration ($7.4\text{V}$ nominal, 1 cell per temple arm). | 2 | ₹200 | ₹400 | Robu.in |
-| **2S Boost Charger** | IP2326 Type-C 2S 1.5A Boost Charger Module with Cell Balancing | Boosts 5V USB to 8.4V with active 2S cell balancing; charges from standard USB-C dock. | 1 | ₹95 | ₹95 | Robu.in / Amazon.in |
-| **2S Battery Protection** | 2S 3A Li-ion / LiPo BMS Protection Board | Overcharge, overdischarge, and short-circuit protection for series cells. | 1 | ₹45 | ₹45 | Robu.in |
+| **MEMS Microphones** | INMP441 Omnidirectional Digital I2S MEMS Breakouts | Dual front-right beamforming microphone array for voice queries. | 2 | ₹150 | ₹300 | Robu.in |
+| **Audio Amplifiers** | MAX98357A I2S Mono 3.2W Class-D Amplifiers | Dual mono audio amps (one per temple) with resistor-coupled SD_MODE channel select. | 2 | ₹120 | ₹240 | Robu.in |
+| **Speaker Transducers** | 8Ω 1W Micro Bone-Conduction / Directional Transducers | Ear-canal directed audio drivers integrated into temple tips. | 2 | ₹150 | ₹300 | Robu.in / Amazon.in |
+| **LiPo Battery Cells** | 3.7V 300mAh – 350mAh High-Drain LiPo Pouch Cells | Series 2S configuration ($7.4\text{V}$ nominal, 1 cell per temple arm). | 2 | ₹175 | ₹350 | Robu.in |
+| **2S Boost Charger** | IP2326 Type-C 2S Boost Charger Module ($R_{ISET}$ set for 300mA 1C charge) | Boosts 5V USB to 8.4V with safe 300mA charge current (configured via sense resistor). | 1 | ₹95 | ₹95 | Robu.in / Amazon.in |
+| **2S Battery Protection** | 2S 3A Li-ion / LiPo BMS Protection Board | Overcharge (4.25V/cell), overdischarge (2.8V/cell), and short-circuit protection. | 1 | ₹45 | ₹45 | Robu.in |
+| **2S-to-5V System Buck** | MP1584EN / Mini DC-DC Synchronous Step-Down Buck Module | Efficiently drops 2S battery pack (6.0V–8.4V) to regulated 5.0V @ 2A for RK3576 SoM rail. | 1 | ₹70 | ₹70 | Robu.in |
 | **User Interaction** | TTP223 Capacitive Touch Sensor / Tactile Micro-Switch | Touch trigger on right temple arm to start queries and control audio. | 1 | ₹25 | ₹25 | Robu.in |
-| **3D Frame Fabrication** | Black PETG Filament (0.12mm layer height, 100% infill) | 3D-printed front frame and thick temple arms ($75^\circ\text{C}$ heat resistant). | 1 | ₹350 | ₹350 | NMIMS FabLab / Local Print Lab |
-| **Carrier Interconnect** | Standard 2-Layer FR4 Breakout PCBs (Batch of 5) | Left & Right temple breakout boards routing power and audio signals. | 1 | ₹450 | ₹450 | JLCPCB / Robu PCB |
-| **Harness & Wiring** | 0.5mm FFC Ribbon Cables + 30 AWG Silicone Wire | Through-bridge hinge wiring (power pairs doubled for $<0.03\,\Omega$). | 1 | ₹150 | ₹150 | Robu.in |
-| **Thermal Dissipation** | 0.3mm Copper Shim + Arctic MX-4 Thermal Paste | Conductive heat spreader sinking RK3576 junction heat to exterior frame. | 1 | ₹250 | ₹250 | Amazon.in |
-| **Contingency Buffer** | Fasteners, Kapton tape, flux, heatshrink | Assembly hardware and prototyping buffer. | 1 | ₹175 | ₹175 | Local Hardware Store |
-| **TOTAL WEARABLE SPEND** | — | **Complete, Untethered Autonomous Glasses** | — | — | **₹9,450 INR** | ~$113 USD (Strictly under ₹10,000 Cap) |
+| **3D Frame Fabrication** | Black PETG Filament (0.12mm layer height, 100% infill) | 3D-printed front frame and thick temple arms ($75^\circ\text{C}$ heat resistant, ~60g). | 1 | ₹300 | ₹300 | NMIMS FabLab / Local Print Lab |
+| **Carrier Interconnect** | Standard 2-Layer FR4 Breakout PCBs (Batch of 5) | Left & Right temple breakout boards routing power and audio signals. | 1 | ₹350 | ₹350 | JLCPCB / Robu PCB |
+| **Harness & Wiring** | 0.5mm FFC Ribbon Cables + 30 AWG Silicone Wire | Through-bridge hinge wiring (power pairs doubled for $<0.03\,\Omega$). | 1 | ₹120 | ₹120 | Robu.in |
+| **Thermal Dissipation** | 0.3mm Copper Shim + Arctic MX-4 Thermal Paste | Conductive heat spreader sinking RK3576 junction heat to exterior frame. | 1 | ₹150 | ₹150 | Amazon.in |
+| **Contingency Buffer** | Fasteners, Kapton tape, flux, heatshrink | Assembly hardware and prototyping buffer. | 1 | ₹300 | ₹300 | Local Hardware Store |
+| **TOTAL WEARABLE SPEND** | — | **Complete, Untethered Autonomous Glasses** | — | — | **₹9,795 INR** | ~$117 USD (Strictly under ₹10,000 Cap) |
 
 ---
 
@@ -80,13 +81,13 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
 | **Frame Material** | Industrial SLS Nylon PA12 ($₹8,000$) | Local FDM PETG 3D printing ($₹350$) | **Save ₹7,650** |
 | **PCB Prototyping** | 10-layer custom rigid-flex ($₹45,000$) | 2-layer FR4 + 0.5mm FFC ribbons ($₹600$) | **Save ₹44,400** |
 | **Drawer Waste** | 2–3 boards sitting unused forever | **Zero items in drawer; 100% on the wearable** | **Priceless** |
-| **NET PROJECT COST** | **₹72,000+ INR** | **₹9,450 INR total (Ceiling: ₹10,000)** | **86.9% Total Savings** |
+| **NET PROJECT COST** | **₹72,000+ INR** | **₹9,795 INR total (Ceiling: ₹10,000)** | **86.4% Total Savings** |
 
 ---
 
 ## 5. Local Vendor Directory (Mumbai / Online Delivery)
 
-1. **[Robu.in](https://robu.in):** Best for INMP441 microphones, MAX98357A amplifiers, LiPo cells, TP5100 chargers, and FFC ribbon cables. Standard delivery to Mumbai within 48–72 hours.
+1. **[Robu.in](https://robu.in):** Best for INMP441 microphones, MAX98357A amplifiers, LiPo cells, IP2326 boost chargers, and FFC ribbon cables. Standard delivery to Mumbai within 48–72 hours.
 2. **[Robocraze](https://robocraze.com) / [ElectronicsComp](https://electronicscomp.com):** Fast backup for camera modules, jumper wires, silicon cables, and breakout boards.
 3. **[JLCPCB](https://jlcpcb.com):** Cheapest 2-layer FR4 boards ($2 USD for 5 boards + shipping).
 4. **Local 3D Print Vendors (Lamington Road / Vile Parle / College Lab):** Cost for printing PETG frame parts is typically ₹3 to ₹5 per gram (~₹300 to ₹400 total).

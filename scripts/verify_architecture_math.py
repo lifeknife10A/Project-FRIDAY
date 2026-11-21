@@ -124,9 +124,9 @@ def audit_memory_bandwidth():
     kv_cache_mb = (2 * 24 * 2 * 64 * 1.0 * 1024) / 1e6
     scales_norms_mb = 16.0
 
-    # === [CONTRACT A: PRIMARY ALL-INT4 W4A16 QUANTIZATION (Measured 208.43 MB Artifact)] ===
-    # Total student parameters: 415.2M (415,224,832 params)
-    # Packed INT4 weights: 415.2M * 0.5 bytes = 207.61 MB (~208.32 MB aligned)
+    # === [CONTRACT A: PRIMARY ALL-INT4 W4A16 QUANTIZATION (Measured 198.96 MiB / 208.63 MB Artifact)] ===
+    # Total student parameters: 415.24M (415,242,112 params)
+    # Packed INT4 weights: 415.24M * 0.5 bytes = 207.62 MB (~208.32 MB aligned)
     weights_all_int4_mb = 208.32
     traffic_all_int4_per_tok = weights_all_int4_mb + scales_norms_mb + kv_cache_mb # 230.61 MB/token
     bw_all_int4_25 = (traffic_all_int4_per_tok / 1000.0) * 25.0 # 5.77 GB/s
