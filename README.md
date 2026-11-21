@@ -100,12 +100,33 @@ Friday/
 │   └── pinouts/
 │       └── hinge_harness_pinout.csv           # Complete netlist for 18C Left and 34C Right flexes
 │
+├── teardown_analysis/                         # Ray-Ban Meta Hardware Teardown & Inspiration Study
+│   ├── meta_rayban_teardown_analysis.md       # Comparative engineering report & hardware lessons
+│   ├── transcription.md                       # Full 186-line timestamped video transcription
+│   └── frames/                                # 14 high-resolution 1080p extracted hardware frames
+│
 └── assets/                                    # Hardware block diagrams, schematics & 3D models
 ```
 
 ---
 
-## 3. The Five Non-Negotiable Directives
+## 3. Commercial Benchmark & Teardown Inspiration (Ray-Ban Meta Gen 2)
+
+To inform our mechanical, thermal, and optomechanical architecture, we conducted an empirical teardown analysis of the commercial gold standard: the **Ray-Ban Meta Smart Glasses (Gen 2 Headliner/Wayfarer)**.
+
+* **Full Comparative Report:** [`teardown_analysis/meta_rayban_teardown_analysis.md`](file:///Users/krish/NMIMS/Friday/teardown_analysis/meta_rayban_teardown_analysis.md)
+* **Complete Timestamped Transcript:** [`teardown_analysis/transcription.md`](file:///Users/krish/NMIMS/Friday/teardown_analysis/transcription.md)
+* **14 Extracted 1080p Frames:** [`teardown_analysis/frames/`](file:///Users/krish/NMIMS/Friday/teardown_analysis/frames/)
+
+### Key Adopted Innovations for Project FRIDAY:
+1. **CNC Aluminum Hinge Bridges:** Meta channels its delicate flex through precision metal hinge blocks rather than bending over raw plastic. FRIDAY implements internal filleted guide channels ($R \ge 3.0\text{ mm}$) at both hinges to prevent cable fatigue.
+2. **Nose-Pad Microphone Placement:** Meta embeds a primary MEMS microphone directly into the nasal bracket, achieving optimal vocal pickup near the mouth while leveraging the frame to block temple speaker spillover.
+3. **Dual Thermal Compounds:** Meta combines high-conductivity green TIM on the silicon die with black gap-fillers to the outer chassis. FRIDAY pairs direct copper die shims with our **$4.0\text{g}$ PureTemp 40 PCM pad ($600\text{ J}$ latent heat buffer)**.
+4. **Where FRIDAY Surpasses Meta:** Meta's tiny single-cell **$154\text{ mAh}$ (0.59 Wh)** battery in one temple forces reliance on cloud offload. FRIDAY deploys balanced **Series 2S dual cells ($600\text{ mAh}$ total @ 7.4V, 2.22 Wh)**—delivering **$3.76\times$ the energy** and halving through-bridge current to run 100% sovereign on-device VLM neural inference.
+
+---
+
+## 4. The Five Non-Negotiable Directives
 
 1. **Directive 01 (Zero External Battery Packs):** Power delivery network and dual LiPo cells are 100% enclosed within the left and right temple arms. No external battery packs, neckbands, or tethered pucks.
 2. **Directive 02 (Zero Phone-in-the-Loop AI Inference):** The smartphone never executes neural inference. All STT, vision feature extraction, VLM decoding, and TTS execute locally on the glasses silicon.

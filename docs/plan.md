@@ -280,11 +280,13 @@ To make the Stage 1 Forward KL divergence mathematically closed on a discrete pr
 * **Mechanical MCAD Automation (Native Python API):** The AI agent utilizes Fusion 360's native Python API over MCP for 3D parametric frame geometry: setting bridge widths, lens eyewire bevels, the Titanium Grade 5 cradle mounting bosses, and the $6^\circ$ downward optical axis.
 * **Electronics ECAD Workflow (Autodesk Fusion Electronics):**
   * Schematics, component netlists, and physical rigid-flex PCB routing are executed natively inside **Autodesk Fusion Electronics** (unifying schematic capture, IPC-2223 design rule checking, and 3D board modeling directly into the mechanical assembly without third-party translation).
-* **Rigid-Flex Drawing Rules (Hinge Bridges):**
+* **Rigid-Flex Drawing Rules & Hinge Routing (Benchmarked against Ray-Ban Meta Teardown):**
   * 18 conductors across Left Flex (0.30mm pitch, 5.4mm width); 34 conductors across Right Flex (2-layer staggered, 0.35mm pitch, 6.0mm width).
   * Rolled-Annealed (RA) copper with grain direction strictly parallel to bend.
   * Hatched $45^\circ$ reference ground planes to preserve $100\,\Omega$ differential impedance without stiffness.
   * Zero micro-vias or layer transitions within $3.0\text{ mm}$ of rigid stiffener edges.
+  * **Hinge Relief Pockets (Meta Teardown Finding):** Parametric frame CAD incorporates internal filleted guide channels ($R \ge 3.0\text{ mm}$) at both hinge pivots, mimicking Meta's CNC aluminum hinge channels to shield flex polyimide from rotational shear.
+  * **Nose-Pad Acoustic Geometry:** Front frame CAD incorporates a dedicated acoustic port on the right nasal bracket, positioning the secondary INMP441 MEMS microphone for maximum vocal pickup while isolating it from temple speaker spillover.
 
 ---
 
