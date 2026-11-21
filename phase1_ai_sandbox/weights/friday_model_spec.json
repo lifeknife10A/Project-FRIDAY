@@ -1,0 +1,23 @@
+{
+  "project": "Project FRIDAY",
+  "milestone": "1.5",
+  "architecture": "Friday-Student-415M",
+  "total_parameters": 415224832,
+  "vocabulary_size": 64000,
+  "visual_downsampler": {
+    "input_patches": 576,
+    "output_tokens": 144,
+    "compression_ratio": "75%"
+  },
+  "memory_bandwidth_contract": {
+    "weights_traffic_mb_per_token": 208.32,
+    "scales_and_norms_mb_per_token": 16.0,
+    "kv_cache_mb_per_token": 6.29,
+    "total_traffic_mb_per_token": 230.61,
+    "operating_bandwidth_gb_s": 5.77,
+    "operating_tokens_per_second": 25.0,
+    "burst_bandwidth_gb_s": 8.07,
+    "burst_tokens_per_second": 35.0,
+    "bus_safe_ceiling_gb_s": 10.5
+  }
+}

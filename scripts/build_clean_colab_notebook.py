@@ -40,15 +40,16 @@ cell1_code = """# CELL 1: Mount Google Drive for Zero-Data-Loss Checkpointing
 import os
 
 try:
-    from google.colab import drive
-    drive.mount('/content/drive')
-    CHECKPOINT_DIR = '/content/drive/MyDrive/FRIDAY_weights'
+    if os.path.exists('/content/drive/MyDrive'):
+        CHECKPOINT_DIR = '/content/drive/MyDrive/FRIDAY_weights'
+    else:
+        CHECKPOINT_DIR = '/content/FRIDAY_weights'
     os.makedirs(CHECKPOINT_DIR, exist_ok=True)
-    print(f'[✓] Google Drive Mounted Successfully: {CHECKPOINT_DIR}')
+    print(f'[✓] Checkpoint Directory Initialized: {CHECKPOINT_DIR}')
 except Exception as e:
-    CHECKPOINT_DIR = './FRIDAY_weights'
+    CHECKPOINT_DIR = '/content/FRIDAY_weights'
     os.makedirs(CHECKPOINT_DIR, exist_ok=True)
-    print(f'[*] Running locally or Drive unavailable ({e}). Using local dir: {CHECKPOINT_DIR}')"""
+    print(f'[*] Using local dir: {CHECKPOINT_DIR} ({e})')"""
 
 cell2_code = """# CELL 2: Install Dependencies & Verify GPU Accelerator
 !pip install -q torch transformers datasets torchvision accelerate pillow sentencepiece soundfile
@@ -88,7 +89,13 @@ for b in range(256):
     tok_ids = tokenizer.encode(bytes([b]).decode('latin-1', errors='ignore'), add_special_tokens=False)
     single_byte_ids.update(tok_ids)
 
-mandatory_ids = special_ids.union(single_byte_ids)
+devanagari_ids = set()
+for code_point in range(0x0900, 0x0980):
+    c = chr(code_point)
+    tok_ids = tokenizer.encode(c, add_special_tokens=False)
+    devanagari_ids.update(tok_ids)
+
+mandatory_ids = special_ids.union(single_byte_ids).union(devanagari_ids)
 remaining_slots = target_vocab_size - len(mandatory_ids)
 standard_ids = [i for i in range(full_vocab_size) if i not in mandatory_ids][:remaining_slots]
 
@@ -100,7 +107,7 @@ old_to_new = {old_id: new_id for new_id, old_id in enumerate(subset_ids)}
 new_to_old = {new_id: old_id for new_id, old_id in enumerate(subset_ids)}
 
 print(f'[✓] Compiled Strictly Bounded Subset V_S: {len(subset_ids)} tokens.')
-print(f'  Mandatory tokens preserved: {len(mandatory_ids)} (including 100% byte-level fallback 0-255)')
+print(f'  Mandatory tokens preserved: {len(mandatory_ids)} (including 100% byte-level & Devanagari character fallback)')
 print(f'  Bidirectional remapping table active: 151k -> 64k without index collisions.')"""
 
 cell4_code = """# CELL 4: 2x2 Spatial Unshuffle Downsampler (576 -> 144 Visual Tokens)
@@ -217,8 +224,8 @@ student_model = student_model.float().to(device)
 with torch.no_grad():
     orig_embed = teacher_model.get_input_embeddings().weight.data.float()
     orig_lm_head = teacher_model.lm_head.weight.data.float()
-    student_model.get_input_embeddings().weight.data.copy_(orig_embed[subset_tensor.cpu()])
-    student_model.lm_head.weight.data.copy_(orig_lm_head[subset_tensor.cpu()])
+    student_model.get_input_embeddings().weight.data.copy_(orig_embed[subset_tensor.to(orig_embed.device)])
+    student_model.lm_head.weight.data.copy_(orig_lm_head[subset_tensor.to(orig_lm_head.device)])
 
 total_student_params = sum(p.numel() for p in student_model.parameters())
 print(f'  [✓] Student Model Assembled: {total_student_params/1e6:.1f}M active parameters ({total_student_params}).')"""
@@ -254,12 +261,11 @@ def safe_encode_64k(text, tok, old_to_new_map, max_vocab=64000):
         if t in old_to_new_map:
             safe_ids.append(old_to_new_map[t])
         else:
-            # UTF-8 byte-level fallback
-            byte_bytes = tok.decode([t]).encode('utf-8')
-            for b in byte_bytes:
-                b_ids = tok.encode(bytes([b]).decode('latin-1', errors='ignore'), add_special_tokens=False)
-                for bt in b_ids:
-                    safe_ids.append(old_to_new_map.get(bt, 0))
+            subword_str = tok.decode([t])
+            for char in subword_str:
+                char_ids = tok.encode(char, add_special_tokens=False)
+                for cid in char_ids:
+                    safe_ids.append(old_to_new_map.get(cid, 0))
     return safe_ids
 
 # 1. Stream SQuAD dataset and compile 50 pure in-vocab holdout samples
@@ -611,11 +617,11 @@ def safe_encode_64k(text, tok, old_to_new_map, max_vocab=64000):
         if t in old_to_new_map:
             safe_ids.append(old_to_new_map[t])
         else:
-            byte_bytes = tok.decode([t]).encode('utf-8')
-            for b in byte_bytes:
-                b_ids = tok.encode(bytes([b]).decode('latin-1', errors='ignore'), add_special_tokens=False)
-                for bt in b_ids:
-                    safe_ids.append(old_to_new_map.get(bt, 0))
+            subword_str = tok.decode([t])
+            for char in subword_str:
+                char_ids = tok.encode(char, add_special_tokens=False)
+                for cid in char_ids:
+                    safe_ids.append(old_to_new_map.get(cid, 0))
     return safe_ids
 
 # 1. Hindi / Devanagari Prescription Coverage Test
