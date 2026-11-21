@@ -3,7 +3,7 @@
   "gates": {
     "Gate_1_Optical_Foveation": {
       "passed": true,
-      "foveation_latency_ms": 10.52,
+      "foveation_latency_ms": 15.5,
       "stream1_resolution": [
         384,
         384,
@@ -15,7 +15,7 @@
       "passed": true,
       "output_tokens": 144,
       "embedding_dim": 896,
-      "host_reference_latency_ms": 0.57,
+      "host_reference_latency_ms": 0.32,
       "note": "Host latency reported as reference only; physical RK3576 NPU latency to be measured in Phase 2 bring-up."
     },
     "Gate_3_Memory_Bandwidth": {
@@ -29,7 +29,7 @@
       "passed": true,
       "voice_persona": "bf_emma",
       "sample_rate_hz": 24000,
-      "real_time_factor": 0.87,
+      "real_time_factor": 0.89,
       "faster_than_realtime": true
     },
     "Gate_5_Benchmark_Dataset": {
@@ -90,5 +90,5 @@
   "target_architecture": "Rockchip_RK3576",
   "som_module": "Firefly_CAM_3576Q38_LPDDR5",
   "visual_tokens_invariant": 144,
-  "timestamp": "2026-11-21T23:21:02Z"
+  "timestamp": "2026-11-21T23:32:55Z"
 }
