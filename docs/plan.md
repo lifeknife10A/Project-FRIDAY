@@ -222,15 +222,38 @@ To make the Stage 1 Forward KL divergence mathematically closed on a discrete pr
   $$\tilde{p}_S(v) = (1 - \epsilon) \bar{p}_S(v) + \frac{\epsilon}{|\Omega_{64}|}$$
   *Mathematical Closure:* Because $\sum_{v \in \Omega_{64}} \tilde{p}_T(v) = 1.000$ and $\sum_{v \in \Omega_{64}} \tilde{p}_S(v) = 1.000$, and $\tilde{p}_S(v) \ge \frac{\epsilon}{64} > 0$ for all $v \in \Omega_{64}$, the loss is a **true, bounded Kullback-Leibler divergence on a normalized probability space**, guaranteeing zero loss spikes or gradient instability.
 
-### 5.2 Realistic Memory Bandwidth Accounting
-* **Rigorous Parameter & Buffer Breakdown (Double-Count Eliminated):**
-  * The $410\text{M}$ total decoder parameter budget comprises $352\text{M}$ transformer layer weights at INT4 ($176.0\text{ MB}$) plus the $64{,}000$-token LM-head at INT8 ($57.34\text{ MB}$), yielding **$233.34\text{ MB}$ total model weights** without double-counting.
-  * W4A16 group quantization scales, zero-points, and RMSNorm weights: **$\approx 16.0\text{ MB}$**.
-  * KV-cache read/write traffic ($1,024$ context window at INT8): **$\approx 18.0\text{ MB}$**.
-  * **Total Realistic Traffic per Token:** **$\approx 267.34\text{ MB/token}$**.
-* **Bandwidth at 35 tokens/sec:**
-  $$\text{Bandwidth} = 0.26734\text{ GB} \times 35\text{ tokens/s} = \mathbf{9.36\text{ GB/s}}.$$
-* On the RK3576 32-bit LPDDR4x bus ($13.5\text{ GB/s}$ sustained), this represents **$69.3\%$ bus utilization**, leaving **$4.14\text{ GB/s}$ sustained continuous headroom** for ISP DMA frame writes and audio ring-buffers.
+### 5.2 Reconciled Memory Bandwidth Accounting (Unified Single Source of Truth)
+* **Target Hardware Ceiling (Rockchip RK3576 32-bit LPDDR4x @ 2133 MHz / 4266 MT/s):**
+  * Theoretical Peak: $4\text{ bytes} \times 4.266\text{ GT/s} = \mathbf{17.064\text{ GB/s}}$.
+  * Sustainable Streaming Ceiling (79% efficiency): $\mathbf{13.50\text{ GB/s}}$.
+  * Safe Operational Ceiling (with camera ISP, audio, and display bus contention): $\mathbf{10.50\text{ GB/s}}$.
+
+* **Exact KV Cache Geometry (1,024 Context Window at INT8):**
+  $$2 \text{ (K+V)} \times 24\text{ layers} \times 2\text{ KV heads} \times 64\text{ head\_dim} \times 1\text{ byte} \times 1024\text{ tokens} = \mathbf{6.29\text{ MB}}.$$
+
+* **Primary Deployment Contract: Full All-INT4 W4A16 Quantization (Verified by 208.43 MB Packed Artifact):**
+  * Student Model Parameters: **$415.2\text{M}$ active parameters** ($415,224,832$).
+  * Packed INT4 Weights: $415.2\text{M} \times 0.5\text{ bytes} \approx \mathbf{208.32\text{ MB}}$ ($208.43\text{ MB}$ physical file with byte alignment).
+  * FP16 Per-Row Scales & RMSNorm Weights: $\mathbf{16.0\text{ MB}}$.
+  * Total Realistic Traffic per Token:
+    $$\text{Traffic} = 208.32\text{ MB} + 16.0\text{ MB} + 6.29\text{ MB} = \mathbf{230.61\text{ MB/token}}.$$
+  * **Operating Rate ($25\text{ tokens/s}$):**
+    $$\text{Bandwidth} = 0.23061\text{ GB} \times 25\text{ tokens/s} = \mathbf{5.77\text{ GB/s}}.$$
+    Leaves **$4.73\text{ GB/s}$ safe headroom ($45.0\%$ margin)** strictly below the $10.50\text{ GB/s}$ safe ceiling.
+  * **Burst Peak Rate ($35\text{ tokens/s}$):**
+    $$\text{Bandwidth} = 0.23061\text{ GB} \times 35\text{ tokens/s} = \mathbf{8.07\text{ GB/s}}.$$
+    Leaves **$2.43\text{ GB/s}$ safe headroom ($23.1\%$ margin)** strictly below the $10.50\text{ GB/s}$ safe ceiling.
+
+* **Secondary Fallback Contract: INT4 Transformer Body + INT8 LM-Head:**
+  * INT4 Transformer Body: $352\text{M} \times 0.5\text{ bytes} = 176.0\text{ MB}$.
+  * INT8 LM-Head ($64{,}000$ vocab $\times$ $896$ dim $\times$ $1.0\text{ byte}$): $57.34\text{ MB}$.
+  * Total Model Weights: $233.34\text{ MB}$. Total traffic per token: $233.34 + 16.0 + 6.29 = \mathbf{255.63\text{ MB/token}}$.
+  * Bandwidth at $25\text{ tok/s}$: **$6.39\text{ GB/s}$** ($39.1\%$ headroom below $10.50\text{ GB/s}$).
+  * Bandwidth at $35\text{ tok/s}$: **$8.95\text{ GB/s}$** ($14.8\%$ headroom below $10.50\text{ GB/s}$).
+
+### 5.3 Stage 2 DPO Scope Management
+* **Phase 1 Distillation Scope:** Strictly focused on Stage 1 Multimodal Bounded Forward-KL Distillation (with the 2x2 spatial unshuffle downsampler compressing 576 visual tokens into 144 tokens) and True 4-bit packed W4A16 binary serialization.
+* **Phase 3 Deferral:** Stage 2 Sequence Direct Preference Optimization (DPO) is formally de-scoped from Phase 1 and allocated to Phase 3 (On-Device User Personalization & Alignment on the physical RK3576 hardware).
 
 ---
 

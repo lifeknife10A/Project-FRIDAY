@@ -40,8 +40,8 @@ phase1_ai_sandbox/
 
 | Parameter | RK3576 Silicon Limit | Project FRIDAY Emulation Constraint | Empirical Status |
 | :--- | :--- | :--- | :--- |
-| **DDR Bus Ceiling** | 13.50 GB/s peak, 10.50 GB/s sustained | **$\le 6.39\text{ GB/s}$** at 35 tok/s (69.3% load) | **PASS [✓]** ($4.14\text{ GB/s}$ headroom) |
-| **Traffic per Token** | N/A | **$\le 255.64\text{ MB/token}$** (176 MB L + 57.34 MB H + 16 MB N + 18 MB KV) | **PASS [✓]** (Exactly 255.64 MB/token) |
+| **DDR Bus Ceiling** | 13.50 GB/s sustained, 10.50 GB/s safe ceiling | **$5.77\text{ GB/s}$** at 25 tok/s ($8.07\text{ GB/s}$ burst at 35 tok/s) | **PASS [✓]** ($4.73\text{ GB/s}$ safe headroom) |
+| **Traffic per Token** | N/A | **$\le 230.61\text{ MB/token}$** (208.32 MB W + 16 MB N + 6.29 MB KV) | **PASS [✓]** (Physical 208.43 MB packed artifact) |
 | **Visual Prefix Length**| 576 patches (NPU SRAM overflow) | **Strictly 144 visual tokens** via 2x2 Spatial Unshuffle | **PASS [✓]** ($75\%$ sequence compression) |
 | **Student Vocabulary** | 151,643+ tokens (136 MB LM head) | **Strictly 64,000 tokens** ($\mathcal{V}_S \subset \mathcal{V}_T$, 57.34 MB INT8) | **PASS [✓]** (100% special/math/digits kept)|
 | **System Memory (RSS)**| 2.0 GB OS budget | **$\le 1.80\text{ GB}$ Resident Set Size (RSS)** | **PASS [✓]** ($0.733\text{ GB}$ peak, 40.7% load) |

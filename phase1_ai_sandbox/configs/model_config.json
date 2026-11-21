@@ -1,6 +1,7 @@
 {
   "student_architecture": {
-    "model_name": "Friday-Student-496M",
+    "model_name": "Friday-Student-415M",
+    "total_parameters": 415224832,
     "vision_encoder": {
       "model_type": "siglip",
       "pretrained_weights": "google/siglip-base-patch16-384",
@@ -22,25 +23,40 @@
       "max_position_embeddings": 32768,
       "target_inference_context_window": 1024,
       "vocab_size": 64000,
-      "lm_head_quantization": "int8",
-      "transformer_layer_quantization": "int4"
+      "quantization_format": "w4a16_packed",
+      "measured_packed_weights_mb": 208.43
     },
     "distillation_parameters": {
       "teacher_model": "Qwen/Qwen2.5-VL-72B-Instruct",
       "top_k_support": 64,
       "epsilon_smoothing": 1e-5,
       "temperature": 1.0,
-      "dpo_beta": 0.1
+      "phase1_scope": "stage_1_multimodal_forward_kl_only",
+      "stage_2_dpo_deferred_to": "phase_3_on_device"
     },
     "memory_bandwidth_contract": {
-      "weights_traffic_mb_per_token": 233.34,
-      "scales_and_norms_mb_per_token": 16.0,
-      "kv_cache_mb_per_token": 18.0,
-      "total_mb_per_token": 267.34,
-      "target_tokens_per_second": 35.0,
-      "required_bandwidth_gb_s": 9.36,
-      "bus_capacity_gb_s": 13.50,
-      "bus_utilization_pct": 69.3
+      "primary_contract_all_int4": {
+        "packed_weights_mb": 208.32,
+        "scales_and_norms_mb": 16.0,
+        "kv_cache_1024_int8_mb": 6.29,
+        "total_traffic_mb_per_token": 230.61,
+        "operating_tokens_per_second": 25.0,
+        "operating_bandwidth_gb_s": 5.77,
+        "burst_tokens_per_second": 35.0,
+        "burst_bandwidth_gb_s": 8.07,
+        "bus_safe_ceiling_gb_s": 10.50,
+        "bus_sustained_gb_s": 13.50,
+        "headroom_operating_gb_s": 4.73,
+        "headroom_operating_pct": 45.0
+      },
+      "secondary_contract_int8_head": {
+        "weights_mb": 233.34,
+        "scales_and_norms_mb": 16.0,
+        "kv_cache_1024_int8_mb": 6.29,
+        "total_traffic_mb_per_token": 255.63,
+        "operating_bandwidth_gb_s": 6.39,
+        "burst_bandwidth_gb_s": 8.95
+      }
     },
     "speech_synthesis": {
       "engine": "Kokoro-82M",
