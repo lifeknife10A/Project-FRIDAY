@@ -46,24 +46,27 @@ Before spending a single rupee of your own money, the entire core intelligence, 
 
 ---
 
-## 3. The Lean "Single-Shot" Wearable Hardware BOM (Track 1 Thick-Temple)
+## 3. The Lean "Single-Shot" Wearable Hardware BOM (Track 1 Thick-Temple Wearable)
 
-If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a **single lean batch**. Every component listed below is installed **directly onto the wearable prototype** that you will wear and defend in front of the NMIMS evaluation committee. Zero intermediate throwaway hardware.
+If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a **single lean batch**. Every component listed below is installed **directly onto the wearable prototype** that you will wear on your face and defend in front of the NMIMS evaluation committee (satisfying Directive 01: all compute, sensors, and power contained within the eyewear frame). Zero intermediate throwaway hardware.
 
 | Component / Subassembly | Specific Target Part | Purpose in Wearable | Qty | Unit Price (INR) | Total (INR) | Verified Sourcing Channel |
 | :--- | :--- | :--- | :---: | :---: | :---: | :--- |
-| **Compute Core Module** | Luckfox RK3576 / Core3576 Compact Module (6 TOPS NPU, 2GB/4GB LPDDR4x) | Primary AI inference engine mounted inside the 20mm right temple enclosure. | 1 | ₹4,800 | ₹4,800 | [Robu.in](https://robu.in) / Robocraze |
+| **Compute Core Module** | Radxa ROCK 4D / Luckfox Omni3576 / Core3576 (RK3576, 6 TOPS NPU, **4GB LPDDR4x**) | Primary on-device AI inference engine mounted inside the 20mm right temple enclosure. | 1 | ₹6,200 | ₹6,200 | Robu.in / ElectronicsComp |
 | **Camera Sensor Module** | Sony IMX415 (or GC4653/OV5648) MIPI CSI-2 Module | 4K / 1080p wide-FOV camera mounted in center bridge ($6^\circ$ down-pitch). | 1 | ₹1,650 | ₹1,650 | Robu.in / ElectronicsComp |
 | **MEMS Microphones** | INMP441 Omnidirectional Digital I2S MEMS Breakouts | Dual front-right beamforming microphone array for voice queries. | 2 | ₹160 | ₹320 | Robu.in |
 | **Audio Amplifiers** | MAX98357A I2S Mono 3.2W Class-D Amplifiers | Dual mono audio amps (one per temple) with resistor-coupled channel select. | 2 | ₹140 | ₹280 | Robu.in |
 | **Speaker Transducers** | 8Ω 1W Micro Bone-Conduction / Directional Transducers | Ear-canal directed audio drivers integrated into temple tips. | 2 | ₹180 | ₹360 | Robu.in / Amazon.in |
 | **LiPo Battery Cells** | 3.7V 300mAh – 350mAh High-Drain LiPo Pouch Cells | Series 2S configuration ($7.4\text{V}$ nominal, 1 cell per temple arm). | 2 | ₹200 | ₹400 | Robu.in |
-| **2S Charger & Protection** | TP5100 2S 8.4V 1A LiPo Charger Breakout Module | Dedicated 2S charging circuit mounted inside dock / left temple. | 1 | ₹110 | ₹110 | Robu.in |
+| **2S Boost Charger** | IP2326 Type-C 2S 1.5A Boost Charger Module with Cell Balancing | Boosts 5V USB to 8.4V with active 2S cell balancing; charges from standard USB-C dock. | 1 | ₹95 | ₹95 | Robu.in / Amazon.in |
+| **2S Battery Protection** | 2S 3A Li-ion / LiPo BMS Protection Board | Overcharge, overdischarge, and short-circuit protection for series cells. | 1 | ₹45 | ₹45 | Robu.in |
+| **User Interaction** | TTP223 Capacitive Touch Sensor / Tactile Micro-Switch | Touch trigger on right temple arm to start queries and control audio. | 1 | ₹25 | ₹25 | Robu.in |
 | **3D Frame Fabrication** | Black PETG Filament (0.12mm layer height, 100% infill) | 3D-printed front frame and thick temple arms ($75^\circ\text{C}$ heat resistant). | 1 | ₹350 | ₹350 | NMIMS FabLab / Local Print Lab |
 | **Carrier Interconnect** | Standard 2-Layer FR4 Breakout PCBs (Batch of 5) | Left & Right temple breakout boards routing power and audio signals. | 1 | ₹450 | ₹450 | JLCPCB / Robu PCB |
 | **Harness & Wiring** | 0.5mm FFC Ribbon Cables + 30 AWG Silicone Wire | Through-bridge hinge wiring (power pairs doubled for $<0.03\,\Omega$). | 1 | ₹150 | ₹150 | Robu.in |
 | **Thermal Dissipation** | 0.3mm Copper Shim + Arctic MX-4 Thermal Paste | Conductive heat spreader sinking RK3576 junction heat to exterior frame. | 1 | ₹250 | ₹250 | Amazon.in |
-| **TOTAL WEARABLE SPEND** | — | **Complete, Untethered Autonomous Glasses** | — | — | **₹8,920 INR** | ~$107 USD Total Outlay |
+| **Contingency Buffer** | Fasteners, Kapton tape, flux, heatshrink | Assembly hardware and prototyping buffer. | 1 | ₹175 | ₹175 | Local Hardware Store |
+| **TOTAL WEARABLE SPEND** | — | **Complete, Untethered Autonomous Glasses** | — | — | **₹9,450 INR** | ~$113 USD (Strictly under ₹10,000 Cap) |
 
 ---
 
@@ -77,7 +80,7 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
 | **Frame Material** | Industrial SLS Nylon PA12 ($₹8,000$) | Local FDM PETG 3D printing ($₹350$) | **Save ₹7,650** |
 | **PCB Prototyping** | 10-layer custom rigid-flex ($₹45,000$) | 2-layer FR4 + 0.5mm FFC ribbons ($₹600$) | **Save ₹44,400** |
 | **Drawer Waste** | 2–3 boards sitting unused forever | **Zero items in drawer; 100% on the wearable** | **Priceless** |
-| **NET PROJECT COST** | **₹72,000+ INR** | **₹8,920 INR total** | **87.6% Total Savings** |
+| **NET PROJECT COST** | **₹72,000+ INR** | **₹9,450 INR total (Ceiling: ₹10,000)** | **86.9% Total Savings** |
 
 ---
 

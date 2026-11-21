@@ -161,27 +161,35 @@ def audit_memory_bandwidth():
 
 def audit_audio_decoding():
     print("--- [4/6] AUDITING MAX98357A RESISTOR-COUPLED SD_MODE NETWORK ---")
-    v_rail = 1.80
     r_pd_nom = 100.0 # kOhm internal pulldown
     r_pd_min = 92.0  # kOhm minimum
     r_pd_max = 108.0 # kOhm maximum
-    
-    # Left Amp: 10 kOhm pullup to 1.8V
-    r_pullup_l = 10.0 # kOhm
-    v_left_nom = v_rail * (r_pd_nom / (r_pullup_l + r_pd_nom))
-    v_left_min = v_rail * (r_pd_min / (r_pullup_l + r_pd_min))
-    print(f"  Left Amp (10k pullup): V_nom = {v_left_nom:.3f}V, V_min = {v_left_min:.3f}V (Threshold: > 1.40V)")
-    assert v_left_min > 1.40, f"Left channel voltage failed threshold: {v_left_min}"
-    print("  [PASS] Left Amp Unconditionally Decodes LEFT Channel")
-    
-    # Right Amp: 82 kOhm pullup to 1.8V (no external low-side)
-    r_pullup_r = 82.0 # kOhm
-    v_right_nom = v_rail * (r_pd_nom / (r_pullup_r + r_pd_nom))
-    v_right_min = v_rail * (r_pd_min / (r_pullup_r + r_pd_min))
-    v_right_max = v_rail * (r_pd_max / (r_pullup_r + r_pd_max))
-    print(f"  Right Amp (82k pullup): V_nom = {v_right_nom:.3f}V, V_min = {v_right_min:.3f}V, V_max = {v_right_max:.3f}V (Window: 0.77V - 1.40V)")
-    assert v_right_min >= 0.77 and v_right_max <= 1.40, f"Right channel out of window: {v_right_min} to {v_right_max}"
-    print("  [PASS] Right Amp Unconditionally Decodes RIGHT Channel\n")
+
+    # === A. WEARABLE FINAL PCB DOMAIN (1.8V IO Rail) ===
+    v_rail_1v8 = 1.80
+    r_pullup_l_1v8 = 10.0 # kOhm
+    v_left_nom_1v8 = v_rail_1v8 * (r_pd_nom / (r_pullup_l_1v8 + r_pd_nom))
+    v_left_min_1v8 = v_rail_1v8 * (r_pd_min / (r_pullup_l_1v8 + r_pd_min))
+    assert v_left_min_1v8 > 1.40, f"Left channel voltage failed threshold: {v_left_min_1v8}"
+
+    r_pullup_r_1v8 = 82.0 # kOhm
+    v_right_min_1v8 = v_rail_1v8 * (r_pd_min / (r_pullup_r_1v8 + r_pd_min))
+    v_right_max_1v8 = v_rail_1v8 * (r_pd_max / (r_pullup_r_1v8 + r_pd_max))
+    assert v_right_min_1v8 >= 0.77 and v_right_max_1v8 <= 1.40, f"Right channel out of window: {v_right_min_1v8} to {v_right_max_1v8}"
+    print(f"  [Wearable 1.8V Rail]: Left (10k) = {v_left_nom_1v8:.3f}V (>1.40V), Right (82k) = {v_right_min_1v8:.3f}V - {v_right_max_1v8:.3f}V (in 0.77V - 1.40V) -> PASS")
+
+    # === B. RASPBERRY PI 3B TESTBED DOMAIN (3.3V GPIO Rail) ===
+    v_rail_3v3 = 3.30
+    r_pullup_l_3v3 = 10.0 # kOhm
+    v_left_min_3v3 = v_rail_3v3 * (r_pd_min / (r_pullup_l_3v3 + r_pd_min))
+    assert v_left_min_3v3 > 1.40, f"Pi 3B Left channel failed threshold: {v_left_min_3v3}"
+
+    r_pullup_r_3v3 = 220.0 # kOhm pullup to 3.3V
+    v_right_min_3v3 = v_rail_3v3 * (r_pd_min / (r_pullup_r_3v3 + r_pd_min))
+    v_right_max_3v3 = v_rail_3v3 * (r_pd_max / (r_pullup_r_3v3 + r_pd_max))
+    assert v_right_min_3v3 >= 0.77 and v_right_max_3v3 <= 1.40, f"Pi 3B Right channel out of window: {v_right_min_3v3} to {v_right_max_3v3}"
+    print(f"  [Raspberry Pi 3B 3.3V Rail]: Left (10k) = {v_left_min_3v3:.3f}V (>1.40V), Right (220k) = {v_right_min_3v3:.3f}V - {v_right_max_3v3:.3f}V (in 0.77V - 1.40V) -> PASS")
+    print("  [PASS] MAX98357A Dual-Rail Stereo Decoding Rigorously Verified\n")
 
 def audit_thermals():
     print("--- [5/6] AUDITING 1D THERMAL DISSIPATION & PCM SOLIDIFICATION ---")

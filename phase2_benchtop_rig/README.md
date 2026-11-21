@@ -23,8 +23,12 @@ To eliminate drawer waste and protect student capital:
 1. **Zero-Rupee Audio & Peripheral Pre-Testing (Raspberry Pi 3B):**
    * Uses the student's on-hand **Raspberry Pi 3B (1 GB)** to validate peripheral circuitry before purchasing any new compute hardware:
    * **Audio Output:** Test I2S digital audio clocking (`GPIO 18 BCLK`, `GPIO 19 LRCLK`, `GPIO 21 DOUT`) driving dual MAX98357A amplifiers.
-     * Left Amp: $\le 10\text{ k}\Omega$ pull-up to $1.8\text{V} \implies$ Decodes **LEFT Channel**.
-     * Right Amp: Single $82\text{ k}\Omega$ pull-up to $1.8\text{V} \implies$ Decodes **RIGHT Channel**.
+     * **Raspberry Pi 3B Pre-Testing (3.3V IO Rail):**
+       * Left Amp: $10\text{ k}\Omega$ pull-up to $3.3\text{V} \implies V_{\text{SD}} \approx 3.0\text{V} \ge 1.40\text{V} \implies$ Decodes **LEFT Channel**.
+       * Right Amp: **$220\text{ k}\Omega$ pull-up to $3.3\text{V}$** $\implies V_{\text{SD}} = 3.3\text{V} \times \frac{100\text{k}}{100\text{k}+220\text{k}} = \mathbf{1.03\text{V}} \in [0.77\text{V}, 1.40\text{V}] \implies$ Decodes **RIGHT Channel**.
+     * **Final Wearable PCB (1.8V IO Rail):**
+       * Left Amp: $10\text{ k}\Omega$ pull-up to $1.8\text{V} \implies 1.64\text{V} \implies$ Decodes **LEFT Channel**.
+       * Right Amp: $82\text{ k}\Omega$ pull-up to $1.8\text{V} \implies 0.99\text{V} \implies$ Decodes **RIGHT Channel**.
    * **Audio Input:** Connect $2\times$ INMP441 I2S MEMS microphones with an isolated star-ground return and test WebRTC AEC3 echo cancellation in software.
    * **Cost:** **₹0** out-of-pocket for compute.
 2. **Single-Shot Target Hardware Bring-Up:**
