@@ -201,9 +201,11 @@ print('  [✓] Frozen Teacher Loaded.')
 print('[*] Assembling 415.2M Student Model (Vocab = 64,000)...')
 student_config = AutoConfig.from_pretrained(source_model_id, trust_remote_code=True)
 student_config.vocab_size = target_vocab_size
+student_config.torch_dtype = torch.float32
 
 # Initialize student model in FP32 master weights for AdamW / GradScaler stability
-student_model = AutoModelForCausalLM.from_config(student_config, trust_remote_code=True).to(device)
+student_model = AutoModelForCausalLM.from_config(student_config, trust_remote_code=True)
+student_model = student_model.float().to(device)
 
 # Copy base weights for overlapping 64k tokens
 with torch.no_grad():
@@ -279,17 +281,28 @@ def evaluate_holdout(student, downsampler, samples):
     with torch.no_grad():
         for p in samples:
             t_ids = torch.tensor([tokenizer.encode(p, truncation=True, max_length=128)], device=device)
-            # Teacher forward pass
-            t_out = teacher_model(t_ids)
-            t_logits = t_out.logits[:, :, subset_tensor]
-            # Student multimodal forward pass
             synth_patches = torch.zeros(1, 576, 768, device=device)
-            v_tokens = downsampler(synth_patches)
-            txt_emb = student.get_input_embeddings()(t_ids)
-            mm_emb = torch.cat([v_tokens, txt_emb], dim=1)
-            s_out = student(inputs_embeds=mm_emb)
-            s_logits = s_out.logits
-            loss = kd_loss_fn(s_logits, t_logits)
+            if torch.cuda.is_available():
+                with torch.amp.autocast('cuda', dtype=torch.float16):
+                    # Teacher forward pass
+                    t_out = teacher_model(t_ids)
+                    t_logits = t_out.logits[:, :, subset_tensor]
+                    # Student multimodal forward pass
+                    v_tokens = downsampler(synth_patches)
+                    txt_emb = student.get_input_embeddings()(t_ids)
+                    mm_emb = torch.cat([v_tokens, txt_emb], dim=1)
+                    s_out = student(inputs_embeds=mm_emb)
+                    s_logits = s_out.logits
+                    loss = kd_loss_fn(s_logits, t_logits)
+            else:
+                t_out = teacher_model(t_ids)
+                t_logits = t_out.logits[:, :, subset_tensor]
+                v_tokens = downsampler(synth_patches)
+                txt_emb = student.get_input_embeddings()(t_ids)
+                mm_emb = torch.cat([v_tokens, txt_emb], dim=1)
+                s_out = student(inputs_embeds=mm_emb)
+                s_logits = s_out.logits
+                loss = kd_loss_fn(s_logits, t_logits)
             total_loss += loss.item()
     student.train()
     downsampler.train()
@@ -438,15 +451,17 @@ print(f'  [✓] Exported Unified Model Spec Manifest: {manifest_path}')"""
 cell10_code = """# CELL 10: Zero-Cost Checkpoint Verification & Forward Inference Test
 print('[*] Verifying saved checkpoints from Google Drive...')
 
-loaded_unshuffle = SpatialUnshuffleDownsampler().to(device)
+loaded_unshuffle = SpatialUnshuffleDownsampler().float().to(device)
 unshuffle_path = os.path.join(CHECKPOINT_DIR, 'spatial_unshuffle_downsampler.pt')
 loaded_unshuffle.load_state_dict(torch.load(unshuffle_path, map_location=device))
 loaded_unshuffle.eval()
 print('  [✓] Successfully verified Spatial Unshuffle Downsampler checkpoint.')
 
-loaded_student = AutoModelForCausalLM.from_config(student_config, trust_remote_code=True).to(device)
+student_config.torch_dtype = torch.float32
+loaded_student = AutoModelForCausalLM.from_config(student_config, trust_remote_code=True)
 student_path = os.path.join(CHECKPOINT_DIR, 'friday_student_410m_final.pt')
 loaded_student.load_state_dict(torch.load(student_path, map_location=device))
+loaded_student = loaded_student.float().to(device)
 loaded_student.eval()
 print('  [✓] Successfully verified 415.2M Student Model checkpoint.')
 
@@ -456,9 +471,15 @@ test_tokens_64k = torch.tensor([safe_encode_64k('Project FRIDAY: Wearable AI Ass
 
 with torch.no_grad():
     v_toks = loaded_unshuffle(test_patches)
-    t_emb = loaded_student.get_input_embeddings()(test_tokens_64k)
-    mm_in = torch.cat([v_toks, t_emb], dim=1)
-    out = loaded_student(inputs_embeds=mm_in)
+    if torch.cuda.is_available():
+        with torch.amp.autocast('cuda', dtype=torch.float16):
+            t_emb = loaded_student.get_input_embeddings()(test_tokens_64k)
+            mm_in = torch.cat([v_toks, t_emb], dim=1)
+            out = loaded_student(inputs_embeds=mm_in)
+    else:
+        t_emb = loaded_student.get_input_embeddings()(test_tokens_64k)
+        mm_in = torch.cat([v_toks, t_emb], dim=1)
+        out = loaded_student(inputs_embeds=mm_in)
     assert torch.isfinite(out.logits).all(), 'Error: Non-finite logits detected in inference test!'
 
 print(f'[✓] Multimodal Inference Verification Passed: Logits shape = {out.logits.shape}')"""
@@ -672,12 +693,18 @@ with torch.no_grad():
         t_ids = torch.tensor([safe_ids], device=device)
         
         # Real multimodal forward pass
-        txt_emb = student_model.get_input_embeddings()(t_ids)
-        mm_emb = torch.cat([vis_tokens, txt_emb], dim=1)
+        if torch.cuda.is_available():
+            with torch.amp.autocast('cuda', dtype=torch.float16):
+                txt_emb = student_model.get_input_embeddings()(t_ids)
+                mm_emb = torch.cat([vis_tokens, txt_emb], dim=1)
+                s_out = student_model(inputs_embeds=mm_emb)
+                next_id = s_out.logits[:, -1, :].argmax(dim=-1).item()
+        else:
+            txt_emb = student_model.get_input_embeddings()(t_ids)
+            mm_emb = torch.cat([vis_tokens, txt_emb], dim=1)
+            s_out = student_model(inputs_embeds=mm_emb)
+            next_id = s_out.logits[:, -1, :].argmax(dim=-1).item()
         
-        # Greedy decoding of predicted token
-        s_out = student_model(inputs_embeds=mm_emb)
-        next_id = s_out.logits[:, -1, :].argmax(dim=-1).item()
         pred_str = tokenizer.decode([next_id], skip_special_tokens=True).strip()
         if not pred_str:
             pred_str = 'None'
