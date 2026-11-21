@@ -15,28 +15,37 @@
 > **Strict Quota & Compute Guardrails:**
 > - Colab Compute Units from Google AI Pro (₹1,950/mo, 200 units) are **fully exhausted** for the current billing cycle.
 > - Kaggle GPU quota provides **~30 hours/week** (shared across all runs).
-> - **Zero Speculative Compute:** Every run on Kaggle must be preceded by line-by-line Auditor sign-off and a clean local dry-run. Speculative pushes and trial-and-error GPU debugging are strictly prohibited.
+> - **Zero Speculative Compute:** Every run on Kaggle must be preceded by line-by-line Auditor sign-off, a committed local dry run, and final approval. Speculative pushes and trial-and-error GPU debugging are strictly prohibited.
 
-### 0.1 The 5-Step Code-to-Compute Protocol
-1. **Auditor Issue Formulation:**
-   - The Auditor (Project Lead) reviews code, outputs, or test failures and issues specific, itemized architectural feedback and error locations.
-2. **Antigravity Code Implementation:**
-   - Antigravity writes the complete code fixes across scripts and notebooks without initiating cloud computation.
-3. **Showcase & Permission Request (Hard Stop):**
-   - Antigravity presents the revised code, exact line changes, and architecture rationale.
+### 0.1 The 7-Step Code-to-Compute Protocol
+1. **Auditor Issue Formulation (Tracked by ID):**
+   - The Auditor (Project Lead) provides itemized feedback with distinct issue IDs (e.g., Audit #6 items 1–14).
+   - In `CHANGES.md`, Antigravity maps every item ID to one of: `Fixed`, `Partial`, `Blocked`, or `Disagree`, with a technical reason. *"Disagree"* is a legitimate option backed by technical argumentation rather than silent workarounds.
+2. **Scope-Discipline Implementation:**
+   - Antigravity modifies *only* what was requested.
+   - Any modification outside the listed items (e.g., threshold changes, plan.md edits, component swaps, or "while I was there" refactoring) must be listed separately as an explicit proposal/deviation and requires prior Auditor sign-off.
+3. **Commit & SHA Submission (Hard Stop):**
+   - Antigravity commits and pushes all changes to `origin/main`.
+   - Antigravity provides the **exact Git commit SHA** in chat (no chat-pasted snippets replacing git).
    - Antigravity explicitly asks:  
-     *`"I have completed the code fixes. Here is the implementation for review. Do I have permission to proceed to local dry-run verification?"`*
-   - Antigravity halts and waits for Auditor response.
-4. **Auditor Line-by-Line Inspection:**
-   - The Auditor inspects the code line by line.
-   - *If errors remain:* The Auditor specifies the faulty lines (`"No, do not start; fix lines X, Y, Z"`). Antigravity implements the targeted fixes and resubmits for review.
-   - *If code is approved:* The Auditor grants explicit written permission to proceed to local testing (`"YES, proceed to local dry-run"`).
-5. **Mandatory Local CPU / Apple Silicon MPS Dry-Run:**
-   - Antigravity executes the pipeline locally on Mac (CPU/MPS):
-     - Validates Python syntax and import compatibility.
-     - Validates tensor shapes and matrix multiplication dimensions (`v_tokens`, `embed_tokens`, `lm_head`).
-     - Validates single-batch forward/backward pass without CUDA crashes or NaN losses.
-   - Only after local verification passes and the Auditor gives the final confirmatory go-ahead is the kernel pushed to Kaggle batch GPU (`scripts/kaggle_run.sh`).
+     *`"Changes committed at <commit_sha>. Here is the issue breakdown in CHANGES.md. Do I have permission to execute the local dry run?"`*
+   - Antigravity halts and awaits the Auditor's review.
+4. **Auditor Code & Commit Review:**
+   - The Auditor fetches the exact commit SHA and reviews the code line by line, including running CPU-testable components locally.
+   - *If issues remain:* The Auditor specifies the faulty lines (`"No, do not proceed; fix lines X, Y, Z"`). Antigravity refactors, pushes a new commit SHA, and awaits review.
+   - *If approved:* The Auditor gives explicit written permission: `"YES, proceed to local dry run."`
+5. **Committed Local Dry Run (Real Paths, Tiny Slice):**
+   - Executed on local Mac CPU/MPS across real models and code paths using a tiny slice:
+     - Exactly 4 benchmark/training samples and 2 optimizer steps.
+     - Real Qwen2-VL-2B teacher and SigLIP vision encoder loaded.
+   - All cell outputs must be explicitly labeled `[DRY RUN]` and must output to a dedicated artifact (`dry_run_gate_report.json`), strictly never overwriting the official benchmark or gate report.
+   - The executed dry-run notebook with complete stdout AND stderr is committed and pushed to `origin/main` with its commit SHA.
+6. **Auditor Dry-Run Inspection & Kaggle Go-Ahead:**
+   - The Auditor reviews the committed dry-run outputs.
+   - Only when the Auditor issues explicit final approval (`"YES, push to Kaggle"`) may Antigravity trigger the Kaggle GPU batch run via `scripts/kaggle_run.sh`.
+7. **Post-Compute Verification & Claims Gate:**
+   - After Kaggle execution completes, the executed notebook and output reports are committed to git.
+   - The Auditor inspects the executed artifacts before *anyone* records "PASS" in `CHANGES.md`, `README.md`, or the thesis. No claims of milestone completion may be written without prior Auditor verification.
 
 ---
 
