@@ -111,31 +111,43 @@ def audit_mass_budget():
 
 def audit_memory_bandwidth():
     print("--- [3/6] AUDITING MEMORY TRAFFIC & BUS BANDWIDTH ---")
-    # 410M model: 352M layers @ INT4 (0.5 B/param) = 176.0 MB
-    # 64,000 vocab LM-head @ INT8 (1.0 B/weight, 896 dim) = 57.34 MB
-    # Total weights = 233.34 MB
+    # Pruned 410M student model: 352M transformer body @ INT4 (0.5 B/param) = 176.0 MB
+    # Pruned 64,000 vocab LM-head @ INT8 (1.0 B/weight, 896 dim) = 57.34 MB
+    # Total model weights = 233.34 MB
     layers_mb = 352e6 * 0.5 / 1e6
     lm_head_mb = 64000 * 896 * 1.0 / 1e6
     weights_mb = layers_mb + lm_head_mb
     scales_norms_mb = 16.0
-    kv_cache_mb = 18.0
-    total_traffic_per_token = weights_mb + scales_norms_mb + kv_cache_mb
     
+    # Exact Qwen2.5-0.5B KV Cache Geometry (Both K and V tensors):
+    # 2 (K+V) * 24 layers * 2 KV heads * 64 head_dim * 1 byte (INT8) * 1024 context tokens = 6.29 MB
+    kv_cache_mb = (2 * 24 * 2 * 64 * 1.0 * 1024) / 1e6
+    total_traffic_per_token = weights_mb + scales_norms_mb + kv_cache_mb # ~255.63 MB/token
+    
+    # Bus Baseline (RK3576 32-bit LPDDR4x @ 2133 MHz clock / 4266 MT/s):
+    # Theoretical Peak = 4 bytes * 4.266 GT/s = 17.064 GB/s
+    # Sustainable Streaming Ceiling (79% efficiency) = 13.50 GB/s
+    # Safe Operational Ceiling (with ISP/Camera/Audio contention) = 10.50 GB/s
+    bus_peak_gb_s = 17.064
+    bus_sustained_gb_s = 13.50
+    bus_safe_ceiling_gb_s = 10.50
+    
+    # Evaluated at Peak Rate (35 tok/s) and Realistic Operating Rate (25 tok/s)
     target_tok_per_sec = 35.0
-    bandwidth_gb_s = (total_traffic_per_token / 1000.0) * target_tok_per_sec
-    bus_capacity_gb_s = 13.50 # RK3576 32-bit LPDDR4x @ 2133 MHz sustained
-    bus_utilization = (bandwidth_gb_s / bus_capacity_gb_s) * 100.0
-    headroom_gb_s = bus_capacity_gb_s - bandwidth_gb_s
+    bandwidth_gb_s = (total_traffic_per_token / 1000.0) * target_tok_per_sec # ~8.95 GB/s
+    headroom_safe = bus_safe_ceiling_gb_s - bandwidth_gb_s
+    headroom_sustained = bus_sustained_gb_s - bandwidth_gb_s
     
     print(f"  Weights Traffic: {weights_mb:.2f} MB (Layers: {layers_mb} MB + LM-Head: {lm_head_mb:.2f} MB)")
+    print(f"  Exact 1024-Context INT8 KV Cache: {kv_cache_mb:.2f} MB (24L x 2H x 64D)")
     print(f"  Total Traffic per Token: {total_traffic_per_token:.2f} MB/token")
-    print(f"  Bandwidth at 35 tokens/s: {bandwidth_gb_s:.2f} GB/s")
-    print(f"  Bus Utilization: {bus_utilization:.1f}% of {bus_capacity_gb_s} GB/s")
-    print(f"  Continuous Sustained Headroom: {headroom_gb_s:.2f} GB/s")
+    print(f"  Bandwidth at {target_tok_per_sec} tok/s: {bandwidth_gb_s:.2f} GB/s")
+    print(f"  Headroom Below 10.5 GB/s Safe Ceiling: {headroom_safe:.2f} GB/s ({headroom_safe/bus_safe_ceiling_gb_s*100:.1f}%)")
+    print(f"  Headroom Below 13.5 GB/s Sustained Bus: {headroom_sustained:.2f} GB/s ({headroom_sustained/bus_sustained_gb_s*100:.1f}%)")
     
-    assert bandwidth_gb_s < 10.5, f"Bandwidth exceeded limit: {bandwidth_gb_s}"
-    assert headroom_gb_s > 3.0, f"Headroom too low: {headroom_gb_s}"
-    print("  [PASS] Memory Bandwidth Verified: 9.36 GB/s (<10.5 GB/s, 4.14 GB/s Headroom)\n")
+    assert bandwidth_gb_s < bus_safe_ceiling_gb_s, f"Bandwidth exceeded safe ceiling: {bandwidth_gb_s}"
+    assert headroom_safe > 1.0, f"Headroom below safe ceiling too narrow: {headroom_safe}"
+    print(f"  [PASS] Memory Bandwidth Verified: {bandwidth_gb_s:.2f} GB/s (<10.5 GB/s safe ceiling, {headroom_safe:.2f} GB/s margin)\n")
 
 def audit_audio_decoding():
     print("--- [4/6] AUDITING MAX98357A RESISTOR-COUPLED SD_MODE NETWORK ---")

@@ -122,7 +122,7 @@ To inform our mechanical, thermal, and optomechanical architecture, we conducted
 1. **CNC Aluminum Hinge Bridges:** Meta channels its delicate flex through precision metal hinge blocks rather than bending over raw plastic. FRIDAY implements internal filleted guide channels ($R \ge 3.0\text{ mm}$) at both hinges to prevent cable fatigue.
 2. **Nose-Pad Microphone Placement:** Meta embeds a primary MEMS microphone directly into the nasal bracket, achieving optimal vocal pickup near the mouth while leveraging the frame to block temple speaker spillover.
 3. **Dual Thermal Compounds:** Meta combines high-conductivity green TIM on the silicon die with black gap-fillers to the outer chassis. FRIDAY pairs direct copper die shims with our **$4.0\text{g}$ PureTemp 40 PCM pad ($600\text{ J}$ latent heat buffer)**.
-4. **Where FRIDAY Surpasses Meta:** Meta's tiny single-cell **$154\text{ mAh}$ (0.59 Wh)** battery in one temple forces reliance on cloud offload. FRIDAY deploys balanced **Series 2S dual cells ($600\text{ mAh}$ total @ 7.4V, 2.22 Wh)**—delivering **$3.76\times$ the energy** and halving through-bridge current to run 100% sovereign on-device VLM neural inference.
+4. **Where FRIDAY Surpasses Meta:** Meta's tiny single-cell **$154\text{ mAh}$ (0.59 Wh)** battery in one temple forces reliance on cloud offload. FRIDAY deploys balanced **Series 2S dual cells (two 300 mAh cells in series = 300 mAh @ 7.4V nominal, 2.22 Wh total, 600 mAh 1S equivalent)**—delivering **$3.76\times$ the energy** of Meta's cell and halving through-bridge current to run 100% sovereign on-device VLM neural inference.
 
 ---
 

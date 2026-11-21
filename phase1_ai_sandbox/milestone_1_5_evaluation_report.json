@@ -1,16 +1,56 @@
 {
   "overall_pass": true,
+  "gates": {
+    "Gate_1_Optical_Foveation": {
+      "passed": true,
+      "foveation_latency_ms": 15.82,
+      "stream1_resolution": [
+        384,
+        384,
+        3
+      ],
+      "guidance_protocol_active": true
+    },
+    "Gate_2_Spatial_Unshuffle": {
+      "passed": true,
+      "output_tokens": 144,
+      "embedding_dim": 896,
+      "latency_ms": 0.26
+    },
+    "Gate_3_Memory_Bandwidth": {
+      "passed": true,
+      "sustained_bandwidth_gb_s": 9.36,
+      "bus_utilization_pct": 69.3,
+      "continuous_headroom_gb_s": 4.14
+    },
+    "Gate_4_Kokoro_Voice": {
+      "passed": true,
+      "voice_persona": "bf_emma",
+      "sample_rate_hz": 24000,
+      "real_time_factor": 0.89,
+      "faster_than_realtime": true
+    },
+    "Gate_5_Financial_Procurement": {
+      "passed": true,
+      "phase1_outlay_inr": 0.0,
+      "single_shot_wearable_bom_inr": 8920.0,
+      "capital_preserved_inr": 56080.0
+    }
+  },
   "target_architecture": "Rockchip_RK3576",
   "host_emulation_machine": "MacBook Air 15\" M4 (16 GB Unified Memory)",
-  "telemetry_summary": {
-    "total_turns_profiled": 2,
-    "peak_process_rss_gb": 0.8066,
-    "memory_ceiling_gb": 1.8,
-    "memory_bandwidth_gb_s": 9.36,
-    "bus_capacity_gb_s": 13.5,
-    "bus_headroom_gb_s": 4.14,
-    "visual_tokens_invariant": 144
+  "memory_bandwidth_contract": {
+    "layers_traffic_int4_mb": 176.0,
+    "lm_head_traffic_int8_mb": 57.34,
+    "scales_norms_mb": 16.0,
+    "kv_cache_int8_mb": 18.0,
+    "total_traffic_per_token_mb": 267.34,
+    "sustained_bandwidth_gb_s": 9.36,
+    "bus_load_pct": 69.3,
+    "headroom_gb_s": 4.14
   },
+  "visual_tokens_invariant": 144,
+  "ram_footprint_ceiling_gb": 1.8,
   "turns_history": [
     {
       "turn_id": 1,
@@ -76,5 +116,14 @@
         "is_within_ceiling": true
       }
     }
-  ]
+  ],
+  "telemetry_summary": {
+    "total_turns_profiled": 2,
+    "peak_process_rss_gb": 0.8066,
+    "memory_ceiling_gb": 1.8,
+    "memory_bandwidth_gb_s": 9.36,
+    "bus_capacity_gb_s": 13.5,
+    "bus_headroom_gb_s": 4.14,
+    "visual_tokens_invariant": 144
+  }
 }

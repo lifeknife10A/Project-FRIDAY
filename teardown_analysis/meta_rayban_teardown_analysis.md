@@ -80,7 +80,7 @@ The **Ray-Ban Meta Smart Glasses (Gen 2 Headliner/Wayfarer)** represent the curr
 - **Hardware Observations:**
   * The entire volume of the right arm is dedicated to a **154 mAh (3.85V, 0.59 Wh)** custom-contoured Li-ion pouch cell.
   * A thin polyimide flex PCB runs underneath the battery cell, integrating the Bluetooth/Wi-Fi antenna elements on an adhesive carrier.
-  * **Why FRIDAY Diverges:** Meta's 154 mAh battery only lasts 4 hours because the phone does the AI heavy lifting. For FRIDAY's sovereign edge AI, a single 154 mAh cell would die in 20 minutes under 3.0W load. FRIDAY's balanced **Series 2S (2x 300mAh = 600mAh total @ 7.4V = 2.22 Wh)** delivers over $3.7\times$ the energy and halves the current across the bridge.
+  * **Why FRIDAY Diverges:** Meta's 154 mAh battery only lasts 4 hours because the phone does the AI heavy lifting. For FRIDAY's sovereign edge AI, a single 154 mAh cell would die in 20 minutes under 3.0W load. FRIDAY's balanced **Series 2S (two 300 mAh cells in series = 300 mAh @ 7.4V nominal, 2.22 Wh total, 600 mAh 1S equivalent)** delivers over $3.7\times$ the energy and halves the current across the bridge.
 
 ### 3.5 Nose Bridge: Overmolded Charging & Embedded Nose Microphone
 - **Video Timestamp:** `[05:20 -> 05:40]`  
