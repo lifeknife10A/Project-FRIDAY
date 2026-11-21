@@ -9,6 +9,37 @@
 
 ---
 
+## 0. Zero-Waste Operational Protocol & Auditor Gate (Phase 1 Code-to-Compute Pipeline)
+
+> [!IMPORTANT]
+> **Strict Quota & Compute Guardrails:**
+> - Colab Compute Units from Google AI Pro (₹1,950/mo, 200 units) are **fully exhausted** for the current billing cycle.
+> - Kaggle GPU quota provides **~30 hours/week** (shared across all runs).
+> - **Zero Speculative Compute:** Every run on Kaggle must be preceded by line-by-line Auditor sign-off and a clean local dry-run. Speculative pushes and trial-and-error GPU debugging are strictly prohibited.
+
+### 0.1 The 5-Step Code-to-Compute Protocol
+1. **Auditor Issue Formulation:**
+   - The Auditor (Project Lead) reviews code, outputs, or test failures and issues specific, itemized architectural feedback and error locations.
+2. **Antigravity Code Implementation:**
+   - Antigravity writes the complete code fixes across scripts and notebooks without initiating cloud computation.
+3. **Showcase & Permission Request (Hard Stop):**
+   - Antigravity presents the revised code, exact line changes, and architecture rationale.
+   - Antigravity explicitly asks:  
+     *`"I have completed the code fixes. Here is the implementation for review. Do I have permission to proceed to local dry-run verification?"`*
+   - Antigravity halts and waits for Auditor response.
+4. **Auditor Line-by-Line Inspection:**
+   - The Auditor inspects the code line by line.
+   - *If errors remain:* The Auditor specifies the faulty lines (`"No, do not start; fix lines X, Y, Z"`). Antigravity implements the targeted fixes and resubmits for review.
+   - *If code is approved:* The Auditor grants explicit written permission to proceed to local testing (`"YES, proceed to local dry-run"`).
+5. **Mandatory Local CPU / Apple Silicon MPS Dry-Run:**
+   - Antigravity executes the pipeline locally on Mac (CPU/MPS):
+     - Validates Python syntax and import compatibility.
+     - Validates tensor shapes and matrix multiplication dimensions (`v_tokens`, `embed_tokens`, `lm_head`).
+     - Validates single-batch forward/backward pass without CUDA crashes or NaN losses.
+   - Only after local verification passes and the Auditor gives the final confirmatory go-ahead is the kernel pushed to Kaggle batch GPU (`scripts/kaggle_run.sh`).
+
+---
+
 ## 1. Executive Summary & Non-Negotiable Directives
 
 Project **FRIDAY** is an indigenous, fully autonomous smart glasses wearable engineered to execute computer vision, speech recognition, multimodal reasoning, and speech synthesis entirely on-device with zero reliance on cloud computation or smartphone-tethered neural inference.
