@@ -3,6 +3,7 @@
 *.pth
 *.onnx
 *.bin
+*.wav
 assets/kokoro/
 assets/voice_samples/
 assets/kokoro_speech.wav
