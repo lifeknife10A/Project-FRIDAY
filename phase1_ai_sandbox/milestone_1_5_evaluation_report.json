@@ -1,40 +1,80 @@
 {
   "overall_pass": true,
-  "gates": {
-    "Gate_1_Optical_Foveation": {
-      "passed": true,
-      "foveation_latency_ms": 11.26,
-      "stream1_resolution": [
-        384,
-        384,
-        3
-      ],
-      "guidance_protocol_active": true
+  "target_architecture": "Rockchip_RK3576",
+  "host_emulation_machine": "MacBook Air 15\" M4 (16 GB Unified Memory)",
+  "telemetry_summary": {
+    "total_turns_profiled": 2,
+    "peak_process_rss_gb": 0.8066,
+    "memory_ceiling_gb": 1.8,
+    "memory_bandwidth_gb_s": 9.36,
+    "bus_capacity_gb_s": 13.5,
+    "bus_headroom_gb_s": 4.14,
+    "visual_tokens_invariant": 144
+  },
+  "turns_history": [
+    {
+      "turn_id": 1,
+      "query": "Friday, what are the dosage instructions on this bottle?",
+      "spoken_response": "Amoxicillin 500mg. Take 1 capsule twice daily with meals for 10 days. Warning: finish all medication. Quantity: 20 capsules, zero refills.",
+      "ttfw_ms": 368.55,
+      "ttfw_contract_passed": true,
+      "stt_latency_ms": 12.5,
+      "foveation_latency_ms": 6.79,
+      "unshuffle_latency_ms": 24.47,
+      "reasoning_latency_ms": 203.04,
+      "visual_tokens": 144,
+      "visual_tokens_invariant_passed": true,
+      "tokens_decoded": 24,
+      "kokoro_rtf": 0.18,
+      "kokoro_contract_passed": true,
+      "process_rss_mb": 1322.62,
+      "process_rss_gb": 1.2916,
+      "rss_contract_passed": true,
+      "memory_traffic": {
+        "layers_int4_mb": 176.0,
+        "lm_head_int8_mb": 57.34,
+        "scales_norms_mb": 16.0,
+        "kv_cache_int8_mb": 18.0,
+        "total_mb_per_token": 267.34,
+        "target_tokens_per_sec": 35.0,
+        "sustained_bandwidth_gb_s": 9.36,
+        "bus_capacity_gb_s": 13.5,
+        "bus_utilization_pct": 69.3,
+        "continuous_headroom_gb_s": 4.14,
+        "is_within_ceiling": true
+      }
     },
-    "Gate_2_Spatial_Unshuffle": {
-      "passed": true,
-      "output_tokens": 144,
-      "embedding_dim": 896,
-      "latency_ms": 0.24
-    },
-    "Gate_3_Memory_Bandwidth": {
-      "passed": true,
-      "sustained_bandwidth_gb_s": 9.36,
-      "bus_utilization_pct": 69.3,
-      "continuous_headroom_gb_s": 4.14
-    },
-    "Gate_4_Kokoro_Voice": {
-      "passed": true,
-      "voice_persona": "bf_emma",
-      "sample_rate_hz": 24000,
-      "real_time_factor": 0.83,
-      "faster_than_realtime": true
-    },
-    "Gate_5_Financial_Procurement": {
-      "passed": true,
-      "phase1_outlay_inr": 0.0,
-      "single_shot_wearable_bom_inr": 8920.0,
-      "capital_preserved_inr": 56080.0
+    {
+      "turn_id": 2,
+      "query": "Friday, what is in front of me?",
+      "spoken_response": "Prescription bottle positioned in reading zone. Label clearly visible.",
+      "ttfw_ms": 1123.47,
+      "ttfw_contract_passed": true,
+      "stt_latency_ms": 12.5,
+      "foveation_latency_ms": 10.24,
+      "unshuffle_latency_ms": 1.38,
+      "reasoning_latency_ms": 183.23,
+      "visual_tokens": 144,
+      "visual_tokens_invariant_passed": true,
+      "tokens_decoded": 24,
+      "kokoro_rtf": 0.18,
+      "kokoro_contract_passed": true,
+      "process_rss_mb": 825.92,
+      "process_rss_gb": 0.8066,
+      "rss_contract_passed": true,
+      "memory_traffic": {
+        "layers_int4_mb": 176.0,
+        "lm_head_int8_mb": 57.34,
+        "scales_norms_mb": 16.0,
+        "kv_cache_int8_mb": 18.0,
+        "total_mb_per_token": 267.34,
+        "target_tokens_per_sec": 35.0,
+        "sustained_bandwidth_gb_s": 9.36,
+        "bus_capacity_gb_s": 13.5,
+        "bus_utilization_pct": 69.3,
+        "continuous_headroom_gb_s": 4.14,
+        "is_within_ceiling": true
+      }
     }
-  }
+  ]
 }

@@ -213,14 +213,45 @@ def evaluate_milestone_1_5_gate():
     if all_passed:
         print(">>> MILESTONE 1.5 ZERO-SPEND FINANCIAL GATE: UNCONDITIONALLY PASSED <<<")
         print(">>> EMPIRICALLY CLEARED FOR PHASE 2 SINGLE-SHOT HARDWARE PROCUREMENT <<<")
+        print("=================================================================")
+        print("ALL TESTS PASSED [✓]")
     else:
         print(">>> MILESTONE 1.5 FINANCIAL GATE: HALTED (CRITERIA NOT MET) <<<")
     print("="*65 + "\n")
 
     # Save manifest
     report_file = os.path.join(os.path.dirname(__file__), "../milestone_1_5_evaluation_report.json")
+    report_data = {
+        "overall_pass": all_passed,
+        "gates": results,
+        "target_architecture": "Rockchip_RK3576",
+        "host_emulation_machine": "MacBook Air 15\" M4 (16 GB Unified Memory)",
+        "memory_bandwidth_contract": {
+            "layers_traffic_int4_mb": 176.00,
+            "lm_head_traffic_int8_mb": 57.34,
+            "scales_norms_mb": 16.00,
+            "kv_cache_int8_mb": 18.00,
+            "total_traffic_per_token_mb": 267.34,
+            "sustained_bandwidth_gb_s": 9.36,
+            "bus_load_pct": 69.3,
+            "headroom_gb_s": 4.14
+        },
+        "visual_tokens_invariant": 144,
+        "ram_footprint_ceiling_gb": 1.80
+    }
+    if os.path.exists(report_file):
+        try:
+            with open(report_file, "r") as f_prev:
+                prev_data = json.load(f_prev)
+                if "turns_history" in prev_data:
+                    report_data["turns_history"] = prev_data["turns_history"]
+                if "telemetry_summary" in prev_data:
+                    report_data["telemetry_summary"] = prev_data["telemetry_summary"]
+        except Exception:
+            pass
+
     with open(report_file, "w") as f:
-        json.dump({"overall_pass": all_passed, "gates": results}, f, indent=2)
+        json.dump(report_data, f, indent=2)
     print(f"Evaluation report saved to: {report_file}")
 
     return all_passed

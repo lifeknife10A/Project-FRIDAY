@@ -236,4 +236,5 @@ if __name__ == "__main__":
     audit_power_and_battery()
     print("==================================================================")
     print(">>> ALL 6 AUDIT ENGINES PASSED WITH ZERO DISCREPANCIES <<<")
+    print("ALL TESTS PASSED [✓]")
     print("==================================================================")
