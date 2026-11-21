@@ -3,7 +3,7 @@
 
 [![Document Version](https://img.shields.io/badge/Architecture-v9.1.0--Hardware--Locked-success.svg)](file:///Users/krish/NMIMS/Friday/docs/plan.md)
 [![Mass Budget](https://img.shields.io/badge/AUW-115.0g%20(Audited)-blue.svg)](file:///Users/krish/NMIMS/Friday/docs/plan.md)
-[![Memory Bandwidth](https://img.shields.io/badge/LPDDR4x-6.39%20GB%2Fs%20(69.3%25)-purple.svg)](file:///Users/krish/NMIMS/Friday/phase1_ai_sandbox/README.md)
+[![Memory Bandwidth](https://img.shields.io/badge/LPDDR5-5.77%20GB%2Fs%20(58.8%25%20Headroom)-purple.svg)](file:///Users/krish/NMIMS/Friday/phase1_ai_sandbox/README.md)
 [![Battery Architecture](https://img.shields.io/badge/Power-Series%202S%20(7.4V)-brightgreen.svg)](file:///Users/krish/NMIMS/Friday/docs/hardware_bom.md)
 [![Hardware Budget](https://img.shields.io/badge/Lean%20Wearable%20BOM-₹8%2C920%20INR%20(Zero--Waste)-orange.svg)](file:///Users/krish/NMIMS/Friday/docs/hardware_bom.md)
 [![Phase 1 Outlay](https://img.shields.io/badge/Initial%20Spend-₹0%20(Mac%20M4%20Sandbox)-brightgreen.svg)](file:///Users/krish/NMIMS/Friday/phase1_ai_sandbox/README.md)

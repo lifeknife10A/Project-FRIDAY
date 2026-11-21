@@ -212,21 +212,28 @@ $$\text{Verified Physical Headroom below 125g limit} = 125.0\text{g} - 115.0\tex
 
 ## 5. Machine Learning Distillation: Mathematical Convergence Specification (B-2 Closed)
 
-### 5.1 Fully Normalized Forward KL Divergence
-To make the Stage 1 Forward KL divergence mathematically closed on a discrete probability space:
-* **Student-Restricted Support Set $\Omega_{64}$:**
-  $$\Omega_{64} = \text{Top-64} \left( \left\{ v \in \mathcal{V}_S \mid p_T(v) \right\} \right) \quad \implies \quad \Omega_{64} \subseteq \mathcal{V}_S.$$
-* **Renormalized Probability Distributions:**
-  Both teacher and student probabilities are explicitly renormalized over the common support $\Omega_{64}$ before applying $\epsilon = 10^{-5}$ smoothing:
-  $$\tilde{p}_T(v) = \frac{p_T(v)}{\sum_{u \in \Omega_{64}} p_T(u)}, \qquad \bar{p}_S(v) = \frac{p_S(v)}{\sum_{u \in \Omega_{64}} p_S(u)}$$
-  $$\tilde{p}_S(v) = (1 - \epsilon) \bar{p}_S(v) + \frac{\epsilon}{|\Omega_{64}|}$$
-  *Mathematical Closure:* Because $\sum_{v \in \Omega_{64}} \tilde{p}_T(v) = 1.000$ and $\sum_{v \in \Omega_{64}} \tilde{p}_S(v) = 1.000$, and $\tilde{p}_S(v) \ge \frac{\epsilon}{64} > 0$ for all $v \in \Omega_{64}$, the loss is a **true, bounded Kullback-Leibler divergence on a normalized probability space**, guaranteeing zero loss spikes or gradient instability.
+### 5.1 Fully Normalized Forward KL Divergence & Teacher Specification
+* **Phase 1 Teacher Model: `Qwen/Qwen2-VL-2B-Instruct` (FP16):**
+  * *Architectural Justification for Teacher Selection:* While the aspirational target in preliminary literature was `Qwen2.5-VL-72B-Instruct`, a 72B parameter vision-language model requires $>144\text{ GB}$ of VRAM across an $8\times\text{A100/H100}$ GPU cluster (violating Phase 1's non-negotiable ₹0 out-of-pocket budget constraint). `Qwen/Qwen2-VL-2B-Instruct` in FP16 consumes $\sim 4.5\text{ GB}$ VRAM, shares the exact same Qwen2 tokenizer/byte-level BPE vocabulary, and allows the entire multimodal teacher-student distillation loop (SigLIP-384 + Qwen2-VL-2B Teacher + Friday 415M Student) to execute cleanly on a single free Google Colab 16 GB T4 GPU with $\sim 7.5\text{ GB}$ total VRAM allocation.
+* **Stage 1a — Projector Alignment (LLaVA Stage-1 Recipe):**
+  * Freeze the `google/siglip-base-patch16-384` vision encoder and freeze the Qwen2.5-0.5B student transformer backbone.
+  * Train ONLY the 2x2 Spatial Unshuffle linear projector ($3072 \rightarrow 896$) on image-caption pairs using next-token cross-entropy loss.
+  * Evaluated on a 20% held-out validation split. Pass condition: held-out caption loss decreases monotonically below Step-0 baseline.
+* **Stage 1b — Multimodal Bounded Top-64 Forward-KL Distillation:**
+  * Teacher sees the image through its native vision processor; the student sees the 144 SigLIP downsampled tokens plus text query.
+  * Forward KL is computed strictly on answer-text positions over the common 64k support set $\Omega_{64}$:
+    $$\Omega_{64} = \text{Top-64} \left( \left\{ v \in \mathcal{V}_S \mid p_T(v) \right\} \right) \quad \implies \quad \Omega_{64} \subseteq \mathcal{V}_S.$$
+  * Both teacher and student probabilities are explicitly renormalized over the common support $\Omega_{64}$ before applying $\epsilon = 10^{-5}$ smoothing:
+    $$\tilde{p}_T(v) = \frac{p_T(v)}{\sum_{u \in \Omega_{64}} p_T(u)}, \qquad \bar{p}_S(v) = \frac{p_S(v)}{\sum_{u \in \Omega_{64}} p_S(u)}$$
+    $$\tilde{p}_S(v) = (1 - \epsilon) \bar{p}_S(v) + \frac{\epsilon}{|\Omega_{64}|}$$
+  * *Mathematical Closure:* Because $\sum_{v \in \Omega_{64}} \tilde{p}_T(v) = 1.000$ and $\sum_{v \in \Omega_{64}} \tilde{p}_S(v) = 1.000$, and $\tilde{p}_S(v) \ge \frac{\epsilon}{64} > 0$ for all $v \in \Omega_{64}$, the loss is a **true, bounded Kullback-Leibler divergence on a normalized probability space**, guaranteeing zero loss spikes or gradient instability.
+  * *Distillation Hygiene:* Employs validation early stopping saving the BEST validation checkpoint, gradient accumulation (effective batch size $\ge 8$), and downstream evaluation of pre-distillation vs post-distillation student accuracy.
 
 ### 5.2 Reconciled Memory Bandwidth Accounting (Unified Single Source of Truth)
-* **Target Hardware Ceiling (Rockchip RK3576 32-bit LPDDR4x @ 2133 MHz / 4266 MT/s):**
-  * Theoretical Peak: $4\text{ bytes} \times 4.266\text{ GT/s} = \mathbf{17.064\text{ GB/s}}$.
-  * Sustainable Streaming Ceiling (79% efficiency): $\mathbf{13.50\text{ GB/s}}$.
-  * Safe Operational Ceiling (with camera ISP, audio, and display bus contention): $\mathbf{10.50\text{ GB/s}}$.
+* **Target Hardware Ceiling (Firefly CAM-3576Q38 32-bit LPDDR5 @ 5500 MT/s):**
+  * Theoretical Peak: $4\text{ bytes} \times 5.500\text{ GT/s} = \mathbf{22.00\text{ GB/s}}$.
+  * Sustainable Streaming Ceiling (80% efficiency): $\mathbf{17.60\text{ GB/s}}$ (compared to $13.50\text{ GB/s}$ on LPDDR4x-4266).
+  * Safe Operational Ceiling (with camera ISP, audio, and display bus contention): $\mathbf{14.00\text{ GB/s}}$.
 
 * **Exact KV Cache Geometry (1,024 Context Window at INT8):**
   $$2 \text{ (K+V)} \times 24\text{ layers} \times 2\text{ KV heads} \times 64\text{ head\_dim} \times 1\text{ byte} \times 1024\text{ tokens} = \mathbf{6.29\text{ MB}}.$$
@@ -239,17 +246,17 @@ To make the Stage 1 Forward KL divergence mathematically closed on a discrete pr
     $$\text{Traffic} = 208.32\text{ MB} + 16.0\text{ MB} + 6.29\text{ MB} = \mathbf{230.61\text{ MB/token}}.$$
   * **Operating Rate ($25\text{ tokens/s}$):**
     $$\text{Bandwidth} = 0.23061\text{ GB} \times 25\text{ tokens/s} = \mathbf{5.77\text{ GB/s}}.$$
-    Leaves **$4.73\text{ GB/s}$ safe headroom ($45.0\%$ margin)** strictly below the $10.50\text{ GB/s}$ safe ceiling.
+    Leaves **$8.23\text{ GB/s}$ safe headroom ($58.8\%$ margin)** strictly below the $14.00\text{ GB/s}$ safe ceiling (and $4.73\text{ GB/s}$ below the conservative $10.50\text{ GB/s}$ LPDDR4x ceiling).
   * **Burst Peak Rate ($35\text{ tokens/s}$):**
     $$\text{Bandwidth} = 0.23061\text{ GB} \times 35\text{ tokens/s} = \mathbf{8.07\text{ GB/s}}.$$
-    Leaves **$2.43\text{ GB/s}$ safe headroom ($23.1\%$ margin)** strictly below the $10.50\text{ GB/s}$ safe ceiling.
+    Leaves **$5.93\text{ GB/s}$ safe headroom ($42.4\%$ margin)** strictly below the $14.00\text{ GB/s}$ safe ceiling.
 
 * **Secondary Fallback Contract: INT4 Transformer Body + INT8 LM-Head:**
   * INT4 Transformer Body: $352\text{M} \times 0.5\text{ bytes} = 176.0\text{ MB}$.
   * INT8 LM-Head ($64{,}000$ vocab $\times$ $896$ dim $\times$ $1.0\text{ byte}$): $57.34\text{ MB}$.
   * Total Model Weights: $233.34\text{ MB}$. Total traffic per token: $233.34 + 16.0 + 6.29 = \mathbf{255.63\text{ MB/token}}$.
-  * Bandwidth at $25\text{ tok/s}$: **$6.39\text{ GB/s}$** ($39.1\%$ headroom below $10.50\text{ GB/s}$).
-  * Bandwidth at $35\text{ tok/s}$: **$8.95\text{ GB/s}$** ($14.8\%$ headroom below $10.50\text{ GB/s}$).
+  * Bandwidth at $25\text{ tok/s}$: **$6.39\text{ GB/s}$** ($54.4\%$ headroom below $14.00\text{ GB/s}$).
+  * Bandwidth at $35\text{ tok/s}$: **$8.95\text{ GB/s}$** ($36.1\%$ headroom below $14.00\text{ GB/s}$).
 
 ### 5.3 Stage 2 DPO Scope Management
 * **Phase 1 Distillation Scope:** Strictly focused on Stage 1 Multimodal Bounded Forward-KL Distillation (with the 2x2 spatial unshuffle downsampler compressing 576 visual tokens into 144 tokens) and True 4-bit packed W4A16 binary serialization.
@@ -276,10 +283,12 @@ To make the Stage 1 Forward KL divergence mathematically closed on a discrete pr
   * Inner temple wall: $1.0\text{mm}$ aerogel insulation blanket ($k \approx 0.015\text{ W/m}\cdot\text{K}$, thermal resistance $R_{\text{skin}} \ge 35\text{ K/W}$).
   * Outer temple wall: Pyrolytic graphite conduit bonded directly to the aluminum heat spreader ($R_{\text{outer}} \approx 3.5\text{ K/W}$).
   * **Result:** Heat flows $10\times$ preferentially outward to the exterior aluminum plate ($40.0^\circ\text{C}\text{--}41.0^\circ\text{C}$), while the high-resistance aerogel barrier guarantees that skin contact remains strictly **$\le 37.5^\circ\text{C}$**.
-* **PCM Selection (PureTemp 40 Composite):**
-  * $4.0\text{g}$ composite PCM pad ($150\text{ J/g}$ latent heat) melting between **$39.0^\circ\text{C}$ and $40.5^\circ\text{C}$**.
-  * Total latent heat capacity: **$600\text{ Joules}$**.
+* **PCM Selection (PureTemp 42 / RT42 Organic Bio-PCM):**
+  * $4.0\text{g}$ composite PCM pad ($175\text{ J/g}$ latent heat) melting between **$39.0^\circ\text{C}$ and $41.0^\circ\text{C}$**.
+  * Total latent heat capacity: **$700\text{ Joules}$** ($4.0\text{g} \times 175\text{ J/g}$).
   * At $28.0^\circ\text{C}$ ambient, the driving temperature difference to the $40.0^\circ\text{C}$ melt plateau is $\Delta T = 12.0\text{ K}$, allowing the PCM to passively and completely re-solidify between bursts.
+  * *Rejection of Generic Paraffin Wax:* Commercial generic paraffin melts between $50^\circ\text{C}$ and $60^\circ\text{C}$. Generic paraffin would fail to buffer junction heat, allowing the wearable frame to exceed skin comfort limits ($>43^\circ\text{C}$) before phase change begins. PureTemp 42 / RT42 guarantees buffering begins at exactly $39.0^\circ\text{C}\text{--}41.0^\circ\text{C}$.
+  * *Track 1 vs Track 2 Thermal Scope:* Track 1 (P1 Thick-Temple Defense Baseline) utilizes a 3D-printed PETG frame with an external aluminum heatsink and natural convection; the custom-molded pyrolytic graphite sheets, $1.0\text{mm}$ silica aerogel blanket, and sealed PCM pocket are Track 2 custom rigid-flex enclosure specifications.
 
 ### 7.2 Non-Ratcheting Duty Cycle & Ambient Adaptation (B-5 Closed)
 * **Active Burst:** Active inference ($P_{\text{active}} = 3.0\text{W}$) capped at **$12\text{ seconds}$ per turn**:
@@ -293,7 +302,7 @@ To make the Stage 1 Forward KL divergence mathematically closed on a discrete pr
     $$t_{\text{cool}} = \frac{31.44\text{ J}}{0.244\text{ W}} = \mathbf{128.9\text{ seconds}} \approx \mathbf{130\text{ seconds}}.$$
   * *At $32.0^\circ\text{C}$ Ambient:* $\Delta T = 8.0\text{ K} \implies P_{\text{passive}} = 0.24\text{ W}$. Net cooling rate $P_{\text{cooling}} = 0.24\text{ W} - 0.057\text{ W} = 0.183\text{ W}$.
     $$t_{\text{cool}} = \frac{31.44\text{ J}}{0.183\text{ W}} = \mathbf{171.8\text{ seconds}} \approx \mathbf{172\text{ seconds}}.$$
-  * *Thermal Fin Efficiency & Effective Convection Area Note:* An ultra-thin aluminum spreader ($t \approx 0.28\text{ mm}$, $1.5\text{g}$) exhibits in-plane conduction resistance, yielding a fin efficiency $\eta_{\text{fin}} \approx 0.65\text{--}0.75$ and an effective convection area of $\sim 13.5\text{ cm}^2$ (rather than $20.0\text{ cm}^2$ ideal isothermal). While this extends unassisted passive cooldown to $\sim 135\text{--}145\text{s}$ under natural convection, the $4.0\text{g}$ PureTemp 40 PCM pad possesses $600\text{ Joules}$ of latent capacity. Because each $12\text{s}$ burst deposits only $31.44\text{ Joules}$ ($5.24\%$ of capacity), the system can absorb up to 10 consecutive conversational turns before the PCM fully liquifies, providing immense thermal buffer margin.
+  * *Thermal Fin Efficiency & Effective Convection Area Note:* An ultra-thin aluminum spreader ($t \approx 0.28\text{ mm}$, $1.5\text{g}$) exhibits in-plane conduction resistance, yielding a fin efficiency $\eta_{\text{fin}} \approx 0.65\text{--}0.75$ and an effective convection area of $\sim 13.5\text{ cm}^2$ (rather than $20.0\text{ cm}^2$ ideal isothermal). While this extends unassisted passive cooldown to $\sim 135\text{--}145\text{s}$ under natural convection, the $4.0\text{g}$ PureTemp 42 PCM pad possesses $700\text{ Joules}$ of latent capacity. Because each $12\text{s}$ burst deposits only $31.44\text{ Joules}$ ($4.49\%$ of capacity), the system can absorb up to 12 consecutive conversational turns before the PCM fully liquifies, providing immense thermal buffer margin.
   In all cases, passive heat dissipation exceeds heat input, guaranteeing **zero thermal ratcheting**.
 
 ---
@@ -320,30 +329,30 @@ To make the Stage 1 Forward KL divergence mathematically closed on a discrete pr
 * **Milestone 1.2:** Build the 64k vocabulary as a strict subset of Qwen2.5.
 * **Milestone 1.3:** Execute two-stage distillation: Stage 1 (Renormalized Top-64 Forward KD strictly over $\Omega_{64} \subseteq \mathcal{V}_S$ with normalized $\tilde{p}_S$ and $\epsilon = 10^{-5}$) followed by Stage 2 (On-Policy Sequence DPO) using free Kaggle (dual T4 GPUs) or Google Colab.
 * **Milestone 1.4:** Build local Mac M4 sandbox: complete end-to-end voice-to-vision-to-voice simulation with $6^\circ$ down-pitch dynamic text-ROI emulation using Mac FaceTime webcam / mobile camera feed.
-* **Milestone 1.5 (The Zero-Spend Financial Gate):** Evaluate real-world prescription OCR and instruction following utility under strict quantitative thresholds: Character Error Rate (CER) $\le 15.0\%$, Word Error Rate (WER) $\le 40.0\%$, Devanagari In-Vocab Coverage $\ge 80.0\%$ with $100.0\%$ character/byte-level exact string roundtrip, 144-token optical downsampler latency $< 10.0\text{ ms}$, and memory bandwidth $\le 10.50\text{ GB/s}$ safe operational bus ceiling. If the 0.5B student model fails any of these criteria, the project halts with **₹0 spent and zero hardware waste**. If successful, proceed directly to single-shot target hardware procurement.
+* **Milestone 1.5 (The Zero-Spend Financial & Empirical Gate):** Evaluate real-world multimodal fine-print OCR and instruction following utility on the 40-sample benchmark dataset under strict pre-registered quantitative thresholds: Character Error Rate (CER) $\le 5.0\%$ on in-focus text without stripping punctuation, Word Error Rate (WER) $\le 30.0\%$, Key-Field Exact Match $\ge 95.0\%$ (verbatim extraction of medicine names, doses, sign titles, and prices), Devanagari In-Vocab Coverage $\ge 80.0\%$ with $100.0\%$ character/byte-level exact string roundtrip, low-confidence fallback trigger ("I can't read that clearly, please move closer" for confidence $<0.40$), 144-token optical downsampler latency $< 10.0\text{ ms}$ (measured as host reference), and memory bandwidth $\le 14.00\text{ GB/s}$ safe operational bus ceiling ($5.77\text{ GB/s}$ at 25 tok/s). If the 0.5B student model fails any of these criteria, the project halts with **₹0 spent and zero hardware waste**. If successful, proceed directly to single-shot target hardware procurement.
 
 ### Phase 2: Embedded Bring-Up & Zero-Waste Peripheral Integration
 * **Milestone 2.1 (Free Peripheral Testbed via Raspberry Pi 3B):** Utilize the student's on-hand Raspberry Pi 3B (1 GB LPDDR2) for ₹0 audio peripheral validation: verify hardware I2S clocking (`GPIO 18, 19, 21`) to dual MAX98357A mono amps, test INMP441 MEMS microphone arrays, and benchmark WebRTC AEC3 echo cancellation before purchasing the main compute module.
-* **Milestone 2.2 (Single-Shot Target Hardware Procurement):** Skip intermediate throwaway evaluation boards (no Orange Pi 5). Procure the exact target compact RK3576 module (**Firefly CAM-3576Q38**, 6.0 TOPS NPU, 4GB LPDDR4x, onboard Wi-Fi 6 + Bluetooth 5.4, 38×38×11.5 mm, 14.2g, 40-pin FPC MIPI-CSI connector) that mounts directly into the final Track 1 wearable frame.
-* **Milestone 2.3:** Configure Linux 6.1-LTS with PREEMPT_RT patch, measure sustainable LPDDR4x bus bandwidth ($>10.5\text{ GB/s}$ capability), and verify dual-stream capture (`Stream 0` $384\times 384$, `Stream 1` 1:1 foveal crop).
-* **Milestone 2.4:** Benchmark Series 2S power delivery with IP2326 Type-C boost charger (ammeter-verified 300mA 1C charge via $R_{ISET}=0.33\,\Omega$), 2S BMS with HY2212 active cell balancing, MP2315 synchronous step-down buck converter (95% efficiency, zero Schottky catch diode heat), dual MAX98357A mono amps with verified $0.989\text{V}$ (Right) and $1.636\text{V}$ (Left) nominal resistor biasing against the internal $100\text{ k}\Omega$ pulldown (and $1.03\text{V}$ / $3.0\text{V}$ on the Pi 3B 3.3V GPIO rail), and I2S instant earcon ($<80\text{ms}$ awake, $<500\text{ms}$ wake-from-suspend).
+* **Milestone 2.2 (Single-Shot Target Hardware Procurement):** Skip intermediate throwaway evaluation boards (no Orange Pi 5). Procure the exact target compact RK3576 module (**Firefly CAM-3576Q38**, 6.0 TOPS NPU, **4GB LPDDR5**, onboard Wi-Fi 6 + Bluetooth 5.4, 38×38×11.5 mm, 14.2g, 40-pin FPC MIPI-CSI connector) that mounts directly into the final Track 1 wearable frame.
+* **Milestone 2.3:** Configure Linux 6.1-LTS with PREEMPT_RT patch, measure sustainable LPDDR5 bus bandwidth ($>14.0\text{ GB/s}$ capability), and verify dual-stream capture (`Stream 0` $384\times 384$, `Stream 1` 1:1 foveal crop).
+* **Milestone 2.4:** Benchmark Series 2S power delivery with IP2326 Type-C boost charger (planned ammeter verification of 300mA 1C charge via $R_{SENSE}=0.1667\,\Omega$), 2S BMS with HY2212 passive shunt-bleed cell balancing, MP2315 synchronous step-down buck converter (95% efficiency, zero Schottky catch diode heat), dual MAX98357A mono amps with verified $0.989\text{V}$ (Right) and $1.636\text{V}$ (Left) nominal resistor biasing against the internal $100\text{ k}\Omega$ pulldown (and $1.03\text{V}$ / $3.0\text{V}$ on the Pi 3B 3.3V GPIO rail), and I2S instant earcon ($<80\text{ms}$ awake, $<500\text{ms}$ wake-from-suspend).
 
 ### Phase 3: Hardware Engineering & Physical Fabrication (Two-Track Risk Mitigation Strategy)
 To eliminate single-point hardware failure and guarantee a successful capstone defense, Phase 3 implements an explicit two-track hardware strategy:
 * **Track 1 (P1 Defense Baseline — "Thick-Temple" Autonomous Wearable):**
   * Uses the commercial off-the-shelf compact **Firefly CAM-3576Q38** compute module ($38\times 38\times 11.5\text{ mm}$ footprint, 14.2g, onboard Wi-Fi 6 + BT 5.4 and direct 40-pin FPC camera connector) housed within a deliberately chunky, industrial-style temple enclosure ($20\text{--}22\text{ mm}$ height, benchmarked against commercial smart glasses such as Bose Frames, Amazon Echo Frames, and Solos AirGo).
   * Uses discrete micro-ribbon FPC jumpers / standard 2-to-4 layer low-speed FR4 breakout boards with $0.5\text{ mm}$ pitch connectors (high-speed MIPI stays entirely on the CAM-3576Q38 module), completely eliminating the yield risks of custom 10-layer microvia HDI PCB fabrication.
-  * Satisfies 100% of the five non-negotiable directives: fully untethered, dual internal 2S 30C/60C batteries, on-device AI inference, Bluetooth audio only, and all-up weight $\le 125.0\text{g}$ ($115.0\text{g}$ nominal, 125.0g all-up with contingency margin).
+  * Satisfies 100% of the five non-negotiable directives: fully untethered, dual internal 2S 30C/60C batteries, on-device AI inference, Bluetooth audio only, and all-up weight $\le 120.0\text{g}$ ($117.8\text{g}$ nominal with positive margin).
   * **Capstone Defense Assurance:** Guarantees a fully functional, wearable physical demonstration on the student's face even if custom micro-flex fabrication experiences delays.
 * **Track 2 (P2 Research Stretch Goal — Ultra-Slim 14mm Rigid-Flex Profile):**
-  * Advanced custom 8-to-10 layer microvia HDI rigid-flex substrate with direct BGA fanout of RK3576 and LPDDR4x within a sleek $14\text{ mm}$ temple profile. Pursued in parallel or as a fast follow-on spin, without gating academic graduation.
+  * Advanced custom 8-to-10 layer microvia HDI rigid-flex substrate with direct BGA fanout of RK3576 and LPDDR5 within a sleek $14\text{ mm}$ temple profile. Pursued in parallel or as a fast follow-on spin, without gating academic graduation.
 * **Milestone 3.1 (Parametric Frame MCAD via Fusion 360 MCP):** AI synthesizes parametric frame CAD in Fusion 360 for both Track 1 (thick-temple defense baseline) and Track 2 (ultra-slim profile), integrating the Titanium Grade 5 camera skeleton ($6^\circ$ pitch) and graphite-PCM thermal cavities.
 * **Milestone 3.2 (Carrier Board ECAD with DFM):** Design carrier boards in Fusion 360 Electronics with 18-conductor Left flex, 34-conductor Right flex, wide $\ge 2.0\text{ mm}$ $2\text{ oz}$ copper power pours ($R_{\text{DC}} \le 0.030\,\Omega$), Kelvin MID sense lines, $45^\circ$ cross-hatched ground planes, LC pi-filters, and isolated microphone star-ground.
 * **Milestone 3.3 (Automated DRC & Manufacturing Export):** Export verified Gerber RS-274X, Pick-and-Place CPL files, and `.STEP`/`.STL` packages for SLS Nylon PA12 (or FDM PETG prototyping) 3D printing.
 * **Milestone 3.4 (Assembly & Mechanical Bring-Up):** Assemble populated carrier boards, 3D frames, optical lenses, and Series 2S dual 300mAh LiPo cells.
 
 ### Phase 4: System Integration, Optimization & Defense
-* **Milestone 4.1:** Verify all-up mass is strictly $\le 115.0\text{g}$ ($10.0\text{g}$ below the $125.0\text{g}$ ceiling) and skin contact temperature remains $\le 37.5^\circ\text{C}$ across the certified $0\text{--}28^\circ\text{C}$ nominal ($28\text{--}32^\circ\text{C}$ extended) ambient envelope.
+* **Milestone 4.1:** Planned verification that all-up mass is strictly $\le 120.0\text{g}$ ($117.8\text{g}$ nominal) and skin contact temperature remains $\le 37.5^\circ\text{C}$ across the certified $0\text{--}28^\circ\text{C}$ nominal ($28\text{--}32^\circ\text{C}$ extended) ambient envelope.
 * **Milestone 4.2:** Complete tool-calling integration testing (Google Search and Gmail API via Wi-Fi/Bluetooth gateway).
 * **Milestone 4.3:** Author final capstone thesis and execute live, un-tethered, standalone hardware demonstration for the evaluation committee.
 
@@ -351,6 +360,6 @@ To eliminate single-point hardware failure and guarantee a successful capstone d
 
 ## 10. Academic Novelty & Thesis Deliverables
 
-1. **Machine Learning / IT Contribution:** A mathematically convergent two-stage cross-modal distillation pipeline (Normalized Epsilon-smoothed Top-64 Forward KD bounded strictly over $\Omega_{64} \subseteq \mathcal{V}_S$ + Sequence DPO) using a strict 64k vocabulary subset, compressing the model into a 415.2M student operating under an $8.95\text{ GB/s}$ peak / $6.39\text{ GB/s}$ sustained INT4 memory bandwidth budget (39.1% safe headroom).
+1. **Machine Learning / IT Contribution:** A mathematically convergent two-stage cross-modal distillation pipeline (Normalized Epsilon-smoothed Top-64 Forward KD bounded strictly over $\Omega_{64} \subseteq \mathcal{V}_S$ + Sequence DPO) using a strict 64k vocabulary subset, compressing the model into a 415.2M student operating under an $8.07\text{ GB/s}$ peak / $5.77\text{ GB/s}$ sustained INT4 memory bandwidth budget (58.8% safe headroom below the 14.0 GB/s bus ceiling).
 2. **Systems Architecture Contribution:** An asynchronous edge orchestration runtime featuring lock-free real-time audio threads, WebRTC AEC3 echo cancellation, dual-temple mono MAX98357A digital I2S amplifiers with hardware-isolated $<0.1\,\mu\text{A}$ shutdown, and a target Time-to-First-Word of **$\sim 1.20\text{ seconds}$ (to be empirically benchmarked in Phase 2)** preceded by an instant earcon chime (**$<80\text{ms}$ in awake state, $<500\text{ms}$ upon wake-from-suspend button interrupt**).
-3. **Hardware / Embedded Contribution:** A completely self-contained smart-glasses form factor with Series 2S active-balanced battery packaging, 18-conductor/34-conductor continuous rigid-flex hinge interconnects, Titanium Grade 5 kinematic optomechanics, and an open-drain hardware watchdog architecture operating under a verified **115.0-gram mass envelope** with zero dependence on cloud infrastructure or smartphone coprocessing.
+3. **Hardware / Embedded Contribution:** A completely self-contained smart-glasses form factor with Series 2S passive shunt-bleed balanced battery packaging, 18-conductor/34-conductor continuous rigid-flex hinge interconnects, Titanium Grade 5 kinematic optomechanics, and an open-drain hardware watchdog architecture operating under a planned **117.8-gram nominal mass envelope ($\le 120.0\text{g}$ target)** with zero dependence on cloud infrastructure or smartphone coprocessing.

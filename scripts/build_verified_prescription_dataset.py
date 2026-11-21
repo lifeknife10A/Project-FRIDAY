@@ -2,6 +2,7 @@
 PROJECT FRIDAY: REALISTIC HIGH-FIDELITY PRESCRIPTION LABEL BENCHMARK BUILDER
 Generates 20 distinct high-resolution realistic pharmacy prescription labels
 with complete hand-typed ground truth text and target clinical extractions.
+NOTE: All pharmacy names are strictly fictional (anti-trademark / audit compliance).
 """
 
 import os
@@ -10,7 +11,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 PRESCRIPTION_SPECS = [
     {
-        "pharmacy": "WALGREENS PHARMACY #4021 - (555) 019-2834",
+        "pharmacy": "METROPOLIS APOTHECARY #101 - (555) 019-2834",
         "pharm_address": "1042 MAIN ST, NEW YORK, NY 10001",
         "rx_num": "RX # 6543210-0987",
         "date": "11/20/2026",
@@ -21,10 +22,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: FINISH ALL MEDICATION UNLESS ADVISED BY DOCTOR",
         "qty_refills": "QTY: 20 CAPSULES   REFILLS: 0   EXP: 11/2027",
         "ndc_mfr": "NDC: 0093-2264-01   TEVA PHARMACEUTICALS",
-        "target_drug_dose": "Amoxicillin 500mg"
+        "target_drug_dose": "Amoxicillin 500mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "CVS PHARMACY #1842 - (555) 349-8120",
+        "pharmacy": "RIVERBEND HEALTH PHARMACY #204 - (555) 349-8120",
         "pharm_address": "450 BROADWAY, BOSTON, MA 02116",
         "rx_num": "RX # 7812903-4512",
         "date": "11/18/2026",
@@ -35,10 +37,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: TAKE WITH FOOD TO REDUCE STOMACH UPSET",
         "qty_refills": "QTY: 60 TABLETS   REFILLS: 3   EXP: 10/2027",
         "ndc_mfr": "NDC: 65862-009-60   AUROBINDO PHARMA",
-        "target_drug_dose": "Metformin 500mg"
+        "target_drug_dose": "Metformin 500mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "RITE AID PHARMACY #5291 - (555) 902-1144",
+        "pharmacy": "OAKVALE COMMUNITY RX #305 - (555) 902-1144",
         "pharm_address": "820 MARKET ST, PHILADELPHIA, PA 19107",
         "rx_num": "RX # 4901283-7721",
         "date": "11/15/2026",
@@ -49,10 +52,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: DO NOT DISCONTINUE WITHOUT CONSULTING PHYSICIAN",
         "qty_refills": "QTY: 30 TABLETS   REFILLS: 5   EXP: 11/2027",
         "ndc_mfr": "NDC: 68180-514-01   LUPIN PHARMACEUTICALS",
-        "target_drug_dose": "Lisinopril 10mg"
+        "target_drug_dose": "Lisinopril 10mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "APOLLO PHARMACY #8820 - (555) 671-2098",
+        "pharmacy": "SUMMIT CREST PHARMACY #412 - (555) 671-2098",
         "pharm_address": "12 J.N. ROAD, MUMBAI, MH 400001",
         "rx_num": "RX # 9021844-3310",
         "date": "11/19/2026",
@@ -63,10 +67,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: AVOID GRAPEFRUIT JUICE WHILE TAKING THIS MEDICATION",
         "qty_refills": "QTY: 30 TABLETS   REFILLS: 2   EXP: 09/2027",
         "ndc_mfr": "NDC: 0093-5058-01   TEVA PHARMACEUTICALS",
-        "target_drug_dose": "Atorvastatin 20mg"
+        "target_drug_dose": "Atorvastatin 20mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "WALMART PHARMACY #2215 - (555) 438-9901",
+        "pharmacy": "BEACON HILL MEDICAL RX #519 - (555) 438-9901",
         "pharm_address": "200 COMMERCIAL BLVD, CHICAGO, IL 60611",
         "rx_num": "RX # 3319028-1123",
         "date": "11/14/2026",
@@ -77,10 +82,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: TAKE ON EMPTY STOMACH WITH FULL GLASS OF WATER",
         "qty_refills": "QTY: 90 TABLETS   REFILLS: 1   EXP: 08/2027",
         "ndc_mfr": "NDC: 0074-6624-11   ABBVIE INC",
-        "target_drug_dose": "Levothyroxine 50mcg"
+        "target_drug_dose": "Levothyroxine 50mcg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "MEDPLUS PHARMACY #3104 - (555) 771-4450",
+        "pharmacy": "PINE VALLEY PHARMACY #602 - (555) 771-4450",
         "pharm_address": "55 LINK ROAD, BANDRA, MUMBAI 400050",
         "rx_num": "RX # 8820194-5561",
         "date": "11/17/2026",
@@ -91,10 +97,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: MAY CAUSE DIZZINESS WHEN RISING FROM SITTING POSITION",
         "qty_refills": "QTY: 30 TABLETS   REFILLS: 4   EXP: 11/2027",
         "ndc_mfr": "NDC: 55111-180-30   VIATRIS SPECIALTY",
-        "target_drug_dose": "Amlodipine 5mg"
+        "target_drug_dose": "Amlodipine 5mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "BOOTS PHARMACY #912 - (555) 880-3321",
+        "pharmacy": "CEDAR SPRINGS PHARMACY #718 - (555) 880-3321",
         "pharm_address": "14 OXFORD ST, LONDON, W1D 1BS",
         "rx_num": "RX # 5510294-8872",
         "date": "11/16/2026",
@@ -105,10 +112,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: SWALLOW WHOLE DO NOT CRUSH OR CHEW CAPSULE",
         "qty_refills": "QTY: 28 CAPSULES   REFILLS: 0   EXP: 12/2027",
         "ndc_mfr": "NDC: 0781-2234-01   SANDOZ INC",
-        "target_drug_dose": "Omeprazole 20mg"
+        "target_drug_dose": "Omeprazole 20mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "COSTCO PHARMACY #440 - (555) 662-9018",
+        "pharmacy": "HORIZON APOTHECARY #803 - (555) 662-9018",
         "pharm_address": "700 GATEWAY PARK, SAN FRANCISCO, CA 94103",
         "rx_num": "RX # 6610928-3419",
         "date": "11/19/2026",
@@ -119,10 +127,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: DO NOT TAKE IF PREGNANT CONSULT PHYSICIAN",
         "qty_refills": "QTY: 30 TABLETS   REFILLS: 3   EXP: 11/2027",
         "ndc_mfr": "NDC: 31722-701-30   CAMBER PHARMACEUTICALS",
-        "target_drug_dose": "Losartan 50mg"
+        "target_drug_dose": "Losartan 50mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "TARGET PHARMACY #1102 - (555) 234-5590",
+        "pharmacy": "HARBORVIEW CARE PHARMACY #915 - (555) 234-5590",
         "pharm_address": "330 NICOLLET MALL, MINNEAPOLIS, MN 55401",
         "rx_num": "RX # 4409182-1209",
         "date": "11/12/2026",
@@ -133,10 +142,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: MAY CAUSE DROWSINESS DO NOT OPERATE MACHINERY",
         "qty_refills": "QTY: 90 CAPSULES   REFILLS: 1   EXP: 10/2027",
         "ndc_mfr": "NDC: 65862-200-90   AUROBINDO PHARMA",
-        "target_drug_dose": "Gabapentin 300mg"
+        "target_drug_dose": "Gabapentin 300mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "KROGER PHARMACY #301 - (555) 991-8843",
+        "pharmacy": "HIGHLAND WELLNESS RX #114 - (555) 991-8843",
         "pharm_address": "120 VINE ST, CINCINNATI, OH 45202",
         "rx_num": "RX # 7710293-8841",
         "date": "11/18/2026",
@@ -147,10 +157,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: DO NOT STOP TAKING WITHOUT TALKING TO DOCTOR",
         "qty_refills": "QTY: 30 TABLETS   REFILLS: 5   EXP: 11/2027",
         "ndc_mfr": "NDC: 69097-834-12   CIPLA USA INC",
-        "target_drug_dose": "Sertraline 50mg"
+        "target_drug_dose": "Sertraline 50mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "SAFEWAY PHARMACY #229 - (555) 345-6712",
+        "pharmacy": "LAKESIDE PHARMACY #228 - (555) 345-6712",
         "pharm_address": "500 QUEEN ANNE AVE, SEATTLE, WA 98109",
         "rx_num": "RX # 5509182-7740",
         "date": "11/17/2026",
@@ -161,10 +172,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: REPORT ANY UNEXPLAINED MUSCLE PAIN IMMEDIATELY",
         "qty_refills": "QTY: 30 TABLETS   REFILLS: 2   EXP: 10/2027",
         "ndc_mfr": "NDC: 71335-3197-1   BRYANT RANCH PREPACK",
-        "target_drug_dose": "Simvastatin 20mg"
+        "target_drug_dose": "Simvastatin 20mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "PUBLIX PHARMACY #640 - (555) 881-2390",
+        "pharmacy": "SUNSET PLAZA APOTHECARY #339 - (555) 881-2390",
         "pharm_address": "100 BISCAYNE BLVD, MIAMI, FL 33132",
         "rx_num": "RX # 9910284-4412",
         "date": "11/19/2026",
@@ -175,10 +187,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: TAKE EVERY DAY EVEN WHEN ASTHMA SYMPTOMS IMPROVE",
         "qty_refills": "QTY: 30 TABLETS   REFILLS: 3   EXP: 11/2027",
         "ndc_mfr": "NDC: 43063-762-30   PD-RX PHARMACEUTICALS",
-        "target_drug_dose": "Montelukast 10mg"
+        "target_drug_dose": "Montelukast 10mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "MEIJER PHARMACY #118 - (555) 441-9982",
+        "pharmacy": "CRESTVIEW HEALTH RX #442 - (555) 441-9982",
         "pharm_address": "880 WOODWARD AVE, DETROIT, MI 48226",
         "rx_num": "RX # 2210948-5510",
         "date": "11/16/2026",
@@ -189,10 +202,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: MAY TAKE 1 TO 4 WEEKS FOR FULL BENEFIT",
         "qty_refills": "QTY: 30 TABLETS   REFILLS: 4   EXP: 09/2027",
         "ndc_mfr": "NDC: 68180-135-01   LUPIN PHARMACEUTICALS",
-        "target_drug_dose": "Escitalopram 10mg"
+        "target_drug_dose": "Escitalopram 10mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "GIANT EAGLE PHARMACY #44 - (555) 772-1092",
+        "pharmacy": "VALLEY GREEN PHARMACY #551 - (555) 772-1092",
         "pharm_address": "300 PENN AVE, PITTSBURGH, PA 15222",
         "rx_num": "RX # 3310984-7711",
         "date": "11/15/2026",
@@ -203,10 +217,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: DO NOT EXCEED 6 TABLETS IN 24 HOURS LIVER WARNING",
         "qty_refills": "QTY: 50 TABLETS   REFILLS: 0   EXP: 12/2027",
         "ndc_mfr": "NDC: 55289-563-30   PD-RX PHARMACEUTICALS",
-        "target_drug_dose": "Acetaminophen 500mg"
+        "target_drug_dose": "Acetaminophen 500mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "WEGMANS PHARMACY #82 - (555) 332-9011",
+        "pharmacy": "BLUE RIDGE MEDICAL PHARMACY #663 - (555) 332-9011",
         "pharm_address": "1750 EAST AVE, ROCHESTER, NY 14610",
         "rx_num": "RX # 8810294-3321",
         "date": "11/18/2026",
@@ -217,10 +232,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: TAKE WITH FOOD OR MILK TO PREVENT STOMACH UPSET",
         "qty_refills": "QTY: 40 TABLETS   REFILLS: 1   EXP: 11/2027",
         "ndc_mfr": "NDC: 0573-0164-40   PFIZER CONSUMER",
-        "target_drug_dose": "Ibuprofen 200mg"
+        "target_drug_dose": "Ibuprofen 200mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "HEB PHARMACY #502 - (555) 882-1049",
+        "pharmacy": "NORTH STAR APOTHECARY #774 - (555) 882-1049",
         "pharm_address": "1000 S CONGRESS AVE, AUSTIN, TX 78704",
         "rx_num": "RX # 4410928-6623",
         "date": "11/14/2026",
@@ -231,10 +247,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: SHAKE WELL BEFORE USE RINSE MOUTH AFTER INHALING",
         "qty_refills": "QTY: 1 CANISTER   REFILLS: 2   EXP: 08/2027",
         "ndc_mfr": "NDC: 0487-9501-01   NEPHRON PHARMACEUTICALS",
-        "target_drug_dose": "Albuterol 90mcg"
+        "target_drug_dose": "Albuterol 90mcg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL INHALATION ONLY"
     },
     {
-        "pharmacy": "HARRIS TEETER PHARMACY #310 - (555) 901-2244",
+        "pharmacy": "WEST END CARE PHARMACY #885 - (555) 901-2244",
         "pharm_address": "400 S TRYON ST, CHARLOTTE, NC 28285",
         "rx_num": "RX # 6610294-8831",
         "date": "11/16/2026",
@@ -245,10 +262,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: SHAKE GENTLY BEFORE USE FOR INTRANASAL USE ONLY",
         "qty_refills": "QTY: 1 BOTTLE   REFILLS: 3   EXP: 10/2027",
         "ndc_mfr": "NDC: 0054-3270-99   HIKMA PHARMACEUTICALS",
-        "target_drug_dose": "Fluticasone 50mcg"
+        "target_drug_dose": "Fluticasone 50mcg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR INTRANASAL USE ONLY"
     },
     {
-        "pharmacy": "HY-VEE PHARMACY #142 - (555) 229-3381",
+        "pharmacy": "MAPLE GROVE PHARMACY #996 - (555) 229-3381",
         "pharm_address": "410 6TH AVE, DES MOINES, IA 50309",
         "rx_num": "RX # 7710294-9912",
         "date": "11/17/2026",
@@ -259,10 +277,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: SWALLOW WHOLE DO NOT SPLIT CRUSH OR CHEW",
         "qty_refills": "QTY: 30 TABLETS   REFILLS: 2   EXP: 11/2027",
         "ndc_mfr": "NDC: 55154-4225-5   CARDINAL HEALTH",
-        "target_drug_dose": "Pantoprazole 40mg"
+        "target_drug_dose": "Pantoprazole 40mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "FRED MEYER PHARMACY #601 - (555) 883-4410",
+        "pharmacy": "CENTRAL VALLEY RX #107 - (555) 883-4410",
         "pharm_address": "100 BURNSIDE ST, PORTLAND, OR 97209",
         "rx_num": "RX # 3310294-5519",
         "date": "11/19/2026",
@@ -273,10 +292,11 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: TAKE IN MORNING TO AVOID SLEEP INTERRUPTION",
         "qty_refills": "QTY: 30 TABLETS   REFILLS: 1   EXP: 09/2027",
         "ndc_mfr": "NDC: 0054-4297-25   HIKMA PHARMACEUTICALS",
-        "target_drug_dose": "Furosemide 20mg"
+        "target_drug_dose": "Furosemide 20mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     },
     {
-        "pharmacy": "DUANE READE PHARMACY #140 - (555) 661-8822",
+        "pharmacy": "SILVER LAKE APOTHECARY #218 - (555) 661-8822",
         "pharm_address": "100 WALL ST, NEW YORK, NY 10005",
         "rx_num": "RX # 5510293-4401",
         "date": "11/20/2026",
@@ -287,12 +307,12 @@ PRESCRIPTION_SPECS = [
         "warning": "WARNING: TAKE WITH FOOD TO PREVENT STOMACH IRRITATION",
         "qty_refills": "QTY: 10 TABLETS   REFILLS: 0   EXP: 08/2027",
         "ndc_mfr": "NDC: 0054-0017-25   HIKMA PHARMACEUTICALS",
-        "target_drug_dose": "Prednisone 10mg"
+        "target_drug_dose": "Prednisone 10mg",
+        "footer": "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
     }
 ]
 
 def render_prescription_label(spec, output_path):
-    # Standard 750x480 high-contrast realistic pharmacy label
     img = Image.new('RGB', (750, 480), color=(253, 253, 251))
     draw = ImageDraw.Draw(img)
 
@@ -320,7 +340,10 @@ def render_prescription_label(spec, output_path):
     # Qty, refills, NDC
     draw.text((25, 325), spec["qty_refills"], fill=(20, 20, 20))
     draw.text((25, 360), spec["ndc_mfr"], fill=(40, 40, 40))
-    draw.text((25, 410), "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY", fill=(140, 20, 20))
+    
+    # Specific route footer (inhaler vs nasal spray vs oral)
+    footer_text = spec.get("footer", "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY")
+    draw.text((25, 410), footer_text, fill=(140, 20, 20))
 
     img.save(output_path, quality=95)
     return output_path
@@ -334,14 +357,14 @@ def build_dataset(output_dir="assets/prescription_labels"):
         img_path = os.path.join(output_dir, img_name)
         render_prescription_label(spec, img_path)
         
-        # Compile exact hand-typed ground truth text of what is printed on this label
+        footer_text = spec.get("footer", "KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY")
         ground_truth_text = (
             f"{spec['pharmacy']} {spec['pharm_address']} "
             f"{spec['rx_num']} DATE: {spec['date']} "
             f"{spec['patient']} {spec['doctor']} "
             f"{spec['drug_line']} {spec['directions']} {spec['warning']} "
             f"{spec['qty_refills']} {spec['ndc_mfr']} "
-            f"KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY"
+            f"{footer_text}"
         )
         
         manifest.append({
@@ -349,7 +372,8 @@ def build_dataset(output_dir="assets/prescription_labels"):
             "image_path": img_path,
             "drug_line": spec["drug_line"],
             "target_extraction": spec["target_drug_dose"],
-            "ground_truth_ocr": ground_truth_text
+            "ground_truth_ocr": ground_truth_text,
+            "footer": footer_text
         })
         print(f"Generated Label #{idx+1:02d}: {spec['target_drug_dose']:22s} -> {img_path}")
         

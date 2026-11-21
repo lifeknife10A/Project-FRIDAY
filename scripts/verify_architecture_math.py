@@ -111,13 +111,13 @@ def audit_mass_budget():
 
 def audit_memory_bandwidth():
     print("--- [3/6] AUDITING MEMORY TRAFFIC & BUS BANDWIDTH ---")
-    # Bus Baseline (RK3576 32-bit LPDDR4x @ 2133 MHz clock / 4266 MT/s):
-    # Theoretical Peak = 4 bytes * 4.266 GT/s = 17.064 GB/s
-    # Sustainable Streaming Ceiling (79% efficiency) = 13.50 GB/s
-    # Safe Operational Ceiling (with ISP/Camera/Audio contention) = 10.50 GB/s
-    bus_peak_gb_s = 17.064
-    bus_sustained_gb_s = 13.50
-    bus_safe_ceiling_gb_s = 10.50
+    # Bus Baseline (Firefly CAM-3576Q38 32-bit LPDDR5 @ 5500 MT/s):
+    # Theoretical Peak = 4 bytes * 5.500 GT/s = 22.00 GB/s
+    # Sustainable Streaming Ceiling (80% efficiency) = 17.60 GB/s
+    # Safe Operational Ceiling (with ISP/Camera/Audio contention) = 14.00 GB/s
+    bus_peak_gb_s = 22.00
+    bus_sustained_gb_s = 17.60
+    bus_safe_ceiling_gb_s = 14.00
 
     # Exact Qwen2.5-0.5B KV Cache Geometry (Both K and V tensors):
     # 2 (K+V) * 24 layers * 2 KV heads * 64 head_dim * 1 byte (INT8) * 1024 context tokens = 6.29 MB
@@ -136,7 +136,7 @@ def audit_memory_bandwidth():
     print(f"  [Primary All-INT4 Artifact (208.43 MB packed)]:")
     print(f"    Weights: {weights_all_int4_mb:.2f} MB | Scales/Norms: {scales_norms_mb:.1f} MB | INT8 KV Cache: {kv_cache_mb:.2f} MB")
     print(f"    Total Traffic per Token: {traffic_all_int4_per_tok:.2f} MB/token")
-    print(f"    Operating Bandwidth (25 tok/s): {bw_all_int4_25:.2f} GB/s (Headroom below 10.5 GB/s safe ceiling: {headroom_all_int4_safe:.2f} GB/s, {headroom_all_int4_safe/bus_safe_ceiling_gb_s*100:.1f}%)")
+    print(f"    Operating Bandwidth (25 tok/s): {bw_all_int4_25:.2f} GB/s (Headroom below 14.0 GB/s safe ceiling: {headroom_all_int4_safe:.2f} GB/s, {headroom_all_int4_safe/bus_safe_ceiling_gb_s*100:.1f}%)")
     print(f"    Burst Peak Bandwidth (35 tok/s): {bw_all_int4_35:.2f} GB/s (Headroom: {bus_safe_ceiling_gb_s - bw_all_int4_35:.2f} GB/s)")
     assert bw_all_int4_25 < bus_safe_ceiling_gb_s, f"Primary contract exceeded ceiling: {bw_all_int4_25}"
     assert bw_all_int4_35 < bus_safe_ceiling_gb_s, f"Burst peak exceeded ceiling: {bw_all_int4_35}"
@@ -157,7 +157,7 @@ def audit_memory_bandwidth():
     print(f"    Burst Peak Bandwidth (35 tok/s): {bw_int8_head_35:.2f} GB/s (Headroom: {headroom_int8_head_safe:.2f} GB/s, {headroom_int8_head_safe/bus_safe_ceiling_gb_s*100:.1f}%)")
     assert bw_int8_head_35 < bus_safe_ceiling_gb_s, f"Fallback contract exceeded ceiling: {bw_int8_head_35}"
 
-    print(f"  [PASS] Memory Bandwidth Rigorously Verified: Primary = 5.77 GB/s @ 25 tok/s, Fallback = 8.95 GB/s @ 35 tok/s (< 10.50 GB/s safe ceiling)\n")
+    print(f"  [PASS] Memory Bandwidth Rigorously Verified: Primary = 5.77 GB/s @ 25 tok/s, Fallback = 8.95 GB/s @ 35 tok/s (< 14.00 GB/s safe ceiling)\n")
 
 def audit_audio_decoding():
     print("--- [4/6] AUDITING MAX98357A RESISTOR-COUPLED SD_MODE NETWORK ---")

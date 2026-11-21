@@ -1,7 +1,7 @@
 # PHASE 1: AI DISTILLATION & ZERO-RUPEE HARDWARE-IN-THE-LOOP EMULATION SANDBOX
 ## Project FRIDAY: Autonomous, Sovereign Edge-AI Smart Eyewear Platform
 **Lead ML & Systems Engineer:** Krishna Jagat Solanki  
-**Target Hardware Contract:** Rockchip RK3576 SoC (6 TOPS NPU, 32-bit LPDDR4x @ 2133 MHz, sustained bus ceiling 10.5 GB/s)  
+**Target Hardware Contract:** Rockchip RK3576 SoC (6 TOPS NPU, Firefly CAM-3576Q38 32-bit LPDDR5 @ 5500 MT/s, 22.0 GB/s peak, 17.6 GB/s sustained, 14.0 GB/s safe ceiling)  
 **Host Emulation Machine:** MacBook Air 15" M4 (16 GB Unified Memory, macOS 15+)  
 **Outlay Constraint:** Strictly ₹0.00 (Zero drawer-waste, zero out-of-pocket expenditure)
 
@@ -40,7 +40,7 @@ phase1_ai_sandbox/
 
 | Parameter | RK3576 Silicon Limit | Project FRIDAY Emulation Constraint | Empirical Status |
 | :--- | :--- | :--- | :--- |
-| **DDR Bus Ceiling** | 13.50 GB/s sustained, 10.50 GB/s safe ceiling | **$5.77\text{ GB/s}$** at 25 tok/s ($8.07\text{ GB/s}$ burst at 35 tok/s) | **PASS [✓]** ($4.73\text{ GB/s}$ safe headroom) |
+| **DDR Bus Ceiling** | 22.00 GB/s peak, 17.60 GB/s sustained, 14.00 GB/s safe ceiling | **$5.77\text{ GB/s}$** at 25 tok/s ($8.07\text{ GB/s}$ burst at 35 tok/s) | **PASS [✓]** ($8.23\text{ GB/s}$ / 58.8% safe headroom) |
 | **Traffic per Token** | N/A | **$\le 230.61\text{ MB/token}$** (208.32 MB W + 16 MB N + 6.29 MB KV) | **PASS [✓]** (Physical 208.43 MB packed artifact) |
 | **Visual Prefix Length**| 576 patches (NPU SRAM overflow) | **Strictly 144 visual tokens** via 2x2 Spatial Unshuffle | **PASS [✓]** ($75\%$ sequence compression) |
 | **Student Vocabulary** | 151,643+ tokens (136 MB LM head) | **Strictly 64,000 tokens** ($\mathcal{V}_S \subset \mathcal{V}_T$, 57.34 MB INT8) | **PASS [✓]** (100% special/math/digits kept)|

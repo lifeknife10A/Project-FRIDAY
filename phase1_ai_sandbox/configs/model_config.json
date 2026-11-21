@@ -27,11 +27,12 @@
       "measured_packed_weights_mb": 208.43
     },
     "distillation_parameters": {
-      "teacher_model": "Qwen/Qwen2.5-VL-72B-Instruct",
+      "teacher_model": "Qwen/Qwen2-VL-2B-Instruct",
+      "teacher_selection_rationale": "Phase 1 zero-cost sandbox constraint mandates execution within the 16 GB VRAM ceiling of a single Google Colab T4 GPU. Qwen2.5-VL-72B-Instruct requires ~144 GB VRAM across multiple A100/H100 clusters, making it infeasible for Phase 1. Qwen/Qwen2-VL-2B-Instruct runs in FP16 at ~4.5 GB VRAM, shares the Qwen2 tokenizer/vocabulary subset, and allows true multimodal cross-modal distillation alongside SigLIP-384 and the 415M Student within ~7.5 GB VRAM.",
       "top_k_support": 64,
       "epsilon_smoothing": 1e-5,
       "temperature": 1.0,
-      "phase1_scope": "stage_1_multimodal_forward_kl_only",
+      "phase1_scope": "stage_1a_projector_alignment_and_stage_1b_multimodal_forward_kl",
       "stage_2_dpo_deferred_to": "phase_3_on_device"
     },
     "memory_bandwidth_contract": {
@@ -44,10 +45,12 @@
         "operating_bandwidth_gb_s": 5.77,
         "burst_tokens_per_second": 35.0,
         "burst_bandwidth_gb_s": 8.07,
-        "bus_safe_ceiling_gb_s": 10.50,
-        "bus_sustained_gb_s": 13.50,
-        "headroom_operating_gb_s": 4.73,
-        "headroom_operating_pct": 45.0
+        "target_som_ram_type": "32-bit LPDDR5 @ 5500 MT/s (Firefly CAM-3576Q38)",
+        "bus_peak_theoretical_gb_s": 22.00,
+        "bus_sustained_gb_s": 17.60,
+        "bus_safe_ceiling_gb_s": 14.00,
+        "headroom_operating_gb_s": 8.23,
+        "headroom_operating_pct": 58.8
       },
       "secondary_contract_int8_head": {
         "weights_mb": 233.34,
@@ -55,7 +58,9 @@
         "kv_cache_1024_int8_mb": 6.29,
         "total_traffic_mb_per_token": 255.63,
         "operating_bandwidth_gb_s": 6.39,
-        "burst_bandwidth_gb_s": 8.95
+        "burst_bandwidth_gb_s": 8.95,
+        "headroom_operating_gb_s": 7.61,
+        "headroom_operating_pct": 54.4
       }
     },
     "speech_synthesis": {
