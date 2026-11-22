@@ -75,7 +75,8 @@ Approvals name one SHA; any new commit restarts at step 3.
   (`https://pypi.org/pypi/<pkg>/<ver>/json`), and require `pip check` to pass after install.
 - Tokenizer tests: `pip install transformers` (no torch needed); exec notebook cells 1+3 with
   `python3 -I`, round-trip CJK/Tamil/Gujarati/Kannada/Bengali/emoji strings.
-- OCR checks: `pip install rapidocr_onnxruntime`; run RapidOCR on
+- OCR checks: `pip install rapidocr==3.10.0 onnxruntime==1.32.0` (PP-OCRv6 small models ship in the
+  wheel); use `benchmark_dataset_evaluator.run_ocr()` on
   `assets/benchmark_dataset/images/*` and compare to `benchmark_manifest.json`.
 - Normalizer adversarial strings: "Net wt 10oz", "Weight 1lb", "Take 1Inhaler", "Pack of 2ONLY",
   "Gate S2 boarding", "Platform S1", "....S2.5.0.".
@@ -107,6 +108,16 @@ Approvals name one SHA; any new commit restarts at step 3.
   - Teacher "Lisinopril ... dose is 10" scored wrong because max_new_tokens=16 truncates (cell 10).
   - Vision path after 2 steps: "The given sentence is in Spanish" (expected; not a bug).
   - Stage 1b used a cached manifest from an earlier run: caches are not versioned by code SHA.
+- Reviewed `aaf4ff3` + dry run `9bf7453` (Python 3.13 venv) — H1–H3 verified; executed code ==
+  aaf4ff3, recorded SHA matches, 0 tracebacks. My independent run of run_ocr (rapidocr 3.10.0 =
+  PP-OCRv6 small, not v4 — docs should say v6) on ALL 40 images: CER 6.24% (first 4: 4.15%, theirs
+  4.36%), 1 fallback; whole-label echo scored correct 24/40 (any OCR number glitch -> wrong_spoken).
+  Verdict: NOT yet Kaggle — J1: cell 1 raises if `pip check` reports ANY broken requirement; on
+  Kaggle's image (hundreds of preinstalled pkgs) downgrading transformers to 4.46.3 / hub to 0.36.x
+  will almost certainly break other preinstalled packages' requirements -> cell 1 crash again.
+  Scope the check to requirements OF our pinned packages (left-hand package in our set).
+  Proposed (needs Krishna OK): J1 touches only the Kaggle/Colab branch of cell 1, so approve Kaggle
+  on the J1 commit after diff review, without a new Mac dry run.
 - Kaggle run of 3d9e52d (kernel version 2) FAILED at cell 1 in ~10 s (no GPU time wasted):
   Kaggle image is Python 3.13; `rapidocr_onnxruntime==1.3.24` requires Python <3.13 (all versions
   do) AND numpy<2.0 — so the pin set (numpy==2.4.6) was never co-installable; the Mac venv was
