@@ -104,17 +104,19 @@ Approvals name one SHA; any new commit restarts at step 3.
   - Teacher "Lisinopril ... dose is 10" scored wrong because max_new_tokens=16 truncates (cell 10).
   - Vision path after 2 steps: "The given sentence is in Spanish" (expected; not a bug).
   - Stage 1b used a cached manifest from an earlier run: caches are not versioned by code SHA.
-- Reviewed `2d4e2a4` + dry run `250b2a4` — protocol followed correctly (commit -> clean-tree run ->
-  recorded SHA 2d4e2a4 == code; executed sources identical). E1 fixed (no "Human:" continuations),
-  E3 fixed. Verdict: NOT yet Kaggle:
-  - G1 (rule 2, gate cannot pass) E2 scoring now over-strict: key match requires contiguous
-    "drug+dose" string, so correct answers fail. Verified with benchmark_dataset_evaluator.score_response:
-    teacher "Lisinopril, and the prescribed dose is 10 mg" -> wrong_spoken; verbatim label copy
-    "ATORVASTATIN CALCIUM 20 MG TABLET" -> wrong_spoken. Match drug name and dose span independently.
-  - G2 (rule 6) Stage 1a diverged this run: held-out 5.28 -> 8.95, train loss 10.56 (lr 1e-3, batch 1,
-    bf16). Earlier runs decreased -> unstable. Kaggle's 200 steps at this lr risks a wasted run.
-    Lower lr (1e-4), warmup, grad clip 1.0, grad accumulation.
-  - G3 empty vision answers ('') scored wrong_spoken; should be a separate "no_answer" category.
+- Reviewed `3d9e52d` + dry run `5d17c7a` — VERDICT: YES, push to Kaggle @ 3d9e52d (run from a
+  detached checkout of 3d9e52d: `./scripts/kaggle_run.sh 3d9e52d...`). Verified: executed code ==
+  3d9e52d, recorded SHA matches, 0 tracebacks; my score_response tests: correct answers pass
+  (Lisinopril sentence, verbatim Atorvastatin label, "$4.50"), wrong drug/dose/extra-number/"$45.0"
+  fail, '' -> no_answer. Stage 1a now decreases (4.98->4.49) with lr 1e-4, warmup, accum, clip 1.0;
+  Stage 1b KD 1.81->1.43. Grad norms pre-clip large (269 / 170) — clipping working.
+- Kaggle watchlist (check the run's first minutes + final outputs): GPU type (P100 may be
+  unsupported by current PyTorch builds -> prefer T4); teacher device_map="auto" on 2xT4 could put
+  teacher logits on another device than student (KL device mismatch) — accelerate usually returns
+  outputs to input device; fp16 finite asserts; T4 memory ~12 GB; total runtime.
+- Scoring limitation (not a block): non-numeric hallucinations pass (literal path said Atorvastatin is
+  "for osteoarthritis" and was scored correct). Only drug+dose+numbers are checked. P1 still pending.
+- Step 7 reminder: nobody writes PASS anywhere until auditor reviews the committed Kaggle outputs.
 - Previous: `6248523` verified N1–N5; E1/E2/E3 found from its dry run outputs.
 - WATCHLIST: Gate 3 uses MiB (cell 12 L23) vs decimal MB docs; DRY_RUN Gate 6 uses <= (cell 12 L44,
   passes with zero improvement — dry run only); Stage 1b full mode 100 steps uses 100 of 1000 pairs;
