@@ -88,5 +88,17 @@ All review items identified in the Auditor Review of `c7a7c66` are mapped below 
 
 ---
 
-## 7. Proposed Deviations
-**None.** All changes adhere strictly and exclusively to the review items identified in the Auditor Review of commit `c7a7c66`.
+## 7. Auditor Review of `6248523` Resolution Mapping (Items E1–E3)
+
+All review items identified in the Auditor Review of `6248523` are mapped below as **Fixed**:
+
+| ID | Category | Issue & Requirement | Status | Resolution & Evidence |
+| :--- | :---: | :--- | :---: | :--- |
+| **E1** | **BLOCK** | **Student EOS token handling in Cell 10**: `generate_literal_answer` passed `eos_token_id=base_tok.eos_token_id` (151643) and vision loop compared `next_id == base_tok.eos_token_id`. Use `STUDENT_EOS_ID = old_to_new[base_tok.eos_token_id]` (assert exists in `[0, 64000)`) for both paths; set `pad_token_id=STUDENT_EOS_ID`. Truncate any decoded answer at first `"<|endoftext|>"` or `"<|im_end|>"` before scoring. | **Fixed** | Updated `cell10_code` in `scripts/notebook_cells.json`: mapped `STUDENT_EOS_ID = old_to_new[base_tok.eos_token_id]` with assertion. Set `eos_token_id=STUDENT_EOS_ID` and `pad_token_id=STUDENT_EOS_ID` in `generate_literal_answer` and used `next_id.item() == STUDENT_EOS_ID` in `generate_vision_answer`. Added `clean_decoded_answer()` helper that strips tokens and truncates at `<|endoftext|>` or `<|im_end|>`. Verified across all four sample generation paths in Cell 10. |
+| **E2** | **BLOCK** | **Strict response scoring in Cell 10 & evaluator**: old `score_response` marked "correct" if dose OR key appeared, allowing wrong drug name (e.g. Metoprolol vs Amoxicillin) to score correct. Implement strict scoring: `correct` requires full `key_field_value` match (drug AND dose, space-insensitive) AND no number+unit / price / percentage span in the answer absent from ground truth text; `wrong_spoken` if any invented span or missing key; `safe_refusal` if fallback triggered. Add mandatory unit tests. | **Fixed** | Implemented `extract_dose_number_spans()` and rewritten `score_response()` in both `phase1_ai_sandbox/src/benchmark_dataset_evaluator.py` and `cell10_code` in `scripts/notebook_cells.json`. Added `run_score_response_unit_tests()` verifying all 4 auditor test cases: `("Metoprolol 500 mg", ...)` $\to$ `wrong_spoken`, `("Amoxicillin 500 mg, take 900 mg", ...)` $\to$ `wrong_spoken`, `("Amoxicillin 500 mg capsule", ...)` $\to$ `correct`, and fallback $\to$ `safe_refusal`. |
+| **E3** | **PROCESS** | **Git clean tree enforcement in local runner**: add `check_git_clean()` in `scripts/execute_notebook_locally.py` to refuse execution if `git status --porcelain` shows modified tracked files. Commit code first, then run dry run on committed SHA. | **Fixed** | Added `check_git_clean()` to `scripts/execute_notebook_locally.py` before running cells. Refuses execution with `RuntimeError` if any tracked file is uncommitted. Guarantees recorded SHA in `dry_run_gate_report.json` and executed notebook output matches the committed tree. |
+
+---
+
+## 8. Proposed Deviations
+**None.** All changes adhere strictly and exclusively to the review items identified in the Auditor Review of commit `6248523`.

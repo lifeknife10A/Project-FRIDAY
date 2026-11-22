@@ -91,7 +91,27 @@ def check_python311_syntax(nb):
 
     print("[✓] All notebook code cells cleanly compiled and verified for Python 3.11 compatibility.")
 
+def check_git_clean():
+    """
+    Auditor Item E3: Refuse to run if git status --porcelain shows modified tracked files.
+    Guarantees recorded SHA in the outputs exactly matches the committed code.
+    """
+    import subprocess
+    res = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
+    lines = res.stdout.strip().split("\n") if res.stdout.strip() else []
+    dirty_tracked = [l for l in lines if l and not l.startswith("??")]
+    if dirty_tracked:
+        raise RuntimeError(
+            f"Auditor Item E3 Violation: Working tree has uncommitted tracked changes!\n"
+            f"All code changes must be committed before executing the dry run so the recorded SHA matches the code.\n"
+            f"Uncommitted files:\n" + "\n".join(dirty_tracked)
+        )
+    print("[✓] Git tree verified clean: dry-run will record exact committed commit SHA.\n")
+
 def execute_notebook():
+    # Auditor Item E3: Refuse to run if git status shows modified tracked files
+    check_git_clean()
+
     # Auditor Item F3: Strict environment parity verification before running any notebook code
     check_environment_parity()
 

@@ -143,8 +143,61 @@ def run_numeric_normalizer_unit_tests():
 
     return True
 
+def extract_dose_number_spans(text: str) -> list[str]:
+    """Extracts all sensitive dose, number+unit, currency, and percentage span strings from text."""
+    spans = []
+    for start, end in find_sensitive_spans(text):
+        spans.append(text[start:end].strip())
+    return spans
+
+def score_response(resp: str, key_field_value: str, ground_truth_text: str, is_fallback: bool = False) -> str:
+    """
+    Auditor Item E2: Scored response verification:
+    - 'safe_refusal': if fallback was triggered (confidence <0.40 or sensitive modification)
+    - 'correct': full key_field_value match (drug AND dose, space-insensitive) AND no number+unit
+      or price span in the answer that is absent from the ground-truth text.
+    - 'wrong_spoken': states any dose/number/price span not present in GT, or missing key.
+    """
+    if is_fallback:
+        return "safe_refusal"
+
+    norm_resp = normalize_entity_space_insensitive(resp)
+    norm_key = normalize_entity_space_insensitive(key_field_value)
+    norm_gt = normalize_entity_space_insensitive(ground_truth_text)
+
+    # 1. Full key_field_value match (drug AND dose, space-insensitive)
+    has_key = norm_key in norm_resp if norm_key else False
+
+    # 2. Check that no number+unit / price span in the answer is absent from ground truth
+    resp_spans = extract_dose_number_spans(resp)
+    has_invented_span = False
+    for sp in resp_spans:
+        norm_sp = normalize_entity_space_insensitive(sp)
+        if norm_sp not in norm_gt:
+            has_invented_span = True
+            break
+
+    if has_key and not has_invented_span:
+        return "correct"
+    else:
+        return "wrong_spoken"
+
+def run_score_response_unit_tests():
+    """Unit tests for Auditor Item E2 response scoring."""
+    tests = [
+        ("Metoprolol 500 mg", "Amoxicillin 500mg", "Amoxicillin 500mg capsule", False, "wrong_spoken"),
+        ("Amoxicillin 500 mg, take 900 mg", "Amoxicillin 500mg", "Amoxicillin 500mg capsule", False, "wrong_spoken"),
+        ("Amoxicillin 500 mg capsule", "Amoxicillin 500mg", "Amoxicillin 500mg capsule", False, "correct"),
+        ("Any response text", "Amoxicillin 500mg", "Amoxicillin 500mg capsule", True, "safe_refusal")
+    ]
+    for resp, key, gt, fb, exp in tests:
+        actual = score_response(resp, key, gt, is_fallback=fb)
+        assert actual == exp, f"Auditor E2 test failed for '{resp}': expected {exp}, got {actual}"
+    return True
+
 # Run verification on module import
 run_numeric_normalizer_unit_tests()
+run_score_response_unit_tests()
 
 def compute_levenshtein(s1: str, s2: str) -> int:
     """Exact Levenshtein distance between two sequences (characters or words)."""
