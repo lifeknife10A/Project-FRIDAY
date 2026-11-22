@@ -91,20 +91,22 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
-- Last reviewed: `fcba59f` — verdict YES, proceed to LOCAL DRY RUN @ fcba59f in the Python 3.11
-  pinned venv (requirements-phase1.txt). F1–F5, K1–K4 verified in code; K2 now fires (my RapidOCR
-  run on 40 images: 5 fallbacks, key 19/40, safety 34/40, CER 24.4%). Read every cell fully: done.
-- History: dry run `bd1caa7` (code 4ac8559) FAILED in cell 8 (mm_token_type_ids) — proved cells 1–7,
-  Stage 1a (11.75 -> 8.31), INT4 209.38 MB on MPS; exposed answer leakage in old cell 5 (fixed).
-- Must fix before Kaggle (Audit #10):
-  - KB1 Kaggle kernel has no repo files: cell 5 looks for /kaggle/working/assets/... -> FileNotFoundError.
-    Upload assets/benchmark_dataset as a Kaggle dataset, add to kernel-metadata dataset_sources,
-    add /kaggle/input/<slug>/ path candidate.
-  - KB2 wrong-spoken path (rule 3): unresolved digit-adjacent O/o/l/I that the normalizer refuses
-    to touch ("ALBUTEROL SULFATE9O MCGINHALATION" -> med_09 spoken with "9O"; "QTY: 3O TABLETS")
-    trigger no fallback. Any remaining \d[OolI] / [OolI]\d inside a numeric token -> fallback.
-  - KB3 Qwen2-VL teacher in fp16 on T4/P100 (no bf16) can overflow -> assert torch.isfinite on
-    teacher logits each step so a bad run fails fast instead of burning quota.
+- Last reviewed: dry run `c081237` (code fcba59f, unchanged; first attempt 4b9f9ba FAILED on
+  pyarrow/NumPy 1.26 import — fixed in the venv but NOT in requirements). FIRST END-TO-END PASS of the
+  pipeline on Mac MPS: Stage 1a 5.31->4.41, Stage 1b KD 2.39->2.01 (2 val samples), peaks 7.95 GB
+  (1b) / 11.24 GB (cell 10 start), INT4 209.38 MB. Gate 5 honest FAIL: literal 0/4, wrong-spoken 3.
+  Verdict: NOT yet "push to Kaggle" — fix KB1–KB4, new SHA, review, short dry run, then Kaggle.
+- Dry-run evidence for next reviews:
+  - Literal path = base Qwen2.5-0.5B free generation -> echoes OCR fragments and HALLUCINATED a
+    different drug ("Metoprolol" for an Amoxicillin label). Teacher also misread a dose
+    ("Metformin 900 mg" vs 500). Supports: doses/numbers must be copied verbatim from OCR spans,
+    never generated. Design decision for Krishna: extractive literal path and/or instruct student.
+  - Teacher "Lisinopril ... dose is 10" scored wrong because max_new_tokens=16 truncates (cell 10).
+  - Vision path after 2 steps: "The given sentence is in Spanish" (expected; not a bug).
+  - Stage 1b used a cached manifest from an earlier run: caches are not versioned by code SHA.
+- Must fix before Kaggle (Audit #11): KB1 (Kaggle dataset for assets), KB2 (unresolved digit-adjacent
+  O/o/l/I -> fallback), KB3 (finite-check teacher logits, fp16 on T4/P100), KB4 pin numpy/pyarrow
+  (+ datasets exact version) in requirements-phase1.txt AND cell 2 install list.
 - WATCHLIST: Gate 3 uses MiB (cell 12 L23) vs decimal MB docs; DRY_RUN Gate 6 uses <= (cell 12 L44,
   passes with zero improvement — dry run only); Stage 1b full mode 100 steps uses 100 of 1000 pairs;
   TextVQA placeholder answers "text"/"Information displayed..." (cell 8 L109–111); T4 memory
