@@ -19,8 +19,13 @@
 
 ### 0.1 The 7-Step Code-to-Compute Protocol
 1. **Auditor Issue Formulation (Tracked by ID):**
-   - The Auditor (Project Lead) provides itemized feedback with distinct issue IDs (e.g., Audit #6 items 1–14).
+   - Auditor (Claude) reviews; Project Lead (Krishna) relays verdicts and approves, providing itemized feedback with distinct issue IDs (e.g., Audit #7 items).
    - In `CHANGES.md`, Antigravity maps every item ID to one of: `Fixed`, `Partial`, `Blocked`, or `Disagree`, with a technical reason. *"Disagree"* is a legitimate option backed by technical argumentation rather than silent workarounds.
+   - **Four Operational Invariants:**
+     1. Antigravity acts only on a YES that names a specific commit SHA.
+     2. An approval covers that SHA only; any new commit returns to step 3.
+     3. Every run records the executed commit SHA.
+     4. A failed run's outputs are committed and labelled FAILED, and fixes restart at step 1.
 2. **Scope-Discipline Implementation:**
    - Antigravity modifies *only* what was requested.
    - Any modification outside the listed items (e.g., threshold changes, plan.md edits, component swaps, or "while I was there" refactoring) must be listed separately as an explicit proposal/deviation and requires prior Auditor sign-off.
@@ -271,7 +276,7 @@ $$\text{Verified Physical Headroom below 125g limit} = 125.0\text{g} - 115.0\tex
 
 ### 5.2 Reconciled Memory Bandwidth Accounting (Unified Single Source of Truth)
 * **Target Hardware Ceiling (Firefly CAM-3576Q38 32-bit LPDDR5 @ 5500 MT/s):**
-  * Theoretical Peak: $4\text{ bytes} \times 5.500\text{ GT/s} = \mathbf{22.00\text{ GB/s}}$.
+  * Theoretical Peak: $4\text{ bytes} \times 5.500\text{ GT/s} = \mathbf{22.00\text{ GB/s}}$ (*Silicon Note: 5500 MT/s represents the RK3576 LPDDR5 controller datasheet maximum rating; exact configured operating clock on the production CAM-3576Q38 module is marked unverified pending empirical register readout via `rk_ddr_bandwidth` during Phase 2 bring-up*).
   * Sustainable Streaming Ceiling (80% efficiency): $\mathbf{17.60\text{ GB/s}}$ (compared to $13.50\text{ GB/s}$ on LPDDR4x-4266).
   * Safe Operational Ceiling (with camera ISP, audio, and display bus contention): $\mathbf{14.00\text{ GB/s}}$.
 
@@ -328,7 +333,7 @@ $$\text{Verified Physical Headroom below 125g limit} = 125.0\text{g} - 115.0\tex
   * Total latent heat capacity: **$660\text{ Joules}$** ($4.0\text{g} \times 165\text{ J/g}$).
   * At $28.0^\circ\text{C}$ ambient, the driving temperature difference to the $40.0^\circ\text{C}$ melt plateau is $\Delta T = 12.0\text{ K}$, allowing the PCM to passively and completely re-solidify between bursts.
   * *Rejection of Generic Paraffin Wax:* Commercial generic paraffin melts between $50^\circ\text{C}$ and $60^\circ\text{C}$. Generic paraffin would fail to buffer junction heat, allowing the wearable frame to exceed skin comfort limits ($>43^\circ\text{C}$) before phase change begins. Rubitherm RT42 guarantees buffering begins at exactly $38.0^\circ\text{C}\text{--}41.0^\circ\text{C}$.
-  * *Track 1 vs Track 2 Thermal Scope:* Track 1 (P1 Thick-Temple Defense Baseline) utilizes a 3D-printed PETG frame with an external aluminum/copper heat spreader and natural convection; the custom-molded pyrolytic graphite sheets, $1.0\text{mm}$ silica aerogel blanket, and sealed PCM pocket are Track 2 custom rigid-flex enclosure specifications.
+  * *Track 1 vs Track 2 Thermal Scope & Copper Foil Re-Check:* Track 1 (P1 Thick-Temple Defense Baseline) utilizes a 3D-printed PETG frame ($T_g \approx 70^\circ\text{C}$, thermal conductivity $k_{\text{PETG}} \approx 0.20\text{ W/m}\cdot\text{K}$) with an external 0.3mm 3.8g copper foil spreader ($k_{\text{Cu}} \approx 390\text{ W/m}\cdot\text{K}$) and passive convection. During a 12s active burst ($31.44\text{ J}$ net), the $660\text{ J}$ latent capacity of the 4.0g Rubitherm RT42 pad clamps the internal core temperature to the $41.0^\circ\text{C}$ plateau, well below PETG's $70^\circ\text{C}$ softening threshold (providing $\ge 29^\circ\text{C}$ margin). The $1.2\text{mm}$ inner PETG wall ($R \approx 6.0\text{ K/W}$) forces heat preferentially outward through the copper conduit, guaranteeing skin-side contact remains $\le 37.5^\circ\text{C}$. Track 2 incorporates custom pyrolytic graphite sheets and a $1.0\text{mm}$ silica aerogel blanket.
 
 ### 7.2 Non-Ratcheting Duty Cycle & Ambient Adaptation (B-5 Closed)
 * **Active Burst:** Active inference ($P_{\text{active}} = 3.0\text{W}$) capped at **$12\text{ seconds}$ per turn**:
@@ -375,7 +380,7 @@ $$\text{Verified Physical Headroom below 125g limit} = 125.0\text{g} - 115.0\tex
 * **Milestone 2.1 (Free Peripheral Testbed via Raspberry Pi 3B):** Utilize the student's on-hand Raspberry Pi 3B (1 GB LPDDR2) for ₹0 audio peripheral validation: verify hardware I2S clocking (`GPIO 18, 19, 21`) to dual MAX98357A mono amps, test INMP441 MEMS microphone arrays, and benchmark WebRTC AEC3 echo cancellation before purchasing the main compute module.
 * **Milestone 2.2 (Single-Shot Target Hardware Procurement):** Skip intermediate throwaway evaluation boards (no Orange Pi 5). Procure the exact target compact RK3576 module (**Firefly CAM-3576Q38**, 6.0 TOPS NPU, **4GB LPDDR5**, onboard Wi-Fi 6 + Bluetooth 5.4, 38×38×11.5 mm, 14.2g, 40-pin FPC MIPI-CSI connector) that mounts directly into the final Track 1 wearable frame.
 * **Milestone 2.3:** Configure Linux 6.1-LTS with PREEMPT_RT patch, measure sustainable LPDDR5 bus bandwidth ($>14.0\text{ GB/s}$ capability), and verify dual-stream capture (`Stream 0` $384\times 384$, `Stream 1` 1:1 foveal crop).
-* **Milestone 2.4:** Benchmark Series 2S power delivery with IP2326 Type-C boost charger (planned ammeter verification of 300mA 1C charge via Pin 11 ISET resistor $R_{ISET} = 300\text{ k}\Omega$, using datasheet formula $I_{CHG} = 90{,}000 / R_{ISET}$), 2S BMS with HY2212 passive shunt-bleed cell balancing, MP2315 synchronous step-down buck converter (95% efficiency, zero Schottky catch diode heat), dual MAX98357A mono amps with verified $0.989\text{V}$ (Right) and $1.636\text{V}$ (Left) nominal resistor biasing against the internal $100\text{ k}\Omega$ pulldown (and $1.03\text{V}$ / $3.0\text{V}$ on the Pi 3B 3.3V GPIO rail) plus lowest gain configuration (+3 dB via 100k to VDD) and software volume cap, and I2S instant earcon ($<80\text{ms}$ awake, $<500\text{ms}$ wake-from-suspend).
+* **Milestone 2.4:** Benchmark Series 2S power delivery with IP2326 Type-C boost charger (planned ammeter verification of 300mA 1C charge via Pin 11 ISET resistor $R_{ISET} = 300\text{ k}\Omega$, per Injoinic IP2326 English datasheet Section 7.2 formula $I_{CHG}\text{ (mA)} = 90{,}000 / R_{ISET}\text{ (k}\Omega\text{)}$; marked unverified pending physical ammeter measurement), 2S BMS with HY2212 passive shunt-bleed cell balancing, MP2315 synchronous step-down buck converter (95% efficiency, zero Schottky catch diode heat), dual MAX98357A mono amps with verified $0.989\text{V}$ (Right) and $1.636\text{V}$ (Left) nominal resistor biasing against the internal $100\text{ k}\Omega$ pulldown (and $1.03\text{V}$ / $3.0\text{V}$ on the Pi 3B 3.3V GPIO rail) plus lowest gain configuration (+3 dB via 100k to VDD) and software volume cap, and I2S instant earcon ($<80\text{ms}$ awake, $<500\text{ms}$ wake-from-suspend).
 
 ### Phase 3: Hardware Engineering & Physical Fabrication (Two-Track Risk Mitigation Strategy)
 To eliminate single-point hardware failure and guarantee a successful capstone defense, Phase 3 implements an explicit two-track hardware strategy:

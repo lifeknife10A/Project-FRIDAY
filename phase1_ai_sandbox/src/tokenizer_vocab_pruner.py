@@ -6,7 +6,7 @@ Workspace: /Users/krish/NMIMS/Friday/phase1_ai_sandbox/
 Goal:
 Extract a strict 64,000-token student vocabulary subset V_S from Qwen2.5 (151,643+ tokens),
 enforcing physical hardware contracts for the Rockchip RK3576 NPU/DRAM bus:
-  - Total Memory Bandwidth @ 35 tok/s <= 9.36 GB/s
+  - Total Memory Bandwidth @ 35 tok/s <= 8.07 GB/s (All-INT4) / 8.95 GB/s (INT8 LM-head fallback) under 14.00 GB/s safe ceiling
   - LM-Head (INT8): 64,000 x 896 = 57.34 MB/token (down from 136.1 MB)
   - V_S must guarantee inclusion of:
       1. English vocabulary & subwords

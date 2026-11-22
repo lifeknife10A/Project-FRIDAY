@@ -7,10 +7,52 @@ import traceback
 
 NB_PATH = "phase1_ai_sandbox/notebooks/friday_distillation_colab.ipynb"
 
+def check_python311_syntax(nb):
+    """
+    CI-style check: Compiles every notebook code cell with Python 3.11 (via ast.parse)
+    to guarantee zero SyntaxErrors on Kaggle / Linux Python 3.11 runtimes (Auditor Item A1).
+    """
+    import ast
+    import subprocess
+    import shutil
+
+    print("[*] Running CI syntax check: compiling all cells under Python 3.11 rules...")
+    py311_bin = shutil.which("python3.11") or "/opt/homebrew/bin/python3.11"
+    has_py311 = os.path.exists(py311_bin)
+
+    for idx, cell in enumerate(nb["cells"]):
+        if cell["cell_type"] != "code":
+            continue
+        src_text = "".join(cell["source"])
+        cleaned_lines = [l for l in src_text.split("\n") if not l.strip().startswith("!")]
+        code_str = "\n".join(cleaned_lines)
+
+        # 1. Native AST parse
+        try:
+            ast.parse(code_str)
+        except SyntaxError as e:
+            raise SyntaxError(f"Cell {idx} failed AST syntax check: {e}")
+
+        # 2. Strict Python 3.11 compilation if py311 binary is present on host
+        if has_py311:
+            res = subprocess.run(
+                [py311_bin, "-c", "import sys, ast; ast.parse(sys.stdin.read())"],
+                input=code_str,
+                text=True,
+                capture_output=True
+            )
+            if res.returncode != 0:
+                raise SyntaxError(f"Cell {idx} failed Python 3.11 ast.parse check:\n{res.stderr.strip()}")
+
+    print("[✓] All notebook code cells cleanly compiled and verified for Python 3.11 compatibility.")
+
 def execute_notebook():
     print(f"[*] Loading notebook: {NB_PATH}...")
     with open(NB_PATH) as f:
         nb = json.load(f)
+
+    # Item A1: CI Python 3.11 syntax check before any run
+    check_python311_syntax(nb)
 
     # Shared execution globals
     exec_globals = {

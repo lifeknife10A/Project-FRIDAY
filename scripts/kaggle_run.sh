@@ -13,6 +13,34 @@ echo "PROJECT FRIDAY: KAGGLE CLI BATCH EXECUTION ORCHESTRATOR"
 echo "=================================================================="
 
 # -------------------------------------------------------------
+# 0. PROTOCOL & PROVENANCE AUDIT (AUDITOR GATE B4)
+# -------------------------------------------------------------
+APPROVED_SHA="${1:-${APPROVED_SHA:-}}"
+CURRENT_SHA=$(git rev-parse HEAD)
+
+if [ -n "$(git status --porcelain)" ]; then
+    echo "[!] ERROR: Working tree is dirty. Git status must be completely clean before pushing to Kaggle."
+    git status --short
+    exit 1
+fi
+
+if [ -z "$APPROVED_SHA" ]; then
+    echo "[!] ERROR: No APPROVED_SHA provided. In accordance with the 7-step protocol,"
+    echo "    you must pass the exact auditor-approved commit SHA:"
+    echo "    Usage: ./scripts/kaggle_run.sh <APPROVED_SHA>"
+    exit 1
+fi
+
+if [ "$CURRENT_SHA" != "$APPROVED_SHA" ]; then
+    echo "[!] ERROR: HEAD (${CURRENT_SHA}) does not match APPROVED_SHA (${APPROVED_SHA})."
+    echo "    Execution halted."
+    exit 1
+fi
+
+export GIT_COMMIT_SHA="$CURRENT_SHA"
+echo "[✓] Git Commit Provenance Verified: ${CURRENT_SHA}"
+
+# -------------------------------------------------------------
 # 1. CREDENTIAL & DEPENDENCY AUDIT
 # -------------------------------------------------------------
 if ! command -v kaggle >/dev/null 2>&1; then
@@ -102,6 +130,9 @@ echo "[✓] Kernel pushed successfully!"
 echo "[*] Commencing polling for kernel '${KERNEL_ID}' every 60 seconds..."
 START_TIME=$(date +%s)
 TERMINAL_STATUS=""
+MAX_WAIT_SECONDS=$(( 12 * 3600 )) # 12-hour maximum wait
+CONSECUTIVE_UNKNOWN=0
+MAX_UNKNOWN=10
 
 while true; do
     CURRENT_TIME=$(date +%s)
@@ -109,14 +140,19 @@ while true; do
     ELAPSED_MIN=$(( ELAPSED / 60 ))
     ELAPSED_SEC=$(( ELAPSED % 60 ))
     
+    if [ "$ELAPSED" -gt "$MAX_WAIT_SECONDS" ]; then
+        echo "[!] ERROR: Polling exceeded maximum wait time of 12 hours (${ELAPSED}s). Aborting."
+        exit 1
+    fi
+    
     # Query status
     RAW_STATUS=$(kaggle kernels status "$KERNEL_ID" 2>&1 || true)
     
-    # Parse status word
-    STATUS=$(python3 -c "
-import re, sys
-s = '''${RAW_STATUS}'''
-m = re.search(r'status [\"\\x27](\w+)[\"\\x27]', s, re.IGNORECASE)
+    # Parse status word without string interpolation injection (Auditor Gate B4)
+    STATUS=$(printf "%s" "$RAW_STATUS" | python3 -c "
+import sys, re
+raw = sys.stdin.read()
+m = re.search(r'status [\"\\x27](\w+)[\"\\x27]', raw, re.IGNORECASE)
 if m:
     print(m.group(1).lower())
 else:
@@ -138,6 +174,14 @@ else:
         TERMINAL_STATUS="cancelled"
         echo "[!] Kernel run was CANCELLED."
         break
+    elif [ "$STATUS" == "unknown" ]; then
+        CONSECUTIVE_UNKNOWN=$(( CONSECUTIVE_UNKNOWN + 1 ))
+        if [ "$CONSECUTIVE_UNKNOWN" -ge "$MAX_UNKNOWN" ]; then
+            echo "[!] ERROR: ${CONSECUTIVE_UNKNOWN} consecutive unknown status responses. Aborting."
+            exit 1
+        fi
+    else
+        CONSECUTIVE_UNKNOWN=0
     fi
     
     sleep 60
@@ -147,11 +191,12 @@ done
 # 6. DOWNLOAD OUTPUTS TO TIMESTAMPED DIRECTORY
 # -------------------------------------------------------------
 OUTPUT_TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-OUTPUT_DIR="phase1_ai_sandbox/kaggle_outputs/${OUTPUT_TIMESTAMP}"
+OUTPUT_DIR="kaggle_outputs/${OUTPUT_TIMESTAMP}_${CURRENT_SHA}"
 mkdir -p "$OUTPUT_DIR"
 
 echo "[*] Pulling kernel outputs to: ${OUTPUT_DIR}"
-kaggle kernels output "$KERNEL_ID" -p "$OUTPUT_DIR" --force || true
+# Auditor Gate B4: Do not swallow download failures
+kaggle kernels output "$KERNEL_ID" -p "$OUTPUT_DIR" --force
 
 # -------------------------------------------------------------
 # 7. PROCESS EXECUTED NOTEBOOK & MANIFEST WEIGHTS
@@ -160,9 +205,9 @@ kaggle kernels output "$KERNEL_ID" -p "$OUTPUT_DIR" --force || true
 DOWNLOADED_NB=$(find "$OUTPUT_DIR" -maxdepth 2 -name "*.ipynb" | head -n 1 || true)
 
 if [ -n "$DOWNLOADED_NB" ] && [ -f "$DOWNLOADED_NB" ]; then
-    echo "[*] Found executed notebook: ${DOWNLOADED_NB}"
-    cp -f "$DOWNLOADED_NB" "phase1_ai_sandbox/notebooks/friday_distillation_colab.ipynb"
-    echo "[✓] Overwrote phase1_ai_sandbox/notebooks/friday_distillation_colab.ipynb with executed run output."
+    echo "[*] Found executed notebook in output dir: ${DOWNLOADED_NB}"
+    echo "[*] Preserving executed notebook in ${OUTPUT_DIR} for Auditor review."
+    echo "[*] NOTE: Under Protocol Step 7, notebook is NOT copied to main repo until Auditor sign-off."
 else
     echo "[!] Warning: No executed .ipynb notebook was downloaded from Kaggle output."
 fi

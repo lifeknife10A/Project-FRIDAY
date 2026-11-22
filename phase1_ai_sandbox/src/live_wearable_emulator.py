@@ -82,11 +82,34 @@ class FridayLiveWearableEmulator:
         self.foveation_engine = OpticalFoveationEngine(target_crop_size=384, pitch_angle_deg=6.0)
 
         # 2. Student VLM with 2x2 Spatial Unshuffle (576 -> strictly 144 Visual Tokens)
+        self.trained_checkpoint_loaded = False
         self.student_vlm = FridayStudentVLM(
             visual_dim=768,
             hidden_dim=896,
             vocab_size=64000
         ).to(self.device)
+        ckpt_candidates = [
+            os.path.join(os.path.dirname(__file__), "../checkpoints/best_student_vlm.pt"),
+            os.path.join(os.path.dirname(__file__), "../weights/best_student_vlm.pt"),
+            os.path.join(os.path.dirname(__file__), "../../FRIDAY_weights/friday_student_w4a16_packed.pt")
+        ]
+        for ckpt_p in ckpt_candidates:
+            if os.path.exists(ckpt_p):
+                try:
+                    state = torch.load(ckpt_p, map_location=self.device)
+                    self.student_vlm.load_state_dict(state, strict=False)
+                    self.trained_checkpoint_loaded = True
+                    print(f"[✓] Loaded trained student VLM weights from: {ckpt_p}")
+                    break
+                except Exception as e:
+                    print(f"[!] Warning: Could not load checkpoint from {ckpt_p} ({e})")
+
+        if not self.trained_checkpoint_loaded:
+            print("="*65)
+            print("[!] PIPELINE MOCK — no trained model checkpoint found.")
+            print("    Running with initialized architectural baseline.")
+            print("="*65)
+
         self.student_vlm.eval()
 
         # Warm up MPS shader cache
@@ -252,7 +275,14 @@ class FridayLiveWearableEmulator:
 
         # 6. Multimodal Neural Reasoning & Real OCR / VLM Generation
         t_reason = time.perf_counter()
-        prompt_ids = torch.randint(0, 64000, (1, 16), device=self.device)
+        try:
+            from transformers import AutoTokenizer
+            base_tok = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-0.5B")
+            enc_ids = base_tok.encode(actual_query, add_special_tokens=False)
+            prompt_ids = torch.tensor([enc_ids[:32] or [1]], device=self.device)
+        except Exception:
+            prompt_ids = torch.tensor([[min(63999, ord(c)) for c in actual_query[:32]] or [1]], device=self.device)
+
         with torch.no_grad():
             gen_ids = self.student_vlm.generate_tokens(visual_tokens, prompt_ids, max_new_tokens=24)
         reason_latency = (time.perf_counter() - t_reason) * 1000.0
@@ -268,25 +298,48 @@ class FridayLiveWearableEmulator:
         except Exception:
             pass
 
-        # Formulate response: Wire real OCR for literal reading queries, Student VLM for scene queries, and exact Directive 04 for offline
+        # Check real network reachability before speaking Directive 04 message
+        def is_network_reachable() -> bool:
+            import socket
+            try:
+                socket.setdefaulttimeout(1.0)
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                s.connect(("8.8.8.8", 53))
+                s.close()
+                return True
+            except Exception:
+                return False
+
         q_lower = actual_query.lower()
+        needs_web = any(k in q_lower for k in ["offline", "search", "internet", "google", "weather", "wifi", "bluetooth"])
         if fov_meta.get("boundary_overflow") and "read" in q_lower:
             spoken_response = fov_meta["guidance_message"]
-        elif any(k in q_lower for k in ["offline", "search", "internet", "google", "wifi", "bluetooth", "pair"]):
+        elif needs_web and not is_network_reachable():
             # Directive 04 exact offline notification
             spoken_response = "I am currently offline with no Wi-Fi or tethered device available. Please connect me to Wi-Fi or pair via Bluetooth to perform web searches. I can still analyze what you see locally."
         elif ocr_extracted_text and any(k in q_lower for k in ["read", "prescription", "dosage", "instruction", "bottle", "medicine", "label", "text", "sign", "price"]):
             # Safety rule: report real optical text verbatim
             spoken_response = f"Reading label: {ocr_extracted_text.strip()}"
         elif any(k in q_lower for k in ["what", "describe", "look", "see", "view", "scene"]):
-            # Real student VLM generation
-            spoken_response = f"Scene in reticle: Identified primary object. Visual encoder generated {len(gen_ids)} autoregressive tokens from 144 visual features."
+            if self.trained_checkpoint_loaded:
+                try:
+                    spoken_response = base_tok.decode(gen_ids[0].tolist(), skip_special_tokens=True)
+                except Exception:
+                    spoken_response = f"Identified scene features from 144 visual tokens ({len(gen_ids[0])} generated tokens)."
+            else:
+                spoken_response = f"[PIPELINE MOCK] Scene in reticle: Identified primary object. Visual encoder generated {len(gen_ids)} autoregressive tokens from 144 visual features."
         else:
-            spoken_response = f"Reading reticle active. Processed {visual_tokens.shape[1]} visual tokens in {reason_latency:.1f} ms."
+            if self.trained_checkpoint_loaded:
+                try:
+                    spoken_response = base_tok.decode(gen_ids[0].tolist(), skip_special_tokens=True)
+                except Exception:
+                    spoken_response = f"Reading reticle active. Processed {visual_tokens.shape[1]} visual tokens in {reason_latency:.1f} ms."
+            else:
+                spoken_response = f"[PIPELINE MOCK] Reading reticle active. Processed {visual_tokens.shape[1]} visual tokens in {reason_latency:.1f} ms."
 
         # 7. Clause-Buffered Streaming Speech Synthesis via Kokoro-82M ONNX
         t_tts = time.perf_counter()
-        kokoro_rtf = 0.0
+        kokoro_rtf = "not measured"
         synth_time_ms = 0.0
         if not self.mute_audio:
             clauses = [s.strip() for s in spoken_response.split(".") if s.strip()]
@@ -318,10 +371,12 @@ class FridayLiveWearableEmulator:
                     dur = sf.info("assets/gate_voice_test.wav").duration
                     kokoro_rtf = (synth_time_ms / 1000.0) / max(0.1, dur)
                 except Exception:
-                    kokoro_rtf = 0.25
+                    kokoro_rtf = "not measured"
+            else:
+                kokoro_rtf = "not measured"
         else:
             synth_time_ms = 0.0
-            kokoro_rtf = 0.0
+            kokoro_rtf = "not measured"
 
         # Time-to-First-Word (TTFW): sum of empirical pipeline latencies (no arbitrary constants)
         ttfw_ms = acq_latency + fov_latency + unshuffle_latency + stt_latency + reason_latency + synth_time_ms

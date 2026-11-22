@@ -11,29 +11,30 @@ import re
 
 def normalize_numeric_context(text: str) -> tuple[str, bool]:
     """
-    Post-OCR numeric-context normalizer.
+    Precision contextual numeric normalizer.
     Replaces:
-      - S -> $ when preceding digits or malformed currency punctuation (e.g. S2.5.0 -> $25.00)
-      - O/o -> 0 ONLY when adjacent to digits or before units (e.g. 5O MCG -> 50 MCG, 2OMG -> 20MG)
-      - l/I -> 1 ONLY when adjacent to digits
+      - S -> $ when preceding digits (in real OCR context, e.g. '....S2.5.0.' -> '....$2.5.0.')
+      - O/o -> 0 ONLY when sitting between digits or between a digit and a known unit (mg, mcg, g, ml, IU, %)
+      - l/I -> 1 ONLY when sitting between digits or between a digit and a known unit
+    Never modifies alphabetic runs or invents digits.
     Returns:
       (normalized_text, modified_flag)
     """
     orig = text
     s = text
 
-    # 1. Currency S -> $
-    s = re.sub(r"(^|[\s\(\[\{])S(?=\d)", r"\g<1>$", s)
-    # Fix S2.5.0 or $2.5.0 where a dot was inserted instead of digit
-    s = re.sub(r"\$(\d)\.(\d)\.(\d)(?!\d)", r"$\g<1>\g<2>.\g<3>0", s)
+    # 1. Currency S -> $ in real OCR context (preceded by start or non-alphanumeric, followed by digit)
+    s = re.sub(r"(^|[^a-zA-Z0-9])S(?=\d)", lambda m: m.group(1) + "$", s)
 
-    # 2. O/o -> 0 adjacent to digits
-    s = re.sub(r"(\d+)[Oo]+(?=[\s\.,\-\/)]|[a-zA-Z]|$)", lambda m: m.group(1) + "0" * (len(m.group(0)) - len(m.group(1))), s)
-    s = re.sub(r"(^|[\s\(\[\{])[Oo]+(?=\d)", lambda m: m.group(1) + "0" * (len(m.group(0)) - len(m.group(1))), s)
+    # 2. O/o -> 0 ONLY between digits or between a digit and a known unit token
+    s = re.sub(r"(?<=\d)[Oo]+(?=\d)", lambda m: "0" * len(m.group(0)), s)
+    unit_pat_o = r"(?i)(?<=\d)[Oo]+(?=\s*(?:mg|mcg|g|ml|iu|%)(?![a-zA-Z]))"
+    s = re.sub(unit_pat_o, lambda m: "0" * len(m.group(0)), s)
 
-    # 3. l/I -> 1 adjacent to digits
-    s = re.sub(r"(\d+)[lI]+(?=[\s\.,\-\/)]|[a-zA-Z]|$)", lambda m: m.group(1) + "1" * (len(m.group(0)) - len(m.group(1))), s)
-    s = re.sub(r"(^|[\s\(\[\{])[lI]+(?=\d)", lambda m: m.group(1) + "1" * (len(m.group(0)) - len(m.group(1))), s)
+    # 3. l/I -> 1 ONLY between digits or between a digit and a known unit token
+    s = re.sub(r"(?<=\d)[lI]+(?=\d)", lambda m: "1" * len(m.group(0)), s)
+    unit_pat_l = r"(?i)(?<=\d)[lI]+(?=\s*(?:mg|mcg|g|ml|iu|%)(?![a-zA-Z]))"
+    s = re.sub(unit_pat_l, lambda m: "1" * len(m.group(0)), s)
 
     modified = (s != orig)
     return s, modified
@@ -41,20 +42,22 @@ def normalize_numeric_context(text: str) -> tuple[str, bool]:
 def run_numeric_normalizer_unit_tests():
     """Unit-tests the normalizer on mandatory test cases from Auditor Review."""
     cases = [
-        ("5O MCG", "50 MCG"),
-        ("2OMG", "20MG"),
-        ("30O MG", "300 MG"),
-        ("9O MCG", "90 MCG"),
-        ("S2.5.0", "$25.00"),
+        ("5O MCG", "50 MCG", True),
+        ("2OMG", "20MG", True),
+        ("30O MG", "300 MG", True),
+        ("9O MCG", "90 MCG", True),
+        ("....S2.5.0.", "....$2.5.0.", True),
+        # Must-not-change unit tests (A3 & A4)
+        ("Net wt 10oz", "Net wt 10oz", False),
+        ("Weight 1lb", "Weight 1lb", False),
+        ("Take 1Inhaler", "Take 1Inhaler", False),
+        ("Pack of 2ONLY", "Pack of 2ONLY", False),
+        ("FOR ORAL USE ONLY - TAKE 1 TABLET DAILY IN THE MORNING", "FOR ORAL USE ONLY - TAKE 1 TABLET DAILY IN THE MORNING", False)
     ]
-    for inp, exp in cases:
+    for inp, exp, exp_mod in cases:
         out, mod = normalize_numeric_context(inp)
         assert out == exp, f"Normalizer failed on '{inp}': expected '{exp}', got '{out}'"
-        assert mod is True, f"Normalizer should flag modification on '{inp}'"
-    # Ensure normal words are untouched
-    preserve_words = "FOR ORAL USE ONLY - TAKE 1 TABLET DAILY IN THE MORNING"
-    out_words, mod_words = normalize_numeric_context(preserve_words)
-    assert out_words == preserve_words and not mod_words, "Normalizer altered standard words!"
+        assert mod == exp_mod, f"Normalizer modification flag failed on '{inp}': expected {exp_mod}, got {mod}"
     return True
 
 # Run verification on module import
@@ -186,6 +189,9 @@ class BenchmarkEvaluator:
         all_sp_wer = []
         all_key_match = []
         all_safety_match = []
+        total_correct = 0
+        total_safe_refusal = 0
+        total_wrong_spoken = 0
 
         LOW_CONFIDENCE_THRESHOLD = 0.40
         FALLBACK_PHRASE = "I can't read that clearly, please move closer."
@@ -202,19 +208,25 @@ class BenchmarkEvaluator:
             conf = pred_info.get("confidence", 1.0)
             extracted_ans = pred_info.get("extracted_answer", pred_text)
             norm_modified = pred_info.get("normalizer_modified_dose", False)
+            low_conf_dose = pred_info.get("low_confidence_dose", False)
+            fallback_req = pred_info.get("fallback_triggered", False)
 
-            # Rule 9: If confidence < 0.40 or normalizer modified a character inside a dose/number, speak fallback
-            if conf < LOW_CONFIDENCE_THRESHOLD or not pred_text.strip() or norm_modified:
+            # Rule 9 / A5 / A6: If fallback requested, or normalizer modified characters within key/dose span,
+            # or low confidence falls inside key/dose span, or text is empty, trigger safe refusal.
+            if fallback_req or norm_modified or low_conf_dose or not pred_text.strip():
                 category_metrics[cat]["fallback_count"] += 1
+                total_safe_refusal += 1
                 spoken_response = FALLBACK_PHRASE
-                # Fallback triggered: clinical safety preserved
-                # Key match fails since number is withheld
                 key_match = False
                 safety_match = False
             else:
                 spoken_response = extracted_ans
                 key_match = check_key_field_match(gt_key, spoken_response)
                 safety_match = check_safety_entity_verbatim(expected_safety, spoken_response)
+                if safety_match:
+                    total_correct += 1
+                else:
+                    total_wrong_spoken += 1
 
             # Compute error rates against full ground truth
             raw_cer = compute_cer(gt_text, pred_text) if pred_text else 1.0
@@ -243,6 +255,13 @@ class BenchmarkEvaluator:
             "aggregate_space_norm_wer_pct": round(float(np.mean(all_sp_wer)) * 100.0, 2),
             "aggregate_key_field_accuracy_pct": round(float(np.mean(all_key_match)) * 100.0, 2),
             "aggregate_safety_entity_accuracy_pct": round(float(np.mean(all_safety_match)) * 100.0, 2),
+            "safety_metric_counts": {
+                "correct": total_correct,
+                "safe_refusal": total_safe_refusal,
+                "wrong_spoken": total_wrong_spoken
+            },
+            "wrong_spoken_dose_count": total_wrong_spoken,
+            "wrong_spoken_hard_gate_pass": (total_wrong_spoken == 0),
             "category_breakdown": {}
         }
 

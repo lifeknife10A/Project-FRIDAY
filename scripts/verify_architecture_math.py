@@ -9,7 +9,7 @@ and mathematical invariant defined in the Project FRIDAY systems architecture:
 1. Left Flex Conductor Count (Exactly 18 Conductors)
 2. Right Hinge Flex Conductor Count (Exactly 34 Conductors)
 3. All-Up Mass Budget Rollup (109.5g Physical + 5.5g Contingency = Exactly 115.0g)
-4. Memory Bus Traffic & Bandwidth Utilization (<10.5 GB/s, >3.0 GB/s headroom)
+4. Memory Bus Traffic & Bandwidth Utilization (<14.0 GB/s safe ceiling, >5.0 GB/s headroom)
 5. MAX98357A Resistor-Coupled SD_MODE Channel Decoding Tolerances (Left & Right)
 6. Outward-Preferential 1D Thermal Resistance & PCM Solidification Time
 """

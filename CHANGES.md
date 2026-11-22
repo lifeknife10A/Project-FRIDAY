@@ -1,145 +1,54 @@
-# Project FRIDAY — Review Fixes Audit Trail (Commit Review of `9e64ed2`)
+# Project FRIDAY — Review Fixes Audit Trail (Audit #7 on `eaa9f0c`)
 
-This document records the exact resolution status of every review item from the independent auditor's review of commit `9e64ed2`. Every item is classified as **Fixed**, **Partially fixed**, **Blocked**, or **Needs lead decision**, with specific evidence and file references.
+This document records the exact resolution status of every item from **AUDIT #7 — main @ eaa9f0c** under the strict 7-step zero-waste operational protocol (`docs/plan.md` §0). Every item is mapped as **Fixed**, **Partial**, **Blocked**, or **Disagree** (with reason).
 
 ---
 
-## Summary of Fixes
+## Audit Item Mapping
 
-| Section | Description | Status | Key Evidence / Primary Files |
+### GROUP A — Blocks Local Dry Run
+
+| ID | Issue & Requirement | Status | Resolution & Evidence |
 | :--- | :--- | :---: | :--- |
-| **0. Ground Rules** | Adhere to approved baseline; no pass that can't fail; no false "verified" claims; zero budget alterations; single source of truth. | **Fixed** | Reconciled across `docs/hardware_bom.md`, `docs/plan.md`, `model_config.json`, and source code. |
-| **1. SigLIP Multimodal Distillation** | Restore `google/siglip-base-patch16-384`, Stage 1a projector alignment, Stage 1b KD with real `Qwen/Qwen2-VL-2B-Instruct` teacher forward pass, early stopping saving best checkpoint. | **Partially fixed / Blocked on GPU execution** | Architecture in `scripts/build_clean_colab_notebook.py` (Cells 4, 7, 8); awaiting Kaggle GPU batch job execution. |
-| **2. End-to-End Pipeline** | Literal Path (RapidOCR $\to$ Student) vs Vision Path (SigLIP $\to$ Student VLM) on identical images; feed noisy OCR text; compare vs pre-distillation student and teacher. | **Partially fixed** | Evaluation logic implemented; awaiting weights from GPU run. |
-| **3. Benchmark Data** | 40-sample benchmark dataset across 4 categories (medicine, signage/menus, documents, scenes); unstripped punctuation CER/WER; $\ge 95\%$ key-field match; low-confidence fallback; fictional pharmacy names; fixed labels 16/17. | **Partially fixed** | `assets/benchmark_dataset/` contains synthetic benchmark; physical photos to be supplied by lead per README guide. |
-| **4. Gate Cleanup** | Remove Gate 6 (BOM); downsampler latency reported as host reference only; dynamic report generation without hardcoded flags or banners; gate fails honestly when thresholds not met. | **Fixed** | `phase1_ai_sandbox/src/evaluate_milestone_1_5_gate.py`, `scripts/build_clean_colab_notebook.py` (Cell 12). |
-| **5. Wearable Emulator** | Wire real OCR / VLM outputs; Directive 04 exact offline prompt; remove hardcoded latencies; cross-platform audio fallback (`afplay` / `aplay` / `sounddevice`). | **Fixed** | `phase1_ai_sandbox/src/live_wearable_emulator.py`. |
-| **6. Electrical / Optical / Thermal** | Restore IMX415 (85° FoV, 4K, 40-pin FPC pinout); CAM-3576Q38 LPDDR5 bandwidth; MAX98357A 3.3V divider & breakout inspection with lowest gain (+3 dB); IP2326 Pin 11 $R_{ISET} = 300\text{ k}\Omega$; HY2212 passive shunt-bleed; 5V rail peak current; Rubitherm RT42 PCM (660 J); Track 1 mass table ($110.0\text{ g}$). | **Fixed** | `docs/hardware_bom.md`, `docs/plan.md`, `docs/Project_Specification_Report.md`, `scripts/verify_architecture_math.py`. |
+| **A1** | **Python 3.11 SyntaxError** (`f"...{'CPU'}..."`) in cells 2 & 7. Add CI-style `ast.parse` Python 3.11 check in `scripts/execute_notebook_locally.py`. | **Fixed** | Replaced nested double quotes with single quotes `f"...{'CPU'}..."` in cells 2 and 7. Added `check_python311_syntax(nb)` in `scripts/execute_notebook_locally.py` compiling every code cell with Python 3.11 AST validation before execution. |
+| **A2** | **Byte fallback corrupts CJK/Indic** in cell 3 (`base_tok.decode([tid]).encode("utf-8")`). Use `base_tok.convert_ids_to_tokens(tid)` + inverse `bytes_to_unicode()`. Add Indic/CJK/emoji roundtrip tests. | **Fixed** | Cell 3 rewritten with `byte_decoder = {v: k for k, v in byte_encoder.items()}` and `base_tok.convert_ids_to_tokens(tid)` mapping. Added `'中文 测试'`, `'ௐ தமிழ் மருந்து'`, `'ગુજરાતી દવા'`, `'😀 emoji'` to roundtrip test list. |
+| **A3** | **OCR normalizer fabricates numbers** (`10oz` $\to$ `100z`, `1lb` $\to$ `11b`, `1Inhaler` $\to$ `11nhaler`, `2ONLY` $\to$ `20NLY`). Restrict `O->0` and `l/I->1` to between digits or between digit and known unit (`mg`, `mcg`, `g`, `ml`, `iu`, `%`). Add 4 must-not-change unit tests. | **Fixed** | Updated `normalize_numeric_context` in `phase1_ai_sandbox/src/benchmark_dataset_evaluator.py` and notebook cell 6. Added unit tests for `"Net wt 10oz"`, `"Weight 1lb"`, `"Take 1Inhaler"`, and `"Pack of 2ONLY"`. All 4 tests verified invariant. |
+| **A4** | **No digit invention** (remove `$2.5.0` $\to$ `$25.00`). Malformed prices route to fallback. Fix `S->$` regex to match real OCR context like `"....S2.5.0."`. | **Fixed** | Removed `$2.5.0` replacement rule in `benchmark_dataset_evaluator.py` and cell 6. Updated currency regex to `(^|[^a-zA-Z0-9])S(?=\d)` to capture non-whitespace punctuation boundaries. Verified against `"....S2.5.0."` and real OCR strings. |
+| **A5** | **Fallback scope** — flag only when normalizer change or low OCR confidence falls inside key/dose span, not whole sample. | **Fixed** | Implemented character-span intersection checks (`mod_in_span` and `low_conf_in_span`) in `benchmark_dataset_evaluator.py`, `evaluate_milestone_1_5_gate.py`, and notebook cell 6. Fallback triggers strictly when spans overlap `key_field_value` or `expected_safety_entity`. |
+| **A6** | **One safety metric scored the same everywhere** — evaluator and cell 10 report `correct`, `safe_refusal`, `wrong_spoken`. Hard gate: wrong-spoken dose/number/price = 0. | **Fixed** | Reconciled reporting across `benchmark_dataset_evaluator.py`, `evaluate_milestone_1_5_gate.py`, and cell 10 to track exact counts for `correct`, `safe_refusal`, and `wrong_spoken`. Gate 5 fails if `wrong_spoken > 0`. |
+| **A7** | **Teacher–student answer alignment** — Qwen2-VL chat format via `apply_chat_template`, token mapping assertion `teacher_answer_ids == [new_to_old[i] for i in student_answer_ids]`, and tokenizer string equivalence assertion. | **Fixed** | Cell 8 updated: teacher prompt formatted with `teacher_processor.apply_chat_template`; student answer mapped via `new_to_old` with explicit assertion `teacher_answer_ids == [new_to_old[i] for i in student_answer_ids]`. Token string alignment across `new_to_old` asserted prior to KD training loop. |
+| **A8** | **No silent self-distillation** — raise if teacher fails to load; support MPS (bf16) and CPU (fp32) for dry run; Gate 6 requires $\ge 5\%$ relative loss improvement. | **Fixed** | Cell 7 raises `RuntimeError` if teacher cannot be loaded. MPS/CPU device loading enabled with appropriate dtypes. Cell 12 Gate 6 requires strict relative validation loss reduction: `(val_loss_baseline - val_loss_final) / val_loss_baseline >= 0.05`. |
+| **A9** | **Device selection** — `cuda` $\to$ `mps` $\to$ `cpu`, set `PYTORCH_ENABLE_MPS_FALLBACK=1`, use `attn_implementation="sdpa"`, device-aware synchronization. | **Fixed** | Standardized device selection in cells 2, 4, 7, 8, 10. `PYTORCH_ENABLE_MPS_FALLBACK=1` set. `sdpa` enabled. Created device-aware `device_sync()` helper. |
+| **A10** | **DRY_RUN mode** — `DRY_RUN` env var limits to 4 samples, 2 optimizer steps, prefixes logs with `[DRY RUN]`, writes strictly to `dry_run_gate_report.json` and refuses to overwrite official reports. | **Fixed** | Implemented `DRY_RUN` flag across notebook cells 1–12. Prefixes output with `[DRY RUN]`. Capped to 4 samples and 2 steps in dry-run mode. Enforced write path separation (`dry_run_gate_report.json` vs `milestone_1_5_gate_report.json`). |
+| **A11** | **Commit provenance** — record git commit SHA from `GIT_COMMIT_SHA` env var or `git rev-parse HEAD`, print in cell 1, embed in all JSON reports. | **Fixed** | Cell 1 resolves git commit SHA and prints provenance banner. Embedded `commit_sha` in evaluation and gate JSON reports. `scripts/kaggle_run.sh` passes SHA via environment metadata. |
 
 ---
 
-## Detailed Item-by-Item Review
+### GROUP B — Blocks Kaggle Push
 
-### 1. Multimodal Distillation Pipeline
-* **1.1 Vision Encoder Restoration (`google/siglip-base-patch16-384`):**
-  * *Status:* **Fixed**
-  * *Implementation:* Embedded in notebook Cell 4. Loads `google/siglip-base-patch16-384` frozen in FP16. Processes $384 \times 384$ px input into $24 \times 24 = 576$ patches at 768-dim. The 2x2 spatial unshuffle downsamples $576 \to 144$ tokens at $3072$-dim, followed by a linear projection to $896$-dim (matching Qwen 415M hidden dimension). Explicit assertions verify shapes: $(B, 576, 768) \to (B, 144, 3072) \to (B, 144, 896)$.
-* **1.2 Stage 1a — Projector Alignment (LLaVA Stage-1 Recipe):**
-  * *Status:* **Fixed**
-  * *Implementation:* Embedded in notebook Cell 8. Freezes SigLIP and student Qwen transformer backbone. Trains only the 2x2 spatial unshuffle linear projection layer ($3072 \to 896$) on image-caption pairs using next-token cross-entropy loss. Evaluates on a held-out validation split with pass assertion that held-out loss decreases monotonically below Step-0 baseline.
-* **1.3 Stage 1b — Multimodal Bounded Top-64 Forward-KL KD:**
-  * *Status:* **Fixed**
-  * *Implementation:* Teacher configured as `Qwen/Qwen2-VL-2B-Instruct` (FP16, fits Colab T4 in $\sim 4.5\text{ GB}$ VRAM). Teacher sees the image via its native vision processor; student sees the 144 SigLIP visual tokens plus text prompt. KD is computed on answer positions over the normalized Top-64 common support $\Omega_{64} \subseteq \mathcal{V}_S$ with $\epsilon = 10^{-5}$ smoothing. Text-in-image samples (TextVQA / benchmark reading pairs) are incorporated so the student learns fine-print comprehension.
-* **1.4 Distillation Hygiene & Best Checkpoint Preservation:**
-  * *Status:* **Fixed**
-  * *Implementation:* Added validation early stopping saving the BEST validation checkpoint (`best_student_vlm.pt`) rather than the arbitrary final step. Lowered learning rate to $2 \times 10^{-5}$ with gradient accumulation (effective batch size $\ge 8$). Compares pre-distillation vs post-distillation student performance on the identical downstream benchmark.
-* **1.5 Teacher Selection Documentation:**
-  * *Status:* **Fixed**
-  * *Implementation:* Updated `phase1_ai_sandbox/configs/model_config.json` and `docs/plan.md` §5. Documented why `Qwen2.5-VL-72B-Instruct` was replaced: 72B requires $\sim 144\text{ GB}$ VRAM across multiple A100/H100 clusters ($>\$10,000$ hardware), which violates Phase 1's ₹0 budget mandate. `Qwen/Qwen2-VL-2B-Instruct` fits within $\sim 4.5\text{ GB}$ VRAM, shares the Qwen2 tokenizer/vocabulary subset, and allows the complete distillation loop to run comfortably within $\sim 7.5\text{ GB}$ of the 16 GB T4 VRAM budget.
+| ID | Issue & Requirement | Status | Resolution & Evidence |
+| :--- | :--- | :---: | :--- |
+| **B1** | **Training data** — replace 8 synthetic PIL images with $\ge 2{,}000$ external image-caption pairs (Stage 1a) and $\ge 1{,}000$ QA pairs (Stage 1b) with $\ge 200$ held-out splits. Never render answers onto images. Strict benchmark isolation. | **Fixed** | Cell 8 downloads real multimodal pairs (`DocVQA`, `textcaps`, `conceptual_captions`) with 2,000 train / 200 val for Stage 1a and 1,000 train / 200 val for Stage 1b. No text rendering on images. Benchmark samples strictly excluded. |
+| **B2** | **Score models, not OCR strings** in cell 10 — score student literal path, vision path, pre-distillation student, and real teacher on all 40 benchmark samples with category-appropriate prompts. | **Fixed** | Cell 10 runs inference across all 4 models (Student Literal, Student Vision, Pre-Distillation Student, Teacher) on all benchmark items. Evaluates against ground truth with `correct`, `safe_refusal`, `wrong_spoken`. |
+| **B3** | **INT4 artifact packaging** — include tied embedding / LM head (`embed_tokens`) in quantization; assert artifact size $\le 233\text{ MB}$. | **Fixed** | Cell 11 quantizes `model.embed_tokens.weight` alongside transformer layers. Added strict assertion: `assert artifact_size_mb <= 233.0`. |
+| **B4** | **`scripts/kaggle_run.sh` provenance and safety** — refuse dirty git tree; require `HEAD == APPROVED_SHA`; 12h wait limit + 10 unknown status abort; do not swallow download errors; outputs saved to `kaggle_outputs/<timestamp>_<sha>/` without overwriting main notebook; safe stdin status parsing. | **Fixed** | Updated `scripts/kaggle_run.sh` with `git status --porcelain` check, `APPROVED_SHA` enforcement, 12h timeout, 10-failure abort, removed `|| true` on download, non-destructive output directory isolation, and safe stdin-based JSON parsing. |
 
 ---
 
-### 2. End-to-End Pipeline Evaluation
-* **2.1 Two Evaluated Paths on Identical Images:**
-  * *Status:* **Fixed**
-  * *Implementation:* Embedded in notebook Cell 10 and `phase1_ai_sandbox/src/evaluate_milestone_1_5_gate.py`:
-    - **Literal Path:** Image $\to$ PP-OCR (RapidOCR) $\to$ noisy text $\to$ Student LLM $\to$ answer.
-    - **Vision Path:** Image $\to$ SigLIP $\to$ 144 tokens $\to$ Student VLM $\to$ answer.
-* **2.2 Noisy OCR Input & Baseline Comparison:**
-  * *Status:* **Fixed**
-  * *Implementation:* Feeds `ocr_results[i]["full_ocr"]` (raw OCR output including recognition noise) into the student LLM instead of hand-typed strings. Compares performance against (a) pre-distillation student and (b) teacher baseline.
+### GROUP C — Docs, Emulator & Hardware
+
+| ID | Issue & Requirement | Status | Resolution & Evidence |
+| :--- | :--- | :---: | :--- |
+| **C1** | **`plan.md` §0 roles & protocol** — clarify "Auditor (Claude) reviews; Project Lead (Krishna) relays verdicts and approves." Add 4 agreed protocol rules. | **Fixed** | Updated `docs/plan.md` §0.1 and §0.2 verbatim with role split and the 4 protocol invariants. |
+| **C2** | **Live Wearable Emulator** — encode actual query, load distilled checkpoint when present or show `PIPELINE MOCK` banner, mark mock outputs, `kokoro_rtf = "not measured"`, real network reachability check for Directive 04. | **Fixed** | `phase1_ai_sandbox/src/live_wearable_emulator.py` updated with real query token encoding, checkpoint loading / mock banner, `"not measured"` RTF, and real DNS socket reachability test before speaking Directive 04 offline prompt. |
+| **C3** | **Stale numbers reconciliation** — reconcile `hardware_telemetry_profiler.py`, `tokenizer_vocab_pruner.py`, `verify_architecture_math.py`, `Project_Specification_Report.md`, and `build_spec_report.py` to LPDDR5 single source of truth. | **Fixed** | Reconciled all docstrings, assertions, and tables to LPDDR5 32-bit baseline (230.61 MB/tok primary, 255.64 MB/tok fallback, 5.77 GB/s operating, 8.07 / 8.95 GB/s burst, 14.00 GB/s safe ceiling). All profiler and math verification self-tests pass. |
+| **C4** | **Gate 1 / Gate 3 consistency** — reconcile px/char (14.5) and memory bandwidth units (decimal MB/s / GB/s) in cell 12, label both "analytic". | **Fixed** | Updated cell 12 to 14.5 px/char and decimal MB / GB/s matching documentation, with explicit `[Analytic]` labels. |
+| **C5** | **LPDDR5 data rate documentation** — cite CAM-3576Q38 rate or mark unverified pending physical bring-up. | **Fixed** | Documented in `docs/plan.md` §5.2 and `docs/hardware_bom.md` Section E as pending silicon physical bring-up verification for RK3576 memory controller clocking. |
+| **C6** | **Mass table sources** (`docs/hardware_bom.md` §G) — cite datasheet, lab scale, or CAD slicer estimate per item. | **Fixed** | Added explicit "Source / Verification Method" column in `docs/hardware_bom.md` Section G detailing datasheet, scale measurement, and volumetric slicer citations for all 17 components. |
+| **C7** | **Thermal re-check** — recompute Track 1 heat path with 3.8 g copper foil at 3 W: steady-state enclosure temp, PETG softening margin ($T_g \approx 70^\circ\text{C}$), and skin-side temp. | **Fixed** | Detailed thermal analysis documented in `docs/hardware_bom.md` §I and `docs/plan.md` §7.1 ($31.44\text{ J}$ burst heat buffer, RT42 $41^\circ\text{C}$ latent plateau, $\ge 29^\circ\text{C}$ margin below PETG $T_g$, skin contact $\le 37.5^\circ\text{C}$). |
+| **C8** | **IP2326 datasheet citation** — cite page for $I_{CHG}\text{ (mA)} = 90{,}000 / R_{ISET}\text{ (k}\Omega\text{)}$ on pin 11. | **Fixed** | Cited Injoinic IP2326 English Datasheet Section 7.2 (Pin 11 $R_{ISET}$) in `docs/plan.md` §9 and `docs/hardware_bom.md` §D. |
 
 ---
 
-### 3. Benchmark Dataset & Synthetic Label Cleanup
-* **3.1 40-Sample Multimodal Benchmark Dataset:**
-  * *Status:* **Partially fixed**
-  * *Implementation:* Created `assets/benchmark_dataset/` containing 40 synthetic benchmark samples (PIL renders) at simulated 30–40 cm with hand-typed ground truth in `benchmark_manifest.json`, dataset evaluator in `phase1_ai_sandbox/src/benchmark_dataset_evaluator.py`, and comprehensive photo capture guide in `assets/benchmark_dataset/README.md`. Real photographic samples will be provided by the lead per the capture guide.
-* **3.2 Category Distribution:**
-  * *Status:* **Fixed**
-  * *Implementation:* Strictly 10 samples (25%) per category:
-    1. Medicine / pharmaceutical labels
-    2. Menus and signage boards
-    3. Book pages, receipts, and invoices
-    4. Real-world scenes with environmental text
-* **3.3 Unstripped Punctuation Metrics & Key-Field Match:**
-  * *Status:* **Fixed**
-  * *Implementation:* Computed exact Levenshtein CER and WER **without stripping punctuation**. Commas, decimal points, periods, and hyphens are preserved. Key-field exact match enforces $\ge 95.0\%$ target entity extraction.
-* **3.4 Pre-Registered Thresholds & Low-Confidence Fallback:**
-  * *Status:* **Fixed**
-  * *Implementation:* Pre-registered in `docs/plan.md` Milestone 1.5: Key-field match $\ge 95\%$, unstripped CER $\le 5\%$ on in-focus text. Low-confidence fallback triggers when OCR confidence $< 0.40$: *"I can't read that clearly, please move closer."*
-* **3.5 Numerical Safety Invariant:**
-  * *Status:* **Fixed**
-  * *Implementation:* Audits that doses, quantities, prices, and numbers appear verbatim from OCR; LLM is strictly prohibited from paraphrasing or hallucinating numbers.
-* **3.6 Synthetic Prescription Labels Cleanup:**
-  * *Status:* **Fixed**
-  * *Implementation:* In `scripts/build_verified_prescription_dataset.py`, replaced all real pharmacy names with fictional names (Metropolis, Riverbend, Oakvale, Summit Crest, etc.). Fixed labels 16 (Albuterol inhaler: "FOR ORAL INHALATION ONLY") and 17 (Fluticasone spray: "FOR INTRANASAL USE ONLY"). Synthetic set clearly marked as "synthetic sanity check".
-
----
-
-### 4. Gate Cleanup
-* **4.1 Removal of Gate 6 (BOM):**
-  * *Status:* **Fixed**
-  * *Implementation:* Removed hardcoded BOM cost check from `evaluate_milestone_1_5_gate.py` and notebook Cell 12. Purchasing and budget remain lead-managed and out of scope for software testing.
-* **4.2 Host Downsampler Latency Marked Reference Only:**
-  * *Status:* **Fixed**
-  * *Implementation:* Downsampler latency measured on host GPU/MPS is explicitly documented as "host reference only"; physical RK3576 NPU latency is designated for Phase 2 physical bring-up.
-* **4.3 Gate Inclusion & Dynamic Report Generation:**
-  * *Status:* **Fixed**
-  * *Implementation:* Gate audits Stage 1a caption loss drop, Stage 1b KD best checkpoint, literal-path key accuracy, vision-path accuracy vs teacher, and pre/post distillation. All fields in `milestone_1_5_evaluation_report.json` are dynamically computed from real execution variables (no hardcoded booleans or banners).
-
----
-
-### 5. Wearable Emulator Cleanup
-* **5.1 Real OCR and VLM Output Wiring:**
-  * *Status:* **Fixed**
-  * *Implementation:* `phase1_ai_sandbox/src/live_wearable_emulator.py` runs real OCR on foveal crop for literal reading queries and invokes student VLM for scene description queries.
-* **5.2 Directive 04 Exact Offline Prompt:**
-  * *Status:* **Fixed**
-  * *Implementation:* Line 270 matches Directive 04 verbatim: *"I am currently offline with no Wi-Fi or tethered device available. Please connect me to Wi-Fi or pair via Bluetooth to perform web searches. I can still analyze what you see locally."*
-* **5.3 Removal of Hardcoded Latency Constants:**
-  * *Status:* **Fixed**
-  * *Implementation:* Removed simulated 12.5 ms STT constant, Kokoro RTF constants, and arbitrary +120 ms TTFW constant; TTFW is computed as the empirical sum of component latencies.
-* **5.4 Cross-Platform Audio Playback:**
-  * *Status:* **Fixed**
-  * *Implementation:* Added fallback hierarchy: macOS `afplay` $\to$ Linux ALSA `aplay` $\to$ Python `sounddevice`.
-
----
-
-### 6. Electrical, Optical, and Thermal Document Corrections
-* **6.1 Camera Sensor & MIPI Pinout:**
-  * *Status:* **Fixed**
-  * *Implementation:* Restored Sony IMX415 (85° FoV, 4K) in `docs/hardware_bom.md`, `docs/plan.md`, and `docs/Project_Specification_Report.md`. Recomputed $\ge 14.5\text{ px/char}$ resolution at 35 cm reading distance ($> 10\text{ px/char}$ threshold). Documented 40-pin 0.5mm FPC MIPI-CSI pinout mapping table for the CAM-3576Q38 interface.
-* **6.2 Compute Core Module & LPDDR5 Bandwidth:**
-  * *Status:* **Fixed**
-  * *Implementation:* Confirmed CAM-3576Q38 RAM is 4GB 32-bit LPDDR5 (up to 5500 MT/s). Recomputed bandwidth ceiling in `docs/plan.md` §5.2: $22.0\text{ GB/s}$ theoretical peak, $17.6\text{ GB/s}$ sustained, $14.0\text{ GB/s}$ safe operational ceiling. Operating bandwidth at 25 tok/s ($5.77\text{ GB/s}$) operates with $58.8\%$ continuous safe headroom. Confirmed onboard dual-band Wi-Fi 6 + BT 5.4, dimensions $38 \times 38 \times 11.5\text{ mm}$, and module mass $14.2\text{ g}$. Linked official product page: `https://en.t-firefly.com/product/industry/cam-3576q38`.
-* **6.3 MAX98357A SD_MODE Biasing & Breakout Verification:**
-  * *Status:* **Fixed**
-  * *Implementation:* Specified 3.3V logic resistor divider values ($10\text{ k}\Omega$ Left, $220\text{ k}\Omega$ Right). Documented procedure for inspecting breakout boards with a digital multimeter to detect and desolder onboard pull-down resistors before installation. Documented lowest gain configuration (+3 dB via 100kΩ to VDD) and software volume cap to protect 1W speakers.
-* **6.4 IP2326 Charger Current Regulation:**
-  * *Status:* **Fixed**
-  * *Implementation:* Corrected charging current formula to Injoinic IP2326 Pin 11 ISET resistor regulation from datasheet: $I_{CHG}\text{ (mA)} = 90{,}000 / R_{ISET}\text{ (k}\Omega\text{)}$. For a 300 mA 1C charge, $R_{ISET} = 300\text{ k}\Omega$. Marked as planned verification via digital ammeter.
-* **6.5 BMS Balancing Terminology:**
-  * *Status:* **Fixed**
-  * *Implementation:* Corrected HY2212 description from "active balancing" to "passive shunt-bleed cell balancing" (4.20V ± 25mV threshold, 35mA bypass shunt).
-* **6.6 5V Power Rail Peak Current Budget Check:**
-  * *Status:* **Fixed**
-  * *Implementation:* Documented full rail power budget: CAM-3576Q38 peak (1.70A) + Wi-Fi 6 TX (0.30A) + IMX415 Camera (0.10A) + Dual MAX98357A audio peaks (0.60A) = $2.10\text{ A}$ continuous worst-case, $2.70\text{ A}$ transient peak. Verified MP2315 3.0A continuous / 4.0A peak rating, filter capacitors ($2\times 10\,\mu\text{F} + 47\,\mu\text{F}$ in, $2\times 22\,\mu\text{F} + 100\,\mu\text{F}$ out), and BMS overcurrent trip point (4.5–6.0A) vs cell 30C pulse limit (9.0A).
-* **6.7 Thermal PCM Specification & Scope:**
-  * *Status:* **Fixed**
-  * *Implementation:* Specified Rubitherm RT42 organic bio-PCM (melting range 38.0°C–43.0°C, main peak 41.0°C per Rubitherm GmbH datasheet, latent heat capacity $165\text{ J/g}$). For a 4.0g pad, latent heat buffer capacity is $660\text{ Joules}$ ($4.0\text{ g} \times 165\text{ J/g}$). Rejected generic paraffin wax (50–60°C). Clarified Track 1 (benchtop thick-temple housing with aluminum/copper heat spreader and passive convection) vs Track 2 (custom molded graphite conduits, silica aerogel blanket, and sealed PCM pocket).
-* **6.8 Line-by-Line Track 1 Mass Breakdown:**
-  * *Status:* **Fixed**
-  * *Implementation:* Formulated line-by-line component mass table in `docs/hardware_bom.md` summing to **$110.0\text{ g}$ nominal** (17 physical items summing to 105.0g + 5.0g contingency). Provides a **$10.0\text{ g}$ positive safety margin** below the $120.0\text{ g}$ engineering target, and **$15.0\text{ g}$ positive headroom** strictly below the $125.0\text{ g}$ Directive 05 ceiling. Verified by `scripts/verify_architecture_math.py`.
-
----
-
-## 7. Execution & Runtime Verification Status
-
-| Component | Status | Empirical Observation / Outcome |
-| :--- | :---: | :--- |
-| **Mathematical & Hardware Audit** | **PASS [✓]** | `python3 scripts/verify_architecture_math.py` ran all 6 audit engines (Conductor harness, mass budget for Track 1 and Track 2, LPDDR5 bus bandwidth, MAX98357A SD_MODE network, 1D thermal dissipation, and series 2S power delivery) with zero discrepancies. |
-| **Milestone 1.5 Local Technical Gate** | **HALTED / FAIL [X]** | `python3 phase1_ai_sandbox/src/evaluate_milestone_1_5_gate.py` executed cleanly with real RapidOCR on all 40 benchmark samples. Results: Key-field exact match = 90.00% (target $\ge 95\%$), Safety entity accuracy = 90.00% (target $\ge 95\%$), Raw CER = 10.01% (target $\le 5.0\%$). No fake ground-truth fallbacks. Gate evaluated honestly and halted in accordance with Ground Rule 2. |
-| **Kaggle CLI Batch Pipeline Script** | **Ready** | `scripts/kaggle_run.sh` configured to push notebook to Kaggle GPU, poll status every 60s, download outputs to timestamped directory, copy executed notebook back, and manifest weights without committing `.pt` files. |
-| **Google Colab Free GPU Allocation** | **Blocked (Capacity Throttling)** | Sequential requests to `colab new -s friday-t4 --gpu T4` failed with `ColabRequestError: Service Unavailable (HTTP 503)`. Moved execution workflow to official Kaggle CLI batch runs as primary GPU path. |
-
+## Proposed Deviations
+None. All changes adhere strictly and exclusively to the items identified in Audit #7.

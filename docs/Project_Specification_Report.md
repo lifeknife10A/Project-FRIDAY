@@ -111,15 +111,15 @@ Autoregressive token generation on embedded systems is fundamentally memory-band
 
 | Parameter / Buffer Element | Quantization Precision | Footprint / Traffic | % of Token Budget |
 | :--- | :--- | :--- | :--- |
-| **352M Transformer Layers (INT4)** | INT4 (0.5 B/param) | 176.00 MB | 65.83% |
-| **64,000-Token Language Model Head** | INT8 (1.0 B/weight) | 57.34 MB | 21.45% |
-| **W4A16 Scales, Offsets & RMSNorms** | FP16 / Mixed | 16.00 MB | 5.98% |
-| **KV-Cache Traffic (1024 Context)** | INT8 Quantized | 18.00 MB | 6.74% |
-| **Total Sustained Traffic per Token** | System Combined | 267.34 MB/token | 100.00% |
+| **All-INT4 Packed Weights (415M)** | INT4 (0.5 B/param) | 208.32 MB | 90.33% |
+| **W4A16 Scales, Offsets & RMSNorms** | FP16 / Mixed | 16.00 MB | 6.94% |
+| **KV-Cache Traffic (1024 Context INT8)** | INT8 Quantized (GQA) | 6.29 MB | 2.73% |
+| **Total Sustained Traffic per Token** | Primary All-INT4 | 230.61 MB/token | 100.00% |
 
-At a target generation throughput of 35 tokens per second, sustained memory bandwidth demand is:
-$$	ext{Bandwidth} = 0.29634	ext{ GB} 	imes 35	ext{ tokens/s} = \mathbf{10.37	ext{ GB/s}}.$$
-On the Rockchip RK3576 LPDDR4x bus (operating at 2133 MHz with a sustained real-world ceiling of $13.50	ext{ GB/s}$), this represents exactly **$76.8\%$ bus utilization**, leaving **$3.13	ext{ GB/s}$ of continuous unallocated bandwidth** for concurrent ISP camera frame DMA transfers and audio I2S ring-buffers.
+At nominal generation throughput of 25 tokens per second (operating) and 35 tokens per second (burst peak):
+$$\text{Bandwidth}_{\text{operating}} = 0.23061\text{ GB} \times 25\text{ tokens/s} = \mathbf{5.77\text{ GB/s}}.$$
+$$\text{Bandwidth}_{\text{burst}} = 0.23061\text{ GB} \times 35\text{ tokens/s} = \mathbf{8.07\text{ GB/s}}.$$
+On the Firefly CAM-3576Q38 32-bit LPDDR5 bus (with a safe operational ceiling of $14.00\text{ GB/s}$ and $17.60\text{ GB/s}$ sustained ceiling), this operates with **$58.8\%$ continuous safe headroom** ($8.23\text{ GB/s}$ unallocated at 25 tok/s, and $5.93\text{ GB/s}$ unallocated during 35 tok/s burst) for concurrent ISP camera frame DMA transfers and audio I2S ring-buffers. Under the secondary fallback contract (INT4 body + INT8 LM-head at $255.63\text{ MB/token}$), burst bandwidth is $8.95\text{ GB/s}$, maintaining $36.1\%$ margin ($5.05\text{ GB/s}$ headroom).
 
 ---
 
@@ -219,7 +219,7 @@ To enforce deterministic responsiveness, all software and hardware operations ar
 | **Camera Capture & Foveal Crop** | < 15 milliseconds | IMX415 + RGA Engine | MIPI DMA buffer write + RGA crop completion |
 | **Vision Token Encoding** | < 45 milliseconds | SigLIP-B (6.0 TOPS NPU) | Time to encode 144 visual token embeddings |
 | **Time-to-First-Token (TTFT)** | < 650 milliseconds | RK3576 NPU Core | Prefix prefill latency for visual prompt |
-| **Autoregressive Generation** | >= 35 tokens/second | RK3576 LPDDR4x Bus | Sustained INT4 decoding speed under 10.37 GB/s |
+| **Autoregressive Generation** | >= 35 tokens/second | CAM-3576Q38 LPDDR5 Bus | Burst INT4 decoding speed under 8.07 GB/s (5.77 GB/s @ 25 tok/s) |
 | **TTS Stream Latency** | < 180 milliseconds | RK3576 CPU / I2S | Latency from first decoded token to audio buffer |
 | **Time-to-First-Spoken-Word** | ~ 1.20 seconds (Target) | Full System Combined | Total elapsed time from voice query to spoken word |
 | **Peak Active Thermal Burst** | <= 12.0 seconds | Thermal Architecture | Hardware thermal governor timer clamp |
@@ -232,7 +232,7 @@ To enforce deterministic responsiveness, all software and hardware operations ar
 Project FRIDAY provides distinct, peer-reviewable research contributions across three engineering domains for the capstone defense:
 
 ### 8.1 Information Technology & Machine Learning Novelty
-* **Bounded Cross-Modal Distillation:** Formulation and mathematical proof of a bounded two-stage cross-modal distillation protocol (Normalized Epsilon-Smoothed Top-64 Forward KD strictly over $\Omega_{64} \subseteq \mathcal{V}_S$ + Sequence DPO) that enables extreme cross-modal compression of a 72B foundation model into a 496M student operating under a 9.36 GB/s memory bandwidth envelope.
+* **Bounded Cross-Modal Distillation:** Formulation and mathematical proof of a bounded two-stage cross-modal distillation protocol (Normalized Epsilon-Smoothed Top-64 Forward KD strictly over $\Omega_{64} \subseteq \mathcal{V}_S$ + Sequence DPO) that enables extreme cross-modal compression into a 415.2M student operating under an 8.07 GB/s burst / 5.77 GB/s operating memory bandwidth envelope.
 * **Spatial Token Unshuffle Downsampling:** Elimination of redundant visual token traffic through a $2	imes 2$ spatial unshuffle layer reducing patch sequence length from 576 to strictly 144 tokens without semantic resolution loss.
 
 ### 8.2 Systems & Embedded Software Engineering Novelty

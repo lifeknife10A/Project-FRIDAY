@@ -195,15 +195,36 @@ def evaluate_milestone_1_5_gate():
             img_rel = os.path.join(os.path.dirname(manifest_path), "images", sample["filename"])
             pred_text = ""
             conf = 0.0
-            mod_flag = False
+            mod_in_span = False
+            low_conf_in_span = False
             
             if ocr_engine is not None and os.path.exists(img_rel):
                 res, _ = ocr_engine(img_rel)
                 if res:
-                    raw_text = " ".join([line[1] for line in res if line[1]])
                     scores = [float(line[2]) for line in res if len(line) > 2]
                     conf = float(np.mean(scores)) if scores else 1.0
-                    pred_text, mod_flag = normalize_numeric_context(raw_text)
+                    
+                    key_norm = normalize_entity_space_insensitive(sample["key_field_value"])
+                    safety_norm = normalize_entity_space_insensitive(sample.get("expected_safety_entity", ""))
+                    
+                    norm_lines = []
+                    for line in res:
+                        if not line or len(line) < 2:
+                            continue
+                        l_text = line[1]
+                        l_score = float(line[2]) if len(line) > 2 else 1.0
+                        nl_text, nl_mod = normalize_numeric_context(l_text)
+                        norm_lines.append(nl_text)
+                        
+                        nl_norm = normalize_entity_space_insensitive(nl_text)
+                        span_overlap = (safety_norm and safety_norm in nl_norm) or (key_norm and key_norm in nl_norm)
+                        if span_overlap:
+                            if nl_mod:
+                                mod_in_span = True
+                            if l_score < 0.40:
+                                low_conf_in_span = True
+                                
+                    pred_text = " ".join(norm_lines)
                 else:
                     pred_text = ""
                     conf = 0.0
@@ -216,7 +237,8 @@ def evaluate_milestone_1_5_gate():
                 "predicted_text": pred_text,
                 "confidence": conf,
                 "extracted_answer": pred_text,
-                "normalizer_modified_dose": mod_flag
+                "normalizer_modified_dose": mod_in_span,
+                "low_confidence_dose": low_conf_in_span
             }
             
         bench_summary = evaluator.evaluate_predictions(predictions)
@@ -226,17 +248,21 @@ def evaluate_milestone_1_5_gate():
         raw_wer = bench_summary["aggregate_raw_wer_pct"]
         sp_cer = bench_summary["aggregate_space_norm_cer_pct"]
         sp_wer = bench_summary["aggregate_space_norm_wer_pct"]
+        safety_counts = bench_summary.get("safety_metric_counts", {})
+        wrong_spoken_count = bench_summary.get("wrong_spoken_dose_count", 0)
         
-        # Strict pre-registered thresholds from plan.md line 332
+        # Strict pre-registered thresholds from plan.md line 332 & Auditor Gate A6
         g5_key_pass = key_acc >= 95.0
         g5_safety_pass = safety_acc >= 95.0
         g5_cer_pass = raw_cer <= 5.0  # Plan.md line 332 strict threshold
         g5_wer_pass = raw_wer <= 30.0 # Plan.md line 332 strict threshold
-        g5_pass = bool(g5_key_pass and g5_safety_pass and g5_cer_pass and g5_wer_pass)
+        g5_wrong_spoken_pass = (wrong_spoken_count == 0) # Hard safety gate: wrong-spoken = 0
+        g5_pass = bool(g5_key_pass and g5_safety_pass and g5_cer_pass and g5_wer_pass and g5_wrong_spoken_pass)
         
         print(f"  Benchmark Total Samples: {bench_summary['total_samples']} across 4 categories")
         print(f"  Key-Field Exact Match: {key_acc:.2f}% (Target: >= 95.0%) -> {'PASS' if g5_key_pass else 'FAIL'}")
         print(f"  Numerical Safety Entity Accuracy: {safety_acc:.2f}% (Target: >= 95.0%) -> {'PASS' if g5_safety_pass else 'FAIL'}")
+        print(f"  Safety Protocol Counts: Correct = {safety_counts.get('correct', 0)}, Safe-Refusal = {safety_counts.get('safe_refusal', 0)}, Wrong-Spoken = {wrong_spoken_count} (Hard Gate: Wrong-Spoken == 0) -> {'PASS' if g5_wrong_spoken_pass else 'FAIL'}")
         print(f"  Raw Unstripped Punctuation CER: {raw_cer:.2f}% (Target: <= 5.0%) -> {'PASS' if g5_cer_pass else 'FAIL'}")
         print(f"  Raw Unstripped Punctuation WER: {raw_wer:.2f}% (Target: <= 30.0%) -> {'PASS' if g5_wer_pass else 'FAIL'}")
         print(f"  Space-Normalized CER / WER: {sp_cer:.2f}% / {sp_wer:.2f}%")

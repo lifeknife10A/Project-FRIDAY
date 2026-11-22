@@ -431,7 +431,7 @@ add_heading_2(doc, "3.2 Discrete Token Vocabulary Optimization (64,000 Subset)")
 add_body_p(doc, 
     "The native Qwen2.5 tokenizer utilizes a massive vocabulary of 151,936 tokens. In an embedded architecture, an unquantized language "
     "model head (LM-head) for 152k tokens across an 896 hidden dimension consumes 136.1 MB of memory traffic per generated token, "
-    "instantly saturating the 32-bit LPDDR4x bus. To resolve this bottleneck, FRIDAY derives a strict 64,000-token vocabulary subset "
+    "instantly saturating the 32-bit LPDDR5 bus. To resolve this bottleneck, FRIDAY derives a strict 64,000-token vocabulary subset "
     "(V_S subset of V_T) based on high-frequency conversational English and Hindi/Hinglish token distributions. Pruning the vocabulary "
     "to 64k tokens reduces the INT8 LM-head weight footprint to exactly 57.34 MB, unlocking sustainable multi-token decoding speeds.")
 
@@ -464,23 +464,22 @@ add_body_p(doc,
 add_heading_2(doc, "3.4 Hardware Memory Traffic & Bus Utilization Analysis")
 add_body_p(doc, 
     "Autoregressive token generation on embedded systems is fundamentally memory-bandwidth bound. The table below delineates the verified "
-    "traffic generated per token decoded on the RK3576 32-bit LPDDR4x memory bus:")
+    "traffic generated per token decoded on the CAM-3576Q38 32-bit LPDDR5 memory bus:")
 
 mem_headers = ["Parameter / Buffer Element", "Quantization Precision", "Footprint / Traffic", "% of Token Budget"]
 mem_data = [
-    ["410M Decoder Transformer Weights", "INT4 (0.5 B/param)", "205.00 MB", "69.18%"],
-    ["64,000-Token Language Model Head", "INT8 (1.0 B/weight)", "57.34 MB", "19.35%"],
-    ["W4A16 Scales, Offsets & RMSNorms", "FP16 / Mixed", "16.00 MB", "5.40%"],
-    ["KV-Cache Traffic (1024 Context)", "INT8 Quantized", "18.00 MB", "6.07%"],
-    ["Total Sustained Traffic per Token", "System Combined", "296.34 MB/token", "100.00%"]
+    ["All-INT4 Packed Weights (415M)", "INT4 (0.5 B/param)", "208.32 MB", "90.33%"],
+    ["W4A16 Scales, Offsets & RMSNorms", "FP16 / Mixed", "16.00 MB", "6.94%"],
+    ["KV-Cache Traffic (1024 Context INT8)", "INT8 Quantized (GQA)", "6.29 MB", "2.73%"],
+    ["Total Sustained Traffic per Token", "Primary All-INT4", "230.61 MB/token", "100.00%"]
 ]
 add_clean_table(doc, mem_headers, mem_data, [2.5, 1.5, 1.3, 1.2])
 
 add_body_p(doc, 
-    "At a target generation throughput of 35 tokens per second, sustained memory bandwidth demand is: "
-    "Bandwidth = 0.29634 GB * 35 tokens/s = 10.37 GB/s. On the Rockchip RK3576 LPDDR4x bus (operating at 2133 MHz with a sustained "
-    "real-world ceiling of 13.50 GB/s), this represents exactly 76.8% bus utilization, leaving 3.13 GB/s of continuous unallocated bandwidth "
-    "for concurrent ISP camera frame DMA transfers and audio I2S ring-buffers.")
+    "At nominal generation throughput of 25 tokens/s (operating) and 35 tokens/s (burst peak), memory bandwidth is: "
+    "Operating = 0.23061 GB * 25 tokens/s = 5.77 GB/s; Burst = 0.23061 GB * 35 tokens/s = 8.07 GB/s. "
+    "On the CAM-3576Q38 32-bit LPDDR5 bus (with a safe operational ceiling of 14.00 GB/s and 17.60 GB/s sustained ceiling), "
+    "this provides 58.8% continuous safe headroom (8.23 GB/s unallocated) for concurrent camera ISP and audio I2S ring-buffers.")
 
 # ==========================================
 # SECTION 4: EDGE FIRMWARE & SOFTWARE
@@ -636,7 +635,7 @@ perf_data = [
     ["Camera Capture & Foveal Crop", "< 15 milliseconds", "IMX415 + RGA Engine", "MIPI DMA buffer write + RGA crop completion"],
     ["Vision Token Encoding", "< 45 milliseconds", "SigLIP-B (6.0 TOPS NPU)", "Time to encode 144 visual token embeddings"],
     ["Time-to-First-Token (TTFT)", "< 650 milliseconds", "RK3576 NPU Core", "Prefix prefill latency for visual prompt"],
-    ["Autoregressive Generation", ">= 35 tokens/second", "RK3576 LPDDR4x Bus", "Sustained INT4 decoding speed under 10.37 GB/s"],
+    ["Autoregressive Generation", ">= 35 tokens/second", "CAM-3576Q38 LPDDR5 Bus", "Burst INT4 decoding speed under 8.07 GB/s (5.77 GB/s @ 25 tok/s)"],
     ["TTS Stream Latency", "< 180 milliseconds", "RK3576 CPU / I2S", "Latency from first decoded token to audio buffer"],
     ["Time-to-First-Spoken-Word", "~ 1.20 seconds", "Full System Combined", "Total elapsed time from voice query to spoken word"],
     ["Peak Active Thermal Burst", "<= 12.0 seconds", "Thermal Architecture", "Hardware thermal governor timer clamp"],
