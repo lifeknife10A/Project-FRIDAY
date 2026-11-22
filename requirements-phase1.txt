@@ -1,10 +1,10 @@
 # PROJECT FRIDAY: PHASE 1 PINNED ENVIRONMENT SPECIFICATION
-# Python Target: Python 3.11.x
-# Pinned to exact Kaggle/Colab execution versions (Auditor Items F3 & KB4)
+# Python Target: Python 3.13.x (Kaggle/Colab execution parity per Auditor Item H2)
 
 transformers==4.46.3
 accelerate==1.0.1
-rapidocr-onnxruntime==1.3.24
+rapidocr==3.10.0
+onnxruntime==1.32.0
 qwen-vl-utils==0.0.8
 datasets==5.0.1
 pyarrow==26.0.1

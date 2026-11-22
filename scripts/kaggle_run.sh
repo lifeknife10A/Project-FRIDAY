@@ -186,11 +186,11 @@ while true; do
     # Query status
     RAW_STATUS=$(kaggle kernels status "$KERNEL_ID" 2>&1 || true)
     
-    # Parse status word without string interpolation injection (Auditor Gate B4)
+    # Parse status word without string interpolation injection (Auditor Gate B4 & Item H3)
     STATUS=$(printf "%s" "$RAW_STATUS" | python3 -c "
 import sys, re
 raw = sys.stdin.read()
-m = re.search(r'status [\"\\x27](\w+)[\"\\x27]', raw, re.IGNORECASE)
+m = re.search(r'status [\"\\x27](?:KernelWorkerStatus\.)?(\w+)[\"\\x27]', raw, re.IGNORECASE)
 if m:
     print(m.group(1).lower())
 else:
@@ -208,7 +208,7 @@ else:
         TERMINAL_STATUS="error"
         echo "[!] Kernel run encountered an ERROR."
         break
-    elif [ "$STATUS" == "cancelled" ] || [ "$STATUS" == "cancelpending" ]; then
+    elif [[ "$STATUS" == cancel* ]]; then
         TERMINAL_STATUS="cancelled"
         echo "[!] Kernel run was CANCELLED."
         break

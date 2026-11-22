@@ -85,24 +85,25 @@ Instruments every turn, calculating actual DDR traffic (255.64 MB/token), tracki
 
 ---
 
-## 4. Environment Parity & Local Execution Setup (Auditor Item F3)
+## 4. Environment Parity & Local Execution Setup (Auditor Items F3 & H2)
 
-To ensure byte-for-byte parity with the Kaggle/Colab Linux execution environments (Python 3.11.x), local execution requires a Python 3.11 virtual environment pinned to `requirements-phase1.txt`:
+To ensure byte-for-byte parity with the Kaggle/Colab Linux execution environments (Python 3.13.x), local execution requires a Python 3.13 virtual environment pinned to `requirements-phase1.txt`:
 
 ```bash
 cd /Users/krish/NMIMS/Friday
 
-# 1. Create and activate a Python 3.11 virtual environment
-python3.11 -m venv .venv
+# 1. Create and activate a Python 3.13 virtual environment
+python3.13 -m venv .venv
 source .venv/bin/activate
 
 # 2. Install exact pinned dependencies matching Kaggle/Colab runtime
 pip install --upgrade pip
 pip install -r requirements-phase1.txt
+pip check  # Verifies zero broken requirements
 
 # 3. Execute the local dry run runner
-# scripts/execute_notebook_locally.py strictly enforces Python 3.11.x
-# and verifies exact package version pins (transformers==4.46.3, accelerate==1.0.1, etc.)
+# scripts/execute_notebook_locally.py strictly enforces Python 3.13.x
+# and verifies exact package version pins (transformers==4.46.3, accelerate==1.0.1, rapidocr==3.10.0, onnxruntime==1.32.0, etc.)
 DRY_RUN=1 python scripts/execute_notebook_locally.py
 ```
 

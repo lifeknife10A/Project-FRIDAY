@@ -143,6 +143,40 @@ def run_numeric_normalizer_unit_tests():
 
     return True
 
+_ocr_engine = None
+
+def get_ocr_engine():
+    global _ocr_engine
+    if _ocr_engine is None:
+        from rapidocr import RapidOCR
+        _ocr_engine = RapidOCR()
+    return _ocr_engine
+
+def run_ocr(image_path: str) -> list[tuple[str, float]]:
+    """
+    Auditor Item H1: Unified OCR adapter mapping RapidOCR 3.x output to list of (text, score) lines.
+    Used by Cell 6, evaluate_milestone_1_5_gate.py, and offline evaluation.
+    """
+    engine = get_ocr_engine()
+    res = engine(image_path)
+    if res is None:
+        return []
+    # RapidOCROutput in rapidocr 3.x has .txts and .scores tuples
+    txts = getattr(res, "txts", None)
+    scores = getattr(res, "scores", None)
+    if txts is not None and scores is not None:
+        return [(str(t), float(s)) for t, s in zip(txts, scores)]
+    # Fallback if result is old-style list of [box, text, score] or tuple (res, elapse)
+    if isinstance(res, (tuple, list)) and len(res) == 2 and isinstance(res[0], (list, tuple)):
+        res = res[0]
+    if isinstance(res, (list, tuple)):
+        lines = []
+        for item in res:
+            if isinstance(item, (list, tuple)) and len(item) >= 3:
+                lines.append((str(item[1]), float(item[2])))
+        return lines
+    return []
+
 def normalize_dose_token(s: str) -> str:
     """Normalizes dose or price strings (e.g. '20 MG' -> '20mg', '$ 4.50' -> '$4.50')."""
     return re.sub(r"\s+", "", s).lower()

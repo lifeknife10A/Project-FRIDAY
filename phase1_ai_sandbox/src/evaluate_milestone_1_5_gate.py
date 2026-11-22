@@ -183,18 +183,9 @@ def evaluate_milestone_1_5_gate():
     g5_pass = False
     bench_summary = {}
     if os.path.exists(manifest_path):
-        from benchmark_dataset_evaluator import BenchmarkEvaluator, normalize_numeric_context
+        from benchmark_dataset_evaluator import BenchmarkEvaluator, normalize_numeric_context, run_ocr
         evaluator = BenchmarkEvaluator(manifest_path)
         
-        # Run real OCR on the benchmark images (no fake ground-truth fallbacks permitted)
-        try:
-            from rapidocr_onnxruntime import RapidOCR
-            ocr_engine = RapidOCR()
-            print("  [✓] RapidOCR ONNX engine online. Processing 40 benchmark images...")
-        except Exception as e:
-            ocr_engine = None
-            print(f"  [!] RapidOCR engine unavailable: {e}")
-            
         predictions = {}
         for sample in evaluator.samples:
             img_rel = os.path.join(os.path.dirname(manifest_path), "images", sample["filename"])
@@ -203,18 +194,14 @@ def evaluate_milestone_1_5_gate():
             mod_in_span = False
             low_conf_in_span = False
             
-            if ocr_engine is not None and os.path.exists(img_rel):
-                res, _ = ocr_engine(img_rel)
-                if res:
-                    scores = [float(line[2]) for line in res if len(line) > 2]
+            if os.path.exists(img_rel):
+                ocr_lines = run_ocr(img_rel)
+                if ocr_lines:
+                    scores = [float(s) for _, s in ocr_lines]
                     conf = float(np.mean(scores)) if scores else 1.0
                     
                     norm_lines = []
-                    for line in res:
-                        if not line or len(line) < 2:
-                            continue
-                        l_text = line[1]
-                        l_score = float(line[2]) if len(line) > 2 else 1.0
+                    for l_text, l_score in ocr_lines:
                         nl_text, nl_mod = normalize_numeric_context(l_text)
                         norm_lines.append(nl_text)
                         

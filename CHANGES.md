@@ -112,5 +112,17 @@ All review items identified in the Auditor Review of `2d4e2a4` are mapped below 
 
 ---
 
-## 9. Proposed Deviations
-**None.** All changes adhere strictly and exclusively to the review items identified in the Auditor Review of commit `2d4e2a4`.
+## 9. Auditor Review of Kaggle Run `3d9e52d` Resolution Mapping (Items H1–H3)
+
+All review items identified in the Auditor Review of Kaggle run `3d9e52d` are mapped below as **Fixed**:
+
+| ID | Category | Issue & Requirement | Status | Resolution & Evidence |
+| :--- | :---: | :--- | :---: | :--- |
+| **H1** | **BLOCK** | **RapidOCR 3.x upgrade & unified adapter**: `rapidocr_onnxruntime==1.3.24` failed on Python 3.13 and required `numpy<2.0.0`. Replace with `rapidocr==3.10.0` + `onnxruntime==1.32.0` (cp313 wheels). Write ONE adapter `run_ocr(image_path) -> list[tuple[str, float]]` in `benchmark_dataset_evaluator.py`, used by Cell 6 and `evaluate_milestone_1_5_gate.py`. Keep normalizer/safety logic unchanged. Note: OCR metrics are re-baselined. | **Fixed** | Replaced `rapidocr_onnxruntime` with `rapidocr==3.10.0` and `onnxruntime==1.32.0` in `requirements-phase1.txt`. Implemented `run_ocr()` in `phase1_ai_sandbox/src/benchmark_dataset_evaluator.py`, `cell6_code`, and `evaluate_milestone_1_5_gate.py`, adapting `RapidOCROutput` (`.txts`, `.scores`) to `(text, score)` tuples. Preserved all numeric normalization and safety logic. Re-baselined OCR metrics on benchmark images. |
+| **H2** | **BLOCK** | **Environment parity matching Kaggle's Python 3.13 runtime**: Kaggle uses Python 3.13. Update `requirements-phase1.txt` with resolving pins; verify fresh Python 3.13 venv with `pip install` and `pip check` ("No broken requirements found."). Update `check_environment_parity()` to require Python 3.13.x and run `pip check`. Cell 1 prints `sys.version` and runs `pip check`. Update README/phase1 docs. | **Fixed** | Pinned `requirements-phase1.txt` to `transformers==4.46.3`, `accelerate==1.0.1`, `rapidocr==3.10.0`, `onnxruntime==1.32.0`, `qwen-vl-utils==0.0.8`, `datasets==5.0.1`, `pyarrow==26.0.1`, `numpy==2.4.6`. Re-created `.venv` with Python 3.13.0, verified clean single-command install, and confirmed `pip check` prints "No broken requirements found." Updated `check_environment_parity()` to enforce Python 3.13.x and run `pip check`. Updated Cell 1 to print `sys.version` and assert clean `pip check`. Updated `phase1_ai_sandbox/README.md`. |
+| **H3** | **BLOCK** | **Kaggle CLI status regex parsing (`kaggle_run.sh`)**: Kaggle CLI returned `status "KernelWorkerStatus.ERROR"`, which previous regex parsed as 'unknown'. Use `status "(?:KernelWorkerStatus\.)?(\w+)"` (case-insensitive) and treat `error`, `complete`, and `cancel*` as terminal. Test against exact line from failed run. | **Fixed** | Updated regex in `scripts/kaggle_run.sh` to `r'status [\"\\x27](?:KernelWorkerStatus\.)?(\w+)[\"\\x27]'`. Tested against `"KernelWorkerStatus.ERROR"` $\to$ `error`, `"KernelWorkerStatus.QUEUED"` $\to$ `queued`, `"KernelWorkerStatus.COMPLETE"` $\to$ `complete`, and `cancel*` matching. Verified terminal dispatch. |
+
+---
+
+## 10. Proposed Deviations
+**None.** All changes adhere strictly and exclusively to the review items identified in the Auditor Review of Kaggle run `3d9e52d`. Note: OCR benchmark metrics are re-baselined with RapidOCR 3.10.0 per auditor directive H1.

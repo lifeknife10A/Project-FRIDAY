@@ -10,25 +10,26 @@ NB_PATH = "phase1_ai_sandbox/notebooks/friday_distillation_colab.ipynb"
 
 def check_environment_parity():
     """
-    Auditor Item F3: Strict Environment Parity Check.
-    Refuses to run unless Python is 3.11.x and installed package versions
-    match requirements-phase1.txt pins (transformers, accelerate, rapidocr_onnxruntime, qwen_vl_utils).
-    Prints all verified versions at start.
+    Auditor Items F3 & H2: Strict Environment Parity Check.
+    Refuses to run unless Python is 3.13.x (matching Kaggle runtime) and installed package versions
+    match requirements-phase1.txt pins (transformers, accelerate, rapidocr, onnxruntime, qwen_vl_utils, datasets, pyarrow, numpy).
+    Runs `pip check` to ensure zero broken dependencies.
     """
     py_ver = sys.version_info
-    print("[*] Environment Parity Verification (Auditor Item F3):")
+    print("[*] Environment Parity Verification (Auditor Items F3 & H2):")
     print(f"  Python Version: {py_ver.major}.{py_ver.minor}.{py_ver.micro} ({sys.executable})")
-    if py_ver.major != 3 or py_ver.minor != 11:
+    if py_ver.major != 3 or py_ver.minor != 13:
         raise RuntimeError(
-            f"Auditor Item F3 Violation: Local execution requires Python 3.11.x! "
+            f"Auditor Item H2 Violation: Local execution requires Python 3.13.x! "
             f"Current: Python {py_ver.major}.{py_ver.minor}.{py_ver.micro} at {sys.executable}. "
-            f"Please run within a Python 3.11 venv: source .venv/bin/activate"
+            f"Please run within a Python 3.13 venv: source .venv/bin/activate"
         )
 
     required_pins = {
         "transformers": "4.46.3",
         "accelerate": "1.0.1",
-        "rapidocr_onnxruntime": "1.3.24",
+        "rapidocr": "3.10.0",
+        "onnxruntime": "1.32.0",
         "qwen_vl_utils": "0.0.8",
         "datasets": "5.0.1",
         "pyarrow": "26.0.1",
@@ -42,54 +43,43 @@ def check_environment_parity():
             try:
                 act_ver = importlib.metadata.version(pkg.replace("_", "-"))
             except importlib.metadata.PackageNotFoundError:
-                raise RuntimeError(f"Auditor Item F3 Violation: Package '{pkg}' is not installed! Run: pip install -r requirements-phase1.txt")
+                raise RuntimeError(f"Auditor Item H2 Violation: Package '{pkg}' is not installed! Run: pip install -r requirements-phase1.txt")
 
         print(f"  {pkg}: {act_ver} (required: {exp_ver})")
         if act_ver != exp_ver:
             raise RuntimeError(
-                f"Auditor Item F3 Violation: Package '{pkg}' version mismatch! "
+                f"Auditor Item H2 Violation: Package '{pkg}' version mismatch! "
                 f"Actual: {act_ver}, Required: {exp_ver}. Run: pip install -r requirements-phase1.txt"
             )
-    print("[✓] All package version pins verified for Python 3.11 execution.\n")
 
-def check_python311_syntax(nb):
+    import subprocess
+    pip_check = subprocess.run([sys.executable, "-m", "pip", "check"], capture_output=True, text=True)
+    if pip_check.returncode != 0:
+        raise RuntimeError(f"Auditor Item H2 Violation: pip check failed!\n{pip_check.stdout}\n{pip_check.stderr}")
+    print(f"  pip check: {pip_check.stdout.strip()}")
+    print("[✓] All package version pins verified for Python 3.13 execution.\n")
+
+def check_syntax(nb):
     """
-    CI-style check: Compiles every notebook code cell with Python 3.11 (via ast.parse)
-    to guarantee zero SyntaxErrors on Kaggle / Linux Python 3.11 runtimes (Auditor Item A1).
+    CI-style check: Compiles every notebook code cell (via ast.parse)
+    to guarantee zero SyntaxErrors on Kaggle / Linux Python 3.13 runtimes (Auditor Item A1).
     """
     import ast
-    import subprocess
-    import shutil
 
-    print("[*] Running CI syntax check: compiling all cells under Python 3.11 rules...")
-    py311_bin = shutil.which("python3.11") or "/opt/homebrew/bin/python3.11"
-    has_py311 = os.path.exists(py311_bin)
-
+    print("[*] Running CI syntax check: compiling all cells under Python 3.13 rules...")
     for idx, cell in enumerate(nb["cells"]):
         if cell["cell_type"] != "code":
             continue
         src_text = "".join(cell["source"])
-        cleaned_lines = [l for l in src_text.split("\n") if not l.strip().startswith("!")]
+        cleaned_lines = [l for l in src_text.split("\n") if not l.strip().startswith(("!", "%"))]
         code_str = "\n".join(cleaned_lines)
 
-        # 1. Native AST parse
         try:
             ast.parse(code_str)
         except SyntaxError as e:
             raise SyntaxError(f"Cell {idx} failed AST syntax check: {e}")
 
-        # 2. Strict Python 3.11 compilation if py311 binary is present on host
-        if has_py311:
-            res = subprocess.run(
-                [py311_bin, "-c", "import sys, ast; ast.parse(sys.stdin.read())"],
-                input=code_str,
-                text=True,
-                capture_output=True
-            )
-            if res.returncode != 0:
-                raise SyntaxError(f"Cell {idx} failed Python 3.11 ast.parse check:\n{res.stderr.strip()}")
-
-    print("[✓] All notebook code cells cleanly compiled and verified for Python 3.11 compatibility.")
+    print("[✓] All notebook code cells cleanly compiled and verified for Python 3.13 compatibility.")
 
 def check_git_clean():
     """
@@ -119,8 +109,8 @@ def execute_notebook():
     with open(NB_PATH) as f:
         nb = json.load(f)
 
-    # Item A1: CI Python 3.11 syntax check before any run
-    check_python311_syntax(nb)
+    # Item A1 & H2: CI Python syntax check before any run
+    check_syntax(nb)
 
     # Shared execution globals
     exec_globals = {
