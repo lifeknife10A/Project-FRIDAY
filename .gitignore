@@ -53,3 +53,6 @@ kaggle_outputs/
 phase1_ai_sandbox/kaggle_outputs/
 phase1_ai_sandbox/benchmark_dataset/
 phase1_ai_sandbox/external_train_data/
+FRIDAY_weights/
+!dry_run_gate_report.json
+

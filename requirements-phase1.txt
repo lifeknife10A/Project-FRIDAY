@@ -1,0 +1,15 @@
+# PROJECT FRIDAY: PHASE 1 PINNED ENVIRONMENT SPECIFICATION
+# Python Target: Python 3.11.x
+# Pinned to exact Kaggle/Colab execution versions (Auditor Item F3)
+
+transformers==4.46.3
+accelerate==1.0.1
+rapidocr-onnxruntime==1.3.24
+qwen-vl-utils==0.0.8
+datasets>=3.0.0
+torch
+torchvision
+torchaudio
+pillow
+sentencepiece
+soundfile

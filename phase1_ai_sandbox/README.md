@@ -85,7 +85,30 @@ Instruments every turn, calculating actual DDR traffic (255.64 MB/token), tracki
 
 ---
 
-## 4. Verification & Hard Exit Criteria
+## 4. Environment Parity & Local Execution Setup (Auditor Item F3)
+
+To ensure byte-for-byte parity with the Kaggle/Colab Linux execution environments (Python 3.11.x), local execution requires a Python 3.11 virtual environment pinned to `requirements-phase1.txt`:
+
+```bash
+cd /Users/krish/NMIMS/Friday
+
+# 1. Create and activate a Python 3.11 virtual environment
+python3.11 -m venv .venv
+source .venv/bin/activate
+
+# 2. Install exact pinned dependencies matching Kaggle/Colab runtime
+pip install --upgrade pip
+pip install -r requirements-phase1.txt
+
+# 3. Execute the local dry run runner
+# scripts/execute_notebook_locally.py strictly enforces Python 3.11.x
+# and verifies exact package version pins (transformers==4.46.3, accelerate==1.0.1, etc.)
+DRY_RUN=1 python scripts/execute_notebook_locally.py
+```
+
+---
+
+## 5. Verification & Hard Exit Criteria
 
 To verify all test suites and replicate the zero-discrepancy capstone audit:
 

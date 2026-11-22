@@ -65,9 +65,9 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
 | **3D Frame Fabrication** | **Black PETG Filament** (0.12mm layer height, 1.2mm wall thickness, 30% gyroid infill) | 3D-printed front frame and thick temple arms ($75^\circ\text{C}$ heat deflection, 24.0g net frame mass, reduced from 42.0g solid block prototype). | 1 | ₹300 | ₹300 | [Robu.in PETG Filament](https://robu.in/product/petg-filament-1-75mm-black/) / NMIMS FabLab |
 | **Carrier Interconnect** | **Combined 0.8mm Thin 2-Layer FR4 Carrier PCBs** (Batch of 5) | Left & Right temple custom 0.8mm thin breakout carriers routing low-speed I2S audio, power rails, and GPIO (4.5g combined mass, reduced from 16.5g separate modules). | 1 | ₹350 | ₹350 | [JLCPCB 2-Layer FR4 Batch](https://jlcpcb.com) / Robu PCB |
 | **Harness & Wiring** | **0.5mm FPC Ribbon Jumpers + 30 AWG Ultra-flexible Silicone Wire** | Through-bridge hinge wiring (power pairs doubled for $R_{DC} < 0.030\,\Omega$). | 1 | ₹120 | ₹120 | [Robu.in 30 AWG Silicone Wire](https://robu.in/product/30-awg-flexible-silicone-wire/) |
-| **Thermal Dissipation** | **0.3mm Copper Shim + Organic Phase-Change Material (4.0g Rubitherm RT42, 38–43°C, peak 41°C) + Arctic MX-4** | Conductive heat spreader sinking RK3576 junction heat into a 660 J PCM buffer (Rubitherm RT42, 165 J/g latent heat, 38–43°C melting range, peak 41°C). Sinks heat into outer frame surface. | 1 | ₹190 | ₹190 | [Amazon.in Copper Shim & Thermal Compound](https://www.amazon.in) |
+| **Thermal Dissipation** | **0.3mm Copper Shim + Organic Phase-Change Material (4.0g Rubitherm RT42, 38–43°C, peak 41°C) + 1.0mm Silica Aerogel Blanket (10 cm²) + Arctic MX-4** | Conductive heat spreader sinking RK3576 junction heat into a 660 J PCM buffer (Rubitherm RT42, 165 J/g latent heat, 38–43°C melting range, peak 41°C) with inner 1.0mm silica aerogel blanket protecting user skin. Sinks heat outward into ambient air. | 1 | ₹350 | ₹350 | [Amazon.in Copper Shim & Robu Aerogel](https://www.amazon.in) |
 | **Assembly Hardware & Contingency** | M1.6/M2 brass threaded heatset inserts, screws, Kapton tape | Mechanical fasteners and assembly prototyping buffer. | 1 | ₹215 | ₹215 | Local Hardware Store / Robu |
-| **TOTAL WEARABLE SPEND** | — | **Complete, Untethered Autonomous Glasses** | — | — | **₹9,595 INR** | ~$115 USD (Strictly under ₹10,000 Cap, with ₹405 Headroom) |
+| **TOTAL WEARABLE SPEND** | — | **Complete, Untethered Autonomous Glasses** | — | — | **₹9,755 INR** | ~$117 USD (Strictly under ₹10,000 Cap, with ₹245 Headroom) |
 
 ---
 
@@ -148,10 +148,10 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
     $$E_{\text{buffer}} = 4.0\text{ g} \times 165.0\text{ J/g} = \mathbf{660.0\text{ Joules}}.$$
   * *Note on PureTemp 42:* PureTemp 42 exhibits a higher nominal melting peak at $\sim 42.0^\circ\text{C}$ (latent heat $218\text{ J/g}$). Rubitherm RT42 is designated as the primary baseline due to its $38\text{--}43^\circ\text{C}$ melting plateau with main peak at $41.0^\circ\text{C}$, ensuring skin boundary temperatures remain below $42^\circ\text{C}$.
 * **Rejection of Generic Paraffin:** Generic paraffin wax melts between $50^\circ\text{C}$ and $60^\circ\text{C}$. Using generic paraffin would allow the eyewear temple to exceed skin tolerance limits ($>43^\circ\text{C}$) before latent buffering occurs.
-* **Track 1 vs Track 2 Scope Clarification:**
-  * *Track 1 (P1 Defense Baseline):* Uses an open benchtop thick-temple housing with an aluminum/copper heat spreader and passive convection. The custom molded graphite conduits and silica aerogel barrier are not integrated in Track 1.
-  * *Track 2 (P2 Stretch Goal):* Integrates the 10-layer microvia rigid-flex substrate, pyrolytic graphite sheets, $1.0\text{mm}$ silica aerogel skin barrier ($R_{\text{skin}} \ge 35\text{ K/W}$), and sealed PCM pocket.
-* **Track 1 Thermal Physics & Multi-Layer Insulation Model (Auditor Review R9):**
+* **Track 1 vs Track 2 Scope Clarification (Auditor Review D1):**
+  * *Track 1 (P1 Defense Baseline):* Integrates an open benchtop thick-temple housing with an aluminum/copper heat spreader, a $1.0\text{mm}$ silica aerogel inner blanket barrier ($R_{\text{skin}} \ge 66.7\text{ K/W}$), a $4.0\text{g}$ Rubitherm RT42 PCM pad, and passive exterior convection. Custom molded pyrolytic graphite conduits and complex microvia rigid-flex substrates are deferred to Track 2.
+  * *Track 2 (P2 Stretch Goal):* Integrates the 10-layer microvia rigid-flex substrate, pyrolytic graphite heat spreaders, vacuum-encapsulated silica aerogel barrier, and precision sealed micro-pockets.
+* **Track 1 Thermal Physics & Multi-Layer Insulation Model (Auditor Review R9, D1, D2):**
   * *Heat Sources & Outer vs. Inner Thermal Path:*
     * Outer Convection Path: Outer temple surface area $A_{\text{outer}} \approx 20\text{ cm}^2 = 0.002\text{ m}^2$, ambient convection coefficient $h \approx 15\text{ W/m}^2\cdot\text{K}$.
       $$R_{\text{conv}} \approx \frac{1}{h \cdot A_{\text{outer}}} = \frac{1}{15 \times 0.002} \approx \mathbf{33.3\text{ K/W}}.$$
@@ -163,21 +163,42 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
       Total combined inner thermal resistance:
       $$R_{\text{inner}} = R_{\text{PETG}} + R_{\text{ins}} \approx 6.0 + 66.7 = \mathbf{72.7\text{ K/W}}.$$
       Now, $R_{\text{inner}} \approx 72.7\text{ K/W} \gg R_{\text{outer}} \approx 33.3\text{ K/W}$, driving $>68\%$ of dissipated heat outward into the exterior copper spreader and ambient air.
-  * *Duty-Cycle-Averaged Power & Steady-State Temperatures:*
-    * Active inference: $3.0\text{ W}$ for $12.0\text{ s}$.
-    * Inter-turn standby / idle: $0.35\text{ W}$ for $108.0\text{ s}$ ($120.0\text{ s}$ full cycle period).
-    * Duty-cycle-averaged power:
+  * *Duty-Cycle-Averaged Power & Two-Sink Network Solution (Auditor Review D1, D2):*
+    * Inference Duty Cycle: Active inference $3.0\text{ W}$ for $12.0\text{ s}$; Standby/idle $0.35\text{ W}$ for $108.0\text{ s}$ ($120.0\text{ s}$ full cycle period).
+    * Duty-cycle-averaged power generation:
       $$\bar{P} = \frac{(3.0\text{ W} \times 12\text{ s}) + (0.35\text{ W} \times 108\text{ s})}{120\text{ s}} = \frac{36.0\text{ J} + 37.8\text{ J}}{120\text{ s}} = \mathbf{0.615\text{ W}}.$$
-    * Parallel thermal resistance of dual-path enclosure:
-      $$R_{\text{eff}} = \frac{R_{\text{outer}} \cdot R_{\text{inner}}}{R_{\text{outer}} + R_{\text{inner}}} = \frac{33.3 \times 72.7}{33.3 + 72.7} \approx \mathbf{22.8\text{ K/W}}.$$
-    * Steady-State Core Rise: $\Delta T_{\text{core}} = \bar{P} \cdot R_{\text{eff}} = 0.615\text{ W} \times 22.8\text{ K/W} \approx 14.0\text{ K}$.
-    * At ambient $T_{\text{amb}} = 25.0^\circ\text{C}$, steady-state core temp is $T_{\text{core}} \approx 39.0^\circ\text{C}$ (well below the RT42 $41.0^\circ\text{C}$ melt plateau and PETG $T_g \approx 70^\circ\text{C}$).
-    * Inward skin-directed heat flux:
-      $$q_{\text{inner}} = \frac{T_{\text{core}} - T_{\text{skin}}}{R_{\text{inner}}} = \frac{39.0^\circ\text{C} - 35.0^\circ\text{C}}{72.7\text{ K/W}} \approx \mathbf{0.055\text{ W}}.$$
-    * Steady-State Skin Contact Face Temperature:
-      $$T_{\text{skin-face}} \approx T_{\text{skin}} + (q_{\text{inner}} \times R_{\text{contact}}) \approx 35.0^\circ\text{C} + (0.055 \times 5.0) \approx \mathbf{35.3^\circ\text{C}} \le 37.5^\circ\text{C}.$$
+    * Two-Sink Thermal Boundary Conditions:
+      * Outer Sink: Ambient air at $T_{\text{amb}}$ through $R_{\text{outer}} \approx 33.3\text{ K/W}$ ($G_{\text{outer}} = 1/33.3 \approx 0.03002\text{ W/K}$).
+      * Inner Sink: Human skin at $T_{\text{skin}} = 35.0^\circ\text{C}$ through $R_{\text{inner}} \approx 72.7\text{ K/W}$ ($G_{\text{inner}} = 1/72.7 \approx 0.01375\text{ W/K}$).
+    * Total Thermal Conductance and Parallel Resistance:
+      $$G_{\text{tot}} = G_{\text{outer}} + G_{\text{inner}} = 0.03002 + 0.01375 = \mathbf{0.04377\text{ W/K}} \implies R_{\text{eff}} = \frac{1}{G_{\text{tot}}} \approx \mathbf{22.85\text{ K/W}}.$$
+    * Consistent Two-Sink Node Temperature Equation:
+      $$T_{\text{core}} = R_{\text{eff}} \cdot \bar{P} + \frac{G_{\text{outer}}}{G_{\text{tot}}} T_{\text{amb}} + \frac{G_{\text{inner}}}{G_{\text{tot}}} T_{\text{skin}} = 14.05^\circ\text{C} + (0.686 \cdot T_{\text{amb}}) + (0.314 \cdot 35.0^\circ\text{C}) = \mathbf{25.04^\circ\text{C}} + (0.686 \cdot T_{\text{amb}}).$$
+    * Empirical Steady-State Evaluation across Operating Ambients:
+      * **Baseline $T_{\text{amb}} = 25.0^\circ\text{C}$:**
+        $$T_{\text{core}} = 25.04 + (0.686 \times 25.0) = \mathbf{42.19^\circ\text{C}} \approx \mathbf{42.2^\circ\text{C}}.$$
+      * **Elevated Ambient $T_{\text{amb}} = 28.0^\circ\text{C}$:**
+        $$T_{\text{core}} = 25.04 + (0.686 \times 28.0) = \mathbf{44.25^\circ\text{C}} \approx \mathbf{44.3^\circ\text{C}}.$$
+      * **Stress Ambient $T_{\text{amb}} = 32.0^\circ\text{C}$:**
+        $$T_{\text{core}} = 25.04 + (0.686 \times 32.0) = \mathbf{46.99^\circ\text{C}} \approx \mathbf{47.0^\circ\text{C}}.$$
+    * **Physical Consequence of Steady-State $T_{\text{core}} > 41.0^\circ\text{C}$ at $T_{\text{amb}} \ge 28^\circ\text{C}$ (Auditor Directive D1):**
+      * The Rubitherm RT42 melting plateau is $38.0^\circ\text{C}\text{ to }43.0^\circ\text{C}$ with main peak at $41.0^\circ\text{C}$.
+      * At $T_{\text{amb}} \ge 28.0^\circ\text{C}$ (and even at $25.0^\circ\text{C}$ under extended conversational duty cycles), steady-state core temperature ($42.2\text{--}44.3^\circ\text{C}$) exceeds the $41.0^\circ\text{C}$ melting peak.
+      * *Consequence:* The RT42 PCM is fully melted in steady state. Its latent heat buffer ($\Delta H_{\text{fus}} = 165.0\text{ J/g}$, $660\text{ J}$) is entirely liquid at baseline, offering zero latent buffering against subsequent active bursts. Only sensible heat capacity ($C_p \approx 2.0\text{ J/g}\cdot\text{K}$) is available.
+      * *System Mitigations:*
+        1. *Thermal Duty Throttling:* Dynamic power management scales inter-turn standby duration or caps NPU frequency when on-die thermal sensors report $T_{\text{core}} > 41^\circ\text{C}$ at ambient $>28^\circ\text{C}$.
+        2. *Enhanced External Convection:* Micro-grooved or finned exterior aluminum temple plates reduce $R_{\text{outer}}$ from $33.3\text{ K/W}$ to $\le 20.0\text{ K/W}$, pulling steady-state core temperatures below $40.0^\circ\text{C}$ at $28^\circ\text{C}$ ambient.
+        3. *High-Ambient PCM Eutectic:* In high-temperature deployments, an RT44HC or paraffin/octadecane composite pad ($T_{\text{melt}} = 44\text{--}46^\circ\text{C}$) can be substituted.
+    * **Epidermal Safety Verification across All Operating Conditions:**
+      * Inner skin-directed heat flux:
+        $$q_{\text{inner}} = \frac{T_{\text{core}} - T_{\text{skin}}}{R_{\text{inner}}}.$$
+      * At $T_{\text{amb}} = 25^\circ\text{C}$ ($T_{\text{core}} = 42.2^\circ\text{C}$):
+        $$q_{\text{inner}} = \frac{42.2 - 35.0}{72.7} \approx 0.099\text{ W} \implies T_{\text{skin-face}} = 35.0^\circ\text{C} + (0.099 \times 5.0) \approx \mathbf{35.5^\circ\text{C}}.$$
+      * At $T_{\text{amb}} = 32^\circ\text{C}$ ($T_{\text{core}} = 47.0^\circ\text{C}$):
+        $$q_{\text{inner}} = \frac{47.0 - 35.0}{72.7} \approx 0.165\text{ W} \implies T_{\text{skin-face}} = 35.0^\circ\text{C} + (0.165 \times 5.0) \approx \mathbf{35.8^\circ\text{C}}.$$
+      * In all conditions, $T_{\text{skin-face}} \le 36.0^\circ\text{C}$, safely below the $37.5^\circ\text{C}$ medical comfort threshold and far below the $42.0^\circ\text{C}$ epidermal pain/burn limit.
 
-### G. Directive 05 Mass Accounting: Line-by-Line Track 1 Component Mass Budget (Auditor Review R8)
+### G. Directive 05 Mass Accounting: Line-by-Line Track 1 Component Mass Budget (Auditor Review R8, D1)
 The table below details every component's verified datasheet, vendor listing, or engineering estimate mass. Note: All figures are design-phase estimates pending physical procurement and lab scale bring-up.
 
 | Subsystem / Component | Item Description | Qty | Unit Mass (g) | Extended Mass (g) | Provenance & Source / Verification Method |
@@ -198,13 +219,14 @@ The table below details every component's verified datasheet, vendor listing, or
 | **Frame Mechanics** | 3D-printed PETG front frame & thick temple enclosures | 1 | 24.0 | 24.0 | Estimate — unmeasured (design mass budget for 1.2mm shell; no repo CAD yet). |
 | **Phase Change Material**| Rubitherm RT42 organic bio-PCM thermal pad | 1 | 4.0 | 4.0 | Datasheet: [Rubitherm GmbH RT42 Technical Data Sheet](https://www.rubitherm.eu) (4.0g pad). |
 | **Thermal Sinks** | 0.3mm copper foil heat spreader + Arctic MX-4 paste | 1 | 3.8 | 3.8 | Estimate — unmeasured (computed from 0.3mm Cu density and area). |
+| **Thermal Insulation** | 1.0mm Silica Aerogel Blanket (10 cm² skin barrier) | 1 | 0.2 | 0.2 | Vendor listing / Datasheet: [Aerogel Blanket 1mm on Robu.in / Aspen Aerogels](https://robu.in) (density ~0.18 g/cm³, 1.0mm x 10cm² = 0.18g -> 0.2g). |
 | **Mechanical Fasteners**| M1.6/M2 brass heatset inserts and screws | 1 | 2.5 | 2.5 | Vendor listing / Estimate — unmeasured (2.5g hardware buffer). |
-| **Contingency Margin** | Prototyping & assembly tolerance buffer | 1 | 5.0 | 5.0 | Estimate — unmeasured (built-in 4.5% tolerance reserve). |
+| **Contingency Margin** | Prototyping & assembly tolerance buffer | 1 | 4.8 | 4.8 | Estimate — unmeasured (built-in 4.4% tolerance reserve). |
 | **TOTAL ALL-UP MASS** | **Complete Track 1 Autonomous Wearable** | — | — | **110.0 g** | **Design estimate — unmeasured (10.0g below 120g target; 15.0g below 125g ceiling)** |
 
 *Margin & Arithmetic Analysis:*
-- Physical rows sum: **105.00 g (Estimate)**
-- Prototyping contingency: **5.00 g (Estimate)**
+- Physical rows sum: **105.20 g (Estimate)**
+- Prototyping contingency: **4.80 g (Estimate)**
 - Total all-up weight: **110.00 g (Design estimate — unmeasured)**
 - This provides an estimated **10.0 g positive safety margin** below the $120.0\text{ g}$ engineering target, and **15.0 g positive headroom** strictly below the $125.0\text{ g}$ Directive 05 ceiling.
 

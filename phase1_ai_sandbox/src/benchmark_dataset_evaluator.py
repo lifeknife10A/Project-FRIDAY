@@ -28,14 +28,14 @@ def normalize_numeric_context(text: str) -> tuple[str, bool]:
     price_pattern = r"(^|[^a-zA-Z0-9])S(?=\d+[.,]\d{2}(?!\d)|\d+(?:[.,]\d+){2,})"
     s = re.sub(price_pattern, lambda m: m.group(1) + "$", s)
 
-    # 2. O/o -> 0 ONLY between digits or between a digit and a known unit token
+    # 2. O/o -> 0 ONLY between digits or between a digit and a known unit token (including merged dosage forms)
     s = re.sub(r"(?<=\d)[Oo]+(?=\d)", lambda m: "0" * len(m.group(0)), s)
-    unit_pat_o = r"(?i)(?<=\d)[Oo]+(?=\s*(?:mg|mcg|g|ml|iu|%)(?![a-zA-Z]))"
+    unit_pat_o = r"(?i)(?<=\d)[Oo]+(?=\s*(?:mg|mcg|ug|g|ml|iu|%)(?:(?![a-zA-Z])|(?=tablets?|capsules?|pills?)))"
     s = re.sub(unit_pat_o, lambda m: "0" * len(m.group(0)), s)
 
-    # 3. l/I -> 1 ONLY between digits or between a digit and a known unit token
+    # 3. l/I -> 1 ONLY between digits or between a digit and a known unit token (including merged dosage forms)
     s = re.sub(r"(?<=\d)[lI]+(?=\d)", lambda m: "1" * len(m.group(0)), s)
-    unit_pat_l = r"(?i)(?<=\d)[lI]+(?=\s*(?:mg|mcg|g|ml|iu|%)(?![a-zA-Z]))"
+    unit_pat_l = r"(?i)(?<=\d)[lI]+(?=\s*(?:mg|mcg|ug|g|ml|iu|%)(?:(?![a-zA-Z])|(?=tablets?|capsules?|pills?)))"
     s = re.sub(unit_pat_l, lambda m: "1" * len(m.group(0)), s)
 
     modified = (s != orig)
@@ -54,8 +54,8 @@ def find_sensitive_spans(text: str) -> list[tuple[int, int]]:
     Purely pattern-based: does NOT use ground truth.
     """
     spans = []
-    # 1. Number + Unit
-    unit_pat = r"(?i)\b\d+(?:\.\d+)?\s*(?:mg|mcg|ug|g|kg|ml|l|iu|%|oz|lb|tablets?|capsules?|pills?|puffs?|drops?)\b"
+    # 1. Number + Unit (supports attached words e.g. 50 MCGTABLET)
+    unit_pat = r"(?i)(?<!\d)\d+(?:\.\d+)?\s*(?:mg|mcg|ug|g|kg|ml|l|iu|%|oz|lb)(?:(?![a-zA-Z])|(?=tablets?|capsules?|pills?))|(?<!\d)\d+(?:\.\d+)?\s*(?:tablets?|capsules?|pills?|puffs?|drops?)\b"
     for m in re.finditer(unit_pat, text):
         spans.append((m.start(), m.end()))
     # 2. Currency amounts (e.g. $12.50, $2.5.0, Rs 500)
@@ -68,29 +68,32 @@ def find_sensitive_spans(text: str) -> list[tuple[int, int]]:
         spans.append((m.start(), m.end()))
     return spans
 
-def check_sensitive_modification_or_low_conf(text: str, score: float, is_modified: bool) -> tuple[bool, bool]:
+def check_sensitive_modification_or_low_conf(raw_text: str, score: float = 1.0, is_modified: bool = False) -> tuple[bool, bool]:
     """
-    Pattern-based check: determines if normalizer modified text within a sensitive span,
-    or if low confidence (<0.40) falls on a line containing a sensitive span.
+    Auditor Item K2: Detects spans on the NORMALIZED text and triggers fallback if any
+    character changed by the normalizer falls inside a detected sensitive span.
+    Also checks if low confidence (<0.40) falls on a line containing a sensitive span.
     Does NOT use ground truth.
     """
-    spans = find_sensitive_spans(text)
+    norm_text, mod_flag = normalize_numeric_context(raw_text)
+    spans = find_sensitive_spans(norm_text)
     if not spans:
         return False, False
 
     low_conf_in_span = (score < 0.40)
     mod_in_span = False
-    if is_modified:
+    if is_modified or mod_flag:
         for start, end in spans:
-            span_text = text[start:end]
-            _, span_mod = normalize_numeric_context(span_text)
-            if span_mod:
-                mod_in_span = True
+            for i in range(start, min(end, len(raw_text), len(norm_text))):
+                if raw_text[i] != norm_text[i]:
+                    mod_in_span = True
+                    break
+            if mod_in_span:
                 break
     return mod_in_span, low_conf_in_span
 
 def run_numeric_normalizer_unit_tests():
-    """Unit-tests the normalizer on mandatory test cases from Auditor Review."""
+    """Unit-tests the normalizer and safety fallback on mandatory test cases from Auditor Review (Items A3, A4, R1, R2, K2)."""
     cases = [
         ("5O MCG", "50 MCG", True),
         ("2OMG", "20MG", True),
@@ -113,6 +116,18 @@ def run_numeric_normalizer_unit_tests():
         out, mod = normalize_numeric_context(inp)
         assert out == exp, f"Normalizer failed on '{inp}': expected '{exp}', got '{out}'"
         assert mod == exp_mod, f"Normalizer modification flag failed on '{inp}': expected {exp_mod}, got {mod}"
+
+    # Auditor Item K2: Unit tests for fallback detection on normalized text
+    fallback_tests = [
+        ("5O MCG", True),
+        ("50 MCG", False),
+        ("SODIUM5O MCGTABLET", True),
+        ("Gate S2 boarding", False)
+    ]
+    for raw_s, exp_fb in fallback_tests:
+        mod_in_span, _ = check_sensitive_modification_or_low_conf(raw_s, score=1.0)
+        assert mod_in_span == exp_fb, f"Auditor K2 test failed for '{raw_s}': expected fallback={exp_fb}, got {mod_in_span}"
+
     return True
 
 # Run verification on module import
