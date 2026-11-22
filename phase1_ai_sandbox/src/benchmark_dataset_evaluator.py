@@ -143,6 +143,10 @@ def run_numeric_normalizer_unit_tests():
 
     return True
 
+def normalize_dose_token(s: str) -> str:
+    """Normalizes dose or price strings (e.g. '20 MG' -> '20mg', '$ 4.50' -> '$4.50')."""
+    return re.sub(r"\s+", "", s).lower()
+
 def extract_dose_number_spans(text: str) -> list[str]:
     """Extracts all sensitive dose, number+unit, currency, and percentage span strings from text."""
     spans = []
@@ -152,47 +156,82 @@ def extract_dose_number_spans(text: str) -> list[str]:
 
 def score_response(resp: str, key_field_value: str, ground_truth_text: str, is_fallback: bool = False) -> str:
     """
-    Auditor Item E2: Scored response verification:
+    Auditor Items G1 & G3: Scored response verification:
+    - 'no_answer': empty generation (nothing spoken)
     - 'safe_refusal': if fallback was triggered (confidence <0.40 or sensitive modification)
-    - 'correct': full key_field_value match (drug AND dose, space-insensitive) AND no number+unit
-      or price span in the answer that is absent from the ground-truth text.
-    - 'wrong_spoken': states any dose/number/price span not present in GT, or missing key.
+    - 'correct': drug/item name appears (space/case-insensitive) AND dose span appears as a
+      number+unit token AND every number+unit/price/% span in answer appears in ground truth.
+    - 'wrong_spoken': states any dose/number/price span not present in GT, or names the dose wrongly.
     """
+    if not resp or not resp.strip():
+        return "no_answer"
+
     if is_fallback:
         return "safe_refusal"
 
     norm_resp = normalize_entity_space_insensitive(resp)
-    norm_key = normalize_entity_space_insensitive(key_field_value)
     norm_gt = normalize_entity_space_insensitive(ground_truth_text)
 
-    # 1. Full key_field_value match (drug AND dose, space-insensitive)
-    has_key = norm_key in norm_resp if norm_key else False
+    # G1: Split key_field_value into drug-name part and dose part
+    k_spans = extract_dose_number_spans(key_field_value)
+    if k_spans:
+        dose_part = normalize_dose_token(k_spans[0])
+        name_part = key_field_value.replace(k_spans[0], "").strip()
+    else:
+        dose_part = None
+        name_part = key_field_value.strip()
 
-    # 2. Check that no number+unit / price span in the answer is absent from ground truth
+    norm_name = normalize_entity_space_insensitive(name_part)
+
+    # 1. Drug name appears (space/case-insensitive)
+    has_drug = norm_name in norm_resp if norm_name else True
+
+    # 2. Dose span appears as a number+unit token (if key has dose)
     resp_spans = extract_dose_number_spans(resp)
+    resp_dose_tokens = [normalize_dose_token(sp) for sp in resp_spans]
+    has_dose = (dose_part in resp_dose_tokens) if dose_part else True
+
+    # 3. Every number+unit/price/% span in the answer also appears in ground-truth text
     has_invented_span = False
     for sp in resp_spans:
-        norm_sp = normalize_entity_space_insensitive(sp)
+        norm_sp = normalize_dose_token(sp)
         if norm_sp not in norm_gt:
             has_invented_span = True
             break
 
-    if has_key and not has_invented_span:
+    if has_drug and has_dose and not has_invented_span:
         return "correct"
     else:
         return "wrong_spoken"
 
 def run_score_response_unit_tests():
-    """Unit tests for Auditor Item E2 response scoring."""
+    """Unit tests for Auditor Items G1 & G3 response scoring."""
+    gt_amox = "Amoxicillin 500mg capsule"
+    gt_med03 = "OAKVALE COMMUNITY RX #305 RX # 4901283-7721 DATE: 11/15/2026 PATIENT: MARCUS VANCE LISINOPRIL 10 MG TABLET TAKE 1 TABLET DAILY IN THE MORNING QTY: 30 TABLETS EXP: 11/2027"
+    gt_med04 = "SUMMIT CREST PHARMACY #412 RX # 9021844-3310 DATE: 11/19/2026 PATIENT: ARJUN MEHTA ATORVASTATIN CALCIUM 20 MG TABLET TAKE 1 TABLET DAILY AT BEDTIME QTY: 30 TABLETS EXP: 09/2027"
+
     tests = [
-        ("Metoprolol 500 mg", "Amoxicillin 500mg", "Amoxicillin 500mg capsule", False, "wrong_spoken"),
-        ("Amoxicillin 500 mg, take 900 mg", "Amoxicillin 500mg", "Amoxicillin 500mg capsule", False, "wrong_spoken"),
-        ("Amoxicillin 500 mg capsule", "Amoxicillin 500mg", "Amoxicillin 500mg capsule", False, "correct"),
-        ("Any response text", "Amoxicillin 500mg", "Amoxicillin 500mg capsule", True, "safe_refusal")
+        # med_03 teacher
+        ("The medication is Lisinopril, and the prescribed dose is 10 mg tablet taken 1 tablet daily in the morning.", "Lisinopril 10mg", gt_med03, False, "correct"),
+        # med_04 literal
+        ("Arjun Mehta ATORVASTATIN CALCIUM 20 MG TABLET", "Atorvastatin 20mg", gt_med04, False, "correct"),
+        # Metoprolol for Amoxicillin
+        ("Metoprolol 500 mg", "Amoxicillin 500mg", gt_amox, False, "wrong_spoken"),
+        # Extra dose absent from GT
+        ("Amoxicillin 500 mg, take 900 mg", "Amoxicillin 500mg", gt_amox, False, "wrong_spoken"),
+        # Correct amoxicillin
+        ("Amoxicillin 500 mg capsule", "Amoxicillin 500mg", gt_amox, False, "correct"),
+        # Atorvastatin with 1 tablet daily (in GT)
+        ("Atorvastatin Calcium 20 mg Tablet. The prescribed dose is 1 tablet daily", "Atorvastatin 20mg", gt_med04, False, "correct"),
+        # G3: empty generation
+        ("", "Amoxicillin 500mg", gt_amox, False, "no_answer"),
+        ("   ", "Amoxicillin 500mg", gt_amox, False, "no_answer"),
+        # Fallback
+        ("Any response text", "Amoxicillin 500mg", gt_amox, True, "safe_refusal")
     ]
     for resp, key, gt, fb, exp in tests:
         actual = score_response(resp, key, gt, is_fallback=fb)
-        assert actual == exp, f"Auditor E2 test failed for '{resp}': expected {exp}, got {actual}"
+        assert actual == exp, f"Auditor G1/G3 test failed for '{resp}': expected {exp}, got {actual}"
     return True
 
 # Run verification on module import

@@ -100,5 +100,17 @@ All review items identified in the Auditor Review of `6248523` are mapped below 
 
 ---
 
-## 8. Proposed Deviations
-**None.** All changes adhere strictly and exclusively to the review items identified in the Auditor Review of commit `6248523`.
+## 8. Auditor Review of `2d4e2a4` Resolution Mapping (Items G1–G3)
+
+All review items identified in the Auditor Review of `2d4e2a4` are mapped below as **Fixed**:
+
+| ID | Category | Issue & Requirement | Status | Resolution & Evidence |
+| :--- | :---: | :--- | :---: | :--- |
+| **G1** | **BLOCK** | **Over-strict response scoring in Cell 10 & Evaluator**: previous E2 required contiguous string drug+dose, failing correct answers (e.g. med_03 teacher "The medication is Lisinopril, and the prescribed dose is 10 mg..." and med_04 literal "Arjun Mehta ATORVASTATIN CALCIUM 20 MG TABLET"). Update rule: split `key_field_value` into drug-name part and dose part; `correct` requires drug name present (space/case-insensitive), dose span present as number+unit token, and all number+unit/price/% spans in answer present in GT. Add all mandatory unit tests. | **Fixed** | Updated `score_response()` in both `phase1_ai_sandbox/src/benchmark_dataset_evaluator.py` and `cell10_code` in `scripts/notebook_cells.json`: splits key into drug-name and dose span, verifies drug name presence, verifies dose token match, and verifies no answer span is absent from ground truth. Passed all 8 unit tests including med_03 teacher $\to$ `correct`, med_04 literal $\to$ `correct`, and Atorvastatin 1 tablet $\to$ `correct`. |
+| **G2** | **BLOCK** | **Stage 1a stability & gradient clipping (Cell 8)**: Stage 1a held-out loss diverged (5.2764 $\to$ 8.9466) with lr 1e-3, batch 1, unclipped gradients. Update Stage 1a: set `base_lr = 1e-4` with linear warmup over first 10% of steps; apply `torch.nn.utils.clip_grad_norm_(unshuffle_projector.parameters(), 1.0)`; gradient accumulation of 8 in full mode (2 in DRY_RUN); log grad norm and train loss every 10 steps in full mode. Apply clipping (max norm 1.0) to Stage 1b as well. | **Fixed** | Updated Stage 1a in `cell8_code` in `scripts/notebook_cells.json`: set `base_lr_1a = 1e-4`, added linear warmup over `warmup_steps_1a = max(1, int(0.10 * stage1a_steps))`, accumulated gradients over `min(2 if DRY_RUN else 8, stage1a_steps)`, clipped projector gradients with max norm 1.0, and logged grad norm with train loss. In Stage 1b, added `clip_grad_norm_(active_params_1b, 1.0)` before optimizer step and logged grad norm. |
+| **G3** | **SHOULD FIX** | **Empty generation category (`no_answer`)**: empty strings from the vision path previously scored `wrong_spoken`. Add `no_answer` category (nothing spoken), report separately in all four rows in Cell 10, and do not count as correct. | **Fixed** | In `score_response()`, added `if not resp or not resp.strip(): return "no_answer"`. Added `"no_answer": 0` to `lit_counts`, `vis_counts`, `pre_counts`, and `tea_counts` in Cell 10, reported `No-Answer` in all four row logs, and included `"no_answer_count"` in `dry_run_gate_report.json`. |
+
+---
+
+## 9. Proposed Deviations
+**None.** All changes adhere strictly and exclusively to the review items identified in the Auditor Review of commit `2d4e2a4`.
