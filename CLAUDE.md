@@ -104,21 +104,18 @@ Approvals name one SHA; any new commit restarts at step 3.
   - Teacher "Lisinopril ... dose is 10" scored wrong because max_new_tokens=16 truncates (cell 10).
   - Vision path after 2 steps: "The given sentence is in Spanish" (expected; not a bug).
   - Stage 1b used a cached manifest from an earlier run: caches are not versioned by code SHA.
-- Reviewed `6248523` (N1–N5 + a dry run done BEFORE auditor approval) — code verified: all 7
-  markers present, py3.11 parse OK, regenerated sources == committed, cell 1 installs pins before
-  any numpy import, cell 5 Kaggle path + sha256, cell 6 KB2 tests pass, cell 8 cache versioning.
-  Dry run: no tracebacks; Stage 1a 5.89->5.36, 1b KD 1.83->1.68 (-8.4%), MPS 7.95 GB, INT4 209.38 MB.
-  Verdict: NOT yet Kaggle — two cell-10 bugs make Gate 5 unreliable (rule 2):
-  - E1 EOS never stops generation: generate_literal_answer passes eos_token_id=base_tok.eos_token_id
-    (ORIGINAL id 151643) to a 64k-vocab student; vision loop compares new id to old id. Outputs run
-    to max tokens ("...TABLET<|endoftext|>Human: Which of the following..."). Use old_to_new[eos].
-  - E2 score_response marks "correct" if dose OR key appears: Pre-Distill "Metoprolol ... dose is
-    500 mg" on an Amoxicillin label scored CORRECT. Require key (drug+dose) match, and mark
-    wrong_spoken if any number+unit in the answer is absent from the OCR/GT text.
-  - E3 provenance: dry run recorded SHA fc7728e but executed uncommitted code later committed as
-    6248523. Runs must execute a committed, clean tree; recorded SHA must equal the code's SHA.
-  - Teacher repeats "Metformin HCL, 900 mg" (GT 500) — consistent teacher misread; distillation
-    would teach it. More evidence for extractive literal path (decision P1 pending with Krishna).
+- Reviewed `2d4e2a4` + dry run `250b2a4` — protocol followed correctly (commit -> clean-tree run ->
+  recorded SHA 2d4e2a4 == code; executed sources identical). E1 fixed (no "Human:" continuations),
+  E3 fixed. Verdict: NOT yet Kaggle:
+  - G1 (rule 2, gate cannot pass) E2 scoring now over-strict: key match requires contiguous
+    "drug+dose" string, so correct answers fail. Verified with benchmark_dataset_evaluator.score_response:
+    teacher "Lisinopril, and the prescribed dose is 10 mg" -> wrong_spoken; verbatim label copy
+    "ATORVASTATIN CALCIUM 20 MG TABLET" -> wrong_spoken. Match drug name and dose span independently.
+  - G2 (rule 6) Stage 1a diverged this run: held-out 5.28 -> 8.95, train loss 10.56 (lr 1e-3, batch 1,
+    bf16). Earlier runs decreased -> unstable. Kaggle's 200 steps at this lr risks a wasted run.
+    Lower lr (1e-4), warmup, grad clip 1.0, grad accumulation.
+  - G3 empty vision answers ('') scored wrong_spoken; should be a separate "no_answer" category.
+- Previous: `6248523` verified N1–N5; E1/E2/E3 found from its dry run outputs.
 - WATCHLIST: Gate 3 uses MiB (cell 12 L23) vs decimal MB docs; DRY_RUN Gate 6 uses <= (cell 12 L44,
   passes with zero improvement — dry run only); Stage 1b full mode 100 steps uses 100 of 1000 pairs;
   TextVQA placeholder answers "text"/"Information displayed..." (cell 8 L109–111); T4 memory
