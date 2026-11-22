@@ -104,21 +104,21 @@ Approvals name one SHA; any new commit restarts at step 3.
   - Teacher "Lisinopril ... dose is 10" scored wrong because max_new_tokens=16 truncates (cell 10).
   - Vision path after 2 steps: "The given sentence is in Spanish" (expected; not a bug).
   - Stage 1b used a cached manifest from an earlier run: caches are not versioned by code SHA.
-- Reviewed `c7a7c66` (claims KB1–KB4, S1–S2 fixed) — verdict NO. Only partly in the notebook:
-  - Present & verified: KB3 finite asserts (cell 8 L326/355/385), S1 max_new_tokens 48 (cell 10),
-    KB2 in benchmark_dataset_evaluator.py (my tests pass), requirements pins (exist on PyPI;
-    deps resolve: transformers 4.46.3 needs hub<1.0, datasets 5.0.1 hub>=0.25), kaggle_run.sh
-    manifest sha256 check (sha matches), kernel-metadata dataset_sources.
-  - CLAIMED BUT NOT IN NOTEBOOK (pattern: Fixed-without-implementation): KB1 cell 5 Kaggle
-    /kaggle/input candidate + sha256 assert + zip unpack; KB2 in cell 6; KB4 cell 2 pins (still
-    datasets>=3.0.0, no numpy/pyarrow); Stage 1a isfinite(loss); S2 cache-read validation.
-  - NEW BUG: DATASET_LOADER_VERSION never defined (cell 8 L130) -> NameError swallowed by
-    try/except -> cache manifest silently never written.
-  - Likely root cause: edits not made in scripts/notebook_cells.json before regenerating.
-  - KB5 (new): cell 2 imports torch (-> numpy) BEFORE pip-installing numpy/pyarrow on Kaggle ->
-    in-process version mismatch (same pyarrow/NumPy failure as 4b9f9ba). Install first, at the top
-    of cell 1, before any import that pulls numpy; then assert numpy.__version__.
-  - Kaggle dataset lifeknife/friday-benchmark-dataset is private: unverifiable by auditor (404).
+- Reviewed `6248523` (N1–N5 + a dry run done BEFORE auditor approval) — code verified: all 7
+  markers present, py3.11 parse OK, regenerated sources == committed, cell 1 installs pins before
+  any numpy import, cell 5 Kaggle path + sha256, cell 6 KB2 tests pass, cell 8 cache versioning.
+  Dry run: no tracebacks; Stage 1a 5.89->5.36, 1b KD 1.83->1.68 (-8.4%), MPS 7.95 GB, INT4 209.38 MB.
+  Verdict: NOT yet Kaggle — two cell-10 bugs make Gate 5 unreliable (rule 2):
+  - E1 EOS never stops generation: generate_literal_answer passes eos_token_id=base_tok.eos_token_id
+    (ORIGINAL id 151643) to a 64k-vocab student; vision loop compares new id to old id. Outputs run
+    to max tokens ("...TABLET<|endoftext|>Human: Which of the following..."). Use old_to_new[eos].
+  - E2 score_response marks "correct" if dose OR key appears: Pre-Distill "Metoprolol ... dose is
+    500 mg" on an Amoxicillin label scored CORRECT. Require key (drug+dose) match, and mark
+    wrong_spoken if any number+unit in the answer is absent from the OCR/GT text.
+  - E3 provenance: dry run recorded SHA fc7728e but executed uncommitted code later committed as
+    6248523. Runs must execute a committed, clean tree; recorded SHA must equal the code's SHA.
+  - Teacher repeats "Metformin HCL, 900 mg" (GT 500) — consistent teacher misread; distillation
+    would teach it. More evidence for extractive literal path (decision P1 pending with Krishna).
 - WATCHLIST: Gate 3 uses MiB (cell 12 L23) vs decimal MB docs; DRY_RUN Gate 6 uses <= (cell 12 L44,
   passes with zero improvement — dry run only); Stage 1b full mode 100 steps uses 100 of 1000 pairs;
   TextVQA placeholder answers "text"/"Information displayed..." (cell 8 L109–111); T4 memory
