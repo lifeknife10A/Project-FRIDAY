@@ -68,8 +68,11 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 - `git fetch origin && git log --oneline <last>..origin/main && git diff --stat <last> origin/main`
 - Detached worktree for clean reads: scratchpad `main/` (`git -C <wt> checkout --detach <sha>`).
-- Python 3.11 syntax check of notebook cells (Kaggle uses 3.11): parse each code cell with
-  `python3.11 -c ast.parse` after stripping `!`/`%` lines.
+- Syntax check of notebook cells: parse each code cell with python3.11 AND python3.13 (`ast.parse`)
+  after stripping `!`/`%` lines. KAGGLE'S IMAGE IS PYTHON 3.13 (verified from run log 2026-11-23),
+  not 3.11 as previously assumed.
+- Dependency pins: check each pin's Requires-Python AND its numpy/torch constraints on PyPI JSON
+  (`https://pypi.org/pypi/<pkg>/<ver>/json`), and require `pip check` to pass after install.
 - Tokenizer tests: `pip install transformers` (no torch needed); exec notebook cells 1+3 with
   `python3 -I`, round-trip CJK/Tamil/Gujarati/Kannada/Bengali/emoji strings.
 - OCR checks: `pip install rapidocr_onnxruntime`; run RapidOCR on
@@ -104,6 +107,17 @@ Approvals name one SHA; any new commit restarts at step 3.
   - Teacher "Lisinopril ... dose is 10" scored wrong because max_new_tokens=16 truncates (cell 10).
   - Vision path after 2 steps: "The given sentence is in Spanish" (expected; not a bug).
   - Stage 1b used a cached manifest from an earlier run: caches are not versioned by code SHA.
+- Kaggle run of 3d9e52d (kernel version 2) FAILED at cell 1 in ~10 s (no GPU time wasted):
+  Kaggle image is Python 3.13; `rapidocr_onnxruntime==1.3.24` requires Python <3.13 (all versions
+  do) AND numpy<2.0 — so the pin set (numpy==2.4.6) was never co-installable; the Mac venv was
+  inconsistent (pip installs in sequence don't re-resolve). Auditor misses: I assumed Kaggle=3.11
+  and didn't check rapidocr's numpy constraint. Audit #12 fixes:
+  - H1 migrate OCR to maintained `rapidocr` (3.10.0, py>=3.8, numpy<3) + onnxruntime (cp313 wheels),
+    one adapter for its result object; re-baseline the benchmark (old OCR numbers not comparable).
+  - H2 parity target = Kaggle's real Python (3.13): local venv 3.13; check_environment_parity asserts
+    3.13; cell 1 prints sys.version; `pip check` must pass in both places.
+  - H3 kaggle_run.sh status regex misses `"KernelWorkerStatus.ERROR"` -> reports 'unknown'.
+- Approved earlier (now superseded): `3d9e52d` + dry run `5d17c7a`.
 - Reviewed `3d9e52d` + dry run `5d17c7a` — VERDICT: YES, push to Kaggle @ 3d9e52d (run from a
   detached checkout of 3d9e52d: `./scripts/kaggle_run.sh 3d9e52d...`). Verified: executed code ==
   3d9e52d, recorded SHA matches, 0 tracebacks; my score_response tests: correct answers pass
