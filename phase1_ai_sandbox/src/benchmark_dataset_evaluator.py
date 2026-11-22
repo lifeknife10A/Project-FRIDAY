@@ -70,13 +70,21 @@ def find_sensitive_spans(text: str) -> list[tuple[int, int]]:
 
 def check_sensitive_modification_or_low_conf(raw_text: str, score: float = 1.0, is_modified: bool = False) -> tuple[bool, bool]:
     """
-    Auditor Item K2: Detects spans on the NORMALIZED text and triggers fallback if any
-    character changed by the normalizer falls inside a detected sensitive span.
-    Also checks if low confidence (<0.40) falls on a line containing a sensitive span.
+    Auditor Items K2 & KB2: Detects spans on the NORMALIZED text and triggers fallback if:
+    1) any character changed by the normalizer falls inside a detected sensitive span, OR
+    2) the normalized line still contains a digit adjacent to [OolI] inside the same alphanumeric token (unresolved ambiguous numerals), OR
+    3) low confidence (<0.40) falls on a line containing a sensitive span.
     Does NOT use ground truth.
     """
     norm_text, mod_flag = normalize_numeric_context(raw_text)
     spans = find_sensitive_spans(norm_text)
+
+    # Auditor Item KB2: Check for unresolved ambiguous numerals in the normalized line
+    # If the normalized line contains a digit adjacent to [OolI] inside the same alphanumeric token, trigger fallback
+    ambiguous_num_pat = r"(?i)(?:\b[OolI]+\d+|\d+[OolI]+(?=(?:mg|mcg|ug|g|kg|ml|l|iu|%|tablets?|capsules?|pills?|puffs?|drops?)\b|(?![a-z])))"
+    if bool(re.search(ambiguous_num_pat, norm_text)):
+        return True, (score < 0.40)
+
     if not spans:
         return False, False
 
@@ -93,7 +101,7 @@ def check_sensitive_modification_or_low_conf(raw_text: str, score: float = 1.0, 
     return mod_in_span, low_conf_in_span
 
 def run_numeric_normalizer_unit_tests():
-    """Unit-tests the normalizer and safety fallback on mandatory test cases from Auditor Review (Items A3, A4, R1, R2, K2)."""
+    """Unit-tests the normalizer and safety fallback on mandatory test cases from Auditor Review (Items A3, A4, R1, R2, K2, KB2)."""
     cases = [
         ("5O MCG", "50 MCG", True),
         ("2OMG", "20MG", True),
@@ -117,16 +125,21 @@ def run_numeric_normalizer_unit_tests():
         assert out == exp, f"Normalizer failed on '{inp}': expected '{exp}', got '{out}'"
         assert mod == exp_mod, f"Normalizer modification flag failed on '{inp}': expected {exp_mod}, got {mod}"
 
-    # Auditor Item K2: Unit tests for fallback detection on normalized text
+    # Auditor Items K2 & KB2: Unit tests for fallback detection on normalized text
     fallback_tests = [
         ("5O MCG", True),
         ("50 MCG", False),
         ("SODIUM5O MCGTABLET", True),
-        ("Gate S2 boarding", False)
+        ("Gate S2 boarding", False),
+        ("ALBUTEROL SULFATE9O MCGINHALATION", True),
+        ("QTY: 3O TABLETS", True),
+        ("Take 1Inhaler", False),
+        ("50 MCG", False)
     ]
     for raw_s, exp_fb in fallback_tests:
-        mod_in_span, _ = check_sensitive_modification_or_low_conf(raw_s, score=1.0)
-        assert mod_in_span == exp_fb, f"Auditor K2 test failed for '{raw_s}': expected fallback={exp_fb}, got {mod_in_span}"
+        mod_in_span, low_conf = check_sensitive_modification_or_low_conf(raw_s, score=1.0)
+        fb_result = mod_in_span or low_conf
+        assert fb_result == exp_fb, f"Auditor K2/KB2 test failed for '{raw_s}': expected fallback={exp_fb}, got {fb_result}"
 
     return True
 

@@ -29,7 +29,10 @@ def check_environment_parity():
         "transformers": "4.46.3",
         "accelerate": "1.0.1",
         "rapidocr_onnxruntime": "1.3.24",
-        "qwen_vl_utils": "0.0.8"
+        "qwen_vl_utils": "0.0.8",
+        "datasets": "5.0.1",
+        "pyarrow": "26.0.1",
+        "numpy": "2.4.6"
     }
 
     for pkg, exp_ver in required_pins.items():

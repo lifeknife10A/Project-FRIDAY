@@ -98,6 +98,29 @@ fi
 
 echo "[*] Target Kaggle Kernel ID: ${KERNEL_ID}"
 
+# Auditor Item KB1: Verify benchmark manifest sha256 and Kaggle dataset source
+if [ -f "assets/benchmark_dataset/benchmark_manifest.sha256" ]; then
+    echo "[*] Verifying benchmark manifest sha256 checksum (Auditor Item KB1)..."
+    ACTUAL_SHA=$(python3 -c "import hashlib; print(hashlib.sha256(open('assets/benchmark_dataset/benchmark_manifest.json', 'rb').read()).hexdigest())")
+    EXPECTED_SHA=$(awk '{print $1}' assets/benchmark_dataset/benchmark_manifest.sha256)
+    if [ "$ACTUAL_SHA" != "$EXPECTED_SHA" ]; then
+        echo "[!] ERROR: Benchmark manifest sha256 drift! Expected ${EXPECTED_SHA}, got ${ACTUAL_SHA}"
+        exit 1
+    fi
+    echo "[✓] Benchmark manifest sha256 verified: ${ACTUAL_SHA}"
+fi
+
+python3 -c "
+import json, sys
+with open('${METADATA_FILE}') as f:
+    d = json.load(f)
+ds = d.get('dataset_sources', [])
+if not any('friday-benchmark-dataset' in s for s in ds):
+    print('[!] ERROR: dataset_sources in ${METADATA_FILE} missing friday-benchmark-dataset!', file=sys.stderr)
+    sys.exit(1)
+"
+echo "[✓] Kaggle dataset source verified in ${METADATA_FILE}"
+
 # -------------------------------------------------------------
 # 3. COMPILE & SYNC PORTABLE NOTEBOOK
 # -------------------------------------------------------------
