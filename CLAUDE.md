@@ -91,17 +91,25 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
-- Last reviewed: `1daee40` — verdict NO (items R1–R14). Antigravity is fixing.
-- Pre-classified for next review:
-  - BLOCK for dry run: R1 (cell 6 assert crash), R2 (S->$ invents prices), R3 (ground-truth span
-    detection + gate-script NameError), R12 (emulator TypeError, only if emulator is run).
-  - BLOCK for Kaggle (watchlist for dry run): R4 (question missing from student input), R5 (Gate 6
-    can never pass / best checkpoint never updated), R6 (blank-image training data), R10 (SHA not
-    reaching Kaggle), R11 (pip install commented out -> ImportError on Kaggle).
-  - BLOCK for claims/docs: R7 (hardcoded px/char), R8 (false mass provenance), R9 (thermal path
-    backwards — inner PETG wall conducts more heat to skin than outer convection sheds).
-  - WATCHLIST: R13 (projector trainable but not optimized; cell 9 KeyError risk),
-    R14 (Mac ~12–14 GB peak before cell 10 — watch for swap/OOM in dry-run output).
+- Last reviewed: `4ac8559` — verdict YES, proceed to LOCAL DRY RUN @ 4ac8559 (R1–R14 resolved;
+  verified: py3.11 parse, cell 6 tests pass, HF datasets exist/public, notebook regenerates cleanly).
+- Must fix before Kaggle (Audit #8):
+  - K1 cell 8 L75–82: COCO dataset field is `sentences_raw`; code reads caption/sentences/text ->
+    every image gets the same placeholder caption. Remove placeholder; skip items without caption.
+  - K2 safety guard dead: `check_sensitive_modification_or_low_conf` finds spans on RAW text where
+    misread doses ("5O MCG", "SODIUM5O MCGTABLET", "2OMG") don't match the digit+unit regex ->
+    0 fallbacks on 40 images (verified). Detect spans on normalized text / map modified positions.
+  - K3 stale checkpoint: delete best_student_vlm.pt at start of cell 8; cell 9 L9–14 must also load
+    projector_state_dict from the same checkpoint.
+  - K4 cell 8 L208 hard assert on Stage 1a strict improvement can crash a 2-step dry run;
+    record as gate result instead.
+- WATCHLIST (check dry-run output): W1 normalizer no longer fixes merged-word OCR
+  ("SODIUM5O MCGTABLET"); my RapidOCR run: key 20/40, safety 36/40, medicine key 3/10, 0 fallbacks.
+  W2 S->$ still fires on "Gate S2.10", "Room S1.2.3". W3 MPS memory (R14). W4 relative paths
+  (./FRIDAY_weights not gitignored; external_train_data relative to cwd). W5 Qwen2-VL bf16 on MPS ops.
+- Docs (claims): D1 Track 1 aerogel contradiction (hardware_bom.md:152 vs :161, plan.md:339),
+  aerogel missing from BOM/mass table; thermal computed only at 25 °C — at 28 °C core ≈ 42 °C,
+  above RT42 41 °C plateau. D2 inner-flux boundary conditions mixed (ambient vs 35 °C skin).
 - Hardware facts verified so far: MAX98357A GAIN 100k->VDD = +3 dB (correct); 220k pull-up on
   3.3 V gives 0.97–1.09 V (Right channel, correct); Firefly CAM-3576 series exists (38 mm, RK3576,
   LPDDR5 per press). Unverified: IP2326 ISET formula, LPDDR5 data rate, all component masses.
