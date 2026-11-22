@@ -91,9 +91,24 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
-- Last reviewed: `4ac8559` — verdict YES, proceed to LOCAL DRY RUN @ 4ac8559 (R1–R14 resolved;
-  verified: py3.11 parse, cell 6 tests pass, HF datasets exist/public, notebook regenerates cleanly).
-- Must fix before Kaggle (Audit #8):
+- Last reviewed: dry run `bd1caa7` (code 4ac8559) — FAILED in cell 8 as expected under protocol.
+  Proven working on Mac MPS: cells 1–7 (tokenizer roundtrip, SigLIP bf16, teacher load 2.2B,
+  64k token equality), Stage 1a ran (11.75 -> 8.31), INT4 artifact 209.38 MB. MPS 5.4 GB at cell 8.
+  Audit #9 items (must fix before next dry run):
+  - F1 cell 8 ~L282 teacher forward: newer transformers on Mac requires `mm_token_type_ids`.
+    Pass ALL processor outputs; extend every per-token tensor for the answer span. Version-robust.
+  - F2 cell 10 L42, L74 call undefined `safe_decode_64k` (cell 3 defines `decode_64k`).
+    (Auditor miss: cell 10 body not read at 4ac8559 review — read every cell fully next time.)
+  - F3 env drift: Mac ran Python 3.13 + unpinned (new) transformers; Kaggle pins 4.46.3 on 3.11.
+    Dry run must use a 3.11 venv with the same pins, or the dry run doesn't validate Kaggle.
+  - F4 ANSWER LEAKAGE (rule 2): cell 5 L127 draws "VERIFY: {key_field_value}" and L109 draws the
+    title (drug+dose) onto each benchmark image -> key-field 100% is meaningless; CER 70.77% because
+    GT omits that drawn text. Also cell 5 renders its own benchmark at phase1_ai_sandbox/benchmark_dataset
+    (different from committed assets/benchmark_dataset used by the gate script) — two sources of truth.
+    Cell 5 comment L9 claims glare/perspective simulation that isn't implemented.
+  - F5 executor continues after a crash (cells 9–12 ran, wrote invalid weights to ./FRIDAY_weights).
+    Stop at first exception.
+- Must fix before Kaggle (Audit #8, still open):
   - K1 cell 8 L75–82: COCO dataset field is `sentences_raw`; code reads caption/sentences/text ->
     every image gets the same placeholder caption. Remove placeholder; skip items without caption.
   - K2 safety guard dead: `check_sensitive_modification_or_low_conf` finds spans on RAW text where
