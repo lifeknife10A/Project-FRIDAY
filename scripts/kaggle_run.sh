@@ -112,10 +112,25 @@ if [ ! -f "$NOTEBOOK_SRC" ]; then
     exit 1
 fi
 
-# Ensure symlink or copy exists in kaggle directory
+# Ensure copy exists in kaggle directory
 rm -f "$NOTEBOOK_KAGGLE"
 cp -f "$NOTEBOOK_SRC" "$NOTEBOOK_KAGGLE"
 echo "[✓] Synced notebook to ${NOTEBOOK_KAGGLE}"
+
+# Auditor Item R10: Inject approved SHA into pushed notebook copy (replaces __GIT_COMMIT_SHA__ placeholder)
+python3 -c "
+import json
+with open('${NOTEBOOK_KAGGLE}', 'r') as f:
+    nb = json.load(f)
+for cell in nb['cells']:
+    if cell.get('cell_type') == 'code':
+        for i, line in enumerate(cell['source']):
+            if '__GIT_COMMIT_SHA__' in line:
+                cell['source'][i] = line.replace('__GIT_COMMIT_SHA__', '${APPROVED_SHA}')
+with open('${NOTEBOOK_KAGGLE}', 'w') as f:
+    json.dump(nb, f, indent=1)
+"
+echo "[✓] Injected verified Git Commit SHA (${APPROVED_SHA}) into Kaggle notebook copy."
 
 # -------------------------------------------------------------
 # 4. PUSH KERNEL TO KAGGLE

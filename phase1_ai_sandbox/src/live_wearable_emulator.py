@@ -339,7 +339,7 @@ class FridayLiveWearableEmulator:
 
         # 7. Clause-Buffered Streaming Speech Synthesis via Kokoro-82M ONNX
         t_tts = time.perf_counter()
-        kokoro_rtf = "not measured"
+        kokoro_rtf = None
         synth_time_ms = 0.0
         if not self.mute_audio:
             clauses = [s.strip() for s in spoken_response.split(".") if s.strip()]
@@ -371,12 +371,12 @@ class FridayLiveWearableEmulator:
                     dur = sf.info("assets/gate_voice_test.wav").duration
                     kokoro_rtf = (synth_time_ms / 1000.0) / max(0.1, dur)
                 except Exception:
-                    kokoro_rtf = "not measured"
+                    kokoro_rtf = None
             else:
-                kokoro_rtf = "not measured"
+                kokoro_rtf = None
         else:
             synth_time_ms = 0.0
-            kokoro_rtf = "not measured"
+            kokoro_rtf = None
 
         # Time-to-First-Word (TTFW): sum of empirical pipeline latencies (no arbitrary constants)
         ttfw_ms = acq_latency + fov_latency + unshuffle_latency + stt_latency + reason_latency + synth_time_ms

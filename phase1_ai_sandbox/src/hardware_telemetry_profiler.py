@@ -133,8 +133,8 @@ class HardwareTelemetryProfiler:
             "visual_tokens": visual_tokens_count,
             "visual_tokens_invariant_passed": (visual_tokens_count == 144),
             "tokens_decoded": tokens_decoded,
-            "kokoro_rtf": round(kokoro_rtf, 3),
-            "kokoro_contract_passed": kokoro_rtf < 1.0,
+            "kokoro_rtf": round(kokoro_rtf, 3) if kokoro_rtf is not None else None,
+            "kokoro_contract_passed": (kokoro_rtf < 1.0) if kokoro_rtf is not None else False,
             "process_rss_mb": rss_mb,
             "process_rss_gb": rss_gb,
             "rss_contract_passed": rss_gb <= self.max_rss_gb,
@@ -148,6 +148,12 @@ class HardwareTelemetryProfiler:
         """
         Renders a clean ASCII HUD summarizing real-time hardware telemetry.
         """
+        if metrics["kokoro_rtf"] is not None:
+            kokoro_pass = metrics.get("kokoro_contract_passed", metrics["kokoro_rtf"] < 1.0)
+            kokoro_status = f"{metrics['kokoro_rtf']:.2f} (< 1.00 studio rate) -> [{'PASS [✓]' if kokoro_pass else 'FAIL [X]'}]"
+        else:
+            kokoro_status = "not measured"
+
         hud_lines = [
             "\n" + "=" * 68,
             "PROJECT FRIDAY: REAL-TIME HARDWARE TELEMETRY & STRESS HUD",
@@ -161,7 +167,7 @@ class HardwareTelemetryProfiler:
             f"  Faster-Whisper STT      : {metrics['stt_latency_ms']:.1f} ms (<150 ms target)",
             f"  Optical 6° Foveation    : {metrics['foveation_latency_ms']:.1f} ms",
             f"  2x2 Spatial Unshuffle   : {metrics['unshuffle_latency_ms']:.2f} ms",
-            f"  Kokoro-82M Voice RTF    : {metrics['kokoro_rtf']:.2f} (< 1.00 studio rate) -> [PASS]",
+            f"  Kokoro-82M Voice RTF    : {kokoro_status}",
             "-" * 68,
             f"  Resident Memory (RSS)   : {metrics['process_rss_gb']:.3f} GB / 1.800 GB -> [PASS] ({(metrics['process_rss_gb']/1.8)*100:.1f}% envelope)",
             f"  DDR Traffic per Token   : {metrics['memory_traffic']['total_mb_per_token']:.2f} MB/token",

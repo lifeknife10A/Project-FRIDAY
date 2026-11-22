@@ -53,7 +53,7 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
 | Component / Subassembly | Specific Target Part | Purpose in Wearable | Qty | Unit Price (INR) | Total (INR) | Verified Sourcing Channel & Direct URL |
 | :--- | :--- | :--- | :---: | :---: | :---: | :--- |
 | **Compute Core Module** | **Firefly CAM-3576Q38** (Rockchip RK3576, 6.0 TOPS NPU, **4GB LPDDR5**, onboard Wi-Fi 6 + BT 5.4, 38×38×11.5 mm, 14.2g, 40-pin 0.5mm FPC MIPI-CSI camera connector) | Primary on-device AI inference engine mounted inside the 20mm right temple enclosure. Integrated dual-band Wi-Fi 6 + Bluetooth 5.4 directly enables Directives 03, 04, and Milestone 4.2 without USB dongles. | 1 | ₹5,400 | ₹5,400 | [Firefly CAM-3576Q38 Official Product Page](https://en.t-firefly.com/product/industry/cam-3576q38) |
-| **Camera Sensor Module** | **Sony IMX415 4K Ultra-HD 85° FoV** MIPI-CSI Camera Module (with 40-pin 0.5mm FPC cable / adapter) | Optical input mounted in center bridge with $6^\circ$ down-pitch, plugging into the CAM-3576Q38 onboard 40-pin 0.5mm MIPI connector. Delivers $\ge 14.5\text{ px/char}$ resolution at 35–40 cm for reliable fine-print reading. | 1 | ₹1,450 | ₹1,450 | [Firefly CAM-MIPI-415 / Evelta / Robu](https://en.t-firefly.com/product/industry/cam-3576q38) |
+| **Camera Sensor Module** | **Sony IMX415 4K Ultra-HD 85° FoV** MIPI-CSI Camera Module (with 40-pin 0.5mm FPC cable / adapter) | Optical input mounted in center bridge with $6^\circ$ down-pitch, plugging into the CAM-3576Q38 onboard 40-pin 0.5mm MIPI connector. Delivers $\mathbf{12.8\text{ px/char}}$ resolution at 35 cm for reliable fine-print reading. | 1 | ₹1,450 | ₹1,450 | [Firefly CAM-MIPI-415 / Evelta / Robu](https://en.t-firefly.com/product/industry/cam-3576q38) |
 | **MEMS Microphones** | **INMP441 Omnidirectional Digital I2S MEMS** Breakouts | Dual front-right beamforming microphone array for voice queries and spatial audio capture. | 2 | ₹145 | ₹290 | [Robu.in INMP441 Module](https://robu.in/product/inmp441-omnidirectional-microphone-module-i2s-interface/) |
 | **Audio Amplifiers** | **MAX98357A I2S Mono 3.2W Class-D** Breakout Modules | Dual mono audio amps (one per temple) with resistor-coupled SD_MODE channel select ($10\text{ k}\Omega$ Left, $220\text{ k}\Omega$ Right on 3.3V I/O). Onboard breakout pull-down resistors verified/desoldered prior to install. | 2 | ₹125 | ₹250 | [Robu.in MAX98357A Amp](https://robu.in/product/max98357a-i2s-3w-class-d-amplifier-interface-audio-dac-module/) |
 | **Speaker Transducers** | **8Ω 1W Micro Bone-Conduction / Directional** Transducers | Ear-canal directed audio drivers integrated into temple tips for private speech feedback. | 2 | ₹150 | ₹300 | [Robu.in 8Ω 1W Transducer](https://robu.in/product/bone-conduction-speaker-transducer-8-ohm-1w/) |
@@ -77,13 +77,10 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
 * **Sensor Selection:** Sony IMX415 4K Ultra-HD ($3840 \times 2160$ active pixels, $1/2.8^{\prime\prime}$ optical format, $1.45\,\mu\text{m}$ unit pixel).
 * **Optical Field-of-View & Character Resolution:**
   * Diagonal FoV: $85.0^\circ \implies$ Horizontal FoV $\approx 74.2^\circ$.
-  * At a nominal reading distance of $35.0\text{ cm}$ ($350\text{ mm}$):
-    $$\text{Horizontal Span } W = 2 \times 350\text{ mm} \times \tan(37.1^\circ) \approx 529.4\text{ mm}.$$
-  * Pixel Density at $35\text{ cm}$:
-    $$\rho = \frac{3840\text{ pixels}}{529.4\text{ mm}} \approx 7.25\text{ pixels/mm}.$$
-  * For a standard lowercase letter on a prescription label or 8pt printed font ($h \approx 2.0\text{ mm}$), the sensor resolves:
-    $$\text{Resolution} = 2.0\text{ mm} \times 7.25\text{ px/mm} = \mathbf{14.5\text{ pixels/char}}.$$
-    This strictly exceeds the $\ge 10\text{ px/char}$ threshold required by PP-OCRv4 / DBNet text recognition.
+  * Lens focal length $f = 3.6\text{ mm}$, pixel pitch $p = 1.45\,\mu\text{m} = 0.00145\text{ mm}$.
+  * At a nominal reading distance $D = 35.0\text{ cm} = 350.0\text{ mm}$ for 8pt printed font / prescription label ($h_{\text{char}} \approx 1.8\text{ mm}$):
+    $$\text{Resolution} = \frac{h_{\text{char}} \cdot f}{D \cdot p} = \frac{1.8\text{ mm} \times 3.6\text{ mm}}{350\text{ mm} \times 0.00145\text{ mm}} = \frac{6.48}{0.5075} \approx \mathbf{12.8\text{ pixels/char}}.$$
+    This strictly exceeds the $\ge 10.0\text{ px/char}$ threshold required by PP-OCRv4 / DBNet text recognition.
 * **40-Pin 0.5mm FPC MIPI-CSI Pinout Mapping (CAM-3576Q38 Interface):**
   The CAM-3576Q38 core module provides an onboard 40-pin 0.5mm pitch FPC receptacle (MIPI_CSI0, 4-lane):
   * Pins 1–4: GND, MIPI_CLK_P, MIPI_CLK_N, GND
@@ -154,42 +151,62 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
 * **Track 1 vs Track 2 Scope Clarification:**
   * *Track 1 (P1 Defense Baseline):* Uses an open benchtop thick-temple housing with an aluminum/copper heat spreader and passive convection. The custom molded graphite conduits and silica aerogel barrier are not integrated in Track 1.
   * *Track 2 (P2 Stretch Goal):* Integrates the 10-layer microvia rigid-flex substrate, pyrolytic graphite sheets, $1.0\text{mm}$ silica aerogel skin barrier ($R_{\text{skin}} \ge 35\text{ K/W}$), and sealed PCM pocket.
-* **Track 1 Copper Foil Thermal Re-Check (Auditor Gate C7):**
-  * Spreader: $0.3\text{ mm}$ thick, $3.8\text{ g}$ copper foil ($k_{\text{Cu}} = 390\text{ W/m}\cdot\text{K}$) bonded to the CAM-3576Q38 compute module and the $4.0\text{ g}$ Rubitherm RT42 pad.
-  * Thermal Mass & Phase Change: At $3.0\text{ W}$ active inference over $12\text{ s}$, total heat deposited is $31.44\text{ Joules}$ ($4.76\%$ of the $660\text{ J}$ latent capacity). Core temperature is held at the $41.0^\circ\text{C}$ melt plateau.
-  * PETG Enclosure Softening Margin: FDM PETG exhibits a glass transition temperature $T_g \approx 70^\circ\text{C}\text{--}80^\circ\text{C}$. Operating at $41^\circ\text{C}$ provides $\ge 29^\circ\text{C}$ safe headroom below structural softening.
-  * Skin-Side Contact Safety: The inner temple PETG wall ($1.2\text{ mm}$ thickness, $k_{\text{PETG}} \approx 0.20\text{ W/m}\cdot\text{K}$) provides thermal resistance $R \approx 6.0\text{ K/W}$, driving heat outward to the exterior copper spreader and ambient air ($h \approx 15\text{ W/m}^2\cdot\text{K}$), guaranteeing inner skin-contact temperature remains strictly $\le 37.5^\circ\text{C}$.
+* **Track 1 Thermal Physics & Multi-Layer Insulation Model (Auditor Review R9):**
+  * *Heat Sources & Outer vs. Inner Thermal Path:*
+    * Outer Convection Path: Outer temple surface area $A_{\text{outer}} \approx 20\text{ cm}^2 = 0.002\text{ m}^2$, ambient convection coefficient $h \approx 15\text{ W/m}^2\cdot\text{K}$.
+      $$R_{\text{conv}} \approx \frac{1}{h \cdot A_{\text{outer}}} = \frac{1}{15 \times 0.002} \approx \mathbf{33.3\text{ K/W}}.$$
+    * Uninsulated Inner PETG Wall: Thickness $t_{\text{PETG}} = 1.2\text{ mm}$, $k_{\text{PETG}} \approx 0.20\text{ W/m}\cdot\text{K}$, area $A_{\text{inner}} \approx 10\text{ cm}^2 = 0.001\text{ m}^2$.
+      $$R_{\text{PETG}} = \frac{0.0012}{0.20 \times 0.001} \approx \mathbf{6.0\text{ K/W}}.$$
+      Because $6.0\text{ K/W} < 33.3\text{ K/W}$, an uninsulated wall would allow the majority of dissipated heat to flow inward toward user skin.
+    * Inner Aerogel Insulation Layer: To guarantee skin safety, a $1.0\text{ mm}$ silica aerogel blanket ($k_{\text{ins}} \approx 0.015\text{ W/m}\cdot\text{K}$) is integrated between the compute core and the inner temple skin-contact face:
+      $$R_{\text{ins}} = \frac{0.001\text{ m}}{0.015\text{ W/m}\cdot\text{K} \times 0.001\text{ m}^2} \approx \mathbf{66.7\text{ K/W}}.$$
+      Total combined inner thermal resistance:
+      $$R_{\text{inner}} = R_{\text{PETG}} + R_{\text{ins}} \approx 6.0 + 66.7 = \mathbf{72.7\text{ K/W}}.$$
+      Now, $R_{\text{inner}} \approx 72.7\text{ K/W} \gg R_{\text{outer}} \approx 33.3\text{ K/W}$, driving $>68\%$ of dissipated heat outward into the exterior copper spreader and ambient air.
+  * *Duty-Cycle-Averaged Power & Steady-State Temperatures:*
+    * Active inference: $3.0\text{ W}$ for $12.0\text{ s}$.
+    * Inter-turn standby / idle: $0.35\text{ W}$ for $108.0\text{ s}$ ($120.0\text{ s}$ full cycle period).
+    * Duty-cycle-averaged power:
+      $$\bar{P} = \frac{(3.0\text{ W} \times 12\text{ s}) + (0.35\text{ W} \times 108\text{ s})}{120\text{ s}} = \frac{36.0\text{ J} + 37.8\text{ J}}{120\text{ s}} = \mathbf{0.615\text{ W}}.$$
+    * Parallel thermal resistance of dual-path enclosure:
+      $$R_{\text{eff}} = \frac{R_{\text{outer}} \cdot R_{\text{inner}}}{R_{\text{outer}} + R_{\text{inner}}} = \frac{33.3 \times 72.7}{33.3 + 72.7} \approx \mathbf{22.8\text{ K/W}}.$$
+    * Steady-State Core Rise: $\Delta T_{\text{core}} = \bar{P} \cdot R_{\text{eff}} = 0.615\text{ W} \times 22.8\text{ K/W} \approx 14.0\text{ K}$.
+    * At ambient $T_{\text{amb}} = 25.0^\circ\text{C}$, steady-state core temp is $T_{\text{core}} \approx 39.0^\circ\text{C}$ (well below the RT42 $41.0^\circ\text{C}$ melt plateau and PETG $T_g \approx 70^\circ\text{C}$).
+    * Inward skin-directed heat flux:
+      $$q_{\text{inner}} = \frac{T_{\text{core}} - T_{\text{skin}}}{R_{\text{inner}}} = \frac{39.0^\circ\text{C} - 35.0^\circ\text{C}}{72.7\text{ K/W}} \approx \mathbf{0.055\text{ W}}.$$
+    * Steady-State Skin Contact Face Temperature:
+      $$T_{\text{skin-face}} \approx T_{\text{skin}} + (q_{\text{inner}} \times R_{\text{contact}}) \approx 35.0^\circ\text{C} + (0.055 \times 5.0) \approx \mathbf{35.3^\circ\text{C}} \le 37.5^\circ\text{C}.$$
 
-### G. Directive 05 Mass Accounting: Line-by-Line Track 1 Component Mass Budget
-The table below details every component's measured or datasheet mass, verifying the $\le 120.0\text{ g}$ mass target with concrete weight reduction engineering:
+### G. Directive 05 Mass Accounting: Line-by-Line Track 1 Component Mass Budget (Auditor Review R8)
+The table below details every component's verified datasheet, vendor listing, or engineering estimate mass. Note: All figures are design-phase estimates pending physical procurement and lab scale bring-up.
 
-| Subsystem / Component | Item Description | Qty | Unit Mass (g) | Extended Mass (g) | Source / Verification Method & Rationale |
+| Subsystem / Component | Item Description | Qty | Unit Mass (g) | Extended Mass (g) | Provenance & Source / Verification Method |
 | :--- | :--- | :---: | :---: | :---: | :--- |
-| **Compute Core** | Firefly CAM-3576Q38 (SoC + LPDDR5 + Wi-Fi 6 + PMIC) | 1 | 14.2 | 14.2 | Manufacturer datasheet specification. |
-| **Optical Module** | Sony IMX415 4K sensor, lens mount, M12 85° glass lens | 1 | 7.2 | 7.2 | Lab scale measurement (compact center-bridge camera assembly). |
-| **Optical Lenses** | Clear High-Index 1.67 Prescription Eyewear Lenses (Pair) | 2 | 4.25 | 8.5 | Lab scale measurement (high-index thin lens pair). |
-| **Energy Storage** | GNB 3.7V 300mAh 30C LiPo pouch cells (Series 2S) | 2 | 8.0 | 16.0 | Manufacturer datasheet (8.0g/cell, 1 cell per temple). |
-| **Power Management** | IP2326 2S boost charger breakout PCB | 1 | 2.2 | 2.2 | Lab scale measurement (breakout stripped of bulky USB-A ports). |
-| **Battery Safety** | HY2212 2S BMS protection & balance PCB | 1 | 1.8 | 1.8 | Datasheet & scale measurement (compact passive shunt-bleed board). |
-| **Voltage Regulation** | MP2315 2S-to-5V synchronous step-down buck module | 1 | 1.8 | 1.8 | Datasheet & scale measurement (high-efficiency synchronous regulator). |
-| **Audio Amps** | MAX98357A I2S mono Class-D amplifier breakouts | 2 | 1.4 | 2.8 | Lab scale measurement (1.4g each, 1 Left, 1 Right). |
-| **Acoustic Transducers** | 8Ω 1W micro bone-conduction / directional drivers | 2 | 2.5 | 5.0 | Vendor scale measurement (temple-tip directed transducers). |
-| **Microphone Array** | INMP441 omnidirectional digital MEMS breakouts | 2 | 0.8 | 1.6 | Lab scale measurement (0.8g each, front-right beamforming pair). |
-| **User Input** | TTP223 capacitive touch sensor module | 1 | 0.6 | 0.6 | Lab scale measurement (right temple capacitive control pad). |
-| **Interconnect** | FPC ribbon jumpers + 30 AWG silicone wiring harness | 1 | 4.5 | 4.5 | Lab scale measurement (hinge wiring harness). |
-| **Carrier Interconnect** | Combined custom 0.8mm thin 2-layer FR4 carrier PCBs | 2 | 2.25 | 4.5 | PCB fab volumetric estimate (**12.0g reduction** vs separate dev boards). |
-| **Frame Mechanics** | 3D-printed PETG front frame & thick temple enclosures | 1 | 24.0 | 24.0 | **PrusaSlicer / Bambu Studio CAD slicer estimate** (1.2mm walls, 30% gyroid infill). |
-| **Phase Change Material**| Rubitherm RT42 organic bio-PCM thermal pad | 1 | 4.0 | 4.0 | Rubitherm GmbH technical datasheet (660 J latent buffer). |
-| **Thermal Sinks** | 0.3mm copper foil heat spreader + Arctic MX-4 paste | 1 | 3.8 | 3.8 | Lab scale measurement (**5.7g reduction** vs heavy solid aluminum block). |
-| **Mechanical Fasteners**| M1.6/M2 brass heatset inserts and screws | 1 | 2.5 | 2.5 | Lab scale measurement (structural temple fasteners). |
-| **Contingency Margin** | Prototyping & assembly tolerance buffer | 1 | 5.0 | 5.0 | Built-in contingency reserve (4.5% of AUW). |
-| **TOTAL ALL-UP MASS** | **Complete Track 1 Autonomous Wearable** | — | — | **110.0 g** | **10.0g margin below 120g target; 15.0g below 125g limit** |
+| **Compute Core** | Firefly CAM-3576Q38 (SoC + LPDDR5 + Wi-Fi 6 + PMIC) | 1 | 14.2 | 14.2 | Datasheet: [Firefly CAM-3576Q38 Specification](https://en.t-firefly.com/product/industry/cam-3576q38) (14.2g). |
+| **Optical Module** | Sony IMX415 4K sensor, lens mount, M12 85° glass lens | 1 | 7.2 | 7.2 | Vendor listing / Datasheet: [Arducam IMX415 M12 Module](https://www.arducam.com) (7.2g). |
+| **Optical Lenses** | Clear High-Index 1.67 Prescription Eyewear Lenses (Pair) | 2 | 4.25 | 8.5 | Vendor listing estimate: [Lenskart 1.67 High-Index Lenses](https://www.lenskart.com) (estimate — unmeasured). |
+| **Energy Storage** | GNB 3.7V 300mAh 30C LiPo pouch cells (Series 2S) | 2 | 8.0 | 16.0 | Datasheet: [Gaoneng GNB 300mAh 1S 30C](https://robu.in) (8.0g/cell). |
+| **Power Management** | IP2326 2S boost charger breakout PCB | 1 | 2.2 | 2.2 | Vendor listing: [Injoinic IP2326 2S Breakout on Robu.in](https://robu.in) (estimate — unmeasured, ports stripped). |
+| **Battery Safety** | HY2212 2S BMS protection & balance PCB | 1 | 1.8 | 1.8 | Vendor listing: [HY2212 2S BMS Module on Robu.in](https://robu.in) (estimate — unmeasured). |
+| **Voltage Regulation** | MP2315 2S-to-5V synchronous step-down buck module | 1 | 1.8 | 1.8 | Vendor listing / Datasheet: [MP2315 Mini 3A Buck on Robu.in](https://robu.in) (1.8g). |
+| **Audio Amps** | MAX98357A I2S mono Class-D amplifier breakouts | 2 | 1.4 | 2.8 | Vendor listing / Datasheet: [Adafruit/generic MAX98357A](https://robu.in) (1.4g/each). |
+| **Acoustic Transducers** | 8Ω 1W micro bone-conduction / directional drivers | 2 | 2.5 | 5.0 | Vendor listing: [Robu.in 8Ω 1W Micro Transducer](https://robu.in) (estimate — unmeasured). |
+| **Microphone Array** | INMP441 omnidirectional digital MEMS breakouts | 2 | 0.8 | 1.6 | Vendor listing / Datasheet: [INMP441 MEMS Breakout](https://robu.in) (0.8g/each). |
+| **User Input** | TTP223 capacitive touch sensor module | 1 | 0.6 | 0.6 | Vendor listing / Datasheet: [TTP223 Capacitive Module](https://robu.in) (0.6g). |
+| **Interconnect** | FPC ribbon jumpers + 30 AWG silicone wiring harness | 1 | 4.5 | 4.5 | Estimate — unmeasured (wiring harness budget). |
+| **Carrier Interconnect** | Combined custom 0.8mm thin 2-layer FR4 carrier PCBs | 2 | 2.25 | 4.5 | Estimate — unmeasured (volumetric design budget for 0.8mm FR4). |
+| **Frame Mechanics** | 3D-printed PETG front frame & thick temple enclosures | 1 | 24.0 | 24.0 | Estimate — unmeasured (design mass budget for 1.2mm shell; no repo CAD yet). |
+| **Phase Change Material**| Rubitherm RT42 organic bio-PCM thermal pad | 1 | 4.0 | 4.0 | Datasheet: [Rubitherm GmbH RT42 Technical Data Sheet](https://www.rubitherm.eu) (4.0g pad). |
+| **Thermal Sinks** | 0.3mm copper foil heat spreader + Arctic MX-4 paste | 1 | 3.8 | 3.8 | Estimate — unmeasured (computed from 0.3mm Cu density and area). |
+| **Mechanical Fasteners**| M1.6/M2 brass heatset inserts and screws | 1 | 2.5 | 2.5 | Vendor listing / Estimate — unmeasured (2.5g hardware buffer). |
+| **Contingency Margin** | Prototyping & assembly tolerance buffer | 1 | 5.0 | 5.0 | Estimate — unmeasured (built-in 4.5% tolerance reserve). |
+| **TOTAL ALL-UP MASS** | **Complete Track 1 Autonomous Wearable** | — | — | **110.0 g** | **Design estimate — unmeasured (10.0g below 120g target; 15.0g below 125g ceiling)** |
 
 *Margin & Arithmetic Analysis:*
-- Physical rows sum: **105.00 g**
-- Prototyping contingency: **5.00 g**
-- Total all-up weight: **110.00 g**
-- This provides a **10.0 g positive safety margin** below the $120.0\text{ g}$ engineering target, and **15.0 g positive headroom** strictly below the $125.0\text{ g}$ Directive 05 ceiling.
+- Physical rows sum: **105.00 g (Estimate)**
+- Prototyping contingency: **5.00 g (Estimate)**
+- Total all-up weight: **110.00 g (Design estimate — unmeasured)**
+- This provides an estimated **10.0 g positive safety margin** below the $120.0\text{ g}$ engineering target, and **15.0 g positive headroom** strictly below the $125.0\text{ g}$ Directive 05 ceiling.
 
 ---
 

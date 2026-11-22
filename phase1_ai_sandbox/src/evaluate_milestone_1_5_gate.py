@@ -18,7 +18,12 @@ sys.path.append(os.path.dirname(__file__))
 from optical_foveation import OpticalFoveationEngine, create_synthetic_prescription_label
 from student_vlm import SpatialUnshuffleDownsampler
 from kokoro_voice_engine import FridayVoiceEngine
-from benchmark_dataset_evaluator import BenchmarkEvaluator
+from benchmark_dataset_evaluator import (
+    BenchmarkEvaluator,
+    normalize_entity_space_insensitive,
+    normalize_numeric_context,
+    check_sensitive_modification_or_low_conf
+)
 
 def evaluate_milestone_1_5_gate():
     print("==================================================================")
@@ -204,9 +209,6 @@ def evaluate_milestone_1_5_gate():
                     scores = [float(line[2]) for line in res if len(line) > 2]
                     conf = float(np.mean(scores)) if scores else 1.0
                     
-                    key_norm = normalize_entity_space_insensitive(sample["key_field_value"])
-                    safety_norm = normalize_entity_space_insensitive(sample.get("expected_safety_entity", ""))
-                    
                     norm_lines = []
                     for line in res:
                         if not line or len(line) < 2:
@@ -216,13 +218,12 @@ def evaluate_milestone_1_5_gate():
                         nl_text, nl_mod = normalize_numeric_context(l_text)
                         norm_lines.append(nl_text)
                         
-                        nl_norm = normalize_entity_space_insensitive(nl_text)
-                        span_overlap = (safety_norm and safety_norm in nl_norm) or (key_norm and key_norm in nl_norm)
-                        if span_overlap:
-                            if nl_mod:
-                                mod_in_span = True
-                            if l_score < 0.40:
-                                low_conf_in_span = True
+                        # Auditor Item R3: Detect dose/number/price spans by pattern, NOT ground truth
+                        line_mod, line_low_conf = check_sensitive_modification_or_low_conf(l_text, l_score, nl_mod)
+                        if line_mod:
+                            mod_in_span = True
+                        if line_low_conf:
+                            low_conf_in_span = True
                                 
                     pred_text = " ".join(norm_lines)
                 else:

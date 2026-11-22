@@ -23,8 +23,10 @@ def normalize_numeric_context(text: str) -> tuple[str, bool]:
     orig = text
     s = text
 
-    # 1. Currency S -> $ in real OCR context (preceded by start or non-alphanumeric, followed by digit)
-    s = re.sub(r"(^|[^a-zA-Z0-9])S(?=\d)", lambda m: m.group(1) + "$", s)
+    # 1. Currency S -> $ ONLY when followed by a price pattern (\d+[.,]\d{2}) or malformed price (\d+(?:[.,]\d+){2,})
+    # Avoids converting bus routes, platforms, gates, seats (e.g. 'Gate S2', 'Platform S1', 'Seat S4', 'Route S12')
+    price_pattern = r"(^|[^a-zA-Z0-9])S(?=\d+[.,]\d{2}(?!\d)|\d+(?:[.,]\d+){2,})"
+    s = re.sub(price_pattern, lambda m: m.group(1) + "$", s)
 
     # 2. O/o -> 0 ONLY between digits or between a digit and a known unit token
     s = re.sub(r"(?<=\d)[Oo]+(?=\d)", lambda m: "0" * len(m.group(0)), s)
@@ -39,6 +41,54 @@ def normalize_numeric_context(text: str) -> tuple[str, bool]:
     modified = (s != orig)
     return s, modified
 
+def normalize_entity_space_insensitive(s: str) -> str:
+    """Normalizes string space-insensitively and applies numeric context normalization."""
+    if not s:
+        return ""
+    norm, _ = normalize_numeric_context(str(s))
+    return "".join(norm.lower().split())
+
+def find_sensitive_spans(text: str) -> list[tuple[int, int]]:
+    """
+    Finds character spans [start, end) of sensitive dose, number+unit, currency, and percentage tokens.
+    Purely pattern-based: does NOT use ground truth.
+    """
+    spans = []
+    # 1. Number + Unit
+    unit_pat = r"(?i)\b\d+(?:\.\d+)?\s*(?:mg|mcg|ug|g|kg|ml|l|iu|%|oz|lb|tablets?|capsules?|pills?|puffs?|drops?)\b"
+    for m in re.finditer(unit_pat, text):
+        spans.append((m.start(), m.end()))
+    # 2. Currency amounts (e.g. $12.50, $2.5.0, Rs 500)
+    curr_pat = r"(?i)(?:[\$£€¥₹]|rs\.?)\s*\d+(?:[.,]\d+)*|\d+(?:[.,]\d+)*\s*[\$£€¥₹]"
+    for m in re.finditer(curr_pat, text):
+        spans.append((m.start(), m.end()))
+    # 3. Percentages
+    pct_pat = r"\b\d+(?:\.\d+)?\s*%"
+    for m in re.finditer(pct_pat, text):
+        spans.append((m.start(), m.end()))
+    return spans
+
+def check_sensitive_modification_or_low_conf(text: str, score: float, is_modified: bool) -> tuple[bool, bool]:
+    """
+    Pattern-based check: determines if normalizer modified text within a sensitive span,
+    or if low confidence (<0.40) falls on a line containing a sensitive span.
+    Does NOT use ground truth.
+    """
+    spans = find_sensitive_spans(text)
+    if not spans:
+        return False, False
+
+    low_conf_in_span = (score < 0.40)
+    mod_in_span = False
+    if is_modified:
+        for start, end in spans:
+            span_text = text[start:end]
+            _, span_mod = normalize_numeric_context(span_text)
+            if span_mod:
+                mod_in_span = True
+                break
+    return mod_in_span, low_conf_in_span
+
 def run_numeric_normalizer_unit_tests():
     """Unit-tests the normalizer on mandatory test cases from Auditor Review."""
     cases = [
@@ -47,7 +97,12 @@ def run_numeric_normalizer_unit_tests():
         ("30O MG", "300 MG", True),
         ("9O MCG", "90 MCG", True),
         ("....S2.5.0.", "....$2.5.0.", True),
-        # Must-not-change unit tests (A3 & A4)
+        ("Total: S14.99", "Total: $14.99", True),
+        # Must-not-change unit tests (A3, A4, R2)
+        ("Gate S2 boarding", "Gate S2 boarding", False),
+        ("Platform S1", "Platform S1", False),
+        ("Seat S4", "Seat S4", False),
+        ("Route S12", "Route S12", False),
         ("Net wt 10oz", "Net wt 10oz", False),
         ("Weight 1lb", "Weight 1lb", False),
         ("Take 1Inhaler", "Take 1Inhaler", False),
