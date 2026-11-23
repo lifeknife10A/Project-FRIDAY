@@ -1,0 +1,59 @@
+{
+  "git_commit_sha": "d5f80bf1b2b38cf48b961033fc02ebbaafbb82f5",
+  "dry_run": true,
+  "overall_gate_pass": false,
+  "timestamp": "2026-11-23T19:52:26Z",
+  "target_architecture": "Rockchip_RK3576",
+  "som_module": "Firefly_CAM_3576Q38_LPDDR5",
+  "gates": {
+    "Gate_1_Optical_Resolution": {
+      "passed": true,
+      "px_per_char": 12.77,
+      "type": "analytic"
+    },
+    "Gate_2_Spatial_Unshuffle": {
+      "passed": true,
+      "tokens": 144,
+      "dim": 896,
+      "measured_host_latency_ms": 0.757,
+      "host_latency_threshold_ms": 10.0
+    },
+    "Gate_3_Memory_Bandwidth": {
+      "passed": true,
+      "operating_bw_gb_s": 5.75,
+      "safe_ceiling_gb_s": 14.0,
+      "weights_mb": 207.62,
+      "scales_mb": 16.0,
+      "kv_cache_mb": 6.29,
+      "total_traffic_mb_per_token": 229.91,
+      "unit_system": "decimal_bytes_mb_gb",
+      "type": "analytic"
+    },
+    "Gate_4_Kokoro_Voice": {
+      "passed": false,
+      "sample_rate_hz": null,
+      "faster_than_realtime": null,
+      "rtf": null,
+      "status": "NOT TESTED (Kokoro runtime not loaded in this session)"
+    },
+    "Gate_5_Benchmark_Dataset": {
+      "passed": false,
+      "samples_evaluated": 4,
+      "literal_key_accuracy_pct": 100.0,
+      "safety_accuracy_pct": 100.0,
+      "unstripped_cer_pct": 6.34,
+      "unstripped_wer_pct": 29.01,
+      "wrong_spoken_entities_count": 0,
+      "incomplete_count": 0,
+      "no_answer_count": 0
+    },
+    "Gate_6_Multimodal_Distillation": {
+      "passed": false,
+      "stage_1a_step0_caption_loss": 6.3487,
+      "stage_1a_final_caption_loss": 6.3974,
+      "stage_1b_step0_kd_loss": 2.6734,
+      "stage_1b_best_kd_loss": 2.5196,
+      "relative_loss_reduction_pct": 5.75
+    }
+  }
+}
