@@ -1,0 +1,1 @@
+docs/hardware_bom.md
