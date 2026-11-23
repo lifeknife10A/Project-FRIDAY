@@ -95,6 +95,14 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed Round A fix `e6d7a16` -> YES, Round A ACCEPTED; proceed to Round B. Verified: all cells
+  ast-parse (py3.13), regen = no diff, no \x08; cell 6 is now generated from the module and runs in
+  isolation (python3 -I, empty dir, rapidocr stubbed): score_response/REFUSAL_TEXT defined, "O5 mg" ->
+  fallback. Cell 10 L121-126 refuses BEFORE generation. Scorer = closed-vocab support check; my 16
+  fresh probes: 13 OK. Misses (WATCHLIST, carried into Round B): word-level support can't catch
+  recombined contradictions ("...twice daily. Take 1 capsule by mouth daily" -> correct); number words
+  ("one") and "costs" -> wrong_spoken (conservative false negatives). Whole-label OCR echo now 16/40.
+
 - Reviewed Round A `3e3b0c0` -> NO. A0 OK (step-7 review of Kaggle 543234b DONE: committed notebook
   sha e1c0e600..., recorded SHA 543234b1..., 0 tracebacks, numbers match). A4 OK. BLOCKS:
   A1' cell 12 SyntaxError (literal "\n" in code, line 79). A1'' cell 6 Kaggle fallback (repo src not on
