@@ -97,6 +97,16 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed Round E `adc5a32` -> YES, proceed to LOCAL DRY RUN @ adc5a32 (cells 6/11/12 changed since the
+  last executed run). Verified: regen no diff, 0 syntax errors, pyflakes 0 undefined; E1 cell 12 loads
+  eval_runs/bc30294/kokoro/kokoro_eval.json, sha256 875c8193... matches file, g4_pass computed from
+  gate_4_metrics (24000 Hz, mean RTF 0.115, 805 MB), missing/mismatch -> NOT AVAILABLE; kokoro run
+  clean (dirty false, HEAD bc30294 = code 35797a3 + CLAUDE.md); label "host CPU MacBook Air M4, NOT
+  RK3576". E2 one compute_raw_cer_wer; default 6.34% now matches dry run; selected unclip 1.8 -> DEV
+  CER 6.12% / WER 26.66%, TEST CER 6.80%. E3 test-only words removed. Gate 5 still FAILS (CER > 5%,
+  DEV 35/40 < 38). Kaggle: G4 will be NOT AVAILABLE unless kokoro_eval.json is added to the Kaggle
+  dataset. Recommendation to Krishna: hold the next Kaggle run until the Gate 5 round lands.
+
 - Reviewed Round D `35797a3` (test set frozen in 449cbcb, child of my ac59314) -> NO (2 small blocks).
   TEST set: agy rendered MY specs exactly (manifest 7aa465e9..., 20/20 GT+required_fields == spec, 6
   existing image sha256 match). I re-ran from clean 35797a3: DEV 35 correct/1 refusal/4 incomplete/0
