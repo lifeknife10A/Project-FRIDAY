@@ -1,8 +1,8 @@
 {
-  "git_commit_sha": "449cbcb614dc61b72527ad9328773fd77d19a842",
-  "short_sha": "449cbcb",
-  "dirty": true,
-  "diff_hash": "0c009f2a8b49c84cf8a225b918f84034afe9bf1b265c1a4e9eb8eaec043a1477",
+  "git_commit_sha": "bc30294e79ddfb62fba06de28a5ddd7309ea104b",
+  "short_sha": "bc30294",
+  "dirty": false,
+  "diff_hash": null,
   "model_architecture": "Kokoro-82M",
   "quantization": "INT8 ONNX",
   "device": "CPU",
@@ -12,23 +12,23 @@
     "passed": true,
     "sample_rate_hz": 24000,
     "faster_than_realtime": true,
-    "mean_rtf": 0.2133,
-    "min_rtf": 0.149,
-    "max_rtf": 0.4366,
-    "p95_rtf": 0.3284,
-    "peak_ram_mb": 643.77,
-    "total_audio_duration_s": 197.85,
-    "total_synthesis_time_s": 40.71,
-    "speedup_factor": 4.69,
-    "status": "MEASURED (Kokoro-82M INT8 ONNX on CPU: 24000 Hz, RTF 0.213, Peak RAM 643.8 MB)"
+    "mean_rtf": 0.115,
+    "min_rtf": 0.1059,
+    "max_rtf": 0.1319,
+    "p95_rtf": 0.1275,
+    "peak_ram_mb": 804.97,
+    "total_audio_duration_s": 197.92,
+    "total_synthesis_time_s": 22.51,
+    "speedup_factor": 8.69,
+    "status": "MEASURED (Kokoro-82M INT8 ONNX on CPU: 24000 Hz, RTF 0.115, Peak RAM 805.0 MB)"
   },
   "saved_wav_artifacts": {
-    "0.5 mg": "/Users/krish/NMIMS/Friday/phase1_ai_sandbox/eval_runs/449cbcb/kokoro/0.5_mg.wav",
-    "$4.75": "/Users/krish/NMIMS/Friday/phase1_ai_sandbox/eval_runs/449cbcb/kokoro/4.75.wav",
-    "EVERY 4 TO 6 HOURS": "/Users/krish/NMIMS/Friday/phase1_ai_sandbox/eval_runs/449cbcb/kokoro/every_4_to_6_hours.wav",
-    "B24": "/Users/krish/NMIMS/Friday/phase1_ai_sandbox/eval_runs/449cbcb/kokoro/b24.wav",
-    "14:15": "/Users/krish/NMIMS/Friday/phase1_ai_sandbox/eval_runs/449cbcb/kokoro/14_15.wav",
-    "I can't read that clearly. Please hold it closer.": "/Users/krish/NMIMS/Friday/phase1_ai_sandbox/eval_runs/449cbcb/kokoro/refusal.wav"
+    "0.5 mg": "/Users/krish/NMIMS/Friday/phase1_ai_sandbox/eval_runs/bc30294/kokoro/0.5_mg.wav",
+    "$4.75": "/Users/krish/NMIMS/Friday/phase1_ai_sandbox/eval_runs/bc30294/kokoro/4.75.wav",
+    "EVERY 4 TO 6 HOURS": "/Users/krish/NMIMS/Friday/phase1_ai_sandbox/eval_runs/bc30294/kokoro/every_4_to_6_hours.wav",
+    "B24": "/Users/krish/NMIMS/Friday/phase1_ai_sandbox/eval_runs/bc30294/kokoro/b24.wav",
+    "14:15": "/Users/krish/NMIMS/Friday/phase1_ai_sandbox/eval_runs/bc30294/kokoro/14_15.wav",
+    "I can't read that clearly. Please hold it closer.": "/Users/krish/NMIMS/Friday/phase1_ai_sandbox/eval_runs/bc30294/kokoro/refusal.wav"
   },
   "per_speech_metrics": [
     {
@@ -36,410 +36,410 @@
       "raw_text": "AMOXICILLIN 500 MG CAPSULE. TAKE 1 CAPSULE BY MOUTH TWICE DAILY FOR 10 DAYS.",
       "tts_formatted_text": "AMOXICILLIN 500 MG CAPSULE. TAKE 1 CAPSULE BY MOUTH TWICE DAILY FOR 10 DAYS.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.2694,
+      "synthesis_time_s": 0.6949,
       "audio_duration_s": 6.0567,
-      "rtf": 0.2096,
-      "peak_ram_mb": 590.03
+      "rtf": 0.1147,
+      "peak_ram_mb": 587.5
     },
     {
       "id": "med_02",
       "raw_text": "METFORMIN HCL 500 MG TABLET. TAKE 1 TABLET TWICE DAILY WITH MEALS.",
       "tts_formatted_text": "METFORMIN HCL 500 MG TABLET. TAKE 1 TABLET TWICE DAILY WITH MEALS.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.2017,
+      "synthesis_time_s": 0.6399,
       "audio_duration_s": 5.7153,
-      "rtf": 0.2103,
-      "peak_ram_mb": 590.08
+      "rtf": 0.112,
+      "peak_ram_mb": 589.0
     },
     {
       "id": "med_03",
       "raw_text": "LISINOPRIL 10 MG TABLET. TAKE 1 TABLET DAILY IN THE MORNING.",
       "tts_formatted_text": "LISINOPRIL 10 MG TABLET. TAKE 1 TABLET DAILY IN THE MORNING.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.9784,
+      "synthesis_time_s": 0.4936,
       "audio_duration_s": 4.394,
-      "rtf": 0.2227,
-      "peak_ram_mb": 592.11
+      "rtf": 0.1123,
+      "peak_ram_mb": 589.7
     },
     {
       "id": "med_04",
       "raw_text": "ATORVASTATIN CALCIUM 20 MG TABLET. TAKE 1 TABLET DAILY AT BEDTIME.",
       "tts_formatted_text": "ATORVASTATIN CALCIUM 20 MG TABLET. TAKE 1 TABLET DAILY AT BEDTIME.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.0733,
+      "synthesis_time_s": 0.5818,
       "audio_duration_s": 5.31,
-      "rtf": 0.2021,
-      "peak_ram_mb": 592.2
+      "rtf": 0.1096,
+      "peak_ram_mb": 590.47
     },
     {
       "id": "med_05",
       "raw_text": "LEVOTHYROXINE SODIUM 50 MCG TABLET. TAKE 1 TABLET DAILY30 MINUTES BEFORE BREAKFAST.",
       "tts_formatted_text": "LEVOTHYROXINE SODIUM 50 MCG TABLET. TAKE 1 TABLET DAILY 30 MINUTES BEFORE BREAKFAST.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.3593,
+      "synthesis_time_s": 0.6745,
       "audio_duration_s": 6.3553,
-      "rtf": 0.2139,
-      "peak_ram_mb": 625.48
+      "rtf": 0.1061,
+      "peak_ram_mb": 624.17
     },
     {
       "id": "med_06",
       "raw_text": "AMLODIPINE BESYLATE 5 MG TABLET. TAKE 1 TABLETONCE DAILY WITH WATER.",
       "tts_formatted_text": "AMLODIPINE BESYLATE 5 MG TABLET. TAKE 1 TABLETONCE DAILY WITH WATER.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.0825,
+      "synthesis_time_s": 0.5618,
       "audio_duration_s": 5.2573,
-      "rtf": 0.2059,
-      "peak_ram_mb": 625.48
+      "rtf": 0.1069,
+      "peak_ram_mb": 624.52
     },
     {
       "id": "med_07",
       "raw_text": "OMEPRAZOLE 20 MG DELAYED RELEASE CAPSULE. TAKE 1 CAPSULE DAILY BEFORE BREAKFAST.",
       "tts_formatted_text": "OMEPRAZOLE 20 MG DELAYED RELEASE CAPSULE. TAKE 1 CAPSULE DAILY BEFORE BREAKFAST.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.2187,
+      "synthesis_time_s": 0.5962,
       "audio_duration_s": 5.566,
-      "rtf": 0.2189,
-      "peak_ram_mb": 631.88
+      "rtf": 0.1071,
+      "peak_ram_mb": 625.05
     },
     {
       "id": "med_08",
       "raw_text": "GABAPENTIN 300 MG CAPSULE. TAKE 1 CAPSULE THREE TIMES DAILY FOR NERVE PAIN.",
       "tts_formatted_text": "GABAPENTIN 300 MG CAPSULE. TAKE 1 CAPSULE THREE TIMES DAILY FOR NERVE PAIN.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.3287,
+      "synthesis_time_s": 0.6384,
       "audio_duration_s": 5.694,
-      "rtf": 0.2333,
-      "peak_ram_mb": 632.84
+      "rtf": 0.1121,
+      "peak_ram_mb": 625.05
     },
     {
       "id": "med_09",
       "raw_text": "ALBUTEROL SULFATE 90 MCG INHALATION AEROSOL. INHALE 2 PUFFS EVERY 4 TO6 HOURS AS NEEDED.",
       "tts_formatted_text": "ALBUTEROL SULFATE 90 MCG INHALATION AEROSOL. INHALE 2 PUFFS EVERY 4 TO 6 HOURS AS NEEDED.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.5401,
+      "synthesis_time_s": 0.771,
       "audio_duration_s": 7.028,
-      "rtf": 0.2191,
-      "peak_ram_mb": 642.47
+      "rtf": 0.1097,
+      "peak_ram_mb": 634.73
     },
     {
       "id": "med_10",
       "raw_text": "FLUTICASONE PROPIONATE 50 MCG NASAL SPRAY. SPRAY 2 SPRAYS IN EACH NOSTRIL ONCE DAILY.",
       "tts_formatted_text": "FLUTICASONE PROPIONATE 50 MCG NASAL SPRAY. SPRAY 2 SPRAYS IN EACH NOSTRIL ONCE DAILY.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.3287,
-      "audio_duration_s": 6.2813,
-      "rtf": 0.2115,
-      "peak_ram_mb": 643.59
+      "synthesis_time_s": 0.6949,
+      "audio_duration_s": 6.2713,
+      "rtf": 0.1108,
+      "peak_ram_mb": 635.09
     },
     {
       "id": "sign_01",
       "raw_text": "I can't read that clearly. Please hold it closer.",
       "tts_formatted_text": "I can't read that clearly. Please hold it closer.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.753,
+      "synthesis_time_s": 0.3542,
       "audio_duration_s": 3.0446,
-      "rtf": 0.2473,
-      "peak_ram_mb": 643.59
+      "rtf": 0.1164,
+      "peak_ram_mb": 635.14
     },
     {
       "id": "sign_02",
       "raw_text": "TRAINS A C, E-> TRACK 2.",
       "tts_formatted_text": "TRAINS A C, E-> TRACK 2.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.5529,
-      "audio_duration_s": 1.9547,
-      "rtf": 0.2829,
-      "peak_ram_mb": 643.59
+      "synthesis_time_s": 0.2252,
+      "audio_duration_s": 1.9533,
+      "rtf": 0.1153,
+      "peak_ram_mb": 635.14
     },
     {
       "id": "sign_03",
       "raw_text": "ALMONDCROISSANT...$4.50.",
       "tts_formatted_text": "ALMONDCROISSANT...$4.50.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.0662,
-      "audio_duration_s": 3.2632,
-      "rtf": 0.3267,
-      "peak_ram_mb": 643.59
+      "synthesis_time_s": 0.3564,
+      "audio_duration_s": 3.2933,
+      "rtf": 0.1082,
+      "peak_ram_mb": 635.17
     },
     {
       "id": "sign_04",
       "raw_text": "CARDIOLOGYCLINIC....OM. 301.",
       "tts_formatted_text": "CARDIOLOGYCLINIC....OM. 301.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.7013,
-      "audio_duration_s": 3.2393,
-      "rtf": 0.2165,
-      "peak_ram_mb": 643.61
+      "synthesis_time_s": 0.3472,
+      "audio_duration_s": 3.2793,
+      "rtf": 0.1059,
+      "peak_ram_mb": 635.56
     },
     {
       "id": "sign_05",
       "raw_text": "GATE B24-ON TIME. FLIGHT AI 102 -> LONDON HEATHROW.",
       "tts_formatted_text": "GATE B 24-ON TIME. FLIGHT AI 102 -> LONDON HEATHROW.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.0072,
+      "synthesis_time_s": 0.5246,
       "audio_duration_s": 4.65,
-      "rtf": 0.2166,
-      "peak_ram_mb": 643.73
+      "rtf": 0.1128,
+      "peak_ram_mb": 635.72
     },
     {
       "id": "sign_06",
       "raw_text": "ALARM WILL SOUND IF DOORIS OPENED.",
       "tts_formatted_text": "ALARM WILL SOUND IF DOORIS OPENED.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.6112,
+      "synthesis_time_s": 0.2955,
       "audio_duration_s": 2.336,
-      "rtf": 0.2616,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1265,
+      "peak_ram_mb": 641.98
     },
     {
       "id": "sign_07",
       "raw_text": "MARGHERITA PIZZA 12-INCH...$14.50.",
       "tts_formatted_text": "MARGHERITA PIZZA 12-INCH...$14.50.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.1554,
+      "synthesis_time_s": 0.4549,
       "audio_duration_s": 3.8606,
-      "rtf": 0.2993,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1178,
+      "peak_ram_mb": 642.34
     },
     {
       "id": "sign_08",
       "raw_text": "ALL DAY MAXIMUM.. $25.00.",
       "tts_formatted_text": "ALL DAY MAXIMUM.. $25.00.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.1472,
-      "audio_duration_s": 3.636,
-      "rtf": 0.3155,
-      "peak_ram_mb": 643.77
+      "synthesis_time_s": 0.437,
+      "audio_duration_s": 3.6573,
+      "rtf": 0.1195,
+      "peak_ram_mb": 643.34
     },
     {
       "id": "sign_09",
       "raw_text": "LECTURE THEATRE CS-104.",
       "tts_formatted_text": "LECTURE THEATRE CS-104.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.1081,
+      "synthesis_time_s": 0.3237,
       "audio_duration_s": 2.538,
-      "rtf": 0.4366,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1275,
+      "peak_ram_mb": 643.41
     },
     {
       "id": "sign_10",
       "raw_text": "RATE: $0.38 PER KWH + $1.00 SESSION FEE.",
       "tts_formatted_text": "RATE: $0.38 PER KWH + $1.00 SESSION FEE.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 2.2217,
-      "audio_duration_s": 5.818,
-      "rtf": 0.3819,
-      "peak_ram_mb": 643.77
+      "synthesis_time_s": 0.6389,
+      "audio_duration_s": 5.808,
+      "rtf": 0.11,
+      "peak_ram_mb": 693.39
     },
     {
       "id": "doc_01",
       "raw_text": "TOTAL AMOUNT DUE $15.40.",
       "tts_formatted_text": "TOTAL AMOUNT DUE $15.40.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.9526,
+      "synthesis_time_s": 0.3596,
       "audio_duration_s": 2.9006,
-      "rtf": 0.3284,
-      "peak_ram_mb": 643.77
+      "rtf": 0.124,
+      "peak_ram_mb": 693.39
     },
     {
       "id": "doc_02",
       "raw_text": "TOTAL CURRENTCHARGES $84.00. DUE DATE: 11/30/2026.",
       "tts_formatted_text": "TOTAL CURRENTCHARGES $84.00. DUE DATE: 11/30/2026.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.9229,
+      "synthesis_time_s": 0.8328,
       "audio_duration_s": 7.604,
-      "rtf": 0.2529,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1095,
+      "peak_ram_mb": 706.34
     },
     {
       "id": "doc_03",
       "raw_text": "TOTAL BANDWIDTH MUST NOT EXCEED 14.0 GB/S CEILING.",
       "tts_formatted_text": "TOTAL BANDWIDTH MUST NOT EXCEED 14.0 GB/S CEILING.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.8472,
+      "synthesis_time_s": 0.5332,
       "audio_duration_s": 4.6813,
-      "rtf": 0.181,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1139,
+      "peak_ram_mb": 706.78
     },
     {
       "id": "doc_04",
       "raw_text": "INVOICE TOTAL: $92.00.",
       "tts_formatted_text": "INVOICE TOTAL: $92.00.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.5994,
+      "synthesis_time_s": 0.3763,
       "audio_duration_s": 3.252,
-      "rtf": 0.1843,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1157,
+      "peak_ram_mb": 706.78
     },
     {
       "id": "doc_05",
       "raw_text": "FASTING BLOOD GLUCOSE: 94 MG/DL (NORMAL: 70 - 99).",
       "tts_formatted_text": "FASTING BLOOD GLUCOSE: 94 MG/DL (NORMAL: 70 - 99).",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.8977,
+      "synthesis_time_s": 0.6588,
       "audio_duration_s": 5.4593,
-      "rtf": 0.1644,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1207,
+      "peak_ram_mb": 706.78
     },
     {
       "id": "doc_06",
       "raw_text": "NET TOTAL CHARGED TO CARD: $165.00.",
       "tts_formatted_text": "NET TOTAL CHARGED TO CARD: $165.00.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.8043,
+      "synthesis_time_s": 0.5859,
       "audio_duration_s": 4.724,
-      "rtf": 0.1703,
-      "peak_ram_mb": 643.77
+      "rtf": 0.124,
+      "peak_ram_mb": 707.28
     },
     {
       "id": "doc_07",
       "raw_text": "THE OLIVE BISTRO- TABLE 14. TOTAL CHECK $62.64.",
       "tts_formatted_text": "THE OLIVE BISTRO- TABLE 14. TOTAL CHECK $62.64.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.7689,
+      "synthesis_time_s": 0.5503,
       "audio_duration_s": 4.8733,
-      "rtf": 0.1578,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1129,
+      "peak_ram_mb": 707.28
     },
     {
       "id": "doc_08",
       "raw_text": "STUDENT 415M ACHIEVES95.2% ACCURACYON PRESCRIPTIONS.",
       "tts_formatted_text": "STUDENT 415 M ACHIEVES 95.2% ACCURACYON PRESCRIPTIONS.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.9316,
+      "synthesis_time_s": 0.6803,
       "audio_duration_s": 5.876,
-      "rtf": 0.1585,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1158,
+      "peak_ram_mb": 707.8
     },
     {
       "id": "doc_09",
       "raw_text": "MAXIMUM ADULT DAILY DOSAGE: 4000 MG PER 24 HOURS.",
       "tts_formatted_text": "MAXIMUM ADULT DAILY DOSAGE: 4000 MG PER 24 HOURS.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.7701,
+      "synthesis_time_s": 0.5251,
       "audio_duration_s": 4.7553,
-      "rtf": 0.1619,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1104,
+      "peak_ram_mb": 707.8
     },
     {
       "id": "doc_10",
       "raw_text": "TRANSFER REF #: TRF-2026-990142. WIRE TRANSFER AMOUNT: $2,450.00 USD.",
       "tts_formatted_text": "TRANSFER REF #: TRF-2026-990142. WIRE TRANSFER AMOUNT: $2,450.00 USD.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.8583,
+      "synthesis_time_s": 1.3399,
       "audio_duration_s": 11.71,
-      "rtf": 0.1587,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1144,
+      "peak_ram_mb": 803.88
     },
     {
       "id": "scene_01",
       "raw_text": "FREE WI-FI NETWORK: DailyGrind_Guest. PASSWORD: FreshCoffee2026.",
       "tts_formatted_text": "FREE WI-FI NETWORK: DailyGrind_Guest. PASSWORD: FreshCoffee 2026.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.8277,
+      "synthesis_time_s": 0.6062,
       "audio_duration_s": 5.5533,
-      "rtf": 0.149,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1092,
+      "peak_ram_mb": 803.88
     },
     {
       "id": "scene_02",
       "raw_text": "RIGID-FLEX TEST BENCH #03. POWER SUPPLYOUTPUT: 5.00V/2.50A.",
       "tts_formatted_text": "RIGID-FLEX TEST BENCH #03. POWER SUPPLYOUTPUT: 5.00 V/2.50 A.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.1282,
+      "synthesis_time_s": 0.8293,
       "audio_duration_s": 7.5713,
-      "rtf": 0.149,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1095,
+      "peak_ram_mb": 803.88
     },
     {
       "id": "scene_03",
       "raw_text": "LUMINA DESIGN STUDIO & GALLERY. OPEN HOURS: 10:00 AM - 7:00 PM MON-SAT.",
       "tts_formatted_text": "LUMINA DESIGN STUDIO & GALLERY. OPEN HOURS: 10:00 AM - 7:00 PM MON-SAT.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 1.1934,
+      "synthesis_time_s": 0.8542,
       "audio_duration_s": 7.8173,
-      "rtf": 0.1527,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1093,
+      "peak_ram_mb": 804.17
     },
     {
       "id": "scene_04",
       "raw_text": "INNOVATION LAB- MEETING ROOM B. TOPIC: PROJECT FRIDAYCAPSTONE DEFENSE.",
       "tts_formatted_text": "INNOVATION LAB- MEETING ROOM B. TOPIC: PROJECT FRIDAYCAPSTONE DEFENSE.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.7578,
+      "synthesis_time_s": 0.5656,
       "audio_duration_s": 5.0,
-      "rtf": 0.1516,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1131,
+      "peak_ram_mb": 804.42
     },
     {
       "id": "scene_05",
       "raw_text": "AVERAGE DISPENSING WAIT TIME: 15 MINS.",
       "tts_formatted_text": "AVERAGE DISPENSING WAIT TIME: 15 MINS.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.4842,
+      "synthesis_time_s": 0.3791,
       "audio_duration_s": 3.0813,
-      "rtf": 0.1572,
-      "peak_ram_mb": 643.77
+      "rtf": 0.123,
+      "peak_ram_mb": 804.72
     },
     {
       "id": "scene_06",
       "raw_text": "NEXT TRAIN: TIMES SQUARE 42ND ST. ARRIVING IN: 3 MINUTES.",
       "tts_formatted_text": "NEXT TRAIN: TIMES SQUARE 42 ND ST. ARRIVING IN: 3 MINUTES.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.6601,
+      "synthesis_time_s": 0.491,
       "audio_duration_s": 4.3287,
-      "rtf": 0.1525,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1134,
+      "peak_ram_mb": 804.72
     },
     {
       "id": "scene_07",
       "raw_text": "HAZARDOUS MATERIALS STORAGE CABINET. FLAMMABLELIQUIDS-CLASS3.",
       "tts_formatted_text": "HAZARDOUS MATERIALS STORAGE CABINET. FLAMMABLELIQUIDS-CLASS 3.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.6299,
+      "synthesis_time_s": 0.4905,
       "audio_duration_s": 4.202,
-      "rtf": 0.1499,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1167,
+      "peak_ram_mb": 804.81
     },
     {
       "id": "scene_08",
       "raw_text": "CENTRAL UNIVERSITY LIBRARY- FLOOR 4.",
       "tts_formatted_text": "CENTRAL UNIVERSITY LIBRARY- FLOOR 4.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.4222,
+      "synthesis_time_s": 0.346,
       "audio_duration_s": 2.6233,
-      "rtf": 0.1609,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1319,
+      "peak_ram_mb": 804.81
     },
     {
       "id": "scene_09",
       "raw_text": "MAX VEHICLE SPEED: 1.5 M/S.",
       "tts_formatted_text": "MAX VEHICLE SPEED: 1.5 M/S.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.5408,
+      "synthesis_time_s": 0.4066,
       "audio_duration_s": 3.4013,
-      "rtf": 0.159,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1195,
+      "peak_ram_mb": 804.81
     },
     {
       "id": "scene_10",
       "raw_text": "FLOORS 4-6: AI RESEARCH INCUBATOR.",
       "tts_formatted_text": "FLOORS 4-6: AI RESEARCH INCUBATOR.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.5184,
+      "synthesis_time_s": 0.4338,
       "audio_duration_s": 3.3913,
-      "rtf": 0.1529,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1279,
+      "peak_ram_mb": 804.97
     },
     {
       "id": "refusal_protocol",
       "raw_text": "I can't read that clearly. Please hold it closer.",
       "tts_formatted_text": "I can't read that clearly. Please hold it closer.",
       "sample_rate_hz": 24000,
-      "synthesis_time_s": 0.4871,
+      "synthesis_time_s": 0.3644,
       "audio_duration_s": 3.0446,
-      "rtf": 0.16,
-      "peak_ram_mb": 643.77
+      "rtf": 0.1197,
+      "peak_ram_mb": 804.97
     }
   ]
 }

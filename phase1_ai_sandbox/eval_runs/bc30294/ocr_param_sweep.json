@@ -1,0 +1,115 @@
+{
+  "git_commit_sha": "bc30294e79ddfb62fba06de28a5ddd7309ea104b",
+  "short_sha": "bc30294",
+  "dirty": false,
+  "diff_hash": null,
+  "cer_calculation_protocol": "compute_raw_cer_wer(ground_truth, hypothesis) [reference = ground_truth]",
+  "gate_5_cer_threshold_pct": 5.0,
+  "gate_5_wer_threshold_pct": 30.0,
+  "discrepancy_explanation": "The previous 7.93% vs 6.24%/6.34% discrepancy occurred because the ad-hoc sweep invocation passed arguments in inverted order compute_cer(pred_text, gt_text), dividing Levenshtein distance by the shorter OCR output string length rather than the standard ground-truth reference length compute_cer(gt_text, pred_text).",
+  "selected_configuration": {
+    "name": "Det.unclip_ratio=1.8",
+    "params": {
+      "Det.unclip_ratio": 1.8
+    },
+    "dev_raw_cer_pct": 6.12,
+    "dev_raw_wer_pct": 26.66,
+    "dev_latency_ms": 238.0,
+    "test_raw_cer_pct": 6.8,
+    "test_raw_wer_pct": 21.41,
+    "test_latency_ms": 316.7
+  },
+  "configurations_tested": [
+    {
+      "name": "Default (unclip=1.5, thresh=0.3, box=0.6)",
+      "params": {},
+      "raw_cer_pct": 6.34,
+      "raw_wer_pct": 29.01,
+      "latency_ms_per_image": 242.6
+    },
+    {
+      "name": "Det.unclip_ratio=1.6",
+      "params": {
+        "Det.unclip_ratio": 1.6
+      },
+      "raw_cer_pct": 6.34,
+      "raw_wer_pct": 29.01,
+      "latency_ms_per_image": 245.6
+    },
+    {
+      "name": "Det.unclip_ratio=1.8 (Selected)",
+      "params": {
+        "Det.unclip_ratio": 1.8
+      },
+      "raw_cer_pct": 6.12,
+      "raw_wer_pct": 26.66,
+      "latency_ms_per_image": 238.0
+    },
+    {
+      "name": "Det.unclip_ratio=2.0",
+      "params": {
+        "Det.unclip_ratio": 2.0
+      },
+      "raw_cer_pct": 6.19,
+      "raw_wer_pct": 25.83,
+      "latency_ms_per_image": 234.0
+    },
+    {
+      "name": "Det.thresh=0.2",
+      "params": {
+        "Det.thresh": 0.2
+      },
+      "raw_cer_pct": 6.17,
+      "raw_wer_pct": 28.82,
+      "latency_ms_per_image": 255.2
+    },
+    {
+      "name": "Det.box_thresh=0.5",
+      "params": {
+        "Det.box_thresh": 0.5
+      },
+      "raw_cer_pct": 6.34,
+      "raw_wer_pct": 29.01,
+      "latency_ms_per_image": 260.5
+    },
+    {
+      "name": "Det.unclip_ratio=1.8, thresh=0.2",
+      "params": {
+        "Det.unclip_ratio": 1.8,
+        "Det.thresh": 0.2
+      },
+      "raw_cer_pct": 6.36,
+      "raw_wer_pct": 26.8,
+      "latency_ms_per_image": 244.0
+    },
+    {
+      "name": "Det.unclip_ratio=1.8, box_thresh=0.5",
+      "params": {
+        "Det.unclip_ratio": 1.8,
+        "Det.box_thresh": 0.5
+      },
+      "raw_cer_pct": 6.12,
+      "raw_wer_pct": 26.66,
+      "latency_ms_per_image": 249.3
+    },
+    {
+      "name": "Det.limit_side_len=1088",
+      "params": {
+        "Det.limit_side_len": 1088
+      },
+      "raw_cer_pct": 5.84,
+      "raw_wer_pct": 27.06,
+      "latency_ms_per_image": 368.8
+    },
+    {
+      "name": "Det.limit_side_len=1088, unclip=1.8",
+      "params": {
+        "Det.limit_side_len": 1088,
+        "Det.unclip_ratio": 1.8
+      },
+      "raw_cer_pct": 6.28,
+      "raw_wer_pct": 28.52,
+      "latency_ms_per_image": 371.3
+    }
+  ]
+}

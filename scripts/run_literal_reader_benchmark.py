@@ -12,6 +12,7 @@ import sys
 import json
 import argparse
 import subprocess
+import numpy as np
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if REPO_ROOT not in sys.path:
@@ -21,7 +22,7 @@ if src_dir not in sys.path:
     sys.path.insert(0, src_dir)
 
 from phase1_ai_sandbox.src.benchmark_dataset_evaluator import (
-    run_ocr, score_response, REFUSAL_TEXT
+    run_ocr, score_response, REFUSAL_TEXT, compute_raw_cer_wer
 )
 from phase1_ai_sandbox.src.literal_reader import (
     read_literal, CONFIDENCE_THRESHOLD
@@ -52,6 +53,8 @@ def run_benchmark(output_dir: str = None, allow_dirty: bool = False) -> dict:
     print(f"Output Target  : {os.path.join(output_dir, 'literal_reader.json')}\n")
 
     per_item_results = []
+    all_raw_cers = []
+    all_raw_wers = []
     overall_counts = {"correct": 0, "safe_refusal": 0, "wrong_spoken": 0, "incomplete": 0, "no_answer": 0}
     category_breakdown = {}
 
@@ -65,6 +68,10 @@ def run_benchmark(output_dir: str = None, allow_dirty: bool = False) -> dict:
             img_path = os.path.join(REPO_ROOT, "phase1_ai_sandbox/benchmark_dataset/images", item["filename"])
 
         ocr_lines = run_ocr(img_path)
+        raw_ocr_text = " ".join([l.raw_text for l in ocr_lines])
+        gt_full_text = item["ground_truth_full_text"]
+        raw_cer, raw_wer = compute_raw_cer_wer(gt_full_text, raw_ocr_text)
+
         reader_out = read_literal(ocr_lines, category=cat, question=item.get("prompt", ""))
 
         speech = reader_out.get("speech", REFUSAL_TEXT)
@@ -73,10 +80,12 @@ def run_benchmark(output_dir: str = None, allow_dirty: bool = False) -> dict:
 
         # Evaluate verdict using authoritative score_response
         is_fb = (speech == REFUSAL_TEXT)
-        verdict = score_response(speech, item, item["ground_truth_full_text"], is_fallback=is_fb)
+        verdict = score_response(speech, item, gt_full_text, is_fallback=is_fb)
 
         overall_counts[verdict] += 1
         category_breakdown[cat][verdict] += 1
+        all_raw_cers.append(raw_cer)
+        all_raw_wers.append(raw_wer)
 
         per_item_results.append({
             "id": item["id"],
@@ -87,7 +96,9 @@ def run_benchmark(output_dir: str = None, allow_dirty: bool = False) -> dict:
             "speech": speech,
             "verdict": verdict,
             "refusal_reason": reason,
-            "source_line_ids": src_ids
+            "source_line_ids": src_ids,
+            "raw_cer": round(raw_cer, 4),
+            "raw_wer": round(raw_wer, 4)
         })
 
         tag = verdict.upper()
@@ -98,6 +109,9 @@ def run_benchmark(output_dir: str = None, allow_dirty: bool = False) -> dict:
     tot = len(samples)
     acc_pct = (overall_counts["correct"] / tot) * 100.0 if tot else 0.0
     safe_pct = ((overall_counts["correct"] + overall_counts["safe_refusal"]) / tot) * 100.0 if tot else 0.0
+
+    mean_cer = float(np.mean(all_raw_cers)) * 100.0 if all_raw_cers else 0.0
+    mean_wer = float(np.mean(all_raw_wers)) * 100.0 if all_raw_wers else 0.0
 
     benchmark_report = {
         "git_commit_sha": full_sha,
@@ -112,7 +126,9 @@ def run_benchmark(output_dir: str = None, allow_dirty: bool = False) -> dict:
             "incomplete": overall_counts["incomplete"],
             "no_answer": overall_counts["no_answer"],
             "key_accuracy_pct": round(acc_pct, 2),
-            "safety_accuracy_pct": round(safe_pct, 2)
+            "safety_accuracy_pct": round(safe_pct, 2),
+            "mean_raw_cer_pct": round(mean_cer, 2),
+            "mean_raw_wer_pct": round(mean_wer, 2)
         },
         "category_breakdown": category_breakdown,
         "per_item_results": per_item_results

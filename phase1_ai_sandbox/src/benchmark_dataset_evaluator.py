@@ -679,6 +679,17 @@ def compute_wer(reference: str, hypothesis: str) -> float:
     dist = compute_levenshtein(ref_words, hyp_words)
     return min(1.0, dist / len(ref_words))
 
+def compute_raw_cer_wer(ground_truth: str, hypothesis: str) -> tuple[float, float]:
+    """
+    Auditor Item E2: Authoritative canonical function for raw unstripped CER and WER.
+    Strictly uses ground_truth as the reference denominator (len(reference)).
+    Returns:
+        (raw_cer, raw_wer)
+    """
+    raw_cer = compute_cer(ground_truth, hypothesis)
+    raw_wer = compute_wer(ground_truth, hypothesis)
+    return raw_cer, raw_wer
+
 def compute_space_normalized_cer_wer(reference: str, hypothesis: str) -> tuple[float, float]:
     """CER and WER computed with collapsed single-space normalization."""
     ref_sp = " ".join(reference.strip().split())

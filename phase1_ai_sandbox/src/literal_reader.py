@@ -135,9 +135,9 @@ def is_same_row(box1: list, box2: list) -> bool:
 
 SECONDARY_FIELD_INDICATORS = {
     "password", "wifi", "network", "hours", "time", "arrival", "arriving",
-    "gate", "flight", "route", "destination", "location", "located",
-    "floor", "floors", "elevator", "elevators", "rule", "rules", "conduct",
-    "topic", "status", "setting", "classification", "class", "depth", "value"
+    "gate", "flight", "destination", "location", "located",
+    "floor", "floors", "elevator", "rule", "rules", "conduct",
+    "topic", "status", "setting", "classification", "class", "value"
 }
 
 SPLIT_PAT = re.compile(
