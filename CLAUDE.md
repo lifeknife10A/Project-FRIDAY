@@ -95,6 +95,14 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed Round B fix `a8d4439` -> YES, Round B ACCEPTED; proceed to Round C (+C0). No item-specific
+  words in reader logic. I re-ran all 40: 29 correct / 5 refusal / 6 incomplete / 0 wrong (same as
+  claimed). My 11 fresh synthetic probes: warfarin wrap, methotrexate, prednisone taper, two strengths,
+  directions-above-strength, low-conf frequency line, menu substring -> all safe (correct or refusal).
+  WATCHLIST: over-refusals (insulin "UNITS/ML", "250 MG/5 ML" suspensions). C0 (provenance): eval_runs
+  de0ac27/ and 5262408/ hold IDENTICAL files labelled git_commit_sha 5262408, but were produced by the
+  uncommitted code that became a8d4439; script defaults sha to "c932e12".
+
 - Krishna DECISION (2026-11-23): no self-shot photo set for now; use VizWiz-VQA (val split, blind users'
   phone photos) as HELD-OUT real-image eval, added to Round C as C9 (never train/tune on it; run once,
   report refusal vs spoke-wrong honestly). Ego4D rejected (no text transcriptions, license wait, TB-scale).
