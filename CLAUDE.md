@@ -97,6 +97,13 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Krishna DECISION (2026-11-24): keep the current low-res renders as the canonical Gate 5 set (no
+  spec-res re-render) — he may buy a cheaper 1080p camera instead of IMX415. CORRECTION of my earlier
+  finding: Gate 1's 12.8 px is char HEIGHT (1.8 mm @ 35 cm, f 3.6 mm, 1.45 um pitch); renders have ~8 px
+  glyph height (0.6x spec, not 2x). A typical 1080p module (~2.8 um pitch, same lens) gives ~6.6 px ->
+  renders sit between 1080p and IMX415. If Krishna switches to 1080p, Gate 1 (>=10 px) fails analytically
+  and IMX415 -> 1080p is a plan.md deviation to record (not decided yet).
+
 - FINDING (2026-11-24): benchmark renders use PIL ImageFont.load_default() -> ~5.5 px/char, 8 px glyph
   height (Pillow 12.3; pillow is UNPINNED in requirements). plan.md Gate 1 guarantees >=10 px/char
   (analytic 12.8). So Gate 5 CER is measured on text ~2x smaller than the camera spec -> CER failure is
