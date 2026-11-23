@@ -80,6 +80,8 @@ Approvals name one SHA; any new commit restarts at step 3.
   `assets/benchmark_dataset/images/*` and compare to `benchmark_manifest.json`.
 - Normalizer adversarial strings: "Net wt 10oz", "Weight 1lb", "Take 1Inhaler", "Pack of 2ONLY",
   "Gate S2 boarding", "Platform S1", "....S2.5.0.".
+- Cross-cell name check (catches NameErrors ast.parse cannot): concatenate all code cells (strip !/%)
+  into one file, run `python3 -m pyflakes`; require 0 "undefined name". Run EVERY review.
 - `scripts/build_clean_colab_notebook.py` regenerates the notebook from `scripts/notebook_cells.json`;
   confirm regeneration produces no diff.
 
@@ -94,6 +96,15 @@ Approvals name one SHA; any new commit restarts at step 3.
 - Synthetic PIL renders described as "photographic".
 
 ## 7. Current state (update every review)
+
+- Dry run of 18ce41b (`36310d0`) CRASHED cell 10: NameError Qwen2ForCausalLM. Cells 1-9 OK: SHA
+  18ce41b recorded; reader/scorer/KD unit tests pass in-notebook; C3 cache works; Stage 1a 6.5191->
+  6.4481; Stage 1b KD 3.4453->3.0894; projector reload diff 0. pyflakes on all concatenated cells:
+  10 undefined names, ALL in cell 10 (Qwen2ForCausalLM, image_processor, run_vision_tower, projector,
+  unk_id x2, teacher_proc x3, process_vision_info). Count by commit: 543234b 0, 3e3b0c0 0, e6d7a16 10
+  -> regression introduced in the Round A fix's cell 10 rewrite; I ACCEPTED e6d7a16/a8d4439/18ce41b
+  without a cross-cell undefined-name check (MY MISS). Added pyflakes step to section 5.
+  Dry run 1b split: 3 train / 3 val (50%) — check full-mode 1b val fraction next run.
 
 - Reviewed Round C `18ce41b` -> YES, proceed to LOCAL DRY RUN @ 18ce41b. Verified: py3.11+3.13 parse,
   regen no diff; C1 image sha256 grouping + leakage assert + 20% val; C2 KD matches plan formula
