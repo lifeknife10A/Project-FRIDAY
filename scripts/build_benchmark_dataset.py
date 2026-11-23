@@ -802,9 +802,29 @@ BENCHMARK_SPECS = [
     }
 ]
 
-def render_photographic_benchmark_sample(spec, output_path):
-    # Render realistic 768x480 scene image with natural lighting, border framing, and perspective shadow
-    w, h = 768, 480
+DEFAULT_PINNED_FONT_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "assets", "fonts", "DejaVuSansMono.ttf"
+)
+
+def render_photographic_benchmark_sample(spec, output_path, use_spec_font=False, font_path=None, font_size=21):
+    """
+    Renders photographic benchmark sample.
+    - use_spec_font=False: Original 768x480 default bitmap font (stress set)
+    - use_spec_font=True: 1536x960 TrueType font at 12.8 +/- 1 px/char (spec set, IMX415 camera optical spec)
+    """
+    font = None
+    measured_px_per_char = 5.5
+    
+    if use_spec_font:
+        fpath = font_path or DEFAULT_PINNED_FONT_PATH
+        if not os.path.exists(fpath):
+            raise FileNotFoundError(f"Pinned font not found at {fpath}")
+        font = ImageFont.truetype(fpath, font_size)
+        w, h = 1536, 960
+    else:
+        w, h = 768, 480
+
     bg = spec.get("bg_color", (245, 245, 242))
     fg = spec.get("text_color", (20, 20, 20))
     
@@ -813,7 +833,6 @@ def render_photographic_benchmark_sample(spec, output_path):
 
     # Add realistic photographic framing / ambient gradient
     for y in range(h):
-        # Subtle vignette / lighting falloff
         dist_from_center = abs(y - h/2) / (h/2)
         dim = int(dist_from_center * 12)
         r = max(0, bg[0] - dim)
@@ -822,50 +841,110 @@ def render_photographic_benchmark_sample(spec, output_path):
         draw.line([(0, y), (w, y)], fill=(r, g, b))
 
     # Inner plaque / paper margin with soft shadow
-    draw.rectangle([25, 25, w - 25, h - 25], outline=(180, 180, 180), width=2)
-    draw.rectangle([23, 23, w - 23, h - 23], outline=(210, 210, 210), width=1)
+    if use_spec_font:
+        draw.rectangle([50, 50, w - 50, h - 50], outline=(180, 180, 180), width=4)
+        draw.rectangle([46, 46, w - 46, h - 46], outline=(210, 210, 210), width=2)
+    else:
+        draw.rectangle([25, 25, w - 25, h - 25], outline=(180, 180, 180), width=2)
+        draw.rectangle([23, 23, w - 23, h - 23], outline=(210, 210, 210), width=1)
 
     # Draw header bar if medicine or signage
-    if spec["category"] == "medicine":
-        draw.rectangle([27, 27, w - 27, 85], fill=(200, 30, 40))
-        draw.text((45, 45), spec["lines"][0], fill=(255, 255, 255))
-        y_start = 110
-        body_lines = spec["lines"][1:]
-    elif spec["category"] == "signage_menu":
-        draw.rectangle([27, 27, w - 27, 80], fill=(30, 50, 80))
-        draw.text((45, 42), spec["lines"][0], fill=(255, 255, 255))
-        y_start = 105
-        body_lines = spec["lines"][1:]
-    else:
-        y_start = 55
-        body_lines = spec["lines"]
-
-    y = y_start
-    for i, line in enumerate(body_lines):
-        # Prominent highlight for key clinical / product line
-        if spec["category"] == "medicine" and i == 2:
-            draw.rectangle([40, y - 4, w - 40, y + 26], fill=(235, 235, 230))
-            draw.text((45, y), line, fill=(0, 0, 0))
-            y += 38
+    if use_spec_font:
+        if spec["category"] == "medicine":
+            draw.rectangle([54, 54, w - 54, 170], fill=(200, 30, 40))
+            draw.text((90, 95), spec["lines"][0], font=font, fill=(255, 255, 255))
+            y_start = 220
+            body_lines = spec["lines"][1:]
+        elif spec["category"] == "signage_menu":
+            draw.rectangle([54, 54, w - 54, 160], fill=(30, 50, 80))
+            draw.text((90, 85), spec["lines"][0], font=font, fill=(255, 255, 255))
+            y_start = 210
+            body_lines = spec["lines"][1:]
         else:
-            draw.text((45, y), line, fill=fg)
-            y += 34
+            y_start = 110
+            body_lines = spec["lines"]
 
-    # Apply mild camera blur / realistic lens response
-    img = img.filter(ImageFilter.GaussianBlur(radius=0.4))
+        y = y_start
+        for i, line in enumerate(body_lines):
+            if spec["category"] == "medicine" and i == 2:
+                draw.rectangle([80, y - 8, w - 80, y + 45], fill=(235, 235, 230))
+                draw.text((90, y), line, font=font, fill=(0, 0, 0))
+                y += 76
+            else:
+                draw.text((90, y), line, font=font, fill=fg)
+                y += 68
+
+        # Measure textbbox dimensions and log average px/char per image
+        all_line_widths = []
+        all_line_chars = []
+        for line in spec["lines"]:
+            if not line:
+                continue
+            bbox = draw.textbbox((0, 0), line, font=font)
+            all_line_widths.append(bbox[2] - bbox[0])
+            all_line_chars.append(len(line))
+        if all_line_chars and sum(all_line_chars) > 0:
+            measured_px_per_char = sum(all_line_widths) / sum(all_line_chars)
+        else:
+            measured_px_per_char = float(font_size)
+
+        # Apply realistic lens response
+        img = img.filter(ImageFilter.GaussianBlur(radius=0.4))
+    else:
+        if spec["category"] == "medicine":
+            draw.rectangle([27, 27, w - 27, 85], fill=(200, 30, 40))
+            draw.text((45, 45), spec["lines"][0], fill=(255, 255, 255))
+            y_start = 110
+            body_lines = spec["lines"][1:]
+        elif spec["category"] == "signage_menu":
+            draw.rectangle([27, 27, w - 27, 80], fill=(30, 50, 80))
+            draw.text((45, 42), spec["lines"][0], fill=(255, 255, 255))
+            y_start = 105
+            body_lines = spec["lines"][1:]
+        else:
+            y_start = 55
+            body_lines = spec["lines"]
+
+        y = y_start
+        for i, line in enumerate(body_lines):
+            if spec["category"] == "medicine" and i == 2:
+                draw.rectangle([40, y - 4, w - 40, y + 26], fill=(235, 235, 230))
+                draw.text((45, y), line, fill=(0, 0, 0))
+                y += 38
+            else:
+                draw.text((45, y), line, fill=fg)
+                y += 34
+
+        img = img.filter(ImageFilter.GaussianBlur(radius=0.4))
+
     img.save(output_path, quality=95)
-    return output_path
+    return output_path, measured_px_per_char
 
-def build_benchmark_suite(output_dir="assets/benchmark_dataset"):
+def build_benchmark_suite(output_dir="assets/benchmark_dataset", use_spec_font=False, font_size=21):
     images_dir = os.path.join(output_dir, "images")
     os.makedirs(images_dir, exist_ok=True)
     manifest = []
 
-    print(f"[*] Building 40-Sample Multimodal Benchmark Dataset in {output_dir}...")
+    # Load required_fields from canonical existing manifest if available to guarantee exact parity
+    existing_manifest_path = "assets/benchmark_dataset/benchmark_manifest.json"
+    req_fields_map = {}
+    if os.path.exists(existing_manifest_path):
+        with open(existing_manifest_path) as f:
+            for item in json.load(f):
+                if "required_fields" in item:
+                    req_fields_map[item["id"]] = item["required_fields"]
+
+    mode_label = "Spec Resolution (12.8 px/char)" if use_spec_font else "Default Bitmap Resolution (Stress Set)"
+    print(f"[*] Building 40-Sample Multimodal Benchmark Dataset ({mode_label}) in {output_dir}...")
+    
+    logged_px_chars = []
     for idx, spec in enumerate(BENCHMARK_SPECS):
         fname = f"{spec['id']}_{spec['category']}.jpg"
         fpath = os.path.join(images_dir, fname)
-        render_photographic_benchmark_sample(spec, fpath)
+        _, px_per_char = render_photographic_benchmark_sample(
+            spec, fpath, use_spec_font=use_spec_font, font_size=font_size
+        )
+        logged_px_chars.append(px_per_char)
 
         # Full ground truth preserving exact punctuation and whitespace
         full_gt = " ".join(spec["lines"])
@@ -883,15 +962,32 @@ def build_benchmark_suite(output_dir="assets/benchmark_dataset"):
             "prompt": spec["prompt"],
             "expected_safety_entity": spec["expected_safety_entity"]
         }
+        if spec["id"] in req_fields_map:
+            entry["required_fields"] = req_fields_map[spec["id"]]
         manifest.append(entry)
-        print(f"  [{idx+1:02d}/40] [{spec['category']:12s}] {spec['title']:40s} -> {fpath}")
+        print(f"  [{idx+1:02d}/40] [{spec['category']:12s}] {spec['title']:36s} [px/char: {px_per_char:.2f}] -> {fpath}")
 
     manifest_path = os.path.join(output_dir, "benchmark_manifest.json")
     with open(manifest_path, "w") as f:
         json.dump(manifest, f, indent=2)
 
-    print(f"\n[✓] Benchmark Suite Successfully Compiled: {manifest_path} (40 samples across 4 categories)")
+    # Compute manifest sha256
+    import hashlib
+    with open(manifest_path, "rb") as f:
+        m_sha = hashlib.sha256(f.read()).hexdigest()
+    sha_path = os.path.join(output_dir, "benchmark_manifest.sha256")
+    with open(sha_path, "w") as f:
+        f.write(f"{m_sha}  benchmark_manifest.json\n")
+
+    avg_px = sum(logged_px_chars) / len(logged_px_chars)
+    print(f"\n[✓] Benchmark Suite Successfully Compiled: {manifest_path}")
+    print(f"    Manifest SHA256: {m_sha}")
+    print(f"    Measured Average Resolution: {avg_px:.2f} px/char (Target: 12.8 +/- 1.0 px/char)\n")
     return manifest
 
 if __name__ == "__main__":
-    build_benchmark_suite()
+    import sys
+    if "--spec" in sys.argv:
+        build_benchmark_suite("assets/benchmark_dataset_spec", use_spec_font=True)
+    else:
+        build_benchmark_suite()

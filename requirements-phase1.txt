@@ -12,6 +12,6 @@ numpy==2.4.6
 torch
 torchvision
 torchaudio
-pillow
+pillow==13.0.0
 sentencepiece
 soundfile
