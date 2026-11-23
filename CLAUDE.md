@@ -97,6 +97,16 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed Round F `6a45954` + dry run `a389b34` -> NO. agy executed the OLD F0 (spec-res re-render,
+  13.0 px/char DejaVu Sans Mono, pillow==13.0.0) and switched cell 5 to benchmark_dataset_spec, contrary
+  to Krishna's 6d4a361 decision (low-res canonical) — asked Krishna which prompt he sent. My CPU re-run
+  at 6a45954: DEV-lowres CER 6.15% 36 correct/1 ref/3 inc/0 wrong; DEV-spec CER 4.60% 38/0/2/0 (would
+  pass G5); TEST-lowres 6.87% 16/3/1/0; TEST-spec 5.43% 17/2/1/0. BLOCK G1 (safety): F2 "Rule A" appends
+  the next line if it has any digit -> "HEMOGLOBIN. CREATININE 1.2 MG/DL." / "NEUROLOGY CLINIC.
+  CARDIOLOGY ROOM 408." / "FLIGHT AI 102. FLIGHT BA 77 GATE C4." (my probes). BLOCK G2: spec and lowres
+  manifests are byte-identical (1244838b...) so the hash verifies no images; cell 5 silently falls back
+  spec -> lowres. WATCHLIST: label with strength only on another drug's line -> speaks that drug.
+
 - Krishna DECISION (2026-11-24): keep the current low-res renders as the canonical Gate 5 set (no
   spec-res re-render) — he may buy a cheaper 1080p camera instead of IMX415. CORRECTION of my earlier
   finding: Gate 1's 12.8 px is char HEIGHT (1.8 mm @ 35 cm, f 3.6 mm, 1.45 um pitch); renders have ~8 px
