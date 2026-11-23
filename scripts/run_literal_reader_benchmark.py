@@ -29,25 +29,47 @@ from phase1_ai_sandbox.src.literal_reader import (
 )
 from phase1_ai_sandbox.src.eval_provenance import get_eval_provenance
 
-def run_benchmark(output_dir: str = None, allow_dirty: bool = False) -> dict:
+def run_benchmark(output_dir: str = None, allow_dirty: bool = False, dataset_dir: str = None, variant: str = "spec") -> dict:
     full_sha, short_sha, is_dirty, diff_hash = get_eval_provenance(REPO_ROOT, allow_dirty=allow_dirty)
+
+    if dataset_dir is None:
+        dataset_dir = os.path.join(REPO_ROOT, "assets/benchmark_dataset_spec" if variant == "spec" else "assets/benchmark_dataset")
+    dataset_variant = "spec" if "spec" in dataset_dir else "lowres"
 
     if output_dir is None:
         output_dir = os.path.join(REPO_ROOT, "phase1_ai_sandbox/eval_runs", short_sha)
     os.makedirs(output_dir, exist_ok=True)
 
-    manifest_path = os.path.join(REPO_ROOT, "assets/benchmark_dataset/benchmark_manifest.json")
+    manifest_path = os.path.join(dataset_dir, "benchmark_manifest.json")
     if not os.path.exists(manifest_path):
-        raise FileNotFoundError(f"Manifest not found: {manifest_path}")
+        raise FileNotFoundError(f"Auditor Item G2 Violation: Manifest not found: {manifest_path}. Silent fallback prohibited.")
 
     with open(manifest_path, "r", encoding="utf-8") as f:
         samples = json.load(f)
 
+    # Auditor Item G2: Per-image sha256 verification
+    images_sha_path = os.path.join(dataset_dir, "images_sha256.json")
+    if not os.path.exists(images_sha_path):
+        raise FileNotFoundError(f"Auditor Item G2 Violation: Missing {images_sha_path}!")
+    with open(images_sha_path, "r", encoding="utf-8") as f:
+        expected_img_hashes = json.load(f)
+
+    import hashlib
+    for item in samples:
+        img_p = os.path.join(dataset_dir, "images", item["filename"])
+        if not os.path.exists(img_p):
+            raise FileNotFoundError(f"Auditor Item G2 Violation: Missing image {img_p}!")
+        with open(img_p, "rb") as f:
+            act_h = hashlib.sha256(f.read()).hexdigest()
+        exp_h = expected_img_hashes.get(item["filename"])
+        assert act_h == exp_h, f"Auditor Item G2 Violation: Image sha256 mismatch for {item['filename']}! Expected {exp_h}, got {act_h}"
+
     print("=" * 70)
-    print("PROJECT FRIDAY - EXTRACTIVE LITERAL READER EMPIRICAL BENCHMARK (B5/C0)")
+    print(f"PROJECT FRIDAY - EXTRACTIVE LITERAL READER EMPIRICAL BENCHMARK (DATASET_VARIANT: {dataset_variant})")
     print("=" * 70)
     print(f"Git Commit SHA : {full_sha} (short: {short_sha}, dirty: {is_dirty})")
-    print(f"Target Dataset : {len(samples)} benchmark photos (assets/benchmark_dataset/)")
+    print(f"Target Dataset : {len(samples)} benchmark photos ({dataset_dir})")
+    print(f"Dataset Variant: {dataset_variant} (Auditor Item G2 Verified: 100% per-image sha256 match)")
     print(f"OCR Engine     : RapidOCR 3.10.0 (PP-OCRv6) on CPU")
     print(f"Safety Config  : Confidence threshold = {CONFIDENCE_THRESHOLD:.2f}")
     print(f"Output Target  : {os.path.join(output_dir, 'literal_reader.json')}\n")
@@ -63,9 +85,7 @@ def run_benchmark(output_dir: str = None, allow_dirty: bool = False) -> dict:
         if cat not in category_breakdown:
             category_breakdown[cat] = {"correct": 0, "safe_refusal": 0, "wrong_spoken": 0, "incomplete": 0, "no_answer": 0}
 
-        img_path = os.path.join(REPO_ROOT, "assets/benchmark_dataset/images", item["filename"])
-        if not os.path.exists(img_path):
-            img_path = os.path.join(REPO_ROOT, "phase1_ai_sandbox/benchmark_dataset/images", item["filename"])
+        img_path = os.path.join(dataset_dir, "images", item["filename"])
 
         ocr_lines = run_ocr(img_path)
         raw_ocr_text = " ".join([l.raw_text for l in ocr_lines])
@@ -158,5 +178,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run literal reader benchmark over 40 images.")
     parser.add_argument("--output-dir", type=str, default=None, help="Explicit output directory.")
     parser.add_argument("--allow-dirty", action="store_true", help="Allow running on dirty working tree.")
+    parser.add_argument("--dataset-dir", type=str, default=None, help="Explicit dataset directory.")
+    parser.add_argument("--variant", type=str, default="spec", choices=["spec", "lowres"], help="Dataset variant to evaluate (spec or lowres).")
     args = parser.parse_args()
-    run_benchmark(output_dir=args.output_dir, allow_dirty=args.allow_dirty)
+    run_benchmark(output_dir=args.output_dir, allow_dirty=args.allow_dirty, dataset_dir=args.dataset_dir, variant=args.variant)

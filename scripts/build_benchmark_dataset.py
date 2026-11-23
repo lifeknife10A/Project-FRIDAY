@@ -979,6 +979,17 @@ def build_benchmark_suite(output_dir="assets/benchmark_dataset", use_spec_font=F
     with open(sha_path, "w") as f:
         f.write(f"{m_sha}  benchmark_manifest.json\n")
 
+    # Auditor Item G2: Generate per-image sha256 mapping
+    img_hashes = {}
+    for entry in manifest:
+        fn = entry["filename"]
+        img_p = os.path.join(img_dir, fn)
+        with open(img_p, "rb") as f:
+            img_hashes[fn] = hashlib.sha256(f.read()).hexdigest()
+    img_hashes_path = os.path.join(output_dir, "images_sha256.json")
+    with open(img_hashes_path, "w") as f:
+        json.dump(img_hashes, f, indent=2)
+
     avg_px = sum(logged_px_chars) / len(logged_px_chars)
     print(f"\n[✓] Benchmark Suite Successfully Compiled: {manifest_path}")
     print(f"    Manifest SHA256: {m_sha}")

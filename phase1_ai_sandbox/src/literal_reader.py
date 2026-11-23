@@ -140,6 +140,15 @@ SECONDARY_FIELD_INDICATORS = {
     "topic", "status", "setting", "classification", "class", "value"
 }
 
+# Auditor Item G1: Permitted value-line vocabulary for adjacent line association
+VALUE_LINE_VOCABULARY = {
+    "room", "suite", "gate", "floor", "level", "wing", "no", "number", "num",
+    "fl", "rm", "st", "dept", "unit", "units", "bldg", "building", "zone",
+    "mg", "dl", "g", "kg", "ml", "l", "oz", "lb", "lbs", "cm", "mm", "m", "km",
+    "hr", "hrs", "min", "sec", "pm", "am", "kwh", "kph", "mph", "usd", "eur", "gbp", "inr",
+    "mmol", "iu", "u", "mcg", "ug", "ng", "pg", "bpm", "mmhg", "pct"
+}
+
 SPLIT_PAT = re.compile(
     r"\band\b|\+|\bfor\b|\bshown on\b|\bposted on\b|\bscheduled on\b|\bindicated (?:at|on)\b|\baccording to\b|\bon this\b|\bwhere\b|\bwhen\b",
     re.I
@@ -493,6 +502,14 @@ def read_literal(ocr_lines: list, category: str, question: str) -> dict:
                     has_missing = bool(re.search(r"\b(?:no|do not|please|silent|quiet|prohibited)\b", low_j))
                 has_label_val = (":" in raw_j) or bool(re.search(r"\d", raw_j)) or ("-" in raw_j)
                 if has_missing and has_label_val:
+                    # Auditor Item G1: Ensure line j does NOT name another entity
+                    if "flight" in q_lower and "flight" in low_j:
+                        q_fl_m = re.search(r"\bflight\s+([a-z0-9\s]+?)(?:\s+(?:gate|status|departing|arriving|from|to)|\b|$)", q_lower)
+                        if q_fl_m:
+                            q_fl_id = clean_alphanumeric(q_fl_m.group(1))
+                            j_fl_m = re.search(r"\bflight\s+([a-z0-9\s]+?)(?:\s+(?:gate|status|departing|arriving|from|to)|\b|$)", low_j)
+                            if j_fl_m and clean_alphanumeric(j_fl_m.group(1)) != q_fl_id:
+                                continue
                     target_line_ids.append(j)
                     target_line_ids.sort()
                     break
@@ -529,8 +546,16 @@ def read_literal(ocr_lines: list, category: str, question: str) -> dict:
         if max_tid + 1 < len(ocr_lines):
             next_line = ocr_lines[max_tid + 1]
             raw_next = str(next_line.get("raw_text", "")).strip()
-            # If next line has digits or specific value identifier (e.g. Room 301, Suite 2B, Gate 4)
-            if re.search(r"\b\d+\b", raw_next) or re.search(r"\b(?:room|suite|gate|dept|no|fl)\b", raw_next.lower()):
+            # Auditor Item G1: only attach next line if it contains NO alphabetic content words other than
+            # a small value vocabulary (room, suite, gate, floor, level, wing, no, number, units like mg/dl, %, etc.)
+            # — i.e. it must not name another entity; otherwise refuse or leave incomplete.
+            words_next = re.findall(r"[a-z]+", raw_next.lower())
+            has_val_indicator = bool(re.search(r"\b\d+\b", raw_next) or any(w in VALUE_LINE_VOCABULARY for w in words_next))
+            is_pure_val = has_val_indicator and all(
+                w in VALUE_LINE_VOCABULARY or len(w) == 1 or w in {"is", "at", "in", "on", "of", "to"}
+                for w in words_next
+            )
+            if is_pure_val:
                 is_valid, _ = validate_line(next_line, max_tid + 1)
                 is_dirty, _ = is_dirty_value_token(raw_next)
                 if is_valid and not is_dirty:
@@ -701,7 +726,34 @@ def run_literal_reader_unit_tests():
     res13 = read_literal(lines13, "scene_text", "What are the conduct rules for this library floor?")
     assert "NO CELL PHONES" in res13["speech"], f"Probe 13 failed: {res13}"
 
-    print("[✓] ALL 13 BR1-BR5 & ROUND D/F LITERAL READER UNIT TESTS PASSED!")
+    # 14. Round G probe: Cross-entity value isolation (hemoglobin vs creatinine)
+    lines14 = [
+        make_line("HEMOGLOBIN", 10, 20),
+        make_line("CREATININE 1.2 MG/DL", 25, 35)
+    ]
+    res14 = read_literal(lines14, "document", "What is the hemoglobin value?")
+    assert "CREATININE" not in res14["speech"] and "1.2" not in res14["speech"], f"Probe 14 leaked other entity: {res14}"
+    assert res14["speech"] in (REFUSAL_TEXT, "HEMOGLOBIN."), f"Probe 14 unexpected output: {res14}"
+
+    # 15. Round G probe: Cross-entity room isolation (neurology vs cardiology)
+    lines15 = [
+        make_line("NEUROLOGY CLINIC", 10, 20),
+        make_line("CARDIOLOGY ROOM 408", 25, 35)
+    ]
+    res15 = read_literal(lines15, "signage_menu", "Which room is the Neurology Clinic?")
+    assert "CARDIOLOGY" not in res15["speech"] and "408" not in res15["speech"], f"Probe 15 leaked other entity: {res15}"
+    assert res15["speech"] in (REFUSAL_TEXT, "NEUROLOGY CLINIC."), f"Probe 15 unexpected output: {res15}"
+
+    # 16. Round G probe: Cross-entity flight/gate isolation (flight AI 102 vs flight BA 77)
+    lines16 = [
+        make_line("FLIGHT AI 102", 10, 20),
+        make_line("FLIGHT BA 77 GATE C4", 25, 35)
+    ]
+    res16 = read_literal(lines16, "signage_menu", "Which gate is flight AI 102 departing from?")
+    assert "BA 77" not in res16["speech"] and "GATE C4" not in res16["speech"], f"Probe 16 leaked other entity: {res16}"
+    assert res16["speech"] in (REFUSAL_TEXT, "FLIGHT AI 102."), f"Probe 16 unexpected output: {res16}"
+
+    print("[✓] ALL 16 BR1-BR5 & ROUND D/F/G LITERAL READER UNIT TESTS PASSED!")
 
 if __name__ == "__main__":
     run_literal_reader_unit_tests()
