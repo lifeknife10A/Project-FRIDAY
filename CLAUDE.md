@@ -95,6 +95,16 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed Round B `de0ac27` -> NO (close). Reader inputs = OCR lines + category + question only (no GT
+  leak); gate runner + evaluate_predictions now use score_response; emulator uses run_ocr+read_literal,
+  refuses on failure, decimal-safe TTS split. I REPRODUCED B5 exactly: 29 correct / 5 refusal / 6
+  incomplete / 0 wrong (medicine 10/10). BLOCKS: BR1 literal_reader "brew" rule is sign_01-specific;
+  without it sign_01 speaks "COLD EW.... B$4.75" -> wrong_spoken (0-wrong depends on it). Synthetic
+  probes: BR2 wrapped directions ("TAKE 1 TABLET BY MOUTH" / "EVERY OTHER DAY") -> frequency dropped;
+  BR3 "DO NOT TAKE WITH ALCOHOL" chosen over "TAKE 4 TABLETS ONCE WEEKLY" (methotrexate); BR4 two
+  strength lines -> first drug + other drug's directions. WATCHLIST: OCR glued tokens ("DAILY30",
+  "TO6", "TABLETONCE") need TTS-only spacing; price on separate offset box -> item without price.
+
 - Reviewed Round A fix `e6d7a16` -> YES, Round A ACCEPTED; proceed to Round B. Verified: all cells
   ast-parse (py3.13), regen = no diff, no \x08; cell 6 is now generated from the module and runs in
   isolation (python3 -I, empty dir, rapidocr stubbed): score_response/REFUSAL_TEXT defined, "O5 mg" ->
