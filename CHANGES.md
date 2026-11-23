@@ -124,5 +124,16 @@ All review items identified in the Auditor Review of Kaggle run `3d9e52d` are ma
 
 ---
 
-## 10. Proposed Deviations
-**None.** All changes adhere strictly and exclusively to the review items identified in the Auditor Review of Kaggle run `3d9e52d`. Note: OCR benchmark metrics are re-baselined with RapidOCR 3.10.0 per auditor directive H1.
+## 10. Auditor Review of `aaf4ff3` Resolution Mapping (Items J1 & DOCS)
+
+All review items identified in the Auditor Review of `aaf4ff3` are mapped below as **Fixed**:
+
+| ID | Category | Issue & Requirement | Status | Resolution & Evidence |
+| :--- | :---: | :--- | :---: | :--- |
+| **J1** | **BLOCK** | **Scoped pip check on Kaggle/Colab (Cell 1)**: `pip check` fails if ANY broken requirement is reported. On Kaggle's image (hundreds of preinstalled packages), downgrading transformers to 4.46.3 / hub to 0.36.x causes unrelated preinstalled packages to report broken requirements, crashing cell 1. Change check in Kaggle/Colab branch: parse output line by line, fail ONLY if the left-hand package is in `OUR_PACKAGES` (`transformers`, `accelerate`, `rapidocr`, `onnxruntime`, `qwen-vl-utils`, `datasets`, `pyarrow`, `numpy`, `torch`, `torchvision`, `tokenizers`, `huggingface-hub`, `safetensors` — lowercase, `-` and `_` interchangeable); print all other broken lines as `[WARN] unrelated preinstalled package: ...`. Keep strict full `pip check` in `scripts/execute_notebook_locally.py` for clean local venv. Add unit test in Cell 1. | **Fixed** | Implemented `parse_scoped_pip_check()` in `cell1_code` within `scripts/notebook_cells.json`. Defined `OUR_PACKAGES` set normalized with lowercase and underscore/hyphen interchangeability. Added scoped failure handling in Kaggle/Colab branch while printing non-Friday broken lines as `[WARN] unrelated preinstalled package: ...`. Kept strict full `pip check` for local environment. Added self-contained unit test inside Cell 1 testing both unrelated and Friday sample lines. Verified AST compilation and local execution. |
+| **DOCS** | **DOCUMENTATION** | **PP-OCRv6 documentation update**: `rapidocr==3.10.0` uses PP-OCRv6 default small det/rec models (`PP-OCRv6_det_small.onnx`, `PP-OCRv6_rec_small.onnx`), not v4. Update docs (`docs/plan.md`, `README.md`, `phase1_ai_sandbox/README.md`, `CHANGES.md`, and cell comments) to describe the OCR engine as "PP-OCRv6 (rapidocr 3.10.0 default small det/rec models)". Note that earlier OCR numbers used the old PP-OCRv4 engine and are not comparable. | **Fixed** | Updated all descriptions and references across `docs/plan.md`, `README.md`, `phase1_ai_sandbox/README.md`, `CHANGES.md`, `assets/benchmark_dataset/README.md`, `docs/hardware_bom.md`, and `scripts/notebook_cells.json` (Cell 0 and Cell 6) to specify PP-OCRv6 (rapidocr 3.10.0 default small det/rec models), noting that earlier OCR benchmark figures used the legacy PP-OCRv4 engine and are not comparable. |
+
+---
+
+## 11. Proposed Deviations
+**None.** All changes adhere strictly and exclusively to the review items J1 and DOCS identified in the Auditor Review of `aaf4ff3`. Note: OCR benchmark metrics are re-baselined with RapidOCR 3.10.0 (PP-OCRv6 small models) per auditor directive H1/DOCS. Under Protocol Step 7, Milestone 1.5 will only be claimed once the auditor reviews the final Kaggle run outputs.

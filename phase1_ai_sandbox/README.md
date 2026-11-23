@@ -104,6 +104,7 @@ pip check  # Verifies zero broken requirements
 # 3. Execute the local dry run runner
 # scripts/execute_notebook_locally.py strictly enforces Python 3.13.x
 # and verifies exact package version pins (transformers==4.46.3, accelerate==1.0.1, rapidocr==3.10.0, onnxruntime==1.32.0, etc.)
+# OCR engine uses PP-OCRv6 (rapidocr 3.10.0 default small det/rec models); earlier OCR numbers used the old PP-OCRv4 engine and are not comparable.
 DRY_RUN=1 python scripts/execute_notebook_locally.py
 ```
 

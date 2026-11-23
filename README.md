@@ -147,6 +147,7 @@ To inform our mechanical, thermal, and optomechanical architecture, we conducted
 | **Watchdog Coordination** | **$1.0\text{s}$ MCU WDT** | Hardware WDT forces MCU reset on hang, releasing `CD` to float HIGH to terminate charging. |
 | **Memory Bandwidth** | **5.77 GB/s (25 tok/s contract, 8.07 GB/s burst)** | Primary all-INT4 packed artifact ($230.61\text{ MB/token}$, $45.0\%$ headroom below $10.50\text{ GB/s}$ safe ceiling; fallback $6.39\text{--}8.95\text{ GB/s}$). |
 | **Visual Token Count** | **Strictly 144 tokens** | $2\times 2$ pixel-unshuffle downsampling reduces 576 patches to 144 tokens ($75\%$ sequence cut). |
+| **Literal OCR Pipeline** | **PP-OCRv6 (RapidOCR 3.10.0)** | PP-OCRv6 small det/rec models; earlier OCR benchmark numbers used the old PP-OCRv4 engine and are not comparable. |
 | **Thermal Contract** | **$t_{\text{cool}} \ge 100\text{s}$ at $28^\circ\text{C}$** | $4.0\text{g}$ PCM pad ($600\text{ J}$ latent buffer) absorbs $31.44\text{ J}$ burst. Skin contact $\le 37.5^\circ\text{C}$. |
 | **Zero-Waste Student Budget** | **₹9,795 INR (~$117 USD)** | Phase 1 runs at **₹0** on M4 Mac; single-shot procurement of final wearable hardware only (strictly under ₹10,000 cap). |
 

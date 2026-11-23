@@ -1,6 +1,6 @@
 # Project FRIDAY: Standardized 40-Sample Multimodal Benchmark Dataset
 
-This benchmark dataset establishes the empirical evaluation gate for Project FRIDAY's on-device wearable vision pipeline, testing both the **Literal OCR Path** (PP-OCRv4 / RapidOCR $\rightarrow$ Student LLM) and the **Vision Encoder Path** (SigLIP-384 $\rightarrow$ 2x2 Spatial Unshuffle $\rightarrow$ Student VLM).
+This benchmark dataset establishes the empirical evaluation gate for Project FRIDAY's on-device wearable vision pipeline, testing both the **Literal OCR Path** (PP-OCRv6 (rapidocr 3.10.0 default small det/rec models) / RapidOCR $\rightarrow$ Student LLM) and the **Vision Encoder Path** (SigLIP-384 $\rightarrow$ 2x2 Spatial Unshuffle $\rightarrow$ Student VLM).
 
 ---
 

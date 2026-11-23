@@ -80,7 +80,7 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
   * Lens focal length $f = 3.6\text{ mm}$, pixel pitch $p = 1.45\,\mu\text{m} = 0.00145\text{ mm}$.
   * At a nominal reading distance $D = 35.0\text{ cm} = 350.0\text{ mm}$ for 8pt printed font / prescription label ($h_{\text{char}} \approx 1.8\text{ mm}$):
     $$\text{Resolution} = \frac{h_{\text{char}} \cdot f}{D \cdot p} = \frac{1.8\text{ mm} \times 3.6\text{ mm}}{350\text{ mm} \times 0.00145\text{ mm}} = \frac{6.48}{0.5075} \approx \mathbf{12.8\text{ pixels/char}}.$$
-    This strictly exceeds the $\ge 10.0\text{ px/char}$ threshold required by PP-OCRv4 / DBNet text recognition.
+    This strictly exceeds the $\ge 10.0\text{ px/char}$ threshold required by PP-OCRv6 (rapidocr 3.10.0 default small det/rec models) / DBNet text recognition.
 * **40-Pin 0.5mm FPC MIPI-CSI Pinout Mapping (CAM-3576Q38 Interface):**
   The CAM-3576Q38 core module provides an onboard 40-pin 0.5mm pitch FPC receptacle (MIPI_CSI0, 4-lane):
   * Pins 1–4: GND, MIPI_CLK_P, MIPI_CLK_N, GND
