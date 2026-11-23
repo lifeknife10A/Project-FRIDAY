@@ -275,5 +275,50 @@ print("[✓] Standalone Cell 6 isolated execution passed 100% of checks!")
 
     print("[✓] Step 4 PASS: 100% parity verified between notebook functions and module functions.")
 
+    # 5. Auditor Item D2: Concatenate all code cells of the BUILT notebook (strip !/% lines) and run pyflakes
+    print("[*] Step 5: Validating cross-cell symbol definitions with pyflakes (Auditor Item D2)...")
+    all_code_lines = []
+    for cell in nb["cells"]:
+        if cell.get("cell_type") == "code":
+            raw_src = "".join(cell.get("source", []))
+            for line in raw_src.splitlines():
+                s = line.strip()
+                if not (s.startswith("!") or s.startswith("%")):
+                    all_code_lines.append(line)
+            all_code_lines.append("")
+
+    full_notebook_code = "\n".join(all_code_lines)
+    with tempfile.NamedTemporaryFile("w", suffix=".py", delete=False, encoding="utf-8") as f_py:
+        f_py.write(full_notebook_code)
+        temp_py_path = f_py.name
+
+    try:
+      pyflakes_res = subprocess.run(
+          [sys.executable, "-m", "pyflakes", temp_py_path],
+          capture_output=True,
+          text=True,
+      )
+      undefined_warnings = [
+          line
+          for line in pyflakes_res.stdout.splitlines()
+          if "undefined name" in line
+      ]
+      print(
+          "    pyflakes reported undefined names count:"
+          f" {len(undefined_warnings)}"
+      )
+      for w in undefined_warnings:
+        print(f"    --> {w}")
+      assert (
+          len(undefined_warnings) == 0
+      ), f"Auditor Item D2 Violation: {len(undefined_warnings)} undefined names detected across notebook cells!"
+      print(
+          "[✓] Step 5 PASS: Zero undefined names across all concatenated code"
+          " cells."
+      )
+    finally:
+      if os.path.exists(temp_py_path):
+        os.remove(temp_py_path)
+
 if __name__ == "__main__":
     run_parity_tests()
