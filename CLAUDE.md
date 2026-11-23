@@ -97,6 +97,13 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Krishna CLARIFIED (2026-11-24): IMX708 is NOT locked until an RK3576 kernel driver (+ ISP/AF path) is
+  confirmed — Krishna is checking; plan.md/Gate 1 paperwork waits until then (do not send G3/G4 camera
+  items yet). Camera carrier board omitted from BOM ON PURPOSE: Krishna will design a custom compact
+  carrier PCB from the RP reference schematic (to fit the frame); auditor to review that schematic/PCB
+  when ready. Agy is currently working on the Round F review prompt (G1 Rule A safety, G2 dataset
+  integrity, canonical = spec set).
+
 - Krishna LOCKED camera (03fc2e7, 2026-11-24): Raspberry Pi Camera Module 3 Sensor Assembly SA31VA30P
   (Sony IMX708, 4608x2592, 1.4 um, std lens f=4.74 mm F1.8, 75 deg diag / 66 H / 41 V, PDAF 10 cm-inf,
   0-50 C). = Krishna-approved plan deviation IMX415 -> IMX708; plan.md + cell 12 Gate 1 still IMX415.
