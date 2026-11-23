@@ -4,6 +4,7 @@
 *.onnx
 *.bin
 *.wav
+!phase1_ai_sandbox/eval_runs/**/*.wav
 assets/kokoro/
 assets/voice_samples/
 assets/kokoro_speech.wav

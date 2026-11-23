@@ -63,6 +63,29 @@ except ImportError:
     SOUNDDEVICE_AVAILABLE = False
 
 
+def unpack_w4a16_state_dict(packed_state: dict, target_model: torch.nn.Module) -> dict:
+    """
+    Auditor Item C4': Unpacks 4-bit packed weights from serialized INT4 binary
+    into dequantized floating-point weights for target model evaluation.
+    Each packed uint8 byte holds two 4-bit unsigned integers: high nibble then low nibble.
+    """
+    unpacked_state = {}
+    for name, param in target_model.named_parameters():
+        packed_key = f"{name}_packed"
+        if packed_key in packed_state:
+            packed = packed_state[packed_key]
+            scale = packed_state[f"{name}_scale"].float()
+            w_min = packed_state[f"{name}_min"].float()
+            high = (packed >> 4) & 0x0F
+            low = packed & 0x0F
+            unpacked_q = torch.stack([high, low], dim=-1).reshape(-1)
+            unpacked_q = unpacked_q[:param.numel()].reshape(param.shape).float()
+            unpacked_state[name] = (unpacked_q * scale + w_min).to(param.dtype)
+        elif name in packed_state:
+            unpacked_state[name] = packed_state[name].to(param.dtype)
+    return unpacked_state
+
+
 class FridayLiveWearableEmulator:
     """
     Live Hardware-in-the-Loop Wearable Emulator for Project FRIDAY.
@@ -97,9 +120,15 @@ class FridayLiveWearableEmulator:
             if os.path.exists(ckpt_p):
                 try:
                     state = torch.load(ckpt_p, map_location=self.device)
-                    # Auditor Item C4: Strict key and shape checks (no silent strict=False)
-                    if isinstance(state, dict) and "student_state_dict" in state:
-                        self.student_vlm.load_state_dict(state["student_state_dict"], strict=True)
+                    # Auditor Item C4 & C4': Strict key and shape checks (no silent strict=False)
+                    if isinstance(state, dict):
+                        if any(k.endswith("_packed") for k in state.keys()):
+                            unpacked = unpack_w4a16_state_dict(state, self.student_vlm)
+                            self.student_vlm.load_state_dict(unpacked, strict=True)
+                        elif "student_state_dict" in state:
+                            self.student_vlm.load_state_dict(state["student_state_dict"], strict=True)
+                        else:
+                            self.student_vlm.load_state_dict(state, strict=True)
                     else:
                         self.student_vlm.load_state_dict(state, strict=True)
                     self.trained_checkpoint_loaded = True

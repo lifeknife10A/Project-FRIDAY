@@ -149,7 +149,7 @@ def get_ocr_engine():
     global _ocr_engine
     if _ocr_engine is None:
         from rapidocr import RapidOCR
-        _ocr_engine = RapidOCR()
+        _ocr_engine = RapidOCR(params={"Det.unclip_ratio": 1.8})
     return _ocr_engine
 
 class OCRLine(dict):
@@ -475,16 +475,28 @@ def score_response(resp: str, item_or_required_fields, ground_truth_text: str, i
                     return True
         return False
 
-    for w in resp_words:
-        if w in FREQUENCY_NEGATION_WORDS:
-            if w not in gt_words and not is_word_or_compound_supported(w):
+    i = 0
+    while i < len(resp_words):
+        w = resp_words[i]
+        if is_word_or_compound_supported(w):
+            if w in FREQUENCY_NEGATION_WORDS and w not in gt_words:
                 return "wrong_spoken"
-        if not is_word_or_compound_supported(w):
-            if is_strict_cat:
-                return "wrong_spoken"
-            else:
-                if w in FREQUENCY_NEGATION_WORDS:
+            i += 1
+            continue
+        # Symmetric check: OCR split-word join (e.g. 'direc' + 'ted' -> 'directed')
+        if i + 1 < len(resp_words):
+            joined = w + resp_words[i+1]
+            if is_word_or_compound_supported(joined):
+                if joined in FREQUENCY_NEGATION_WORDS and joined not in gt_words:
                     return "wrong_spoken"
+                i += 2
+                continue
+        if is_strict_cat:
+            return "wrong_spoken"
+        else:
+            if w in FREQUENCY_NEGATION_WORDS:
+                return "wrong_spoken"
+        i += 1
 
     # 5. Check all required fields present
     for k, val in req_fields.items():

@@ -33,7 +33,7 @@ WARNING_START = re.compile(
 
 # BR2: Stop prefix for following directions lines (new fields or warnings)
 STOP_FIELD_PREFIXES = re.compile(
-    r"^\s*(qty|quantity|refill|exp|date|discard|rx|dr\.?|prescriber|patient|pharmacy|store|call|m[rs]\.?|warning|caution|keep|avoid|do\s+not|don'?t|never|for\s+external|may\s+cause)\b",
+    r"^\s*(qty|quantity|refill|exp|date|discard|rx|dr\.?|prescriber|patient|pharmacy|store|call|m[rs]\.?|wa\b|war\b|warn\b|warning|caution|keep|avoid|do\s+not|don'?t|never|for\s+external|may\s+cause)\b",
     re.IGNORECASE
 )
 
@@ -109,6 +109,41 @@ def boxes_y_overlap(box1: list, box2: list, threshold: float = 0.5) -> bool:
     h1 = max(1.0, y1_max - y1_min)
     h2 = max(1.0, y2_max - y2_min)
     return (inter / min(h1, h2)) >= threshold
+
+def is_same_row(box1: list, box2: list) -> bool:
+    """
+    Checks if box2 is in the same row as box1 (with potential vertical offset).
+    Handles typography baseline offset, camera perspective, and separate bounding boxes.
+    """
+    if not box1 or not box2:
+        return False
+    try:
+        y1_min = min(pt[1] for pt in box1)
+        y1_max = max(pt[1] for pt in box1)
+        y2_min = min(pt[1] for pt in box2)
+        y2_max = max(pt[1] for pt in box2)
+        h1 = max(1.0, y1_max - y1_min)
+        h2 = max(1.0, y2_max - y2_min)
+        mid1 = (y1_min + y1_max) / 2.0
+        mid2 = (y2_min + y2_max) / 2.0
+        inter = max(0.0, min(y1_max, y2_max) - max(y1_min, y2_min))
+        overlap = inter / min(h1, h2)
+        center_dist = abs(mid1 - mid2)
+        return (overlap >= 0.20) or (center_dist <= max(h1, h2) * 0.75 and center_dist <= 30.0)
+    except Exception:
+        return False
+
+SECONDARY_FIELD_INDICATORS = {
+    "password", "wifi", "network", "hours", "time", "arrival", "arriving",
+    "gate", "flight", "route", "destination", "location", "located",
+    "floor", "floors", "elevator", "elevators", "rule", "rules", "conduct",
+    "topic", "status", "setting", "classification", "class", "depth", "value"
+}
+
+SPLIT_PAT = re.compile(
+    r"\band\b|\+|\bfor\b|\bshown on\b|\bposted on\b|\bscheduled on\b|\bindicated (?:at|on)\b|\baccording to\b|\bon this\b|\bwhere\b|\bwhen\b",
+    re.I
+)
 
 def validate_line(line: dict, line_id: int) -> tuple[bool, str | None]:
     """
@@ -301,104 +336,101 @@ def read_literal(ocr_lines: list, category: str, question: str) -> dict:
         }
 
     # -------------------------------------------------------------
-    # 2. PRICE / MENU / SIGNAGE / DOCUMENT / SCENE_TEXT
+    # 2. GENERAL / MENU / SIGNAGE / DOCUMENT / SCENE_TEXT
     # -------------------------------------------------------------
-    # Parse question clauses for compound questions (e.g. "X and Y")
-    clauses = re.split(r"\band\b|\+", q_lower)
+    clauses = [p.strip() for p in SPLIT_PAT.split(q_lower) if p.strip()]
+    if not clauses:
+        clauses = [q_lower]
     target_line_ids = []
 
     for clause in clauses:
         c_words = [w for w in re.findall(r"[a-z0-9]+", clause) if w not in STOPWORDS and len(w) >= 2]
         if not c_words:
             continue
-
-        is_price_clause = any(w in c_words for w in ["price", "cost", "how", "much", "rate", "total", "charged", "fee", "amount", "due", "check"])
-        scored_lines = []
-
-        # Extract queried entity content words for this clause (BR1)
+        is_price_clause = any(w in c_words for w in ["price", "cost", "how", "much", "rate", "total", "charged", "fee", "amount", "due", "check", "pay", "payable"])
         entity_content_words = [w for w in c_words if w not in GENERIC_FIELD_WORDS]
 
+        # If a clause has NO entity content words (only generic words like "sign", "menu", "counter", "window", "cabinet"), skip it
+        if not entity_content_words and not is_price_clause:
+            continue
+
+        scored_lines = []
         for i, line in enumerate(ocr_lines):
             t_raw = str(line.get("raw_text", ""))
             t_low = t_raw.lower()
             line_tokens = set(re.findall(r"[a-z0-9]+", t_low))
-
-            # BR1: Token match for short words (<=2 chars so 'ai', 'on' don't match inside other words)
             matches = 0
             for w in c_words:
                 if len(w) <= 2:
                     if w in line_tokens:
                         matches += 1
                 else:
-                    if (w in line_tokens) or (w in t_low):
+                    if (w in line_tokens) or (w in t_low) or any((t.startswith(w) or w.startswith(t)) and len(min(w, t, key=len)) >= 3 for t in line_tokens):
                         matches += 1
-
             if matches == 0:
                 continue
-
             has_price = bool(re.search(r"[\$£€¥₹]\s*\d+|\d+\s*[\$£€¥₹]|\busd\b", t_low))
             has_label_val = (":" in t_raw) or ("-" in t_raw and any(c.isdigit() for c in t_raw))
-
+            has_sec = any(sw in t_low for sw in SECONDARY_FIELD_INDICATORS if sw in c_words)
             score = matches * 2
             if is_price_clause and has_price:
                 score += 3
             if has_label_val:
                 score += 2
-
-            scored_lines.append((score, i, line))
+            if has_sec:
+                score += 2
+            scored_lines.append((score, matches, i, line))
 
         if not scored_lines:
-            # If this clause had entity content words that found no matches, refuse (BR5: menu with item missing)
-            if entity_content_words:
-                return {
-                    "speech": REFUSAL_TEXT,
-                    "source_line_ids": [],
-                    "refusal_reason": f"Queried entity words {entity_content_words} not found on menu/sign"
-                }
+            if is_price_clause and entity_content_words:
+                return {"speech": REFUSAL_TEXT, "source_line_ids": [], "refusal_reason": f"Queried entity words {entity_content_words} not found on menu/sign"}
             continue
 
-        scored_lines.sort(key=lambda x: x[0], reverse=True)
-        top_score, top_idx, top_line = scored_lines[0]
-
-        # BR1 (a) Entity coverage:
-        # If the clause queried a specific entity, verify that every entity content word is present in candidate line
+        # Sort primarily by score, secondarily by number of distinct matched query words
+        scored_lines.sort(key=lambda x: (x[0], x[1]), reverse=True)
+        top_score, top_matches, top_idx, top_line = scored_lines[0]
         if is_price_clause and entity_content_words:
             top_tokens = set(re.findall(r"[a-z0-9]+", top_line.get("raw_text", "").lower()))
             top_raw_low = top_line.get("raw_text", "").lower()
             for ew in entity_content_words:
-                if len(ew) <= 2:
-                    matched = ew in top_tokens
-                else:
-                    matched = (ew in top_tokens) or (ew in top_raw_low)
+                matched = (ew in top_tokens) if len(ew) <= 2 else ((ew in top_tokens) or (ew in top_raw_low))
                 if not matched:
-                    return {
-                        "speech": REFUSAL_TEXT,
-                        "source_line_ids": [top_idx],
-                        "refusal_reason": f"Entity content word '{ew}' missing or corrupted in candidate line"
-                    }
+                    return {"speech": REFUSAL_TEXT, "source_line_ids": [top_idx], "refusal_reason": f"Entity content word '{ew}' missing or corrupted in candidate line"}
 
-        # Uniqueness check for tied top score
-        if len(scored_lines) > 1 and scored_lines[1][0] == top_score:
+        if len(scored_lines) > 1 and scored_lines[1][0] == top_score and scored_lines[1][1] == top_matches:
             b1 = top_line.get("box", [])
-            b2 = scored_lines[1][2].get("box", [])
-            if b1 and b2 and boxes_y_overlap(b1, b2):
-                # Same row!
-                idx2 = scored_lines[1][1]
+            b2 = scored_lines[1][3].get("box", [])
+            if b1 and b2 and is_same_row(b1, b2):
+                idx2 = scored_lines[1][2]
                 if top_idx not in target_line_ids:
                     target_line_ids.append(top_idx)
                 if idx2 not in target_line_ids:
                     target_line_ids.append(idx2)
             else:
-                return {
-                    "speech": REFUSAL_TEXT,
-                    "source_line_ids": [top_idx, scored_lines[1][1]],
-                    "refusal_reason": "Candidate query match is not unique"
-                }
+                l1_tokens = set(re.findall(r"[a-z0-9]+", top_line.get("raw_text", "").lower()))
+                l2_tokens = set(re.findall(r"[a-z0-9]+", scored_lines[1][3].get("raw_text", "").lower()))
+                words_l1 = {w for w in c_words if w in l1_tokens}
+                words_l2 = {w for w in c_words if w in l2_tokens}
+                if words_l1 and words_l2 and len(words_l1 & words_l2) == 0:
+                    if top_idx not in target_line_ids:
+                        target_line_ids.append(top_idx)
+                    if scored_lines[1][2] not in target_line_ids:
+                        target_line_ids.append(scored_lines[1][2])
+                else:
+                    l1_has_val = (":" in top_line.get("raw_text", "")) or bool(re.search(r"\d", top_line.get("raw_text", "")))
+                    l2_has_val = (":" in scored_lines[1][3].get("raw_text", "")) or bool(re.search(r"\d", scored_lines[1][3].get("raw_text", "")))
+                    if l1_has_val and not l2_has_val:
+                        if top_idx not in target_line_ids:
+                            target_line_ids.append(top_idx)
+                    elif l2_has_val and not l1_has_val:
+                        if scored_lines[1][2] not in target_line_ids:
+                            target_line_ids.append(scored_lines[1][2])
+                    else:
+                        return {"speech": REFUSAL_TEXT, "source_line_ids": [top_idx, scored_lines[1][2]], "refusal_reason": "Candidate query match is not unique"}
         else:
             if top_idx not in target_line_ids:
                 target_line_ids.append(top_idx)
 
-    # If no target lines found from clauses, fallback to full question match
     if not target_line_ids:
         q_words = [w for w in re.findall(r"[a-z0-9]+", q_lower) if w not in STOPWORDS and len(w) >= 2]
         scored_lines = []
@@ -406,12 +438,7 @@ def read_literal(ocr_lines: list, category: str, question: str) -> dict:
             t_raw = str(line.get("raw_text", ""))
             t_low = t_raw.lower()
             line_tokens = set(re.findall(r"[a-z0-9]+", t_low))
-            matches = 0
-            for w in q_words:
-                if w in line_tokens:
-                    matches += 1
-                elif len(w) >= 3 and any(t.startswith(w) or t.endswith(w) for t in line_tokens):
-                    matches += 1
+            matches = sum(1 for w in q_words if (w in line_tokens) or (len(w) >= 3 and any(t.startswith(w) or t.endswith(w) for t in line_tokens)))
             if matches > 0:
                 scored_lines.append((matches, i, line))
         if scored_lines:
@@ -419,59 +446,84 @@ def read_literal(ocr_lines: list, category: str, question: str) -> dict:
             target_line_ids.append(scored_lines[0][1])
 
     if not target_line_ids:
-        return {
-            "speech": REFUSAL_TEXT,
-            "source_line_ids": [],
-            "refusal_reason": "No relevant OCR line matching query found"
-        }
+        return {"speech": REFUSAL_TEXT, "source_line_ids": [], "refusal_reason": "No relevant OCR line matching query found"}
 
-    # Sort in vertical reading order
     target_line_ids = sorted(list(set(target_line_ids)))
 
-    # Check for same-row price box if price query but selected line lacks price
-    is_price_q = any(w in q_lower for w in ["price", "cost", "how much", "rate", "total", "charged", "fee", "amount", "due"])
-    if is_price_q and len(target_line_ids) == 1:
-        first_line = ocr_lines[target_line_ids[0]]
-        if not re.search(r"[\$£€¥₹]\s*\d+|\d+\s*[\$£€¥₹]", first_line.get("raw_text", "")):
-            b1 = first_line.get("box", [])
-            for j, o_line in enumerate(ocr_lines):
-                if j != target_line_ids[0]:
-                    b2 = o_line.get("box", [])
-                    if b1 and b2 and boxes_y_overlap(b1, b2) and re.search(r"[\$£€¥₹]\s*\d+|\d+\s*[\$£€¥₹]", o_line.get("raw_text", "")):
-                        target_line_ids.append(j)
-                        target_line_ids.sort()
-                        break
+    # Rule 1: Associate row-aligned price box on same row (with potential vertical offset)
+    is_price_q = any(w in q_lower for w in ["price", "cost", "how much", "rate", "total", "charged", "fee", "amount", "due", "pay", "payable"])
+    if is_price_q:
+        current_has_price = any(bool(re.search(r"[\$£€¥₹]\s*\d+|\d+\s*[\$£€¥₹]|\b\d+\.\d{2}\b", str(ocr_lines[k].get("raw_text", "")))) for k in target_line_ids)
+        if not current_has_price:
+            for tid in list(target_line_ids):
+                b_item = ocr_lines[tid].get("box", [])
+                candidates = []
+                for j, o_line in enumerate(ocr_lines):
+                    if j in target_line_ids:
+                        continue
+                    raw_j = str(o_line.get("raw_text", ""))
+                    if not re.search(r"[\$£€¥₹]\s*\d+|\d+\s*[\$£€¥₹]|\b\d+\.\d{2}\b", raw_j):
+                        continue
+                    b_j = o_line.get("box", [])
+                    if b_item and b_j and is_same_row(b_item, b_j):
+                        x_item_max = max(pt[0] for pt in b_item)
+                        x_j_min = min(pt[0] for pt in b_j)
+                        dist = abs(x_j_min - x_item_max)
+                        candidates.append((dist, j))
+                if candidates:
+                    candidates.sort(key=lambda x: x[0])
+                    target_line_ids.append(candidates[0][1])
+                    target_line_ids.sort()
+                    break
 
-    # Validate each selected line
+    # Rule 2: Multi-field secondary key field extraction (e.g. gate + time, status, wifi password, hours)
+    q_sec_words = [sw for sw in SECONDARY_FIELD_INDICATORS if sw in q_lower]
+    if q_sec_words:
+        selected_texts = " ".join([str(ocr_lines[k].get("raw_text", "")).lower() for k in target_line_ids])
+        missing_sec = [sw for sw in q_sec_words if sw not in selected_texts]
+        if missing_sec:
+            for j, o_line in enumerate(ocr_lines):
+                if j in target_line_ids:
+                    continue
+                raw_j = str(o_line.get("raw_text", ""))
+                low_j = raw_j.lower()
+                has_missing = any(sw in low_j for sw in missing_sec)
+                has_label_val = (":" in raw_j) or bool(re.search(r"\d", raw_j)) or ("-" in raw_j)
+                if has_missing and has_label_val:
+                    target_line_ids.append(j)
+                    target_line_ids.sort()
+                    break
+
     for l_idx in target_line_ids:
         is_valid, reason = validate_line(ocr_lines[l_idx], l_idx)
         if not is_valid:
-            return {
-                "speech": REFUSAL_TEXT,
-                "source_line_ids": target_line_ids,
-                "refusal_reason": reason
-            }
-        # BR1 (b) Clean value token check
+            return {"speech": REFUSAL_TEXT, "source_line_ids": target_line_ids, "refusal_reason": reason}
         raw_t = str(ocr_lines[l_idx].get("raw_text", ""))
         is_dirty, dirty_reason = is_dirty_value_token(raw_t)
         if is_dirty:
-            return {
-                "speech": REFUSAL_TEXT,
-                "source_line_ids": target_line_ids,
-                "refusal_reason": dirty_reason
-            }
+            return {"speech": REFUSAL_TEXT, "source_line_ids": target_line_ids, "refusal_reason": dirty_reason}
 
-    # Speak lines verbatim joined with period
     spoken_parts = [str(ocr_lines[k].get("raw_text", "")).strip().rstrip(".") for k in target_line_ids]
     speech = ". ".join(spoken_parts)
     if speech and not speech.endswith("."):
         speech += "."
 
-    return {
-        "speech": speech,
-        "source_line_ids": target_line_ids,
-        "refusal_reason": None
-    }
+    # Rule 3: VizWiz V1 Refusals
+    # 3a. For price questions, refuse if no numeric price token is spoken
+    if is_price_q:
+        has_numeric_price = bool(re.search(r"[\$£€¥₹]\s*\d+|\d+\s*[\$£€¥₹]|\b\d+\.\d{2}\b", speech))
+        if not has_numeric_price:
+            return {"speech": REFUSAL_TEXT, "source_line_ids": target_line_ids, "refusal_reason": "Price requested but no price token found in selected text (VizWiz V1)"}
+
+    # 3b. Refuse when selected line adds no tokens beyond question words (VizWiz V1 echo refusal)
+    q_tokens = set(re.findall(r"[a-z0-9]+", q_lower))
+    s_tokens = set(re.findall(r"[a-z0-9]+", speech.lower()))
+    carrier_words = STOPWORDS | GENERIC_FIELD_WORDS | {"the", "a", "an", "is", "are", "on", "in", "at", "to", "for", "of", "and", "or", "what", "which", "when", "where", "how", "this", "that", "storage", "room", "center"}
+    informative_tokens = {t for t in s_tokens if t not in q_tokens and t not in carrier_words}
+    if len(informative_tokens) == 0:
+        return {"speech": REFUSAL_TEXT, "source_line_ids": target_line_ids, "refusal_reason": "Selected line adds no tokens beyond question words (VizWiz V1 echo refusal)"}
+
+    return {"speech": speech, "source_line_ids": target_line_ids, "refusal_reason": None}
 
 
 def run_literal_reader_unit_tests():
@@ -565,7 +617,48 @@ def run_literal_reader_unit_tests():
     res7 = read_literal(lines7, "signage_menu", "What is the price of Cold Brew on this menu?")
     assert res7["speech"] == REFUSAL_TEXT, f"Probe 7 failed: {res7}"
 
-    print("[✓] ALL 7 BR1-BR5 LITERAL READER UNIT TESTS PASSED!")
+    # 8. Round D probe: Price in separate vertically offset box on same row (y-overlap or row alignment)
+    def make_boxed_line(text: str, y0: float, y1: float, x0: float, x1: float, conf: float = 0.95):
+        return OCRLine(
+            raw_text=text,
+            normalized_text=text,
+            normalization_changed=False,
+            box=[[x0, y0], [x1, y0], [x1, y1], [x0, y1]],
+            confidence=conf,
+            reading_order=0
+        )
+    lines8 = [
+        make_boxed_line("COLD BREW", y0=100, y1=120, x0=40, x1=120),
+        make_boxed_line("$4.75", y0=108, y1=128, x0=180, x1=230)
+    ]
+    res8 = read_literal(lines8, "signage_menu", "What is the price of Cold Brew on this menu?")
+    assert "$4.75" in res8["speech"] and "COLD BREW" in res8["speech"], f"Probe 8 failed: {res8}"
+
+    # 9. Round D probe: Multi-field scene/sign answers (secondary key field extraction)
+    lines9 = [
+        make_line("GATE B24-ON TIME", 50, 70),
+        make_line("FLIGHT AI 102 -> LONDON HEATHROW", 80, 100)
+    ]
+    res9 = read_literal(lines9, "signage_menu", "What is the departure gate and flight number?")
+    assert "GATE B24" in res9["speech"] and "FLIGHT AI 102" in res9["speech"], f"Probe 9 failed: {res9}"
+
+    # 10. Round D probe: VizWiz V1 echo refusal (selected line adds no tokens beyond question words)
+    lines10 = [
+        make_line("NO PARKING", 50, 70)
+    ]
+    res10 = read_literal(lines10, "scene_text", "Does this sign say no parking?")
+    assert res10["speech"] == REFUSAL_TEXT, f"Probe 10 failed: {res10}"
+    assert "VizWiz V1" in (res10["refusal_reason"] or ""), f"Probe 10 unexpected reason: {res10}"
+
+    # 11. Round D probe: VizWiz V1 price question without price token
+    lines11 = [
+        make_line("COLD BREW", 50, 70)
+    ]
+    res11 = read_literal(lines11, "signage_menu", "What is the price of Cold Brew?")
+    assert res11["speech"] == REFUSAL_TEXT, f"Probe 11 failed: {res11}"
+    assert "price" in (res11["refusal_reason"] or "").lower(), f"Probe 11 unexpected reason: {res11}"
+
+    print("[✓] ALL 11 BR1-BR5 & ROUND D LITERAL READER UNIT TESTS PASSED!")
 
 if __name__ == "__main__":
     run_literal_reader_unit_tests()
