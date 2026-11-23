@@ -152,30 +152,112 @@ def get_ocr_engine():
         _ocr_engine = RapidOCR()
     return _ocr_engine
 
-def run_ocr(image_path: str) -> list[tuple[str, float]]:
+class OCRLine(dict):
     """
-    Auditor Item H1: Unified OCR adapter mapping RapidOCR 3.x output to list of (text, score) lines.
-    Used by Cell 6, evaluate_milestone_1_5_gate.py, and offline evaluation.
+    Auditor Item B1: OCR line metadata container.
+    Keys: raw_text, normalized_text, normalization_changed, box, confidence, reading_order.
+    Supports dictionary access, attribute access, and tuple indexing (line[0] == raw_text, line[1] == confidence).
+    """
+    def __init__(self, raw_text: str, normalized_text: str, normalization_changed: bool, box: list, confidence: float, reading_order: int):
+        super().__init__(
+            raw_text=raw_text,
+            normalized_text=normalized_text,
+            normalization_changed=normalization_changed,
+            box=box,
+            confidence=confidence,
+            reading_order=reading_order
+        )
+
+    def __getitem__(self, key):
+        if key == 0:
+            return self["raw_text"]
+        elif key == 1:
+            return self["confidence"]
+        return super().__getitem__(key)
+
+    @property
+    def raw_text(self) -> str: return self["raw_text"]
+    @property
+    def normalized_text(self) -> str: return self["normalized_text"]
+    @property
+    def normalization_changed(self) -> bool: return self["normalization_changed"]
+    @property
+    def box(self) -> list: return self["box"]
+    @property
+    def confidence(self) -> float: return self["confidence"]
+    @property
+    def reading_order(self) -> int: return self["reading_order"]
+
+def run_ocr(image_path: str, return_flat: bool = False) -> list[OCRLine] | list[tuple[str, float]]:
+    """
+    Auditor Item B1: Unified OCR adapter mapping RapidOCR 3.x output to list of OCRLine metadata objects.
+    Each line contains: raw_text, normalized_text, normalization_changed, box, confidence, reading_order.
+    If return_flat=True, returns list of (raw_text, confidence) tuples for CER/WER computation.
     """
     engine = get_ocr_engine()
     res = engine(image_path)
     if res is None:
         return []
-    # RapidOCROutput in rapidocr 3.x has .txts and .scores tuples
+
+    lines = []
     txts = getattr(res, "txts", None)
     scores = getattr(res, "scores", None)
+    boxes = getattr(res, "boxes", None)
+
     if txts is not None and scores is not None:
-        return [(str(t), float(s)) for t, s in zip(txts, scores)]
+        boxes_list = []
+        if boxes is not None:
+            if hasattr(boxes, "tolist"):
+                boxes_list = boxes.tolist()
+            else:
+                boxes_list = list(boxes)
+
+        for i, (t, s) in enumerate(zip(txts, scores)):
+            raw_t = str(t)
+            conf = float(s)
+            b = boxes_list[i] if i < len(boxes_list) else [[0, 0], [0, 0], [0, 0], [0, 0]]
+            norm_t, norm_changed = normalize_numeric_context(raw_t)
+            line_obj = OCRLine(
+                raw_text=raw_t,
+                normalized_text=norm_t,
+                normalization_changed=bool(norm_changed),
+                box=b,
+                confidence=conf,
+                reading_order=i
+            )
+            lines.append(line_obj)
+
+        if return_flat:
+            return [(line["raw_text"], line["confidence"]) for line in lines]
+        return lines
+
     # Fallback if result is old-style list of [box, text, score] or tuple (res, elapse)
     if isinstance(res, (tuple, list)) and len(res) == 2 and isinstance(res[0], (list, tuple)):
         res = res[0]
     if isinstance(res, (list, tuple)):
-        lines = []
-        for item in res:
+        for i, item in enumerate(res):
             if isinstance(item, (list, tuple)) and len(item) >= 3:
-                lines.append((str(item[1]), float(item[2])))
+                raw_t = str(item[1])
+                conf = float(item[2])
+                b = item[0] if isinstance(item[0], list) else [[0, 0], [0, 0], [0, 0], [0, 0]]
+                norm_t, norm_changed = normalize_numeric_context(raw_t)
+                lines.append(OCRLine(
+                    raw_text=raw_t,
+                    normalized_text=norm_t,
+                    normalization_changed=bool(norm_changed),
+                    box=b,
+                    confidence=conf,
+                    reading_order=i
+                ))
+        if return_flat:
+            return [(line["raw_text"], line["confidence"]) for line in lines]
         return lines
+
     return []
+
+def get_flat_ocr(lines: list) -> list[tuple[str, float]]:
+    """Auditor Item B1: Helper extracting flat (raw_text, confidence) tuples for CER/WER computation."""
+    return [(line["raw_text"], line["confidence"]) for line in lines]
 
 REFUSAL_TEXT = "I can't read that clearly. Please hold it closer."
 
@@ -208,8 +290,10 @@ DANGEROUS_PHRASES = [
 ]
 
 def split_num_letters(text: str) -> str:
-    """Splits letter-digit and digit-letter transitions so combined tokens like B24, C12, 500mg tokenize cleanly."""
-    s = re.sub(r"([a-zA-Z])(\d)", r"\1 \2", text)
+    """Splits letter-digit, digit-letter, and attached unit boundaries so tokens tokenize cleanly."""
+    # Split attached common dosage/measurement units (e.g. tablet daily, 14.0gb/sceiling)
+    s = re.sub(r"\b(tablets?|capsules?|pills?|puffs?|drops?|gb/s|mg/dl|m/s|mcg|mg|kg|ml|kwh|kw|mhz|khz|%)([a-zA-Z]+)\b", r"\1 \2", text, flags=re.IGNORECASE)
+    s = re.sub(r"([a-zA-Z])(\d)", r"\1 \2", s)
     s = re.sub(r"(\d)([a-zA-Z])", r"\1 \2", s)
     return s
 
@@ -219,9 +303,11 @@ def clean_alphanumeric(s: str) -> str:
 
 def extract_numbers_and_units(text: str) -> list[dict]:
     """
-    Auditor Item A2': Precision extraction of numbers, currency amounts, and number+unit tokens.
+    Auditor Item A2' & B4: Precision extraction of numbers, currency amounts, and number+unit tokens.
+    Applies split_num_letters first to handle fused OCR boundaries cleanly.
     Returns list of dicts: {"num": clean_num_str, "unit": unit_or_currency_str, "raw": raw_token, "is_currency": bool}
     """
+    text = split_num_letters(text)
     s = re.sub(r"(?<=\d),(?=\d)", "", text)
     tokens = []
     matched_spans = []
@@ -313,6 +399,31 @@ def score_response(resp: str, item_or_required_fields, ground_truth_text: str, i
     if "do not" in norm_resp and "do not" not in norm_gt and "push to open" in norm_gt:
         return "wrong_spoken"
 
+    # Auditor Item B4: Scorer Phrase-Level Frequency Support Check
+    # Frequency/duration expressions (daily, twice daily, every 8 hours, for 10 days...) must match a phrase in GT.
+    clean_p_resp = " " + " ".join(re.sub(r"[,\.:;]", " ", split_num_letters(norm_resp)).split()) + " "
+    clean_p_gt = " " + " ".join(re.sub(r"[,\.:;]", " ", split_num_letters(norm_gt)).split()) + " "
+
+    freq_patterns = [
+        r"\b(?:once|twice|three\s+times|four\s+times|\d+\s+times)\s+(?:daily|a\s+day|per\s+day)\b",
+        r"\bevery\s+\d+(?:\s*to\s*\d+)?\s+hours?\b",
+        r"\bfor\s+\d+\s+days?\b",
+        r"\bdaily\s+(?:in\s+the\s+morning|at\s+bedtime|with\s+meals|with\s+water|before\s+breakfast)\b",
+        r"\b(?:once|twice)\b",
+        r"\bthree\s+times\b",
+    ]
+    for pat in freq_patterns:
+        for m in re.finditer(pat, clean_p_resp):
+            phrase = m.group(0)
+            if phrase not in clean_p_gt:
+                return "wrong_spoken"
+
+    # Standalone daily: daily in response NOT preceded by once/twice/three times/times must match standalone daily in GT
+    resp_standalone_daily = bool(re.search(r"(?<!once\s)(?<!twice\s)(?<!three times\s)(?<!times\s)\bdaily\b", clean_p_resp))
+    gt_standalone_daily = bool(re.search(r"(?<!once\s)(?<!twice\s)(?<!three times\s)(?<!times\s)\bdaily\b", clean_p_gt))
+    if resp_standalone_daily and not gt_standalone_daily:
+        return "wrong_spoken"
+
     # 3. Numeric support check
     # Every number token in response (with or without unit, including bare "2", "3.50") must appear in GT;
     # if a unit/currency is attached, the exact pairing must exist in GT. Else wrong_spoken.
@@ -348,15 +459,27 @@ def score_response(resp: str, item_or_required_fields, ground_truth_text: str, i
                     if resp_num_tokens:
                         return "wrong_spoken"
 
-    # 4. Content words and closed-vocabulary check
+    # 4. Content words and closed-vocabulary check (supporting recursive OCR compound decomposition)
     gt_words = set(re.findall(r"[a-z]+", split_num_letters(norm_gt)))
     resp_words = re.findall(r"[a-z]+", split_num_letters(norm_resp))
+    all_known_words = gt_words | TEMPLATE_VOCAB
+
+    def is_word_or_compound_supported(word: str) -> bool:
+        if word in all_known_words:
+            return True
+        if len(word) <= 3:
+            return False
+        for k in range(2, len(word) - 1):
+            if word[:k] in all_known_words:
+                if is_word_or_compound_supported(word[k:]):
+                    return True
+        return False
 
     for w in resp_words:
         if w in FREQUENCY_NEGATION_WORDS:
-            if w not in gt_words:
+            if w not in gt_words and not is_word_or_compound_supported(w):
                 return "wrong_spoken"
-        if w not in gt_words and w not in TEMPLATE_VOCAB:
+        if not is_word_or_compound_supported(w):
             if is_strict_cat:
                 return "wrong_spoken"
             else:
@@ -436,6 +559,8 @@ def run_score_response_unit_tests():
         ("Atorvastatin 20 mg daily at bedtime. Take with grapefruit juice.", rf_med04, gt_med04, False, "wrong_spoken"),
         ("Ibuprofen 500 mg twice daily", rf_amox, gt_amox, False, "wrong_spoken"),
         ("Cold brew 3.50", rf_sign01, gt_sign01, False, "wrong_spoken"),
+        # Auditor Item B4: Scorer phrase-level frequency support probe
+        ("Amoxicillin 500 mg twice daily. Take 1 capsule by mouth daily", {"drug": "Amoxicillin", "dose": "500 mg", "directions": "Take 1 capsule by mouth daily"}, "Amoxicillin 500 mg. Take 1 capsule by mouth daily", False, "wrong_spoken"),
     ]
     for resp, rf, gt, fb, exp in tests:
         actual = score_response(resp, rf, gt, is_fallback=fb)
@@ -634,9 +759,8 @@ class BenchmarkEvaluator:
         total_correct = 0
         total_safe_refusal = 0
         total_wrong_spoken = 0
-
-        LOW_CONFIDENCE_THRESHOLD = 0.40
-        FALLBACK_PHRASE = "I can't read that clearly, please move closer."
+        total_incomplete = 0
+        total_no_answer = 0
 
         for item in self.samples:
             s_id = item["id"]
@@ -647,33 +771,43 @@ class BenchmarkEvaluator:
 
             pred_info = predictions_dict.get(s_id, {})
             pred_text = pred_info.get("predicted_text", "")
+            raw_pred_text = pred_info.get("raw_predicted_text", pred_text)
             conf = pred_info.get("confidence", 1.0)
             extracted_ans = pred_info.get("extracted_answer", pred_text)
             norm_modified = pred_info.get("normalizer_modified_dose", False)
             low_conf_dose = pred_info.get("low_confidence_dose", False)
             fallback_req = pred_info.get("fallback_triggered", False)
 
-            # Rule 9 / A5 / A6: If fallback requested, or normalizer modified characters within key/dose span,
-            # or low confidence falls inside key/dose span, or text is empty, trigger safe refusal.
-            if fallback_req or norm_modified or low_conf_dose or not pred_text.strip():
-                category_metrics[cat]["fallback_count"] += 1
+            # Auditor Items B3 & B4: Score via unified score_response contract
+            is_fb = fallback_req or norm_modified or low_conf_dose or (extracted_ans == REFUSAL_TEXT)
+            verdict = score_response(extracted_ans, item, gt_text, is_fallback=is_fb)
+
+            if verdict == "correct":
+                total_correct += 1
+                key_match = True
+                safety_match = True
+            elif verdict == "safe_refusal":
                 total_safe_refusal += 1
-                spoken_response = FALLBACK_PHRASE
+                category_metrics[cat]["fallback_count"] += 1
                 key_match = False
                 safety_match = False
-            else:
-                spoken_response = extracted_ans
-                key_match = check_key_field_match(gt_key, spoken_response)
-                safety_match = check_safety_entity_verbatim(expected_safety, spoken_response)
-                if safety_match:
-                    total_correct += 1
-                else:
-                    total_wrong_spoken += 1
+            elif verdict == "wrong_spoken":
+                total_wrong_spoken += 1
+                key_match = False
+                safety_match = False
+            elif verdict == "no_answer":
+                total_no_answer += 1
+                key_match = False
+                safety_match = False
+            else:  # incomplete
+                total_incomplete += 1
+                key_match = False
+                safety_match = False
 
-            # Compute error rates against full ground truth
-            raw_cer = compute_cer(gt_text, pred_text) if pred_text else 1.0
-            raw_wer = compute_wer(gt_text, pred_text) if pred_text else 1.0
-            sp_cer, sp_wer = compute_space_normalized_cer_wer(gt_text, pred_text) if pred_text else (1.0, 1.0)
+            # Auditor Item B1: Compute CER/WER on RAW recognized text, not normalized/refusal-substituted text
+            raw_cer = compute_cer(gt_text, raw_pred_text) if raw_pred_text else 1.0
+            raw_wer = compute_wer(gt_text, raw_pred_text) if raw_pred_text else 1.0
+            sp_cer, sp_wer = compute_space_normalized_cer_wer(gt_text, raw_pred_text) if raw_pred_text else (1.0, 1.0)
 
             category_metrics[cat]["raw_cer"].append(raw_cer)
             category_metrics[cat]["raw_wer"].append(raw_wer)
@@ -700,7 +834,9 @@ class BenchmarkEvaluator:
             "safety_metric_counts": {
                 "correct": total_correct,
                 "safe_refusal": total_safe_refusal,
-                "wrong_spoken": total_wrong_spoken
+                "wrong_spoken": total_wrong_spoken,
+                "incomplete": total_incomplete,
+                "no_answer": total_no_answer
             },
             "wrong_spoken_dose_count": total_wrong_spoken,
             "wrong_spoken_hard_gate_pass": (total_wrong_spoken == 0),

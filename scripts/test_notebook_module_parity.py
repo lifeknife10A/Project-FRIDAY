@@ -23,7 +23,13 @@ from phase1_ai_sandbox.src.benchmark_dataset_evaluator import (
     find_sensitive_spans as module_spans,
     check_sensitive_modification_or_low_conf as module_check,
     score_response as module_score,
+    run_ocr as module_run_ocr,
+    OCRLine as module_ocr_line,
     REFUSAL_TEXT as MODULE_REFUSAL_TEXT
+)
+from phase1_ai_sandbox.src.literal_reader import (
+    read_literal as module_read_literal,
+    CONFIDENCE_THRESHOLD as MODULE_CONFIDENCE_THRESHOLD
 )
 
 #!/usr/bin/env python3
@@ -56,7 +62,13 @@ from phase1_ai_sandbox.src.benchmark_dataset_evaluator import (
     find_sensitive_spans as module_spans,
     check_sensitive_modification_or_low_conf as module_check,
     score_response as module_score,
+    run_ocr as module_run_ocr,
+    OCRLine as module_ocr_line,
     REFUSAL_TEXT as MODULE_REFUSAL_TEXT
+)
+from phase1_ai_sandbox.src.literal_reader import (
+    read_literal as module_read_literal,
+    CONFIDENCE_THRESHOLD as MODULE_CONFIDENCE_THRESHOLD
 )
 
 def run_parity_tests():
@@ -166,11 +178,25 @@ probes = [
     ("Atorvastatin 20 mg daily at bedtime. Take with grapefruit juice.", rf_med04, gt_med04),
     ("Ibuprofen 500 mg twice daily", rf_amox, gt_amox),
     ("Cold brew 3.50", rf_sign01, gt_sign01),
+    # Auditor Item B4 probe
+    ("Amoxicillin 500 mg twice daily. Take 1 capsule by mouth daily", {{"drug": "Amoxicillin", "dose": "500 mg", "directions": "Take 1 capsule by mouth daily"}}, "Amoxicillin 500 mg. Take 1 capsule by mouth daily"),
 ]
 
 for resp, rf, gt in probes:
     v = score_response(resp, rf, gt)
     assert v == "wrong_spoken", f"Standalone scope probe failed on '{{resp}}': got {{v}}"
+
+# Auditor Item B3 isolated literal reader tests
+assert "read_literal" in globals(), "read_literal missing from Cell 6 scope!"
+assert "OCRLine" in globals(), "OCRLine missing from Cell 6 scope!"
+test_med_lines = [
+    OCRLine("METROPOLIS RX #101", "METROPOLIS RX #101", False, [[0, 10], [100, 10], [100, 30], [0, 30]], 0.99, 0),
+    OCRLine("AMOXICILLIN 500 MG CAPSULE", "AMOXICILLIN 500 MG CAPSULE", False, [[0, 50], [100, 50], [100, 70], [0, 70]], 0.99, 1),
+    OCRLine("TAKE 1 CAPSULE BY MOUTH TWICE DAILY", "TAKE 1 CAPSULE BY MOUTH TWICE DAILY", False, [[0, 80], [100, 80], [100, 100], [0, 100]], 0.98, 2),
+]
+lit_out = read_literal(test_med_lines, "medicine", "What medication is this and what is the prescribed dose?")
+assert lit_out["speech"] == "AMOXICILLIN 500 MG CAPSULE. TAKE 1 CAPSULE BY MOUTH TWICE DAILY.", f"Unexpected lit speech: {{lit_out['speech']}}"
+assert lit_out["refusal_reason"] is None
 
 print("[✓] Standalone Cell 6 isolated execution passed 100% of checks!")
 """
@@ -211,6 +237,17 @@ print("[✓] Standalone Cell 6 isolated execution passed 100% of checks!")
     nb_norm = fake_scope["normalize_numeric_context"]
     nb_check = fake_scope["check_sensitive_modification_or_low_conf"]
     nb_score = fake_scope["score_response"]
+    nb_read_literal = fake_scope["read_literal"]
+
+    # Test read_literal in-process parity
+    sample_med = [
+        fake_scope["OCRLine"]("METROPOLIS RX #101", "METROPOLIS RX #101", False, [[0, 10], [100, 10], [100, 30], [0, 30]], 0.99, 0),
+        fake_scope["OCRLine"]("AMOXICILLIN 500 MG CAPSULE", "AMOXICILLIN 500 MG CAPSULE", False, [[0, 50], [100, 50], [100, 70], [0, 70]], 0.99, 1),
+        fake_scope["OCRLine"]("TAKE 1 CAPSULE BY MOUTH TWICE DAILY", "TAKE 1 CAPSULE BY MOUTH TWICE DAILY", False, [[0, 80], [100, 80], [100, 100], [0, 100]], 0.98, 2),
+    ]
+    nb_lit_res = nb_read_literal(sample_med, "medicine", "What medication is this?")
+    mod_lit_res = module_read_literal(sample_med, "medicine", "What medication is this?")
+    assert nb_lit_res == mod_lit_res, f"Parity mismatch in read_literal: {nb_lit_res} vs {mod_lit_res}"
 
     test_strings = [
         "O5 mg", "l0 mg", "5O mg", "I2S", "Net wt 10oz",

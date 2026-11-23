@@ -287,16 +287,20 @@ class FridayLiveWearableEmulator:
             gen_ids = self.student_vlm.generate_tokens(visual_tokens, prompt_ids, max_new_tokens=24)
         reason_latency = (time.perf_counter() - t_reason) * 1000.0
 
-        # Run real OCR on the foveal crop if available
-        ocr_extracted_text = ""
+        # Auditor Item B3: Run unified OCR and extractive literal reader on foveal crop
+        literal_spoken = ""
         try:
-            from rapidocr_onnxruntime import RapidOCR
-            ocr_engine = RapidOCR()
-            ocr_res, _ = ocr_engine(stream1_foveal)
-            if ocr_res:
-                ocr_extracted_text = " ".join([r[1] for r in ocr_res if r[1]])
+            from benchmark_dataset_evaluator import run_ocr, REFUSAL_TEXT
+            from literal_reader import read_literal
+            ocr_lines = run_ocr(stream1_foveal)
+            if ocr_lines:
+                lit_out = read_literal(ocr_lines, category="auto", question=actual_query)
+                literal_spoken = lit_out.get("speech", REFUSAL_TEXT)
+            else:
+                literal_spoken = REFUSAL_TEXT
         except Exception:
-            pass
+            from benchmark_dataset_evaluator import REFUSAL_TEXT
+            literal_spoken = REFUSAL_TEXT
 
         # Check real network reachability before speaking Directive 04 message
         def is_network_reachable() -> bool:
@@ -317,9 +321,9 @@ class FridayLiveWearableEmulator:
         elif needs_web and not is_network_reachable():
             # Directive 04 exact offline notification
             spoken_response = "I am currently offline with no Wi-Fi or tethered device available. Please connect me to Wi-Fi or pair via Bluetooth to perform web searches. I can still analyze what you see locally."
-        elif ocr_extracted_text and any(k in q_lower for k in ["read", "prescription", "dosage", "instruction", "bottle", "medicine", "label", "text", "sign", "price"]):
-            # Safety rule: report real optical text verbatim
-            spoken_response = f"Reading label: {ocr_extracted_text.strip()}"
+        elif any(k in q_lower for k in ["read", "prescription", "dosage", "instruction", "bottle", "medicine", "label", "text", "sign", "price"]):
+            # Auditor Item B3: Speak verified literal reader output
+            spoken_response = literal_spoken if literal_spoken else REFUSAL_TEXT
         elif any(k in q_lower for k in ["what", "describe", "look", "see", "view", "scene"]):
             if self.trained_checkpoint_loaded:
                 try:
@@ -342,9 +346,11 @@ class FridayLiveWearableEmulator:
         kokoro_rtf = None
         synth_time_ms = 0.0
         if not self.mute_audio:
-            clauses = [s.strip() for s in spoken_response.split(".") if s.strip()]
+            # Auditor Item B3: Never split TTS on '.' between digits (e.g. '0.5 mg' -> two utterances)
+            clauses = [s.strip() for s in re.split(r"(?<!\d)\.(?!\d)", spoken_response) if s.strip()]
             for clause in clauses:
-                sample_file = self.voice_engine.synthesize(clause + ".")
+                clause_text = clause if clause.endswith((".", "!", "?")) else clause + "."
+                sample_file = self.voice_engine.synthesize(clause_text)
                 if sample_file and os.path.exists(sample_file):
                     # Cross-platform audio playback (macOS afplay -> Linux aplay -> sounddevice)
                     if sys.platform == "darwin":

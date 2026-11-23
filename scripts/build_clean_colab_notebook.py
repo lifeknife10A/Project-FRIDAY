@@ -11,12 +11,15 @@ import os
 def generate_cell6_code():
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     evaluator_path = os.path.join(repo_root, "phase1_ai_sandbox/src/benchmark_dataset_evaluator.py")
+    reader_path = os.path.join(repo_root, "phase1_ai_sandbox/src/literal_reader.py")
     with open(evaluator_path, "r", encoding="utf-8") as f:
         evaluator_source = f.read()
+    with open(reader_path, "r", encoding="utf-8") as f:
+        reader_source = f.read()
 
     header = (
-        "# CELL 6: Real Optical Character Recognition (PP-OCRv6 / RapidOCR 3.x) on Benchmark Photos\n"
-        "# Auditor Item A1'': Built verbatim from phase1_ai_sandbox/src/benchmark_dataset_evaluator.py\n\n"
+        "# CELL 6: Real Optical Character Recognition (PP-OCRv6 / RapidOCR 3.x) & Extractive Literal Reader\n"
+        "# Auditor Items A1'' & B3: Built verbatim from benchmark_dataset_evaluator.py and literal_reader.py\n\n"
         "if 'dry_log' not in globals():\n"
         "    def dry_log(msg):\n"
         "        print(msg)\n\n"
@@ -24,47 +27,43 @@ def generate_cell6_code():
 
     benchmark_loop = """
 # ==============================================================================
-# RUN PP-OCRv6 (RapidOCR 3.10.0) INFERENCE OVER BENCHMARK DATASET
+# RUN PP-OCRv6 (RapidOCR 3.10.0) & EXTRACTIVE LITERAL READER OVER BENCHMARK
 # ==============================================================================
-dry_log("\\n[*] RUNNING PP-OCRv6 (RapidOCR 3.10.0) INFERENCE OVER BENCHMARK DATASET (Auditor Items F4, K1, KB2 & H1):")
+dry_log("\\n[*] RUNNING PP-OCRv6 (RapidOCR 3.10.0) INFERENCE OVER BENCHMARK DATASET (Auditor Items B1, B2, B3):")
 benchmark_ocr_results = []
 category_stats = {cat: [] for cat in ["medicine", "signage_menu", "document", "scene_text"]}
 
 for idx, item in enumerate(BENCHMARK_SAMPLES):
-    lines_with_conf = run_ocr(item["image_path"])
-    raw_lines = [l[0] for l in lines_with_conf]
-    scores = [l[1] for l in lines_with_conf]
+    ocr_lines = run_ocr(item["image_path"])
+    raw_lines = [l["raw_text"] for l in ocr_lines]
+    scores = [l["confidence"] for l in ocr_lines]
     raw_pred_text = " ".join(raw_lines)
     avg_conf = float(np.mean(scores)) if scores else 0.0
 
-    normalized_lines = []
-    fallback_triggered = False
+    # Auditor Item B2: Extractive Literal Reader Product Path
+    lit_res = read_literal(ocr_lines, item["category"], item.get("prompt", ""))
+    lit_speech = lit_res.get("speech", REFUSAL_TEXT)
+    fallback_triggered = (lit_speech == REFUSAL_TEXT)
 
-    for line_text, line_score in lines_with_conf:
-        norm_line, is_mod = normalize_numeric_context(line_text)
-        mod_in_span, low_conf_in_span = check_sensitive_modification_or_low_conf(line_text, score=line_score, is_modified=is_mod)
-        if mod_in_span or low_conf_in_span:
-            fallback_triggered = True
-        normalized_lines.append(norm_line)
-
-    pred_text = " ".join(normalized_lines)
+    pred_text = " ".join([l["normalized_text"] for l in ocr_lines])
     gt_text = item["ground_truth_full_text"]
 
+    # Auditor Item B1: compute CER/WER on RAW recognized text, not normalized/refusal-substituted text
     raw_cer = compute_cer(gt_text, raw_pred_text)
     raw_wer = compute_wer(gt_text, raw_pred_text)
-    space_norm_cer, space_norm_wer = compute_space_normalized_cer_wer(gt_text, pred_text)
+    space_norm_cer, space_norm_wer = compute_space_normalized_cer_wer(gt_text, raw_pred_text)
 
-    norm_gt_key = normalize_entity_space_insensitive(item["key_field_value"])
-    norm_pred_key = normalize_entity_space_insensitive(pred_text)
-    key_match = (norm_gt_key in norm_pred_key) and not fallback_triggered
-
-    norm_safety_gt = normalize_entity_space_insensitive(item.get("expected_safety_entity", ""))
-    safety_match = (norm_safety_gt in norm_pred_key) and not fallback_triggered
+    score_v = score_response(lit_speech, item, gt_text, is_fallback=fallback_triggered)
+    key_match = (score_v == "correct")
+    safety_match = (score_v in ("correct", "safe_refusal"))
 
     record = {
         "id": item["id"],
         "category": item["category"],
+        "ocr_lines": ocr_lines,
         "full_ocr": pred_text,
+        "raw_ocr": raw_pred_text,
+        "literal_speech": lit_speech,
         "confidence": avg_conf,
         "raw_cer": raw_cer,
         "raw_wer": raw_wer,
@@ -72,7 +71,8 @@ for idx, item in enumerate(BENCHMARK_SAMPLES):
         "space_norm_wer": space_norm_wer,
         "key_match": key_match,
         "safety_match": safety_match,
-        "fallback_triggered": fallback_triggered
+        "fallback_triggered": fallback_triggered,
+        "score_verdict": score_v
     }
     benchmark_ocr_results.append(record)
     category_stats[item["category"]].append(record)
@@ -96,7 +96,7 @@ dry_log(f"  Key-Field Match (Space-Ins)  : {np.mean(all_key_matches)*100.0:.2f}%
 dry_log(f"  Verbatim Number/Dose Safety  : {np.mean(all_safety_matches)*100.0:.2f}% (Target: >= 95.0%)")
 dry_log("="*65)
 """
-    return header + evaluator_source.strip() + "\n\n" + benchmark_loop.strip()
+    return header + evaluator_source.strip() + "\n\n" + reader_source.strip() + "\n\n" + benchmark_loop.strip()
 
 def make_cell(cell_type, source_text):
     lines = [l + '\n' for l in source_text.strip().split('\n')]

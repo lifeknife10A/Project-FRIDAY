@@ -183,50 +183,50 @@ def evaluate_milestone_1_5_gate():
     g5_pass = False
     bench_summary = {}
     if os.path.exists(manifest_path):
-        from benchmark_dataset_evaluator import BenchmarkEvaluator, normalize_numeric_context, run_ocr
+        from benchmark_dataset_evaluator import BenchmarkEvaluator, run_ocr, REFUSAL_TEXT
+        from literal_reader import read_literal
         evaluator = BenchmarkEvaluator(manifest_path)
         
         predictions = {}
         for sample in evaluator.samples:
             img_rel = os.path.join(os.path.dirname(manifest_path), "images", sample["filename"])
             pred_text = ""
+            raw_pred_text = ""
             conf = 0.0
-            mod_in_span = False
-            low_conf_in_span = False
+            extracted_ans = REFUSAL_TEXT
+            fb_triggered = False
             
             if os.path.exists(img_rel):
                 ocr_lines = run_ocr(img_rel)
                 if ocr_lines:
-                    scores = [float(s) for _, s in ocr_lines]
-                    conf = float(np.mean(scores)) if scores else 1.0
+                    conf = float(np.mean([l.get("confidence", 0.0) for l in ocr_lines]))
+                    raw_pred_text = " ".join([l.get("raw_text", "") for l in ocr_lines])
+                    pred_text = " ".join([l.get("normalized_text", "") for l in ocr_lines])
                     
-                    norm_lines = []
-                    for l_text, l_score in ocr_lines:
-                        nl_text, nl_mod = normalize_numeric_context(l_text)
-                        norm_lines.append(nl_text)
-                        
-                        # Auditor Item R3: Detect dose/number/price spans by pattern, NOT ground truth
-                        line_mod, line_low_conf = check_sensitive_modification_or_low_conf(l_text, l_score, nl_mod)
-                        if line_mod:
-                            mod_in_span = True
-                        if line_low_conf:
-                            low_conf_in_span = True
-                                
-                    pred_text = " ".join(norm_lines)
+                    # Auditor Item B3: Use read_literal for literal rows, never pass raw transcript
+                    lit_res = read_literal(ocr_lines, sample.get("category", ""), sample.get("prompt", ""))
+                    extracted_ans = lit_res.get("speech", REFUSAL_TEXT)
+                    if extracted_ans == REFUSAL_TEXT:
+                        fb_triggered = True
                 else:
                     pred_text = ""
+                    raw_pred_text = ""
                     conf = 0.0
+                    extracted_ans = REFUSAL_TEXT
+                    fb_triggered = True
             else:
-                # Under Auditor Rule A4, never substitute ground truth on missing OCR
                 pred_text = ""
+                raw_pred_text = ""
                 conf = 0.0
+                extracted_ans = REFUSAL_TEXT
+                fb_triggered = True
                 
             predictions[sample["id"]] = {
                 "predicted_text": pred_text,
+                "raw_predicted_text": raw_pred_text,
                 "confidence": conf,
-                "extracted_answer": pred_text,
-                "normalizer_modified_dose": mod_in_span,
-                "low_confidence_dose": low_conf_in_span
+                "extracted_answer": extracted_ans,
+                "fallback_triggered": fb_triggered
             }
             
         bench_summary = evaluator.evaluate_predictions(predictions)
