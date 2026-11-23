@@ -97,6 +97,15 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- FINDING (2026-11-24): benchmark renders use PIL ImageFont.load_default() -> ~5.5 px/char, 8 px glyph
+  height (Pillow 12.3; pillow is UNPINNED in requirements). plan.md Gate 1 guarantees >=10 px/char
+  (analytic 12.8). So Gate 5 CER is measured on text ~2x smaller than the camera spec -> CER failure is
+  partly a benchmark artifact. Proposed Round F0: re-render DEV+TEST at spec resolution (same content),
+  keep current renders as a "stress" set. Krishna asked about swapping OCR (e.g. a ~1B VLM OCR): allowed
+  only as a Krishna-approved plan deviation; generative OCR can invent digits and gives no per-line
+  confidence/boxes (our refusal logic needs both) -> use as offline reference unless it meets on-device
+  criteria.
+
 - Reviewed Round E `adc5a32` -> YES, proceed to LOCAL DRY RUN @ adc5a32 (cells 6/11/12 changed since the
   last executed run). Verified: regen no diff, 0 syntax errors, pyflakes 0 undefined; E1 cell 12 loads
   eval_runs/bc30294/kokoro/kokoro_eval.json, sha256 875c8193... matches file, g4_pass computed from
