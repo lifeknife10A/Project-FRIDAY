@@ -1,0 +1,20 @@
+[
+  {
+    "filename": "best_student_vlm.pt",
+    "size_bytes": 1672095722,
+    "size_mb": 1594.63,
+    "sha256": "ee8715aa03f5b38120c25c54c0ddd4169602d96fc608dcbb43dd44c298dfee91"
+  },
+  {
+    "filename": "friday_student_w4a16_packed.pt",
+    "size_bytes": 209382303,
+    "size_mb": 199.68,
+    "sha256": "6034e4ada59f87aabfa0833ad6b899b2a6fa7593739ca372b505bda416f1a541"
+  },
+  {
+    "filename": "spatial_unshuffle_downsampler.pt",
+    "size_bytes": 11011971,
+    "size_mb": 10.5,
+    "sha256": "124df0eda23f14bb29d7bd5810759ea94686c545177012a13b5d8d0280306a87"
+  }
+]
