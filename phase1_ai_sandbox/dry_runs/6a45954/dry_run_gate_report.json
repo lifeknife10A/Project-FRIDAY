@@ -1,0 +1,64 @@
+{
+  "git_commit_sha": "6a45954cb850a8821002772041989100ac113a94",
+  "dry_run": true,
+  "overall_gate_pass": true,
+  "timestamp": "2026-11-23T23:20:11Z",
+  "target_architecture": "Rockchip_RK3576",
+  "som_module": "Firefly_CAM_3576Q38_LPDDR5",
+  "gates": {
+    "Gate_1_Optical_Resolution": {
+      "passed": true,
+      "px_per_char": 12.77,
+      "type": "analytic"
+    },
+    "Gate_2_Spatial_Unshuffle": {
+      "passed": true,
+      "tokens": 144,
+      "dim": 896,
+      "measured_host_latency_ms": 0.642,
+      "host_latency_threshold_ms": 10.0
+    },
+    "Gate_3_Memory_Bandwidth": {
+      "passed": true,
+      "operating_bw_gb_s": 5.75,
+      "safe_ceiling_gb_s": 14.0,
+      "weights_mb": 207.62,
+      "scales_mb": 16.0,
+      "kv_cache_mb": 6.29,
+      "total_traffic_mb_per_token": 229.91,
+      "unit_system": "decimal_bytes_mb_gb",
+      "type": "analytic"
+    },
+    "Gate_4_Kokoro_Voice": {
+      "passed": true,
+      "sample_rate_hz": 24000,
+      "faster_than_realtime": true,
+      "rtf": 0.115,
+      "peak_ram_mb": 804.97,
+      "status": "measured offline on host CPU (MacBook Air M4, 16 GB), commit bc30294; NOT measured on RK3576",
+      "verified_sha256": "875c81933a6a571f129d2cb318b029cdebe877b7f68dc442cfc34f4d77e5f1c2",
+      "provenance_commit": "bc30294"
+    },
+    "Gate_5_Benchmark_Dataset": {
+      "passed": true,
+      "samples_evaluated": 4,
+      "correct_count": 4,
+      "target_correct_count": 4,
+      "literal_key_accuracy_pct": 100.0,
+      "safety_accuracy_pct": 100.0,
+      "unstripped_cer_pct": 4.6,
+      "unstripped_wer_pct": 5.68,
+      "wrong_spoken_entities_count": 0,
+      "incomplete_count": 0,
+      "no_answer_count": 0
+    },
+    "Gate_6_Multimodal_Distillation": {
+      "passed": true,
+      "stage_1a_step0_caption_loss": 6.5463,
+      "stage_1a_final_caption_loss": 6.3393,
+      "stage_1b_step0_kd_loss": 2.825,
+      "stage_1b_best_kd_loss": 2.4131,
+      "relative_loss_reduction_pct": 14.58
+    }
+  }
+}
