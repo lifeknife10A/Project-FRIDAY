@@ -112,7 +112,7 @@ Approvals name one SHA; any new commit restarts at step 3.
   Kaggle/Colab branch only; local stays strict) + cell 6 strings. My parser tests on realistic lines:
   ours (transformers/huggingface_hub/numpy, case/underscore-insensitive) -> fail; unrelated
   (sentence-transformers, peft, torchaudio) -> warn. py3.13 parse OK. Verdict: YES, push to Kaggle @
-  543234b CONDITIONAL on Krishna approving the skip of the Mac dry run (J1 path not exercisable on Mac).
+  543234b. Krishna APPROVED skipping the Mac dry run (2026-11-23). Approval is final for 543234b only.
 - Reviewed `aaf4ff3` + dry run `9bf7453` (Python 3.13 venv) — H1–H3 verified; executed code ==
   aaf4ff3, recorded SHA matches, 0 tracebacks. My independent run of run_ocr (rapidocr 3.10.0 =
   PP-OCRv6 small, not v4 — docs should say v6) on ALL 40 images: CER 6.24% (first 4: 4.15%, theirs
