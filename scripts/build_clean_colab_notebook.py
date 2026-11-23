@@ -23,13 +23,22 @@ def generate_cell6_code():
         "if 'dry_log' not in globals():\n"
         "    def dry_log(msg):\n"
         "        print(msg)\n\n"
+        "if 'DATASET_VARIANT' not in globals():\n"
+        "    DATASET_VARIANT = 'spec'\n\n"
+        "if 'BENCHMARK_SAMPLES' not in globals():\n"
+        "    BENCHMARK_SAMPLES = []\n\n"
+        "if 'LOWRES_SAMPLES' not in globals():\n"
+        "    LOWRES_SAMPLES = []\n\n"
     )
 
     benchmark_loop = """
 # ==============================================================================
 # RUN PP-OCRv6 (RapidOCR 3.10.0) & EXTRACTIVE LITERAL READER OVER BENCHMARK
 # ==============================================================================
-dry_log("\\n[*] RUNNING PP-OCRv6 (RapidOCR 3.10.0) INFERENCE OVER BENCHMARK DATASET (Auditor Items B1, B2, B3):")
+dry_log(f"\\n[*] RUNNING PP-OCRv6 (RapidOCR 3.10.0) INFERENCE (Auditor Item G2 — DATASET_VARIANT: {DATASET_VARIANT}):")
+
+# 1. CANONICAL SPEC-RESOLUTION PASS
+dry_log("  --> Pass 1/2: CANONICAL SPEC-RESOLUTION DEV SET (plan.md IMX415 camera, 12.8 px/char)...")
 benchmark_ocr_results = []
 category_stats = {cat: [] for cat in ["medicine", "signage_menu", "document", "scene_text"]}
 
@@ -84,17 +93,59 @@ all_space_wers = [r["space_norm_wer"] for r in benchmark_ocr_results]
 all_key_matches = [r["key_match"] for r in benchmark_ocr_results]
 all_safety_matches = [r["safety_match"] for r in benchmark_ocr_results]
 
-dry_log("\\n" + "="*65)
-dry_log("PP-OCRv6 BENCHMARK AUDIT (HONEST EXECUTION ON STANDARDIZED BENCHMARK)")
-dry_log("="*65)
-dry_log(f"  Total Images Evaluated       : {len(benchmark_ocr_results)}")
-dry_log(f"  Raw Unstripped CER           : {np.mean(all_raw_cers)*100.0:.2f}% (Target: <= 5.0%)")
-dry_log(f"  Raw Unstripped WER           : {np.mean(all_raw_wers)*100.0:.2f}% (Target: <= 30.0%)")
-dry_log(f"  Space-Normalized CER         : {np.mean(all_space_cers)*100.0:.2f}% (Target: <= 5.0%)")
-dry_log(f"  Space-Normalized WER         : {np.mean(all_space_wers)*100.0:.2f}% (Target: <= 30.0%)")
-dry_log(f"  Key-Field Match (Space-Ins)  : {np.mean(all_key_matches)*100.0:.2f}% (Target: >= 95.0%)")
-dry_log(f"  Verbatim Number/Dose Safety  : {np.mean(all_safety_matches)*100.0:.2f}% (Target: >= 95.0%)")
-dry_log("="*65)
+# 2. STRESS LOW-RES PASS (Auditor Item G2)
+dry_log("  --> Pass 2/2: STRESS LOW-RES DEV SET (1080p-class, 5.5 px/char)...")
+benchmark_ocr_results_lowres = []
+for idx, item in enumerate(LOWRES_SAMPLES):
+    ocr_lines = run_ocr(item["image_path"])
+    raw_lines = [l["raw_text"] for l in ocr_lines]
+    raw_pred_text = " ".join(raw_lines)
+    lit_res = read_literal(ocr_lines, item["category"], item.get("prompt", ""))
+    lit_speech = lit_res.get("speech", REFUSAL_TEXT)
+    fallback_triggered = (lit_speech == REFUSAL_TEXT)
+    gt_text = item["ground_truth_full_text"]
+    raw_cer = compute_cer(gt_text, raw_pred_text)
+    raw_wer = compute_wer(gt_text, raw_pred_text)
+    score_v = score_response(lit_speech, item, gt_text, is_fallback=fallback_triggered)
+    key_match = (score_v == "correct")
+    safety_match = (score_v in ("correct", "safe_refusal"))
+    benchmark_ocr_results_lowres.append({
+        "id": item["id"],
+        "category": item["category"],
+        "ocr_lines": ocr_lines,
+        "raw_ocr": raw_pred_text,
+        "literal_speech": lit_speech,
+        "raw_cer": raw_cer,
+        "raw_wer": raw_wer,
+        "key_match": key_match,
+        "safety_match": safety_match,
+        "score_verdict": score_v
+    })
+
+all_raw_cers_lowres = [r["raw_cer"] for r in benchmark_ocr_results_lowres]
+all_raw_wers_lowres = [r["raw_wer"] for r in benchmark_ocr_results_lowres]
+all_key_matches_lowres = [r["key_match"] for r in benchmark_ocr_results_lowres]
+all_safety_matches_lowres = [r["safety_match"] for r in benchmark_ocr_results_lowres]
+
+dry_log("\\n" + "="*70)
+dry_log(f"PP-OCRv6 BENCHMARK AUDIT (Auditor Item G2 — DATASET_VARIANT: {DATASET_VARIANT})")
+dry_log("="*70)
+dry_log("  CANONICAL SET: SPEC-RESOLUTION DEV (plan.md IMX415 camera, 12.8 px/char):")
+dry_log(f"    Total Images Evaluated       : {len(benchmark_ocr_results)}")
+dry_log(f"    Raw Unstripped CER           : {np.mean(all_raw_cers)*100.0:.2f}% (Target: <= 5.0%)")
+dry_log(f"    Raw Unstripped WER           : {np.mean(all_raw_wers)*100.0:.2f}% (Target: <= 30.0%)")
+dry_log(f"    Space-Normalized CER         : {np.mean(all_space_cers)*100.0:.2f}% (Target: <= 5.0%)")
+dry_log(f"    Space-Normalized WER         : {np.mean(all_space_wers)*100.0:.2f}% (Target: <= 30.0%)")
+dry_log(f"    Key-Field Match (Space-Ins)  : {np.mean(all_key_matches)*100.0:.2f}% ({sum(all_key_matches)}/{len(all_key_matches)}, Target: >= 95.0%)")
+dry_log(f"    Verbatim Number/Dose Safety  : {np.mean(all_safety_matches)*100.0:.2f}% (Target: >= 95.0%)")
+dry_log("-" * 70)
+dry_log("  STRESS SET: LOW-RES (1080p-class) DEV (5.5 px/char):")
+dry_log(f"    Total Images Evaluated       : {len(benchmark_ocr_results_lowres)}")
+dry_log(f"    Raw Unstripped CER           : {np.mean(all_raw_cers_lowres)*100.0:.2f}% (stress)")
+dry_log(f"    Raw Unstripped WER           : {np.mean(all_raw_wers_lowres)*100.0:.2f}% (stress)")
+dry_log(f"    Key-Field Match (Space-Ins)  : {np.mean(all_key_matches_lowres)*100.0:.2f}% ({sum(all_key_matches_lowres)}/{len(all_key_matches_lowres)})")
+dry_log(f"    Verbatim Number/Dose Safety  : {np.mean(all_safety_matches_lowres)*100.0:.2f}%")
+dry_log("="*70)
 """
     return header + evaluator_source.strip() + "\n\n" + reader_source.strip() + "\n\n" + benchmark_loop.strip()
 
