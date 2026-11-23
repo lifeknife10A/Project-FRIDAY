@@ -95,6 +95,21 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed Round C `18ce41b` -> YES, proceed to LOCAL DRY RUN @ 18ce41b. Verified: py3.11+3.13 parse,
+  regen no diff; C1 image sha256 grouping + leakage assert + 20% val; C2 KD matches plan formula
+  (no eps in denominators/log p_T, (1-eps)p̄_S+eps/64); C3 cached val targets; C5 attention_mask;
+  C6 device_student/device_teacher (cuda:0/1, falls back to single device on MPS/1 GPU); C8 latency.
+  FALSE CLAIM in report (not in docs): C4 "loads packed W4A16 through emulator loader, diff<1e-6" —
+  cell 9 only reloads the PROJECTOR (INT4 file is created later in cell 11). WATCHLIST C4'.
+  C7: Kaggle keeps preloaded numpy 2.1.3; rapidocr pulls opencv-python-headless (4.12 needs numpy
+  >=2,<2.3) -> on Kaggle check cell 1 output that pip did not upgrade numpy.
+  VizWiz C9 (500 val items, dirty-tree run labelled b661d80 with dirty=True + diff hash, honest):
+  answerable 289 -> found 6 / refused 262 / mismatch 21; unanswerable 211 -> refused 203 / spoke 8;
+  medicine-like 14 -> 0 found, 0 spoke. I read all 29 mismatch/spoke speeches: NONE is a wrong
+  number/dose/price; pattern = reader echoes the line containing the question's noun ("SOUP.",
+  "SAUCE FOR PASTA.", "French Fries." for a price question). Real-photo usefulness ~2% -> OCR on
+  blurry/angled phone photos is the bottleneck, plus echo-the-question-noun lines (should refuse).
+
 - Reviewed Round B fix `a8d4439` -> YES, Round B ACCEPTED; proceed to Round C (+C0). No item-specific
   words in reader logic. I re-ran all 40: 29 correct / 5 refusal / 6 incomplete / 0 wrong (same as
   claimed). My 11 fresh synthetic probes: warfarin wrap, methotrexate, prednisone taper, two strengths,
