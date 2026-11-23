@@ -95,6 +95,23 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- KAGGLE RUN of `543234b` (web session, 2xT4, Py 3.13.16) COMPLETED, overall HALTED (honest).
+  Stage 1a 6.3128->4.5176; Stage 1b KD 3.5121->best 1.3846 @ step 96 (12/13 evals improved);
+  benchmark literal 6/34 wrong, pre-distill 3/37, teacher 10/30, vision 0/40; CER 6.24%, WER 28.98%;
+  INT4 209.38 MB; Gates 1,3 PASS analytic, 2,6 PASS, 4 NOT TESTED, 5 FAIL. Executed notebook is on
+  Krishna's Mac (not yet committed) -> step-7 review pending on the committed copy.
+- Second reviewer (GPT "Astra") findings I VERIFIED myself: F3 cell 6 L99 regex has literal \x08
+  (backspace) instead of \b -> leading-ambiguous-digit rule dead in notebook (my miss); F2 cell 10
+  L142 is_fallback -> safe_refusal for ANY text; F1 scorer passes "500 mg per day" for Metformin
+  TWICE DAILY and "Safe to double the dose"; F4 score_response(gt,key,gt) = 29 correct / 11 wrong;
+  F6 KD eps differs from plan formula (tiny numerically, compliance); F7 Stage 1a val 9.1% vs plan
+  20%, split by row not image (TextVQA multi-question images -> val leakage possible); F5 emulator
+  L293 imports rapidocr_onnxruntime; F11 stale weights/milestone_1_5_gate_report.json says PASS.
+  I conceded: student did NOT inherit teacher's 900 mg (it said 500 mg, wrong schedule).
+- Krishna APPROVED (2026-11-23): P1 extractive literal reader; order Round A (scorer/regex/refusal)
+  -> Round B (literal reader, shared by notebook/gate/emulator) -> Round C (training hygiene) ->
+  then Kaggle. Each round = separate SHA, auditor review, stop.
+
 - Last reviewed: dry run `c081237` (code fcba59f, unchanged; first attempt 4b9f9ba FAILED on
   pyarrow/NumPy 1.26 import — fixed in the venv but NOT in requirements). FIRST END-TO-END PASS of the
   pipeline on Mac MPS: Stage 1a 5.31->4.41, Stage 1b KD 2.39->2.01 (2 val samples), peaks 7.95 GB
