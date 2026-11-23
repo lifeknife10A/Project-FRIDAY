@@ -97,6 +97,17 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- STEP-7 REVIEW DONE: Kaggle run of d5f80bf (batch kernel v4, committed 0c71571). Verified: committed
+  notebook code == d5f80bf except injected SHA; recorded SHA d5f80bf1b2b38c...; 0 tracebacks; both .ipynb
+  identical (sha ea4cd2ba...); gate JSON matches notebook. numpy 2.1.3 kept (C7' OK); teacher cuda:1 /
+  student cuda:0, peaks 8.48 GB / 4.44 GB. Splits 1a 1760/440 (20%), 1b 880/320 (26.7%), leakage assert
+  OK. Stage 1a held-out monotonic 6.3472->5.5480->5.2052->4.9452->4.7660. Stage 1b KD 3.2788 -> best
+  1.5691 @ step 88 (11/13 evals improved; final 1.6389). Literal (product) 29 correct / 5 refusal / 6
+  incomplete / 0 wrong (same as CPU runs); vision 0/40 (28 wrong), pre-distill 1/40, teacher 7/40
+  (22 wrong). CER 6.24%. INT4 209.38 MB. Gates: 1,3 PASS analytic; 2 PASS (0.236 ms); 4 NOT TESTED;
+  5 FAIL (CER 6.24 > 5, 29/40 < 38); 6 PASS. Overall HALTED (honest). Remaining to Phase 1: G4 Kokoro,
+  G5 CER<=5% + >=38/40 without overfitting the 40 renders (proposed fresh held-out render set).
+
 - Reviewed D1/D2 `d5f80bf` + dry run `468d4a2` -> YES, PUSH TO KAGGLE @ d5f80bf (full SHA
   d5f80bf1b2b38cf48b961033fc02ebbaafbb82f5; antigravity's report linked a non-existent full SHA
   d5f80bf13f1c..., typo — the notebook records the real one). Verified: executed code == committed code
