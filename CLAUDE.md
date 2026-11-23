@@ -95,6 +95,18 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed Round A `3e3b0c0` -> NO. A0 OK (step-7 review of Kaggle 543234b DONE: committed notebook
+  sha e1c0e600..., recorded SHA 543234b1..., 0 tracebacks, numbers match). A4 OK. BLOCKS:
+  A1' cell 12 SyntaxError (literal "\n" in code, line 79). A1'' cell 6 Kaggle fallback (repo src not on
+  Kaggle -> ImportError branch) raises re.PatternError (variable look-behind) and never defines
+  score_response/REFUSAL_TEXT; parity test is tautological (imports module, compares module to itself).
+  A2' scorer is rule-per-test-case (KNOWN_DRUGS list, hardcoded acetaminophen/cell-phone negations);
+  my probes scored CORRECT: "Lisinopril 10 mg twice daily in the morning" (label: daily), "Metformin
+  500 mg, take 2 twice daily", "Amoxicillin ... do not finish the course", "take with grapefruit
+  juice"; "Ibuprofen 500 mg" and "Cold brew 3.50" -> incomplete instead of wrong. Required design:
+  closed-vocabulary support check (every response token in GT tokens or a fixed template vocab).
+  A5 raw-OCR-echo 39/40 is a consequence of the lenient scorer; not authoritative until A2' fixed.
+
 - KAGGLE RUN of `543234b` (web session, 2xT4, Py 3.13.16) COMPLETED, overall HALTED (honest).
   Stage 1a 6.3128->4.5176; Stage 1b KD 3.5121->best 1.3846 @ step 96 (12/13 evals improved);
   benchmark literal 6/34 wrong, pre-distill 3/37, teacher 10/30, vision 0/40; CER 6.24%, WER 28.98%;
