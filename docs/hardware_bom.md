@@ -94,6 +94,17 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
     * I2C control bus (`SCL`, `SDA`) for sensor register access, autofocus VCM drive, and onboard OTP EEPROM calibration.
     * Power rails: $1.2\text{V}$ (digital core), $1.8\text{V}$ (interface I/O), $2.8\text{V}$ (analog sensor core + VCM drive).
   * **Physical Routing:** The $11.5\text{ mm}$ sensor cube mounts directly inside the 3D-printed front frame eyewear bezel (with a $6^\circ$ downward optical inclination). The flexible ribbon routes through the internal bridge/browline groove into the right temple arm carrier board where power regulation and CSI reception are handled.
+* **Rockchip RK3576 Hardware & Software Integration Blueprint:**
+  * **1. Hardware & Electrical Carrier Requirements:**
+    * *Carrier Baseboard:* The bare SA31VA30P assembly uses a high-density micro-mezzanine connector rather than an FPC ribbon. In Phase 3, the custom right-temple carrier board (designed in Autodesk Fusion 360 Electronics following the Raspberry Pi Camera Module 3 reference schematic) routes the 2-lane MIPI CSI-2 differential pairs, I2C bus, and control GPIOs directly to the RK3576 compute module.
+    * *On-Board Clock & Power Rails:* The carrier board integrates a dedicated $24\text{ MHz}$ reference clock oscillator and three ultra-low-noise LDO regulators providing clean $1.2\text{V}$ (digital core), $1.8\text{V}$ (I/O), and $2.8\text{V}$ (analog sensor + VCM autofocus motor) rails.
+    * *Autofocus & EEPROM Access:* The I2C bus is routed with appropriate logic level matching (1.8V/3.3V) to drive the onboard Voice-Coil Motor (VCM) and read sensor calibration parameters from the internal EEPROM.
+  * **2. Software & Rockchip ISP (`rkcif` / `rkisp` / `rkaiq`) Pipeline:**
+    * *Driver Porting (`imx708` to `rkcif`/`rkisp`):* The baseline `imx708.c` Linux V4L2 driver is patched with Rockchip's required `RKMODULE_*` ioctl definitions (following the proven PieSoft Rockchip IMX708 porting implementation) and mapped in the RK3576 Device Tree (DTS) to bind to the hardware MIPI CSI host controller.
+    * *ISP IQ Calibration:* Auto-exposure (AE), auto-white-balance (AWB), and autofocus (PDAF) loops are mediated by Rockchip's `rkaiq` user-space camera daemon using an IMX708 IQ tuning profile, ensuring color-accurate RAW10 debayering without chromatic artifacts.
+  * **3. Two-Stage Prototyping Roadmap:**
+    * *Stage 1 (Pre-Hardware Validation):* Validate optical foveal cropping, prompt-to-speech latency, and WebRTC AEC3 audio on the owned Raspberry Pi 3B (leveraging native `libcamera` support out-of-the-box at ₹0 cost).
+    * *Stage 2 (Wearable Carrier Bring-Up):* Fabricate the 2-layer temple carrier board with the mezzanine socket and deploy the patched `imx708` driver on the RK3576 host.
 
 ### B. Compute Core Module: Firefly CAM-3576Q38 & LPDDR5 Bandwidth Ceiling
 * **Official Product Page:** [https://en.t-firefly.com/product/industry/cam-3576q38](https://en.t-firefly.com/product/industry/cam-3576q38)
