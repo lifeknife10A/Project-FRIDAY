@@ -97,6 +97,18 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed D1/D2 `d5f80bf` + dry run `468d4a2` -> YES, PUSH TO KAGGLE @ d5f80bf (full SHA
+  d5f80bf1b2b38cf48b961033fc02ebbaafbb82f5; antigravity's report linked a non-existent full SHA
+  d5f80bf13f1c..., typo — the notebook records the real one). Verified: executed code == committed code
+  (12/12 cells), 0 tracebacks, pyflakes 0 undefined names; cell 10 literal = read_literal, 4/4 med
+  correct, 0 wrong; C2 KD tests pass; INT4 209.38 MB; Gate 2 0.757 ms; Gate 4 null/NOT TESTED.
+  Gate 6 dry-run FAIL is honest: KD 2.6734->2.5196 (-5.75%) but Stage 1a held-out ROSE 6.3487->6.3974
+  (1 val sample, 2 steps) and g6 = stage1a_decreased AND KD drop; log line omits the 1a part (cosmetic).
+  PRE-FLIGHT for Kaggle: manifest sha is now 1244838b... (A2 added required_fields); the Kaggle dataset
+  lifeknife/friday-benchmark-dataset must get a new version with the current assets/benchmark_dataset,
+  else cell 5 hash assert fails. Check on Kaggle: cell 1 numpy stays 2.1.3 (C7'), C6 two-GPU placement,
+  1b val fraction ~20%, Stage 1a monotonic at logged points, Gate 6, cell 10 literal 40-sample result.
+
 - Dry run of 18ce41b (`36310d0`) CRASHED cell 10: NameError Qwen2ForCausalLM. Cells 1-9 OK: SHA
   18ce41b recorded; reader/scorer/KD unit tests pass in-notebook; C3 cache works; Stage 1a 6.5191->
   6.4481; Stage 1b KD 3.4453->3.0894; projector reload diff 0. pyflakes on all concatenated cells:
