@@ -97,6 +97,17 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed Krishna's BOM camera blueprint (42af3c4): STILL WRONG/UNVERIFIED: (1) "three LDOs, 1.2 V core"
+  — RP ref schematic: DVDD 1.1 V from AP3429K BUCK (up to 600 mA); an LDO from 3.3 V would burn up to
+  ~1.3 W in the temple -> fix before PCB design. (2) Routing: sensor flex tail ~24 mm cannot reach a
+  right-temple carrier; needs a bezel/bridge-side DF37 mate board + FFC/flex extension through hinge.
+  (3) Stage 1 "Pi 3B with libcamera": Pi has a 15-pin CSI FFC; bare SA31VA30P has a 30-pin DF37 ->
+  needs the full Camera Module 3 board (or the carrier) for Stage 1. (4) "PieSoft Rockchip IMX708 port"
+  and "rkaiq IMX708 IQ profile"/PDAF via rkaiq: unverified — asked Krishna for links (which SoC, kernel,
+  AF working?). OCR needs luminance only, so colour IQ is less critical; AE + focus still needed.
+  Dimensions still 11.5x11.5x5.5 (datasheet 10.8x10.8). Agy commits f461fce/7571e39 (Round F G1-G3)
+  pending agy's report.
+
 - Krishna CLARIFIED (2026-11-24): IMX708 is NOT locked until an RK3576 kernel driver (+ ISP/AF path) is
   confirmed — Krishna is checking; plan.md/Gate 1 paperwork waits until then (do not send G3/G4 camera
   items yet). Camera carrier board omitted from BOM ON PURPOSE: Krishna will design a custom compact
