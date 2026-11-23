@@ -108,6 +108,11 @@ Approvals name one SHA; any new commit restarts at step 3.
   - Teacher "Lisinopril ... dose is 10" scored wrong because max_new_tokens=16 truncates (cell 10).
   - Vision path after 2 steps: "The given sentence is in Spanish" (expected; not a bug).
   - Stage 1b used a cached manifest from an earlier run: caches are not versioned by code SHA.
+- Reviewed `543234b` (J1 + PP-OCRv6 docs): code diff limited to cell 1 (scoped pip-check parser,
+  Kaggle/Colab branch only; local stays strict) + cell 6 strings. My parser tests on realistic lines:
+  ours (transformers/huggingface_hub/numpy, case/underscore-insensitive) -> fail; unrelated
+  (sentence-transformers, peft, torchaudio) -> warn. py3.13 parse OK. Verdict: YES, push to Kaggle @
+  543234b CONDITIONAL on Krishna approving the skip of the Mac dry run (J1 path not exercisable on Mac).
 - Reviewed `aaf4ff3` + dry run `9bf7453` (Python 3.13 venv) — H1–H3 verified; executed code ==
   aaf4ff3, recorded SHA matches, 0 tracebacks. My independent run of run_ocr (rapidocr 3.10.0 =
   PP-OCRv6 small, not v4 — docs should say v6) on ALL 40 images: CER 6.24% (first 4: 4.15%, theirs
