@@ -97,6 +97,20 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Krishna LOCKED camera (03fc2e7, 2026-11-24): Raspberry Pi Camera Module 3 Sensor Assembly SA31VA30P
+  (Sony IMX708, 4608x2592, 1.4 um, std lens f=4.74 mm F1.8, 75 deg diag / 66 H / 41 V, PDAF 10 cm-inf,
+  0-50 C). = Krishna-approved plan deviation IMX415 -> IMX708; plan.md + cell 12 Gate 1 still IMX415.
+  Gate 1: 1.8*4.74/(350*0.0014) = 17.4 px char height (verified) -> spec-res benchmark (~13) is now
+  CONSERVATIVE -> canonical Gate 5 = spec set (option a), low-res stays stress set.
+  From RP reference schematic RP-008969-SD: assembly has a 30-pin Hirose DF37NC-30DS-0.4V connector;
+  carrier needs 1.1 V buck (AP3429K, 600 mA max) — BOM says 1.2 V (WRONG) —, 1.8 V + 2.8 V LDOs
+  (AP7331, 50 mA each), 24 MHz oscillator, POR delaying XCLR until MCLK runs, I2C level shift to 1.8 V,
+  CSI common-mode chokes. BOM dropped the 40-pin Firefly pinout and has no camera carrier/adapter line;
+  existing "2-layer 0.8 mm carrier" was sized for low-speed I2S, not 2-lane MIPI. BOM says cube 11.5 x
+  11.5 x 5.5 mm; datasheet drawing shows 10.8 x 10.8 mm body, ~23.9 mm flex — re-check. BIGGEST RISK
+  (unverified): IMX708 driver + Rockchip ISP IQ tuning + PDAF/VCM AF on RK3576 (datasheet only claims
+  libcamera on Raspberry Pi). Verify Firefly SDK support before buying.
+
 - Reviewed Round F `6a45954` + dry run `a389b34` -> NO. agy executed the OLD F0 (spec-res re-render,
   13.0 px/char DejaVu Sans Mono, pillow==13.0.0) and switched cell 5 to benchmark_dataset_spec, contrary
   to Krishna's 6d4a361 decision (low-res canonical) — asked Krishna which prompt he sent. My CPU re-run
