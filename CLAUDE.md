@@ -95,6 +95,11 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Krishna DECISION (2026-11-23): no self-shot photo set for now; use VizWiz-VQA (val split, blind users'
+  phone photos) as HELD-OUT real-image eval, added to Round C as C9 (never train/tune on it; run once,
+  report refusal vs spoke-wrong honestly). Ego4D rejected (no text transcriptions, license wait, TB-scale).
+  Krishna has HF CLI logged in on the Mac (token must never be committed/printed).
+
 - Reviewed Round B `de0ac27` -> NO (close). Reader inputs = OCR lines + category + question only (no GT
   leak); gate runner + evaluate_predictions now use score_response; emulator uses run_ocr+read_literal,
   refuses on failure, decimal-safe TTS split. I REPRODUCED B5 exactly: 29 correct / 5 refusal / 6
