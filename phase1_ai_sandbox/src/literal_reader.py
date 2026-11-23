@@ -488,6 +488,9 @@ def read_literal(ocr_lines: list, category: str, question: str) -> dict:
                 raw_j = str(o_line.get("raw_text", ""))
                 low_j = raw_j.lower()
                 has_missing = any(sw in low_j for sw in missing_sec)
+                # If question asked for rules or conduct, match prohibition/conduct phrasing on sign
+                if not has_missing and any(sw in ("rules", "rule", "conduct") for sw in missing_sec):
+                    has_missing = bool(re.search(r"\b(?:no|do not|please|silent|quiet|prohibited)\b", low_j))
                 has_label_val = (":" in raw_j) or bool(re.search(r"\d", raw_j)) or ("-" in raw_j)
                 if has_missing and has_label_val:
                     target_line_ids.append(j)
@@ -521,7 +524,25 @@ def read_literal(ocr_lines: list, category: str, question: str) -> dict:
     carrier_words = STOPWORDS | GENERIC_FIELD_WORDS | {"the", "a", "an", "is", "are", "on", "in", "at", "to", "for", "of", "and", "or", "what", "which", "when", "where", "how", "this", "that", "storage", "room", "center"}
     informative_tokens = {t for t in s_tokens if t not in q_tokens and t not in carrier_words}
     if len(informative_tokens) == 0:
-        return {"speech": REFUSAL_TEXT, "source_line_ids": target_line_ids, "refusal_reason": "Selected line adds no tokens beyond question words (VizWiz V1 echo refusal)"}
+        # Check if adjacent following line contains the requested attribute/value (e.g. room number, code, value)
+        max_tid = max(target_line_ids)
+        if max_tid + 1 < len(ocr_lines):
+            next_line = ocr_lines[max_tid + 1]
+            raw_next = str(next_line.get("raw_text", "")).strip()
+            # If next line has digits or specific value identifier (e.g. Room 301, Suite 2B, Gate 4)
+            if re.search(r"\b\d+\b", raw_next) or re.search(r"\b(?:room|suite|gate|dept|no|fl)\b", raw_next.lower()):
+                is_valid, _ = validate_line(next_line, max_tid + 1)
+                is_dirty, _ = is_dirty_value_token(raw_next)
+                if is_valid and not is_dirty:
+                    target_line_ids.append(max_tid + 1)
+                    target_line_ids.sort()
+                    spoken_parts = [str(ocr_lines[k].get("raw_text", "")).strip().rstrip(".") for k in target_line_ids]
+                    speech = ". ".join(spoken_parts) + "."
+                    s_tokens = set(re.findall(r"[a-z0-9]+", speech.lower()))
+                    informative_tokens = {t for t in s_tokens if t not in q_tokens and t not in carrier_words}
+
+        if len(informative_tokens) == 0:
+            return {"speech": REFUSAL_TEXT, "source_line_ids": target_line_ids, "refusal_reason": "Selected line adds no tokens beyond question words (VizWiz V1 echo refusal)"}
 
     return {"speech": speech, "source_line_ids": target_line_ids, "refusal_reason": None}
 
@@ -658,7 +679,29 @@ def run_literal_reader_unit_tests():
     assert res11["speech"] == REFUSAL_TEXT, f"Probe 11 failed: {res11}"
     assert "price" in (res11["refusal_reason"] or "").lower(), f"Probe 11 unexpected reason: {res11}"
 
-    print("[✓] ALL 11 BR1-BR5 & ROUND D LITERAL READER UNIT TESTS PASSED!")
+    # 12. Round F probe: Directory / list adjacent value line association (Rule A)
+    # When selected line is an entity label with no digits, and following line has the requested number/value
+    lines12 = [
+        make_line("NEUROLOGY CLINIC", 50, 70),
+        make_line("ROOM 402", 75, 95),
+        make_line("CARDIOLOGY WING", 100, 120),
+        make_line("ROOM 408", 125, 145)
+    ]
+    res12 = read_literal(lines12, "signage_menu", "Which room number is the Neurology Clinic?")
+    assert "NEUROLOGY CLINIC" in res12["speech"] and "ROOM 402" in res12["speech"], f"Probe 12 failed: {res12}"
+    assert "CARDIOLOGY" not in res12["speech"], f"Probe 12 included wrong wing: {res12}"
+
+    # 13. Round F probe: Conduct rules line association (Rule B)
+    # When question queries conduct/rules and top match is facility header, associate rule/prohibition line
+    lines13 = [
+        make_line("CAMPUS SCIENCE LIBRARY - FLOOR 3", 40, 60),
+        make_line("QUIET STUDY ZONE - NO CELL PHONES", 65, 85),
+        make_line("INFORMATION DESK AT ENTRANCE", 90, 110)
+    ]
+    res13 = read_literal(lines13, "scene_text", "What are the conduct rules for this library floor?")
+    assert "NO CELL PHONES" in res13["speech"], f"Probe 13 failed: {res13}"
+
+    print("[✓] ALL 13 BR1-BR5 & ROUND D/F LITERAL READER UNIT TESTS PASSED!")
 
 if __name__ == "__main__":
     run_literal_reader_unit_tests()
