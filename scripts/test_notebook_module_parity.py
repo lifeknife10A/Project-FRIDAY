@@ -29,7 +29,8 @@ from phase1_ai_sandbox.src.benchmark_dataset_evaluator import (
 )
 from phase1_ai_sandbox.src.literal_reader import (
     read_literal as module_read_literal,
-    CONFIDENCE_THRESHOLD as MODULE_CONFIDENCE_THRESHOLD
+    CONFIDENCE_THRESHOLD as MODULE_CONFIDENCE_THRESHOLD,
+    run_literal_reader_unit_tests as module_run_literal_tests
 )
 
 #!/usr/bin/env python3
@@ -68,7 +69,8 @@ from phase1_ai_sandbox.src.benchmark_dataset_evaluator import (
 )
 from phase1_ai_sandbox.src.literal_reader import (
     read_literal as module_read_literal,
-    CONFIDENCE_THRESHOLD as MODULE_CONFIDENCE_THRESHOLD
+    CONFIDENCE_THRESHOLD as MODULE_CONFIDENCE_THRESHOLD,
+    run_literal_reader_unit_tests as module_run_literal_tests
 )
 
 def run_parity_tests():
@@ -198,6 +200,10 @@ lit_out = read_literal(test_med_lines, "medicine", "What medication is this and 
 assert lit_out["speech"] == "AMOXICILLIN 500 MG CAPSULE. TAKE 1 CAPSULE BY MOUTH TWICE DAILY.", f"Unexpected lit speech: {{lit_out['speech']}}"
 assert lit_out["refusal_reason"] is None
 
+# Auditor Item BR5 unit tests in standalone scope
+if "run_literal_reader_unit_tests" in globals():
+    run_literal_reader_unit_tests()
+
 print("[✓] Standalone Cell 6 isolated execution passed 100% of checks!")
 """
 
@@ -263,6 +269,9 @@ print("[✓] Standalone Cell 6 isolated execution passed 100% of checks!")
         mod_fb, mod_low = module_check(s, score=1.0)
         nb_fb, nb_low = nb_check(s, score=1.0)
         assert (nb_fb, nb_low) == (mod_fb, mod_low)
+
+    # Call BR5 unit tests on module directly
+    module_run_literal_tests()
 
     print("[✓] Step 4 PASS: 100% parity verified between notebook functions and module functions.")
 
