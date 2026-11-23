@@ -97,6 +97,19 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed Round D `35797a3` (test set frozen in 449cbcb, child of my ac59314) -> NO (2 small blocks).
+  TEST set: agy rendered MY specs exactly (manifest 7aa465e9..., 20/20 GT+required_fields == spec, 6
+  existing image sha256 match). I re-ran from clean 35797a3: DEV 35 correct/1 refusal/4 incomplete/0
+  wrong; TEST 16 correct/3 refusal/1 incomplete/0 wrong (matches report). Test medicine speeches all
+  right incl. methotrexate wrapped weekly, clonazepam 0.5 mg; suspension + combo refused (safe).
+  CONTAMINATION: SECONDARY_FIELD_INDICATORS gained "depth","elevators","route" — words that occur only
+  in my TEST prompts (not in any DEV prompt/text), added after agy pulled ac59314. Removing them gives
+  IDENTICAL dev/test results -> no measured effect; WATCHLIST + process rule.
+  BLOCK E1: cell 12 Gate 4 hardcodes g4_rtf=0.213, g4_pass=True (gate that cannot fail). BLOCK E2:
+  report claimed Gate 5 "CER <= 15%" (code: 5.0) and D2 "default" CER 7.93% contradicts 6.24% from cell 6
+  on the same OCR — reconcile one CER function. Scorer changed in same round (split-word join) — OK but
+  note. Kokoro RTF measured on the Mac host CPU, not RK3576 — label it.
+
 - STEP-7 REVIEW DONE: Kaggle run of d5f80bf (batch kernel v4, committed 0c71571). Verified: committed
   notebook code == d5f80bf except injected SHA; recorded SHA d5f80bf1b2b38c...; 0 tracebacks; both .ipynb
   identical (sha ea4cd2ba...); gate JSON matches notebook. numpy 2.1.3 kept (C7' OK); teacher cuda:1 /
