@@ -1,0 +1,399 @@
+[
+  {
+    "id": "test_01",
+    "source": "existing_image",
+    "image_path": "assets/prescription_labels/prescription_08_losartan_50mg.jpg",
+    "category": "medicine",
+    "title": "Losartan 50mg (existing label, alt layout)",
+    "ground_truth_full_text": "HORIZON APOTHECARY #803 - (555) 662-9018 700 GATEWAY PARK, SAN FRANCISCO, CA 94103 RX # 6610928-3419 DATE: 11/19/2026 PATIENT: NATHAN DRAKE DR: DR. VICTOR SULLIVAN, MD LOSARTAN POTASSIUM 50 MG TABLET TAKE 1 TABLET BY MOUTH DAILY AS DIRECTED FOR BLOOD PRESSURE WARNING: DO NOT TAKE IF PREGNANT CONSULT PHYSICIAN QTY: 30 TABLETS   REFILLS: 3   EXP: 11/2027 NDC: 31722-701-30   CAMBER PHARMACEUTICALS KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY",
+    "prompt": "What medication is this and what is the prescribed dose?",
+    "required_fields": {
+      "drug": "Losartan",
+      "strength": "50 mg",
+      "frequency": "daily"
+    }
+  },
+  {
+    "id": "test_02",
+    "source": "existing_image",
+    "image_path": "assets/prescription_labels/prescription_10_sertraline_50mg.jpg",
+    "category": "medicine",
+    "title": "Sertraline 50mg (existing label, alt layout)",
+    "ground_truth_full_text": "HIGHLAND WELLNESS RX #114 - (555) 991-8843 120 VINE ST, CINCINNATI, OH 45202 RX # 7710293-8841 DATE: 11/18/2026 PATIENT: DIANA PRINCE DR: DR. PATRICIA MINERVA, MD SERTRALINE HCL 50 MG TABLET TAKE 1 TABLET BY MOUTH ONCE DAILY IN THE MORNING WARNING: DO NOT STOP TAKING WITHOUT TALKING TO DOCTOR QTY: 30 TABLETS   REFILLS: 5   EXP: 11/2027 NDC: 69097-834-12   CIPLA USA INC KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY",
+    "prompt": "What medication is this and what is the prescribed dose?",
+    "required_fields": {
+      "drug": "Sertraline",
+      "strength": "50 mg",
+      "frequency": "once daily in the morning"
+    }
+  },
+  {
+    "id": "test_03",
+    "source": "existing_image",
+    "image_path": "assets/prescription_labels/prescription_13_escitalopram_10mg.jpg",
+    "category": "medicine",
+    "title": "Escitalopram 10mg (numbers in warning line)",
+    "ground_truth_full_text": "CRESTVIEW HEALTH RX #442 - (555) 441-9982 880 WOODWARD AVE, DETROIT, MI 48226 RX # 2210948-5510 DATE: 11/16/2026 PATIENT: TONY STARK DR: DR. HELEN CHO, MD ESCITALOPRAM OXALATE 10 MG TABLET TAKE 1 TABLET BY MOUTH DAILY IN MORNING OR EVENING WARNING: MAY TAKE 1 TO 4 WEEKS FOR FULL BENEFIT QTY: 30 TABLETS   REFILLS: 4   EXP: 09/2027 NDC: 68180-135-01   LUPIN PHARMACEUTICALS KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY",
+    "prompt": "What medication is this and what is the prescribed dose?",
+    "required_fields": {
+      "drug": "Escitalopram",
+      "strength": "10 mg",
+      "frequency": "daily in morning or evening"
+    }
+  },
+  {
+    "id": "test_04",
+    "source": "existing_image",
+    "image_path": "assets/prescription_labels/prescription_14_acetaminophen_500mg.jpg",
+    "category": "medicine",
+    "title": "Acetaminophen 500mg PRN every 6 hours",
+    "ground_truth_full_text": "VALLEY GREEN PHARMACY #551 - (555) 772-1092 300 PENN AVE, PITTSBURGH, PA 15222 RX # 3310984-7711 DATE: 11/15/2026 PATIENT: STEVE ROGERS DR: DR. ABRAHAM ERSKINE, MD ACETAMINOPHEN 500 MG EXTRA STRENGTH TABLET TAKE 2 TABLETS EVERY 6 HOURS AS NEEDED FOR PAIN WARNING: DO NOT EXCEED 6 TABLETS IN 24 HOURS LIVER WARNING QTY: 50 TABLETS   REFILLS: 0   EXP: 12/2027 NDC: 55289-563-30   PD-RX PHARMACEUTICALS KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY",
+    "prompt": "What medication is this and what is the prescribed dose?",
+    "required_fields": {
+      "drug": "Acetaminophen",
+      "strength": "500 mg",
+      "quantity": "2 tablets",
+      "frequency": "every 6 hours"
+    }
+  },
+  {
+    "id": "test_05",
+    "source": "existing_image",
+    "image_path": "assets/prescription_labels/prescription_18_pantoprazole_40mg.jpg",
+    "category": "medicine",
+    "title": "Pantoprazole 40mg before breakfast",
+    "ground_truth_full_text": "MAPLE GROVE PHARMACY #996 - (555) 229-3381 410 6TH AVE, DES MOINES, IA 50309 RX # 7710294-9912 DATE: 11/17/2026 PATIENT: SCOTT LANG DR: DR. HANK PYM, MD PANTOPRAZOLE SODIUM 40 MG DELAYED RELEASE TABLET TAKE 1 TABLET BY MOUTH DAILY 30 MINUTES BEFORE BREAKFAST WARNING: SWALLOW WHOLE DO NOT SPLIT CRUSH OR CHEW QTY: 30 TABLETS   REFILLS: 2   EXP: 11/2027 NDC: 55154-4225-5   CARDINAL HEALTH KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY",
+    "prompt": "What medication is this and what is the prescribed dose?",
+    "required_fields": {
+      "drug": "Pantoprazole",
+      "strength": "40 mg",
+      "frequency": "daily 30 minutes before breakfast"
+    }
+  },
+  {
+    "id": "test_06",
+    "source": "existing_image",
+    "image_path": "assets/prescription_labels/prescription_20_prednisone_10mg.jpg",
+    "category": "medicine",
+    "title": "Prednisone 10mg 2 tablets for 5 days",
+    "ground_truth_full_text": "SILVER LAKE APOTHECARY #218 - (555) 661-8822 100 WALL ST, NEW YORK, NY 10005 RX # 5510293-4401 DATE: 11/20/2026 PATIENT: JESSICA JONES DR: DR. TRISH WALKER, MD PREDNISONE 10 MG TABLET TAKE 2 TABLETS BY MOUTH DAILY IN MORNING WITH FOOD FOR 5 DAYS WARNING: TAKE WITH FOOD TO PREVENT STOMACH IRRITATION QTY: 10 TABLETS   REFILLS: 0   EXP: 08/2027 NDC: 0054-0017-25   HIKMA PHARMACEUTICALS KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY",
+    "prompt": "What medication is this and what is the prescribed dose?",
+    "required_fields": {
+      "drug": "Prednisone",
+      "strength": "10 mg",
+      "quantity": "2 tablets",
+      "frequency": "daily",
+      "duration": "for 5 days"
+    }
+  },
+  {
+    "id": "test_07",
+    "source": "render",
+    "category": "medicine",
+    "title": "Methotrexate 2.5mg weekly, wrapped directions",
+    "distance_cm": 35,
+    "focus_quality": "in_focus",
+    "lines": [
+      "SUNRISE COMMUNITY PHARMACY #318 - (555) 640-2291",
+      "RX # 3381904-2205   DATE: 11/21/2026",
+      "PATIENT: NADIA KHAN",
+      "METHOTREXATE 2.5 MG TABLET",
+      "TAKE 4 TABLETS BY MOUTH",
+      "ONCE WEEKLY ON MONDAYS",
+      "WARNING: DO NOT TAKE DAILY",
+      "QTY: 16 TABLETS   EXP: 08/2027"
+    ],
+    "ground_truth_full_text": "SUNRISE COMMUNITY PHARMACY #318 - (555) 640-2291 RX # 3381904-2205   DATE: 11/21/2026 PATIENT: NADIA KHAN METHOTREXATE 2.5 MG TABLET TAKE 4 TABLETS BY MOUTH ONCE WEEKLY ON MONDAYS WARNING: DO NOT TAKE DAILY QTY: 16 TABLETS   EXP: 08/2027",
+    "prompt": "What medication is this and what is the prescribed dose?",
+    "required_fields": {
+      "drug": "Methotrexate",
+      "strength": "2.5 mg",
+      "quantity": "4 tablets",
+      "frequency": "once weekly"
+    }
+  },
+  {
+    "id": "test_08",
+    "source": "render",
+    "category": "medicine",
+    "title": "Clonazepam 0.5mg decimal dose",
+    "distance_cm": 35,
+    "focus_quality": "in_focus",
+    "lines": [
+      "LAKESIDE FAMILY PHARMACY #77 - (555) 210-4478",
+      "RX # 5520117-3390   DATE: 11/19/2026",
+      "PATIENT: OMAR FIELDS",
+      "CLONAZEPAM 0.5 MG TABLET",
+      "TAKE 1 TABLET BY MOUTH AT BEDTIME AS NEEDED FOR SLEEP",
+      "MAY CAUSE DROWSINESS",
+      "QTY: 15 TABLETS   EXP: 05/2027"
+    ],
+    "ground_truth_full_text": "LAKESIDE FAMILY PHARMACY #77 - (555) 210-4478 RX # 5520117-3390   DATE: 11/19/2026 PATIENT: OMAR FIELDS CLONAZEPAM 0.5 MG TABLET TAKE 1 TABLET BY MOUTH AT BEDTIME AS NEEDED FOR SLEEP MAY CAUSE DROWSINESS QTY: 15 TABLETS   EXP: 05/2027",
+    "prompt": "What medication is this and what is the prescribed dose?",
+    "required_fields": {
+      "drug": "Clonazepam",
+      "strength": "0.5 mg",
+      "frequency": "at bedtime as needed"
+    }
+  },
+  {
+    "id": "test_09",
+    "source": "render",
+    "category": "medicine",
+    "title": "Cefdinir oral suspension (mg/ml strength)",
+    "distance_cm": 35,
+    "focus_quality": "in_focus",
+    "lines": [
+      "HARBOR VIEW PHARMACY #52 - (555) 880-1123",
+      "RX # 7719032-6612   DATE: 11/22/2026",
+      "PATIENT: LILY CHEN",
+      "CEFDINIR 250 MG/5 ML ORAL SUSPENSION",
+      "GIVE 5 ML BY MOUTH TWICE DAILY FOR 10 DAYS",
+      "SHAKE WELL BEFORE EACH USE - REFRIGERATE",
+      "QTY: 100 ML   DISCARD AFTER: 12/02/2026"
+    ],
+    "ground_truth_full_text": "HARBOR VIEW PHARMACY #52 - (555) 880-1123 RX # 7719032-6612   DATE: 11/22/2026 PATIENT: LILY CHEN CEFDINIR 250 MG/5 ML ORAL SUSPENSION GIVE 5 ML BY MOUTH TWICE DAILY FOR 10 DAYS SHAKE WELL BEFORE EACH USE - REFRIGERATE QTY: 100 ML   DISCARD AFTER: 12/02/2026",
+    "prompt": "What medication is this and what is the prescribed dose?",
+    "required_fields": {
+      "drug": "Cefdinir",
+      "strength": "250 mg/5 ml",
+      "dose": "5 ml",
+      "frequency": "twice daily"
+    }
+  },
+  {
+    "id": "test_10",
+    "source": "render",
+    "category": "medicine",
+    "title": "Combination tablet, two strengths on one line",
+    "distance_cm": 35,
+    "focus_quality": "in_focus",
+    "lines": [
+      "NORTHGATE PHARMACY #209 - (555) 302-7745",
+      "RX # 2290418-5531   DATE: 11/17/2026",
+      "PATIENT: GRACE OKAFOR",
+      "LOSARTAN 50 MG / HYDROCHLOROTHIAZIDE 12.5 MG TABLET",
+      "TAKE 1 TABLET BY MOUTH DAILY IN THE MORNING",
+      "QTY: 30 TABLETS   EXP: 10/2027"
+    ],
+    "ground_truth_full_text": "NORTHGATE PHARMACY #209 - (555) 302-7745 RX # 2290418-5531   DATE: 11/17/2026 PATIENT: GRACE OKAFOR LOSARTAN 50 MG / HYDROCHLOROTHIAZIDE 12.5 MG TABLET TAKE 1 TABLET BY MOUTH DAILY IN THE MORNING QTY: 30 TABLETS   EXP: 10/2027",
+    "prompt": "What medication is this and what is the prescribed dose?",
+    "required_fields": {
+      "drug": "Losartan",
+      "strength": "50 mg",
+      "drug_2": "Hydrochlorothiazide",
+      "strength_2": "12.5 mg",
+      "frequency": "daily in the morning"
+    }
+  },
+  {
+    "id": "test_11",
+    "source": "render",
+    "category": "signage_menu",
+    "title": "Tea stall menu, wide gap before price column",
+    "distance_cm": 38,
+    "focus_quality": "in_focus",
+    "lines": [
+      "CHAIWALA CORNER CAFE",
+      "MASALA CHAI                         $2.25",
+      "GINGER LEMON TEA                    $2.50",
+      "SAMOSA (2 PCS)                      $3.75",
+      "VADA PAV                            $4.10",
+      "PRICES IN USD - TAX EXTRA"
+    ],
+    "ground_truth_full_text": "CHAIWALA CORNER CAFE MASALA CHAI                         $2.25 GINGER LEMON TEA                    $2.50 SAMOSA (2 PCS)                      $3.75 VADA PAV                            $4.10 PRICES IN USD - TAX EXTRA",
+    "prompt": "How much is the ginger lemon tea?",
+    "required_fields": {
+      "item": "Ginger Lemon Tea",
+      "price": "$2.50"
+    }
+  },
+  {
+    "id": "test_12",
+    "source": "render",
+    "category": "signage_menu",
+    "title": "Pizzeria menu, same item in two sizes",
+    "distance_cm": 38,
+    "focus_quality": "in_focus",
+    "lines": [
+      "FORNO NAPOLI PIZZERIA",
+      "MARGHERITA SMALL ........ $9.50",
+      "MARGHERITA LARGE ........ $14.00",
+      "PEPPERONI SMALL ......... $10.75",
+      "PEPPERONI LARGE ......... $15.25"
+    ],
+    "ground_truth_full_text": "FORNO NAPOLI PIZZERIA MARGHERITA SMALL ........ $9.50 MARGHERITA LARGE ........ $14.00 PEPPERONI SMALL ......... $10.75 PEPPERONI LARGE ......... $15.25",
+    "prompt": "What is the price of the pepperoni large pizza?",
+    "required_fields": {
+      "item": "Pepperoni Large",
+      "price": "$15.25"
+    }
+  },
+  {
+    "id": "test_13",
+    "source": "render",
+    "category": "signage_menu",
+    "title": "Bus terminal route board",
+    "distance_cm": 40,
+    "focus_quality": "in_focus",
+    "lines": [
+      "CITY BUS TERMINAL - BAY C",
+      "ROUTE 47 -> AIRPORT EXPRESS",
+      "ROUTE 12 -> UNIVERSITY CAMPUS",
+      "ROUTE 9 -> OLD TOWN MARKET",
+      "LAST BUS DEPARTS 23:40"
+    ],
+    "ground_truth_full_text": "CITY BUS TERMINAL - BAY C ROUTE 47 -> AIRPORT EXPRESS ROUTE 12 -> UNIVERSITY CAMPUS ROUTE 9 -> OLD TOWN MARKET LAST BUS DEPARTS 23:40",
+    "prompt": "Which route goes to the university campus?",
+    "required_fields": {
+      "route": "Route 12",
+      "destination": "University Campus"
+    }
+  },
+  {
+    "id": "test_14",
+    "source": "render",
+    "category": "signage_menu",
+    "title": "Hospital department directory",
+    "distance_cm": 40,
+    "focus_quality": "in_focus",
+    "lines": [
+      "ST. MARY GENERAL HOSPITAL",
+      "RADIOLOGY & X-RAY -> LEVEL 2, WING B",
+      "PHARMACY -> GROUND FLOOR, WING A",
+      "PEDIATRICS -> LEVEL 3, WING C",
+      "VISITING HOURS: 10:00 - 20:00"
+    ],
+    "ground_truth_full_text": "ST. MARY GENERAL HOSPITAL RADIOLOGY & X-RAY -> LEVEL 2, WING B PHARMACY -> GROUND FLOOR, WING A PEDIATRICS -> LEVEL 3, WING C VISITING HOURS: 10:00 - 20:00",
+    "prompt": "Where is the pharmacy located?",
+    "required_fields": {
+      "department": "Pharmacy",
+      "location": "Ground Floor, Wing A"
+    }
+  },
+  {
+    "id": "test_15",
+    "source": "render",
+    "category": "document",
+    "title": "Electricity bill with late-fee distractor",
+    "distance_cm": 35,
+    "focus_quality": "in_focus",
+    "lines": [
+      "GREENLINE POWER & LIGHT - ACCOUNT #88412-07",
+      "BILLING PERIOD: 10/01/2026 - 10/31/2026",
+      "ENERGY USED: 412 KWH",
+      "AMOUNT PAYABLE: $61.80",
+      "PAY BY: 11/28/2026 TO AVOID LATE FEE OF $5.00"
+    ],
+    "ground_truth_full_text": "GREENLINE POWER & LIGHT - ACCOUNT #88412-07 BILLING PERIOD: 10/01/2026 - 10/31/2026 ENERGY USED: 412 KWH AMOUNT PAYABLE: $61.80 PAY BY: 11/28/2026 TO AVOID LATE FEE OF $5.00",
+    "prompt": "What is the amount payable on this bill?",
+    "required_fields": {
+      "item": "Amount Payable",
+      "amount": "$61.80"
+    }
+  },
+  {
+    "id": "test_16",
+    "source": "render",
+    "category": "document",
+    "title": "Lab report with decimal values",
+    "distance_cm": 35,
+    "focus_quality": "in_focus",
+    "lines": [
+      "CITYCARE DIAGNOSTICS - PATIENT REF #7731",
+      "SERUM CREATININE: 1.2 MG/DL (NORMAL: 0.6 - 1.3)",
+      "HEMOGLOBIN: 13.8 G/DL (NORMAL: 13.5 - 17.5)",
+      "TSH: 2.45 MIU/L (NORMAL: 0.4 - 4.0)",
+      "REPORTED BY: DR. A. MENON"
+    ],
+    "ground_truth_full_text": "CITYCARE DIAGNOSTICS - PATIENT REF #7731 SERUM CREATININE: 1.2 MG/DL (NORMAL: 0.6 - 1.3) HEMOGLOBIN: 13.8 G/DL (NORMAL: 13.5 - 17.5) TSH: 2.45 MIU/L (NORMAL: 0.4 - 4.0) REPORTED BY: DR. A. MENON",
+    "prompt": "What is the hemoglobin value on this report?",
+    "required_fields": {
+      "test": "Hemoglobin",
+      "value": "13.8 G/DL"
+    }
+  },
+  {
+    "id": "test_17",
+    "source": "render",
+    "category": "document",
+    "title": "Boarding pass gate and time",
+    "distance_cm": 35,
+    "focus_quality": "in_focus",
+    "lines": [
+      "BOARDING PASS - SKYWAYS AIRLINES",
+      "PASSENGER: R. IYER",
+      "FLIGHT: SW 318   DATE: 12 DEC",
+      "GATE: D7   BOARDING: 06:25",
+      "SEAT: 14C   ZONE 3"
+    ],
+    "ground_truth_full_text": "BOARDING PASS - SKYWAYS AIRLINES PASSENGER: R. IYER FLIGHT: SW 318   DATE: 12 DEC GATE: D7   BOARDING: 06:25 SEAT: 14C   ZONE 3",
+    "prompt": "What is the gate number on this boarding pass?",
+    "required_fields": {
+      "gate": "D7"
+    }
+  },
+  {
+    "id": "test_18",
+    "source": "render",
+    "category": "scene_text",
+    "title": "Elevator bank floor directory",
+    "distance_cm": 45,
+    "focus_quality": "in_focus",
+    "lines": [
+      "NORTH TOWER ELEVATORS",
+      "FLOORS 1 - 12 -> ELEVATORS A & B",
+      "FLOORS 13 - 24 -> ELEVATORS C & D",
+      "SERVICE ELEVATOR E: STAFF ONLY",
+      "IN CASE OF FIRE USE STAIRS"
+    ],
+    "ground_truth_full_text": "NORTH TOWER ELEVATORS FLOORS 1 - 12 -> ELEVATORS A & B FLOORS 13 - 24 -> ELEVATORS C & D SERVICE ELEVATOR E: STAFF ONLY IN CASE OF FIRE USE STAIRS",
+    "prompt": "Which elevators serve floors 13 to 24?",
+    "required_fields": {
+      "floors": "Floors 13 - 24",
+      "elevators": "Elevators C & D"
+    }
+  },
+  {
+    "id": "test_19",
+    "source": "render",
+    "category": "scene_text",
+    "title": "Store opening hours door sign",
+    "distance_cm": 45,
+    "focus_quality": "in_focus",
+    "lines": [
+      "GREEN LEAF PHARMACY STORE HOURS",
+      "MON - FRI: 08:00 - 21:00",
+      "SATURDAY: 09:00 - 18:00",
+      "SUNDAY: CLOSED",
+      "24-HOUR EMERGENCY LINE: (555) 404-1100"
+    ],
+    "ground_truth_full_text": "GREEN LEAF PHARMACY STORE HOURS MON - FRI: 08:00 - 21:00 SATURDAY: 09:00 - 18:00 SUNDAY: CLOSED 24-HOUR EMERGENCY LINE: (555) 404-1100",
+    "prompt": "What are the store hours on Saturday?",
+    "required_fields": {
+      "day": "Saturday",
+      "hours": "09:00 - 18:00"
+    }
+  },
+  {
+    "id": "test_20",
+    "source": "render",
+    "category": "scene_text",
+    "title": "Swimming pool rules board",
+    "distance_cm": 45,
+    "focus_quality": "in_focus",
+    "lines": [
+      "SWIMMING POOL RULES",
+      "MAXIMUM DEPTH: 1.8 M",
+      "NO DIVING IN SHALLOW END",
+      "LIFEGUARD ON DUTY 06:00 - 20:00",
+      "MAX OCCUPANCY: 40 PERSONS"
+    ],
+    "ground_truth_full_text": "SWIMMING POOL RULES MAXIMUM DEPTH: 1.8 M NO DIVING IN SHALLOW END LIFEGUARD ON DUTY 06:00 - 20:00 MAX OCCUPANCY: 40 PERSONS",
+    "prompt": "What is the maximum depth of the pool?",
+    "required_fields": {
+      "rule": "Maximum Depth",
+      "value": "1.8 M"
+    }
+  }
+]
