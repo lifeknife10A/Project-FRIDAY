@@ -1,0 +1,667 @@
+{
+  "metadata": {
+    "evaluation_type": "Audit #13 Item A5 Re-Score (CPU only, rapidocr 3.10.0)",
+    "target_commit_sha": "543234b1abc87d3786493f0e097535284434c9a6",
+    "manifest_sha256": "1244838b6fa5fc07b1780df27b21add05850145da28ae6524f2785cb2f99989e",
+    "manifest_items_count": 40,
+    "refusal_text": "I can't read that clearly. Please hold it closer."
+  },
+  "raw_ocr_echo_evaluation": {
+    "summary_counts": {
+      "correct": 39,
+      "incomplete": 0,
+      "wrong_spoken": 1,
+      "safe_refusal": 0,
+      "no_answer": 0
+    },
+    "items": [
+      {
+        "id": "med_01",
+        "category": "medicine",
+        "prompt": "What medication is this and what is the prescribed dose?",
+        "required_fields": {
+          "drug": "Amoxicillin",
+          "strength": "500 mg",
+          "frequency": "twice daily"
+        },
+        "ground_truth_full_text": "METROPOLIS RX #101 - (555) 019-2834 RX # 6543210-0987   DATE: 11/20/2026 PATIENT: ELEANOR RIGBY AMOXICILLIN 500 MG CAPSULE TAKE 1 CAPSULE BY MOUTH TWICE DAILY FOR 10 DAYS QTY: 20 CAPSULES   EXP: 11/2027 KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY",
+        "ocr_lines_count": 7,
+        "raw_ocr_echo": "METROPOLIS RX#101-(555) 019-2834 RX#6543210-0987 DATE: 11/20/2026 PATIENT: ELEANOR RIGBY AMOXICILLIN 500 MG CAPSULE TAKE 1 CAPSULE BY MOUTH TWICE DAILY FOR 10 DAYS QTY: 20 CAPSULES EXP: 11/2027 KEEP OUTOF REACH OF CHILDREN - FORORAL USE ONLY",
+        "avg_confidence": 0.9824,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "med_02",
+        "category": "medicine",
+        "prompt": "What medication is this and what is the prescribed dose?",
+        "required_fields": {
+          "drug": "Metformin",
+          "strength": "500 mg",
+          "frequency": "twice daily"
+        },
+        "ground_truth_full_text": "RIVERBEND HEALTH PHARMACY #204 RX # 7812903-4512   DATE: 11/18/2026 PATIENT: JAMES SULLIVAN METFORMIN HCL 500 MG TABLET TAKE 1 TABLET TWICE DAILY WITH MEALS QTY: 60 TABLETS   EXP: 10/2027 KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY",
+        "ocr_lines_count": 7,
+        "raw_ocr_echo": "RIVERBEND HEALTH PHARMACY#204 RX# 7812903-4512 DATE: 11/18/2026 PATIENT: JAMES SULLIVAN METFORMIN HCL 500 MG TABLET TAKE 1 TABLET TWICE DAILY WITH MEALS QTY: 60 TABLETS EXP: 10/2027 KEEP OUTOF REACH OF CHILDREN - FORORAL USE ONLY",
+        "avg_confidence": 0.9851,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "med_03",
+        "category": "medicine",
+        "prompt": "What medication is this and what is the prescribed dose?",
+        "required_fields": {
+          "drug": "Lisinopril",
+          "strength": "10 mg",
+          "frequency": "daily in the morning"
+        },
+        "ground_truth_full_text": "OAKVALE COMMUNITY RX #305 RX # 4901283-7721   DATE: 11/15/2026 PATIENT: MARCUS VANCE LISINOPRIL 10 MG TABLET TAKE 1 TABLET DAILY IN THE MORNING QTY: 30 TABLETS   EXP: 11/2027 KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY",
+        "ocr_lines_count": 7,
+        "raw_ocr_echo": "OAKVALECOMMUNITYRX#305 RX# 4901283-7721 DATE: 11/15/2026 PATIENT: MARCUS VANCE LISINOPRIL 10 MG TABLET TAKE 1 TABLET DAILY IN THE MORNING QTY: 30 TABLETS EXP: 11/2027 KEEP OUTOF REACH OF CHILDREN - FORORAL USE ONLY",
+        "avg_confidence": 0.986,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "med_04",
+        "category": "medicine",
+        "prompt": "What medication is this and what is the prescribed dose?",
+        "required_fields": {
+          "drug": "Atorvastatin",
+          "strength": "20 mg",
+          "frequency": "daily at bedtime"
+        },
+        "ground_truth_full_text": "SUMMIT CREST PHARMACY #412 RX # 9021844-3310   DATE: 11/19/2026 PATIENT: ARJUN MEHTA ATORVASTATIN CALCIUM 20 MG TABLET TAKE 1 TABLET DAILY AT BEDTIME QTY: 30 TABLETS   EXP: 09/2027 KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY",
+        "ocr_lines_count": 7,
+        "raw_ocr_echo": "SUMMITCRESTPHARMACY#412 RX#9021844-3310 DATE: 11/19/2026 PATIENT: ARJUN MEHTA ATORVASTATIN CALCIUM 20 MG TABLET TAKE 1 TABLET DAILY AT BEDTIME QTY: 30 TABLETS EXP:09/2027 KEEP OUTOF REACH OF CHILDREN - FORORAL USE ONLY",
+        "avg_confidence": 0.9868,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "med_05",
+        "category": "medicine",
+        "prompt": "What medication is this and what is the prescribed dose?",
+        "required_fields": {
+          "drug": "Levothyroxine",
+          "strength": "50 mcg",
+          "frequency": "daily"
+        },
+        "ground_truth_full_text": "BEACON HILL MEDICAL RX #519 RX # 3319028-1123   DATE: 11/14/2026 PATIENT: CLARA OSWALD LEVOTHYROXINE SODIUM 50 MCG TABLET TAKE 1 TABLET DAILY 30 MINUTES BEFORE BREAKFAST QTY: 90 TABLETS   EXP: 08/2027 KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY",
+        "ocr_lines_count": 7,
+        "raw_ocr_echo": "BEACON HILL MEDICAL RX #519 RX# 3319028-1123 DATE: 11/14/2026 PATIENT: CLARAOSWALD LEVOTHYROXINE SODIUM 50 MCG TABLET TAKE 1 TABLET DAILY30 MINUTES BEFORE BREAKFAST QTY: 90 TABLETS EXP.08/2027 KEEP OUTOF REACH OF CHILDREN - FORORAL USE ONLY",
+        "avg_confidence": 0.9764,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "med_06",
+        "category": "medicine",
+        "prompt": "What medication is this and what is the prescribed dose?",
+        "required_fields": {
+          "drug": "Amlodipine",
+          "strength": "5 mg",
+          "frequency": "once daily"
+        },
+        "ground_truth_full_text": "PINE VALLEY PHARMACY #602 RX # 8820194-5561   DATE: 11/17/2026 PATIENT: PRIYA NAIR AMLODIPINE BESYLATE 5 MG TABLET TAKE 1 TABLET ONCE DAILY WITH WATER QTY: 30 TABLETS   EXP: 11/2027 KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY",
+        "ocr_lines_count": 7,
+        "raw_ocr_echo": "PINEVALLEYPHARMACY#602 RX# 8820194-5561 DATE: 11/17/2026 PATIENT: PRIYA NAIR AMLODIPINE BESYLATE 5 MG TABLET TAKE 1 TABLETONCE DAILY WITH WATER QTY: 30 TABLETS EXP: 11/2027 KEEP OUTOF REACH OF CHILDREN - FORORAL USE ONLY",
+        "avg_confidence": 0.9848,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "med_07",
+        "category": "medicine",
+        "prompt": "What medication is this and what is the prescribed dose?",
+        "required_fields": {
+          "drug": "Omeprazole",
+          "strength": "20 mg",
+          "frequency": "daily before breakfast"
+        },
+        "ground_truth_full_text": "CEDAR SPRINGS PHARMACY #718 RX # 5510294-8872   DATE: 11/16/2026 PATIENT: ARTHUR DENT OMEPRAZOLE 20 MG DELAYED RELEASE CAPSULE TAKE 1 CAPSULE DAILY BEFORE BREAKFAST QTY: 28 CAPSULES   EXP: 12/2027 KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY",
+        "ocr_lines_count": 7,
+        "raw_ocr_echo": "CEDAR SPRINGS PHARMACY#718 RX#5510294-8872 DATE: 11/16/2026 PATIENT: ARTHURDENT OMEPRAZOLE 20 MG DELAYED RELEASE CAPSULE TAKE 1 CAPSULE DAILY BEFORE BREAKFAST QTY: 28 CAPSULES EXP: 12/2027 KEEP OUTOF REACH OF CHILDREN - FORORAL USE ONLY",
+        "avg_confidence": 0.9836,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "med_08",
+        "category": "medicine",
+        "prompt": "What medication is this and what is the prescribed dose?",
+        "required_fields": {
+          "drug": "Gabapentin",
+          "strength": "300 mg",
+          "frequency": "three times daily"
+        },
+        "ground_truth_full_text": "HARBORVIEW CARE PHARMACY #915 RX # 4409182-1209   DATE: 11/12/2026 PATIENT: BRUCE WAYNE GABAPENTIN 300 MG CAPSULE TAKE 1 CAPSULE THREE TIMES DAILY FOR NERVE PAIN QTY: 90 CAPSULES   EXP: 10/2027 KEEP OUT OF REACH OF CHILDREN - FOR ORAL USE ONLY",
+        "ocr_lines_count": 7,
+        "raw_ocr_echo": "HARBORVIEW CARE PHARMACY #915 RX# 4409182-1209 DATE: 11/12/2026 PATIENT: BRUCEWAYNE GABAPENTIN 300 MG CAPSULE TAKE 1 CAPSULE THREE TIMES DAILY FOR NERVE PAIN QTY: 90 CAPSULES EXP: 10/2027 KEEP OUTOF REACH OF CHILDREN - FORORAL USE ONLY",
+        "avg_confidence": 0.9815,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "med_09",
+        "category": "medicine",
+        "prompt": "What medication is this and what is the prescribed dose?",
+        "required_fields": {
+          "drug": "Albuterol",
+          "strength": "90 mcg",
+          "frequency": "every 4 to 6 hours"
+        },
+        "ground_truth_full_text": "NORTH STAR APOTHECARY #774 RX # 4410928-6623   DATE: 11/14/2026 PATIENT: WANDA MAXIMOFF ALBUTEROL SULFATE 90 MCG INHALATION AEROSOL INHALE 2 PUFFS EVERY 4 TO 6 HOURS AS NEEDED QTY: 1 CANISTER   EXP: 08/2027 KEEP OUT OF REACH OF CHILDREN - FOR ORAL INHALATION ONLY",
+        "ocr_lines_count": 7,
+        "raw_ocr_echo": "NORTH STARAPOTHECARY#774 RX# 4410928-6623 DATE: 11/14/2026 PATIENT: WANDA MAXIMOFF ALBUTEROL SULFATE 90 MCG INHALATION AEROSOL INHALE 2 PUFFS EVERY 4 TO6 HOURS AS NEEDED QTY: 1CANISTER EXP:08/2027 KEEP OUT OF REACH OF CHILDREN - FORORAL INHALATION ONLY",
+        "avg_confidence": 0.9823,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "med_10",
+        "category": "medicine",
+        "prompt": "What medication is this and what is the prescribed dose?",
+        "required_fields": {
+          "drug": "Fluticasone",
+          "strength": "50 mcg",
+          "frequency": "once daily"
+        },
+        "ground_truth_full_text": "WEST END CARE PHARMACY #885 RX # 6610294-8831   DATE: 11/16/2026 PATIENT: SAM WILSON FLUTICASONE PROPIONATE 50 MCG NASAL SPRAY SPRAY 2 SPRAYS IN EACH NOSTRIL ONCE DAILY QTY: 1 BOTTLE   EXP: 10/2027 KEEP OUT OF REACH OF CHILDREN - FOR INTRANASAL USE ONLY",
+        "ocr_lines_count": 7,
+        "raw_ocr_echo": "WESTENDCARE PHARMACY#885 RX#6610294-8831 DATE: 11/16/2026 PATIENT: SAM WILSON FLUTICASONE PROPIONATE 50 MCG NASAL SPRAY SPRAY 2 SPRAYS IN EACH NOSTRIL ONCE DAILY QTY: 1 BOTTLE EXP: 10/2027 KEEPOUTOF REACH OF CHILDREN - FORINTRANASAL USE ONLY",
+        "avg_confidence": 0.9814,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "sign_01",
+        "category": "signage_menu",
+        "prompt": "What is the price of Cold Brew on this menu?",
+        "required_fields": {
+          "item": "Cold Brew",
+          "price": "$4.75"
+        },
+        "ground_truth_full_text": "ARTISAN COFFEE ROASTERS ESPRESSO ................. $3.50 AMERICANO ................ $4.00 COLD BREW ................ $4.75 OAT MILK LATTE ........... $5.50 ALL PRICES INCLUDE TAX",
+        "ocr_lines_count": 6,
+        "raw_ocr_echo": "ARTISAN COFFEE ROASTERS ESPRESSO AMERICANO... COLD W.... $4.75 OAT EMILK LATTE...$5.550 ALL PRICES INCLUDE TAX",
+        "avg_confidence": 0.924,
+        "fallback_triggered": false,
+        "verdict": "wrong_spoken"
+      },
+      {
+        "id": "sign_02",
+        "category": "signage_menu",
+        "prompt": "Which track do the downtown express trains arrive on?",
+        "required_fields": {
+          "train": "Trains A, C, E",
+          "track": "Track 2"
+        },
+        "ground_truth_full_text": "METROPOLITAN TRANSIT AUTHORITY DOWNTOWN & BROOKLYN EXPRESS TRAINS A, C, E -> TRACK 2 UPTOWN & BRONX -> TRACK 1 ACCESSIBLE ELEVATOR AT CONCOURSE LEVEL",
+        "ocr_lines_count": 5,
+        "raw_ocr_echo": "METROPOLITAN TRANSIT AUTHORITY DOWNTOWN & BROOKLYN EXPRESS TRAINS A C, E-> TRACK 2 UPTOWN & BRONX-> TRACK 1 ACCESSIBLE ELEVATORATCONCOURSE LEVEL",
+        "avg_confidence": 0.9706,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "sign_03",
+        "category": "signage_menu",
+        "prompt": "How much does the almond croissant cost?",
+        "required_fields": {
+          "item": "Almond Croissant",
+          "price": "$4.50"
+        },
+        "ground_truth_full_text": "LE PETIT PAIN ARTISAN BAKERY BUTTER CROISSANT ......... $3.25 PAIN AU CHOCOLAT ......... $3.85 ALMOND CROISSANT ......... $4.50 CINNAMON ROLL ............ $4.00",
+        "ocr_lines_count": 5,
+        "raw_ocr_echo": "LE PETIT PAIN ARTISAN BAKERY BUTTERCROISANT...$3.25 PAIN AU C HOCOLT...3.385 ALMONDCROISSANT.....$4.50 CINNAMON L...400",
+        "avg_confidence": 0.8838,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "sign_04",
+        "category": "signage_menu",
+        "prompt": "Which room number is the Cardiology Clinic?",
+        "required_fields": {
+          "clinic": "Cardiology Clinic",
+          "room": "Room 301"
+        },
+        "ground_truth_full_text": "ST. JUDE MEDICAL CENTER - 3RD FLOOR CARDIOLOGY CLINIC ......... ROOM 301 NEUROLOGY SUITE ........... ROOM 308 DIAGNOSTIC IMAGING ........ ROOM 315 PHARMACY DISPENSARY ....... ROOM 320",
+        "ocr_lines_count": 5,
+        "raw_ocr_echo": "ST. JUDE MEDICAL CENTER-3RD FLOOR CARDIOLOGYCLINIC ....ROOM. 301 NEUROLOGY SUITE..ROOM 308 DIAGNOSTIC IMAGING....ROOM 3155 PHARMAC Y DISPENSARY......ROOM 320",
+        "avg_confidence": 0.9303,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "sign_05",
+        "category": "signage_menu",
+        "prompt": "What is the departure gate and flight number?",
+        "required_fields": {
+          "flight": "Flight AI 102",
+          "gate": "Gate B24"
+        },
+        "ground_truth_full_text": "INTERNATIONAL TERMINAL B GATE B24 - ON TIME FLIGHT AI 102 -> LONDON HEATHROW BOARDING ZONE 1 AT 14:15 FINAL CALL AT 14:40",
+        "ocr_lines_count": 5,
+        "raw_ocr_echo": "INTERNATIONAL TERMINAL B GATE B24-ON TIME FLIGHT AI 102 -> LONDON HEATHROW BOARDING ZONE 1 AT 14:15 FINAL CALL AT 14:40",
+        "avg_confidence": 0.9799,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "sign_06",
+        "category": "signage_menu",
+        "prompt": "What does this door warning notice state?",
+        "required_fields": {
+          "notice": "Emergency Exit Only",
+          "action": "Push to open"
+        },
+        "ground_truth_full_text": "EMERGENCY EXIT ONLY ALARM WILL SOUND IF DOOR IS OPENED PUSH TO OPEN - BARRIER FREE REMAIN CALM AND PROCEED TO STAIRWELL D",
+        "ocr_lines_count": 4,
+        "raw_ocr_echo": "EMERGENCYEXITONLY ALARM WILL SOUND IF DOORIS OPENED PUSH TOOPEN-BARRIERFREE REMAIN CALM AND PROCEED TO STAIRWELL D",
+        "avg_confidence": 0.9883,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "sign_07",
+        "category": "signage_menu",
+        "prompt": "What is the price of the 12-inch Margherita pizza?",
+        "required_fields": {
+          "item": "Margherita Pizza",
+          "size": "12-Inch",
+          "price": "$14.50"
+        },
+        "ground_truth_full_text": "BELLA NAPOLI PIZZERIA SPECIALS MARGHERITA PIZZA 12-INCH .... $14.50 PEPPERONI SUPREME 12-INCH .. $16.75 TRUFFLE MUSHROOM 12-INCH ... $18.50 TIRAMISU DESSERT ........... $6.00",
+        "ocr_lines_count": 5,
+        "raw_ocr_echo": "BELLA NAPOLI PIZZERIA SPECIALS MARGHERITA PIZZA 12-INCH...$14.50 PEPPERONI SUPREME 12-INCH.. $16.75 TRUFFLE MUSHROOM 12-INCH... $18.50 TIRAMIS DSSERT....6.0",
+        "avg_confidence": 0.9534,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "sign_08",
+        "category": "signage_menu",
+        "prompt": "What is the maximum all day parking rate?",
+        "required_fields": {
+          "item": "All Day Maximum",
+          "price": "$25.00"
+        },
+        "ground_truth_full_text": "DOWNTOWN CENTRAL PARKING FIRST 1 HOUR ............... $5.00 UP TO 3 HOURS .............. $12.00 ALL DAY MAXIMUM ............ $25.00 LOST TICKET PAYS ........... $35.00",
+        "ocr_lines_count": 5,
+        "raw_ocr_echo": "DOWNTOWN CENTRAL PARKING FIRST HOR...$5.00 UP T3 HORS... 12.00 ALL DAY MAXIMUM..$25.00 LOST TICKET PAYS....5.0",
+        "avg_confidence": 0.8856,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "sign_09",
+        "category": "signage_menu",
+        "prompt": "Which lecture hall is marked on this plaque?",
+        "required_fields": {
+          "room": "Lecture Theatre CS-104",
+          "hours": "14:00 - 16:00"
+        },
+        "ground_truth_full_text": "DEPARTMENT OF COMPUTER SCIENCE LECTURE THEATRE CS-104 CAPACITY: 120 SEATS FACULTY OFFICE HOURS: 14:00 - 16:00 TUE/THU QUIET STUDY AREA IN CORRIDOR",
+        "ocr_lines_count": 5,
+        "raw_ocr_echo": "DEPARTMENTOFCOMPUTER SCIENCE LECTURE THEATRECS-104 CAPACITY: 120 SEATS FACULTYOFFICE HOURS: 14:00 - 16:00 TUE/THU QUIET STUDY AREA IN CORRIDOR",
+        "avg_confidence": 0.9794,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "sign_10",
+        "category": "signage_menu",
+        "prompt": "What is the charging rate per kilowatt-hour?",
+        "required_fields": {
+          "rate": "$0.38 per kWh",
+          "fee": "$1.00 session fee"
+        },
+        "ground_truth_full_text": "VOLTFAST CHARGING HUB - STALL #04 MAX POWER: 150 KW CCS DC FAST CHARGE RATE: $0.38 PER KWH + $1.00 SESSION FEE IDLE FEE AFTER 10 MINS: $0.50/MIN SUPPORT: 1-800-555-VOLT",
+        "ocr_lines_count": 5,
+        "raw_ocr_echo": "VOLTFASTCHARGING HUB- STALL #04 MAX POWER 150 KW CCS DC FAST CHARGE RATE: $0.38 PER KWH + $1.00 SESSION FEE IDLE FEE AFTER 10 MINS $0.50/MIN SUPPORT: 1-800-555-VOLT",
+        "avg_confidence": 0.9753,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "doc_01",
+        "category": "document",
+        "prompt": "What is the final total amount due on this grocery receipt?",
+        "required_fields": {
+          "item": "Total Amount Due",
+          "amount": "$15.40"
+        },
+        "ground_truth_full_text": "METRO MARKET GROCERY - STORE #410 ORGANIC WHOLE MILK 1 GAL ..... $4.29 SOURDOUGH BREAD .............. $3.99 HONEYCRISP APPLES 2.4 LB ..... $5.98 SUBTOTAL: $14.26   TAX: $1.14 TOTAL AMOUNT DUE: $15.40 THANK YOU FOR SHOPPING LOCAL!",
+        "ocr_lines_count": 7,
+        "raw_ocr_echo": "METRO MARKETGROCERY- STORE #410 ORGANIC WHOLE MILK 1 GAL.... $4.29 SOURDOUGH BREAD..33.99 HONEYCRISP APPLES 2.4 LB....$5.98 SUBTOTAL: $14.26 TAX $1.14 TOTAL AMOUNT DUE: $15.40 THANK YOU FOR SHOPPING LOCAL!",
+        "avg_confidence": 0.963,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "doc_02",
+        "category": "document",
+        "prompt": "What is the total current charge and due date on this electric bill?",
+        "required_fields": {
+          "charges": "$84.00",
+          "due_date": "11/30/2026"
+        },
+        "ground_truth_full_text": "PACIFIC POWER & ELECTRIC COMPANY ACCOUNT #: 9812-4410-02   BILLING PERIOD: OCT 2026 TOTAL CONSUMPTION: 420 KWH @ $0.18/KWH TRANSMISSION SURCHARGE: $8.40 TOTAL CURRENT CHARGES: $84.00 DUE DATE: 11/30/2026",
+        "ocr_lines_count": 6,
+        "raw_ocr_echo": "PACIFIC POWER & ELEC TRIC COMPANY ACCOUNT #: 9812-4410-02 BILLING PERIOD: OCT 2026 TOTAL CONSUMPTION: 420 KWH @ $0.18/KWH TRANSMISSION SURCHARGE: $8.40 TOTAL CURRENTCHARGES $84.00 DUE DATE: 11/30/2026",
+        "avg_confidence": 0.984,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "doc_03",
+        "category": "document",
+        "prompt": "According to this text, what is the maximum bandwidth ceiling?",
+        "required_fields": {
+          "ceiling": "14.0 GB/s"
+        },
+        "ground_truth_full_text": "DEEP LEARNING ON EMBEDDED EDGE ACCELERATORS SECTION 4.2: TENSOR MEMORY HIERARCHY TENSOR CORES STREAM DATA VIA LPDDR5 AT 22.0 GB/S. WEIGHT QUANTIZATION TO INT4 REDUCES TRAFFIC BY 75%. TOTAL BANDWIDTH MUST NOT EXCEED 14.0 GB/S CEILING.",
+        "ocr_lines_count": 5,
+        "raw_ocr_echo": "DEEP LEARNING ON EMBEDDED EDGE ACCELERATORS SEC TION 4.2: TENSOR MEMORY HIERARCHY TENSORCORES STREAM DATA VIA LPDDR5 AT 22.0 GB/S. WEIGHTQUANTIZATION TO INT4 REDUCES TRAFFIC BY 75% TOTAL BANDWIDTH MUST NOT EXCEED 14.0 GB/SCEILING.",
+        "avg_confidence": 0.9854,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "doc_04",
+        "category": "document",
+        "prompt": "What is the final invoice total amount?",
+        "required_fields": {
+          "item": "Invoice Total",
+          "amount": "$92.00"
+        },
+        "ground_truth_full_text": "TECHTRONICS HARDWARE SUPPLIES - INVOICE #8812 ITEM 1: ROCKCHIP RK3576 SOM 4GB .... QTY: 1 .. $65.00 ITEM 2: SONY IMX415 4K CAMERA ..... QTY: 1 .. $17.50 ITEM 3: LIPO BATTERY 300MAH ....... QTY: 2 .. $4.50 SHIPPING & HANDLING: $5.00 INVOICE TOTAL: $92.00",
+        "ocr_lines_count": 6,
+        "raw_ocr_echo": "TECHTRONICS HARDWARE SUPPLIES-INVOICE #8812 ITEM 1: ROCKCHIP RK3576 SOM 4GB.... QTY: 1.. $65.00 ITEM 2: SONY IMX415 4KCAMERA... QTY: 1.. $17.50 ITEM 3: LIPO BATTERY 300MAH....QTY: 2 ..$Q4.500 SHIPPING & HANDLING: $5.00 INVOICE TOTAL: $92.00",
+        "avg_confidence": 0.9651,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "doc_05",
+        "category": "document",
+        "prompt": "What is the fasting blood glucose value reported?",
+        "required_fields": {
+          "test": "Fasting Blood Glucose",
+          "value": "94 mg/dL"
+        },
+        "ground_truth_full_text": "DIAGNOSTIC PATHOLOGY LAB - PATIENT REF #4419 FASTING BLOOD GLUCOSE: 94 MG/DL (NORMAL: 70 - 99) HEMOGLOBIN A1C: 5.4% (NORMAL: < 5.7%) TOTAL CHOLESTEROL: 182 MG/DL (DESIRABLE: < 200) STATUS: ALL BIOMARKERS WITHIN NORMAL LIMITS",
+        "ocr_lines_count": 5,
+        "raw_ocr_echo": "DIAGNOSTIC PATHOLOGY LAB- PATIENT REF #4419 FASTING BLOOD GLUCOSE: 94 MG/DL (NORMAL: 70 - 99) HEMOGLOBIN A1C: 5.4% (NORMAL: < 5.7%) TOTAL CHOLESTEROL: 182 MG/DL (DESIRABLE: < 200) STATUS ALL BIOMARKERS WITHIN NORMAL LIMITS",
+        "avg_confidence": 0.9863,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "doc_06",
+        "category": "document",
+        "prompt": "What was the net total amount charged for the car rental?",
+        "required_fields": {
+          "item": "Net Total Charged",
+          "amount": "$165.00"
+        },
+        "ground_truth_full_text": "AVALON CAR RENTALS - CONTRACT #5512 VEHICLE: 2026 HYBRID SEDAN - REG # 7XYZ89 DAILY RATE: $45.00 X 3 DAYS = $135.00 COLLISION DAMAGE WAIVER: $30.00 NET TOTAL CHARGED TO CARD: $165.00 RETURN LOCATION: AIRPORT TERMINAL 2",
+        "ocr_lines_count": 6,
+        "raw_ocr_echo": "AVALON CAR RENTALS-CONTRACT #5512 VEHICLE: 2026 HYBRID SEDAN - REG # 7XYZ89 DAILY RATE: $45.00 X3 DAYS = $135.00 COLLISION DAMAGE WAIVER $30.00 NET TOTAL CHARGED TO CARD: $165.00 RETURN LOCATION: AIRPORT TERMINAL 2",
+        "avg_confidence": 0.9839,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "doc_07",
+        "category": "document",
+        "prompt": "What is the total check amount for table 14?",
+        "required_fields": {
+          "table": "Table 14",
+          "total": "$62.64"
+        },
+        "ground_truth_full_text": "THE OLIVE BISTRO - TABLE 14 1X WILD SALMON FILLET ......... $28.00 1X ROASTED VEGETABLE RISOTTO .. $22.00 2X SPARKLING WATER ............ $8.00 SUBTOTAL: $58.00   TAX: $4.64 TOTAL CHECK: $62.64",
+        "ocr_lines_count": 6,
+        "raw_ocr_echo": "THE OLIVE BISTRO- TABLE 14 1X WILD SALMON FILLET.....$28.00 1X ROASTED VEGETABLE RISOTTO.. $22.00 2X SPARKLING WAER..8.00 SUBTOTAL: $58.00 TAX $4.64 TOTAL CHECK $62.64",
+        "avg_confidence": 0.9551,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "doc_08",
+        "category": "document",
+        "prompt": "What accuracy does the 415M student model achieve in the experiment?",
+        "required_fields": {
+          "model": "Student 415M",
+          "accuracy": "95.2%"
+        },
+        "ground_truth_full_text": "IEEE TRANSACTIONS ON WEARABLE COMPUTING EXPERIMENT 3: KNOWLEDGE DISTILLATION CONVERGENCE STUDENT 415M ACHIEVES 95.2% ACCURACY ON PRESCRIPTIONS. BOUNDED FORWARD KL LOSS DECREASES FROM 0.134 TO 0.042. ZERO GRADIENT INSTABILITY OBSERVED OVER 300 STEPS.",
+        "ocr_lines_count": 5,
+        "raw_ocr_echo": "IEEE TRANSAC TIONSON WEARABLE COMPUTING EXPERIMENT3: KNOWLEDGE DISTILLATION CONVERGENCE STUDENT 415M ACHIEVES95.2% ACCURACYON PRESCRIPTIONS BOUNDED FORWARD KL LOSS DECREASES FROM 0.134 TO 0.042. ZEROGRADIENTINSTABILITYOBSERVEDOVER300 STEPS.",
+        "avg_confidence": 0.9896,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "doc_09",
+        "category": "document",
+        "prompt": "What is the maximum allowed daily adult dosage stated in this insert?",
+        "required_fields": {
+          "entity": "Maximum Adult Daily Dosage",
+          "dosage": "4000 mg"
+        },
+        "ground_truth_full_text": "PRODUCT PRESCRIBING INFORMATION MAXIMUM ADULT DAILY DOSAGE: 4000 MG PER 24 HOURS. DO NOT TAKE WITH OTHER ACETAMINOPHEN PRODUCTS. OVERDOSE WARNING: LIVER DAMAGE RISK IF EXCEEDED. STORE AT CONTROLLED ROOM TEMPERATURE 20C TO 25C.",
+        "ocr_lines_count": 5,
+        "raw_ocr_echo": "PRODUCT PRESCRIBING INFORMATION MAXIMUM ADULT DAILY DOSAGE: 4000 MG PER 24 HOURS DO NOT TAKE WITH OTHER ACETAMINOPHEN PRODUCTS. OVERDOSE WARNING: LIVER DAMAGE RISKIF EXCEEDED. STORE AT CONTROLLED ROOM TEMPERATURE 20C TO 25C.",
+        "avg_confidence": 0.9882,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "doc_10",
+        "category": "document",
+        "prompt": "What is the transfer reference number and wire amount?",
+        "required_fields": {
+          "reference": "TRF-2026-990142",
+          "amount": "$2,450.00 USD"
+        },
+        "ground_truth_full_text": "GLOBAL TRUST BANK - DOMESTIC WIRE ADVICE TRANSFER REF #: TRF-2026-990142 BENEFICIARY: ACME ROBOTICS RESEARCH LTD WIRE TRANSFER AMOUNT: $2,450.00 USD PROCESSING FEE: $15.00 STATUS: COMPLETED AND CREDITED",
+        "ocr_lines_count": 6,
+        "raw_ocr_echo": "GLOBAL TRUST BANK- DOMESTIC WIRE ADVICE TRANSFERREF #: TRF-2026-990142 BENEFICIARY: ACME ROBOTICS RESEARCH LTD WIRE TRANSFER AMOUNT: $2,450.00 USD PROCESSING FEE: $15.00 STATUS COMPLETED ANDCREDITED",
+        "avg_confidence": 0.9886,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "scene_01",
+        "category": "scene_text",
+        "prompt": "What is the guest Wi-Fi password shown on the counter sign?",
+        "required_fields": {
+          "network": "DailyGrind_Guest",
+          "password": "FreshCoffee2026"
+        },
+        "ground_truth_full_text": "THE DAILY GRIND ROASTERY ORDER HERE -> PICK UP AT END OF COUNTER FREE WI-FI NETWORK: DailyGrind_Guest PASSWORD: FreshCoffee2026",
+        "ocr_lines_count": 4,
+        "raw_ocr_echo": "THE DAILYGRIND ROASTERY ORDER HERE -> PICK UP AT ENDOF COUNTER FREE WI-FI NETWORK: DailyGrind_Guest PASSWORD: FreshCoffee2026",
+        "avg_confidence": 0.9772,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "scene_02",
+        "category": "scene_text",
+        "prompt": "What is the power supply output setting on this test bench?",
+        "required_fields": {
+          "output": "5.00V / 2.50A"
+        },
+        "ground_truth_full_text": "RIGID-FLEX TEST BENCH #03 POWER SUPPLY OUTPUT: 5.00V / 2.50A OSCILLOSCOPE CH1: I2S_BCLK 3.072 MHZ CH2: I2S_LRCK 48.0 KHZ WARNING: ESD SENSITIVE WORK AREA",
+        "ocr_lines_count": 5,
+        "raw_ocr_echo": "RIGID-FLEX TEST BENCH #03 POWERSUPPLYOUTPUT:5.00V/2.50A OSCILLOSCOPECH1: I2S_BCLK3.072 MHZ CH2: I2S_LRCK 48.0 KHZ WARNING: ESD SENSITIVE WORK AREA",
+        "avg_confidence": 0.9836,
+        "fallback_triggered": true,
+        "verdict": "correct"
+      },
+      {
+        "id": "scene_03",
+        "category": "scene_text",
+        "prompt": "What are the open hours for the Lumina Design Studio?",
+        "required_fields": {
+          "studio": "Lumina Design Studio",
+          "hours": "10:00 AM - 7:00 PM"
+        },
+        "ground_truth_full_text": "LUMINA DESIGN STUDIO & GALLERY OPEN HOURS: 10:00 AM - 7:00 PM MON-SAT CURATED TIMEPIECES & SMART EYEWEAR ENTRY THROUGH MAIN GLASS FOYER",
+        "ocr_lines_count": 4,
+        "raw_ocr_echo": "LUMINA DESIGN STUDIO & GALLERY OPEN HOURS: 10:00 AM - 7:00 PM MON-SAT CURATED TIMEPIECES & SMART EYEWEAR ENTRY THROUGH MAIN GLASS FOYER",
+        "avg_confidence": 0.9851,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "scene_04",
+        "category": "scene_text",
+        "prompt": "What meeting topic is scheduled on this conference room display?",
+        "required_fields": {
+          "topic": "Project Friday Capstone Defense"
+        },
+        "ground_truth_full_text": "INNOVATION LAB - MEETING ROOM B CURRENT RESERVATION: 15:00 - 16:30 TOPIC: PROJECT FRIDAY CAPSTONE DEFENSE HOST: KRISHNA JAGAT SOLANKI",
+        "ocr_lines_count": 4,
+        "raw_ocr_echo": "INNOVATION LAB- MEETING ROOM B CURRENT RESERVATION: 15:00 - 16:30 TOPIC: PROJECT FRIDAYCAPSTONE DEFENSE HOST: KRISHNA JAGAT SOLANKI",
+        "avg_confidence": 0.9832,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "scene_05",
+        "category": "scene_text",
+        "prompt": "What is the average dispensing wait time indicated at the window?",
+        "required_fields": {
+          "item": "Average Dispensing Wait Time",
+          "wait_time": "15 Mins"
+        },
+        "ground_truth_full_text": "PRESCRIPTION DROP-OFF & CONSULTATION AVERAGE DISPENSING WAIT TIME: 15 MINS HAVE PHOTO ID AND INSURANCE READY PHARMACIST ON DUTY: DR. HENDERSON",
+        "ocr_lines_count": 4,
+        "raw_ocr_echo": "PRESCRIPTION DROP-OFF & CONSULTATION AVERAGE DISPENSING WAIT TIME: 15 MINS HAVE PHOTO ID AND INSURANCE READY PHARMACISTON DUTY: DR HENDERSON",
+        "avg_confidence": 0.9879,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "scene_06",
+        "category": "scene_text",
+        "prompt": "When is the next southbound train arriving according to the sign?",
+        "required_fields": {
+          "train": "Times Square 42nd St",
+          "arrival": "3 Minutes"
+        },
+        "ground_truth_full_text": "PLATFORM 3 SOUTHBOUND NEXT TRAIN: TIMES SQUARE 42ND ST ARRIVING IN: 3 MINUTES STAND BEHIND YELLOW SAFETY LINE",
+        "ocr_lines_count": 4,
+        "raw_ocr_echo": "PLATFORM 3 SOUTHBOUND NEXT TRAIN: TIMES SQUARE 42ND ST ARRIVING IN: 3 MINUTES STAND BEHIND YELLOW SAFETY LINE",
+        "avg_confidence": 0.9902,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "scene_07",
+        "category": "scene_text",
+        "prompt": "What hazardous material classification is posted on this cabinet?",
+        "required_fields": {
+          "material": "Flammable Liquids",
+          "classification": "Class 3"
+        },
+        "ground_truth_full_text": "HAZARDOUS MATERIALS STORAGE CABINET FLAMMABLE LIQUIDS - CLASS 3 NO SMOKING OR OPEN FLAME WITHIN 25 FT EMERGENCY EYEWASH STATION LOCATED AT LEFT",
+        "ocr_lines_count": 4,
+        "raw_ocr_echo": "HAZARDOUS MATERIALS STORAGE CABINET FLAMMABLELIQUIDS-CLASS3 NO SMOKING OROPEN FLAME WITHIN 25 FT EMERGENCYEYEWASH STATION LOCATED AT LEFT",
+        "avg_confidence": 0.9883,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "scene_08",
+        "category": "scene_text",
+        "prompt": "What are the conduct rules for this library floor?",
+        "required_fields": {
+          "zone": "Silent Study Zone",
+          "rule": "No Cell Phones"
+        },
+        "ground_truth_full_text": "CENTRAL UNIVERSITY LIBRARY - FLOOR 4 SILENT STUDY ZONE - NO CELL PHONES PLEASE SET ALL DEVICES TO MUTE ASSISTANCE DESK AT ELEVATOR LOBBY",
+        "ocr_lines_count": 4,
+        "raw_ocr_echo": "CENTRAL UNIVERSITY LIBRARY- FLOOR 4 SILENT STUDY ZONE- NOCELL PHONES PLEASE SET ALL DEVICES TO MUTE ASSISTANCE DESK AT ELEVATOR LOBBY",
+        "avg_confidence": 0.9735,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "scene_09",
+        "category": "scene_text",
+        "prompt": "What is the maximum allowed vehicle speed in this testing area?",
+        "required_fields": {
+          "rule": "Max Vehicle Speed",
+          "speed": "1.5 m/s"
+        },
+        "ground_truth_full_text": "AUTONOMOUS MOBILE ROBOT TESTING AREA MAX VEHICLE SPEED: 1.5 M/S AUTHORIZED PERSONNEL ONLY PAST THIS POINT EMERGENCY E-STOP BUTTONS LOCATED ON ALL WALLS",
+        "ocr_lines_count": 4,
+        "raw_ocr_echo": "AUTONOMOUS MOBILE ROBOT TESTING AREA MAX VEHICLE SPEED: 1.5 M/S AUTHORIZED PERSONNEL ONLYPAST THIS POINT EMERGENCYE-STOP BUTTONS LOCATEDON ALL WALLS",
+        "avg_confidence": 0.9795,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      },
+      {
+        "id": "scene_10",
+        "category": "scene_text",
+        "prompt": "Which floors house the AI Research Incubator?",
+        "required_fields": {
+          "facility": "AI Research Incubator",
+          "floors": "Floors 4-6"
+        },
+        "ground_truth_full_text": "NEXUS TOWER COMPLEX - BUILDING A FLOORS 1-3: NMIMS ENGINEERING LABS FLOORS 4-6: AI RESEARCH INCUBATOR VISITOR CHECK-IN AT DESK IN LOBBY SECURITY BADGE REQUIRED BEYOND TURNSTILES",
+        "ocr_lines_count": 5,
+        "raw_ocr_echo": "NEXUS TOWERCOMPLEX- BUILDING A FLOORS 1-3: NMIMS ENGINEERING LABS FLOORS 4-6: AI RESEARCH INCUBATOR VISITORCHECK-IN AT DESK IN LOBBY SECURITY BADGE REQUIRED BEYOND TURNSTILES",
+        "avg_confidence": 0.9879,
+        "fallback_triggered": false,
+        "verdict": "correct"
+      }
+    ]
+  },
+  "kaggle_notebook_literal_answers_evaluation": {
+    "summary_counts": {
+      "correct": 0,
+      "incomplete": 2,
+      "wrong_spoken": 2,
+      "safe_refusal": 0,
+      "no_answer": 0
+    },
+    "items": [
+      {
+        "id": "med_01",
+        "literal_answer_text": "The prescribed dose of METROPOLIS RX#101 is 500 mg of amoxycillin once daily for 10 days. The recommended dosage is 500 mg of amoxycillin once daily",
+        "old_verdict_kaggle_notebook": "wrong_spoken",
+        "new_verdict_field_level_scorer": "wrong_spoken",
+        "evaluation_note": "Asserts 'once daily' when GT requires 'twice daily'. Harmful frequency error."
+      },
+      {
+        "id": "med_02",
+        "literal_answer_text": "The prescribed dose of metformin hydrocholate tablets is 500 mg per day.The recommended dose of metformin hydrocholate tablets is 500 mg per day.The recommended dose of metformin hydro",
+        "old_verdict_kaggle_notebook": "correct",
+        "new_verdict_field_level_scorer": "wrong_spoken",
+        "evaluation_note": "Asserts 'per day' when GT requires 'twice daily with meals'. Harmful frequency error (Audit #13 A2(a) identified this old false positive)."
+      },
+      {
+        "id": "med_03",
+        "literal_answer_text": "The prescribed dose of OAKVALECOMMUNITYRX#305 RX# 4901283-7721 is 1 tablet daily in the morning. The recommended dosage of OAKVALECOMM",
+        "old_verdict_kaggle_notebook": "wrong_spoken",
+        "new_verdict_field_level_scorer": "incomplete",
+        "evaluation_note": "Omitted drug name 'Lisinopril' and strength '10 mg'. Stated nothing false or contradictory. Verdict is 'incomplete' under field-level scorer."
+      },
+      {
+        "id": "med_04",
+        "literal_answer_text": "SUMMITCRESTPHARMACY#412 RX# 9021844-3310 DATE: 11/19/2026 PATIENT: ARJUN MEHTA",
+        "old_verdict_kaggle_notebook": "wrong_spoken",
+        "new_verdict_field_level_scorer": "incomplete",
+        "evaluation_note": "Omitted required fields ('Atorvastatin', '20 mg', 'daily at bedtime'). Stated nothing false or contradictory. Verdict is 'incomplete' under field-level scorer."
+      }
+    ]
+  }
+}

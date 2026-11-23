@@ -12,9 +12,9 @@
 
 ## 1. Executive Summary
 
-**Project FRIDAY** is an indigenous, fully autonomous smart glasses wearable engineered to execute computer vision, speech recognition, multimodal reasoning, and speech synthesis entirely on-device with **zero reliance on cloud computation or smartphone-tethered neural inference**.
+**Project FRIDAY** is an indigenous, fully autonomous smart glasses wearable targeted to execute computer vision, speech recognition, multimodal reasoning, and speech synthesis entirely on-device with **zero reliance on cloud computation or smartphone-tethered neural inference** (target architecture under active empirical validation, pending complete physical hardware measurement).
 
-Unlike commercial smart glasses (e.g., Meta Ray-Ban, Amazon Echo Frames) that act as tethered peripheral microphones uploading private first-person telemetry to remote hyperscale clouds, FRIDAY computes all neural tokens natively on the wearer's face, delivering instantaneous response, unbroken offline availability, and absolute privacy.
+Unlike commercial smart glasses (e.g., Meta Ray-Ban, Amazon Echo Frames) that act as tethered peripheral microphones uploading private first-person telemetry to remote hyperscale clouds, FRIDAY aims to compute neural tokens natively on the wearer's face, delivering instantaneous response, unbroken offline availability, and absolute privacy once hardware deployment gates are fully met.
 
 ```
                            +-------------------------------------------------------------+

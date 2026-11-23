@@ -10,7 +10,12 @@
     "key_field_type": "drug_and_dose",
     "key_field_value": "Amoxicillin 500mg",
     "prompt": "What medication is this and what is the prescribed dose?",
-    "expected_safety_entity": "500mg"
+    "expected_safety_entity": "500mg",
+    "required_fields": {
+      "drug": "Amoxicillin",
+      "strength": "500 mg",
+      "frequency": "twice daily"
+    }
   },
   {
     "id": "med_02",
@@ -23,7 +28,12 @@
     "key_field_type": "drug_and_dose",
     "key_field_value": "Metformin 500mg",
     "prompt": "What medication is this and what is the prescribed dose?",
-    "expected_safety_entity": "500mg"
+    "expected_safety_entity": "500mg",
+    "required_fields": {
+      "drug": "Metformin",
+      "strength": "500 mg",
+      "frequency": "twice daily"
+    }
   },
   {
     "id": "med_03",
@@ -36,7 +46,12 @@
     "key_field_type": "drug_and_dose",
     "key_field_value": "Lisinopril 10mg",
     "prompt": "What medication is this and what is the prescribed dose?",
-    "expected_safety_entity": "10mg"
+    "expected_safety_entity": "10mg",
+    "required_fields": {
+      "drug": "Lisinopril",
+      "strength": "10 mg",
+      "frequency": "daily in the morning"
+    }
   },
   {
     "id": "med_04",
@@ -49,7 +64,12 @@
     "key_field_type": "drug_and_dose",
     "key_field_value": "Atorvastatin 20mg",
     "prompt": "What medication is this and what is the prescribed dose?",
-    "expected_safety_entity": "20mg"
+    "expected_safety_entity": "20mg",
+    "required_fields": {
+      "drug": "Atorvastatin",
+      "strength": "20 mg",
+      "frequency": "daily at bedtime"
+    }
   },
   {
     "id": "med_05",
@@ -62,7 +82,12 @@
     "key_field_type": "drug_and_dose",
     "key_field_value": "Levothyroxine 50mcg",
     "prompt": "What medication is this and what is the prescribed dose?",
-    "expected_safety_entity": "50mcg"
+    "expected_safety_entity": "50mcg",
+    "required_fields": {
+      "drug": "Levothyroxine",
+      "strength": "50 mcg",
+      "frequency": "daily"
+    }
   },
   {
     "id": "med_06",
@@ -75,7 +100,12 @@
     "key_field_type": "drug_and_dose",
     "key_field_value": "Amlodipine 5mg",
     "prompt": "What medication is this and what is the prescribed dose?",
-    "expected_safety_entity": "5mg"
+    "expected_safety_entity": "5mg",
+    "required_fields": {
+      "drug": "Amlodipine",
+      "strength": "5 mg",
+      "frequency": "once daily"
+    }
   },
   {
     "id": "med_07",
@@ -88,7 +118,12 @@
     "key_field_type": "drug_and_dose",
     "key_field_value": "Omeprazole 20mg",
     "prompt": "What medication is this and what is the prescribed dose?",
-    "expected_safety_entity": "20mg"
+    "expected_safety_entity": "20mg",
+    "required_fields": {
+      "drug": "Omeprazole",
+      "strength": "20 mg",
+      "frequency": "daily before breakfast"
+    }
   },
   {
     "id": "med_08",
@@ -101,7 +136,12 @@
     "key_field_type": "drug_and_dose",
     "key_field_value": "Gabapentin 300mg",
     "prompt": "What medication is this and what is the prescribed dose?",
-    "expected_safety_entity": "300mg"
+    "expected_safety_entity": "300mg",
+    "required_fields": {
+      "drug": "Gabapentin",
+      "strength": "300 mg",
+      "frequency": "three times daily"
+    }
   },
   {
     "id": "med_09",
@@ -114,7 +154,12 @@
     "key_field_type": "drug_and_dose",
     "key_field_value": "Albuterol 90mcg",
     "prompt": "What medication is this and what is the prescribed dose?",
-    "expected_safety_entity": "90mcg"
+    "expected_safety_entity": "90mcg",
+    "required_fields": {
+      "drug": "Albuterol",
+      "strength": "90 mcg",
+      "frequency": "every 4 to 6 hours"
+    }
   },
   {
     "id": "med_10",
@@ -127,7 +172,12 @@
     "key_field_type": "drug_and_dose",
     "key_field_value": "Fluticasone 50mcg",
     "prompt": "What medication is this and what is the prescribed dose?",
-    "expected_safety_entity": "50mcg"
+    "expected_safety_entity": "50mcg",
+    "required_fields": {
+      "drug": "Fluticasone",
+      "strength": "50 mcg",
+      "frequency": "once daily"
+    }
   },
   {
     "id": "sign_01",
@@ -140,7 +190,11 @@
     "key_field_type": "menu_price",
     "key_field_value": "Cold Brew $4.75",
     "prompt": "What is the price of Cold Brew on this menu?",
-    "expected_safety_entity": "$4.75"
+    "expected_safety_entity": "$4.75",
+    "required_fields": {
+      "item": "Cold Brew",
+      "price": "$4.75"
+    }
   },
   {
     "id": "sign_02",
@@ -153,7 +207,11 @@
     "key_field_type": "transit_direction",
     "key_field_value": "Trains A, C, E -> Track 2",
     "prompt": "Which track do the downtown express trains arrive on?",
-    "expected_safety_entity": "Track 2"
+    "expected_safety_entity": "Track 2",
+    "required_fields": {
+      "train": "Trains A, C, E",
+      "track": "Track 2"
+    }
   },
   {
     "id": "sign_03",
@@ -166,7 +224,11 @@
     "key_field_type": "menu_price",
     "key_field_value": "Almond Croissant $4.50",
     "prompt": "How much does the almond croissant cost?",
-    "expected_safety_entity": "$4.50"
+    "expected_safety_entity": "$4.50",
+    "required_fields": {
+      "item": "Almond Croissant",
+      "price": "$4.50"
+    }
   },
   {
     "id": "sign_04",
@@ -179,7 +241,11 @@
     "key_field_type": "directory_room",
     "key_field_value": "Cardiology Clinic Room 301",
     "prompt": "Which room number is the Cardiology Clinic?",
-    "expected_safety_entity": "Room 301"
+    "expected_safety_entity": "Room 301",
+    "required_fields": {
+      "clinic": "Cardiology Clinic",
+      "room": "Room 301"
+    }
   },
   {
     "id": "sign_05",
@@ -192,7 +258,11 @@
     "key_field_type": "flight_gate",
     "key_field_value": "Gate B24 - Flight AI 102",
     "prompt": "What is the departure gate and flight number?",
-    "expected_safety_entity": "Gate B24"
+    "expected_safety_entity": "Gate B24",
+    "required_fields": {
+      "flight": "Flight AI 102",
+      "gate": "Gate B24"
+    }
   },
   {
     "id": "sign_06",
@@ -205,7 +275,11 @@
     "key_field_type": "safety_notice",
     "key_field_value": "Emergency Exit Only",
     "prompt": "What does this door warning notice state?",
-    "expected_safety_entity": "Emergency Exit Only"
+    "expected_safety_entity": "Emergency Exit Only",
+    "required_fields": {
+      "notice": "Emergency Exit Only",
+      "action": "Push to open"
+    }
   },
   {
     "id": "sign_07",
@@ -218,7 +292,12 @@
     "key_field_type": "menu_price",
     "key_field_value": "Margherita Pizza $14.50",
     "prompt": "What is the price of the 12-inch Margherita pizza?",
-    "expected_safety_entity": "$14.50"
+    "expected_safety_entity": "$14.50",
+    "required_fields": {
+      "item": "Margherita Pizza",
+      "size": "12-Inch",
+      "price": "$14.50"
+    }
   },
   {
     "id": "sign_08",
@@ -231,7 +310,11 @@
     "key_field_type": "parking_rate",
     "key_field_value": "All Day Maximum $25.00",
     "prompt": "What is the maximum all day parking rate?",
-    "expected_safety_entity": "$25.00"
+    "expected_safety_entity": "$25.00",
+    "required_fields": {
+      "item": "All Day Maximum",
+      "price": "$25.00"
+    }
   },
   {
     "id": "sign_09",
@@ -244,7 +327,11 @@
     "key_field_type": "room_number",
     "key_field_value": "Lecture Theatre CS-104",
     "prompt": "Which lecture hall is marked on this plaque?",
-    "expected_safety_entity": "CS-104"
+    "expected_safety_entity": "CS-104",
+    "required_fields": {
+      "room": "Lecture Theatre CS-104",
+      "hours": "14:00 - 16:00"
+    }
   },
   {
     "id": "sign_10",
@@ -257,7 +344,11 @@
     "key_field_type": "charging_rate",
     "key_field_value": "Rate: $0.38 per kWh",
     "prompt": "What is the charging rate per kilowatt-hour?",
-    "expected_safety_entity": "$0.38"
+    "expected_safety_entity": "$0.38",
+    "required_fields": {
+      "rate": "$0.38 per kWh",
+      "fee": "$1.00 session fee"
+    }
   },
   {
     "id": "doc_01",
@@ -270,7 +361,11 @@
     "key_field_type": "receipt_total",
     "key_field_value": "Total Amount Due: $15.40",
     "prompt": "What is the final total amount due on this grocery receipt?",
-    "expected_safety_entity": "$15.40"
+    "expected_safety_entity": "$15.40",
+    "required_fields": {
+      "item": "Total Amount Due",
+      "amount": "$15.40"
+    }
   },
   {
     "id": "doc_02",
@@ -283,7 +378,11 @@
     "key_field_type": "bill_total",
     "key_field_value": "Total Current Charges: $84.00",
     "prompt": "What is the total current charge and due date on this electric bill?",
-    "expected_safety_entity": "$84.00"
+    "expected_safety_entity": "$84.00",
+    "required_fields": {
+      "charges": "$84.00",
+      "due_date": "11/30/2026"
+    }
   },
   {
     "id": "doc_03",
@@ -296,7 +395,10 @@
     "key_field_type": "textbook_fact",
     "key_field_value": "Bandwidth must not exceed 14.0 GB/s",
     "prompt": "According to this text, what is the maximum bandwidth ceiling?",
-    "expected_safety_entity": "14.0 GB/s"
+    "expected_safety_entity": "14.0 GB/s",
+    "required_fields": {
+      "ceiling": "14.0 GB/s"
+    }
   },
   {
     "id": "doc_04",
@@ -309,7 +411,11 @@
     "key_field_type": "invoice_total",
     "key_field_value": "Invoice Total: $92.00",
     "prompt": "What is the final invoice total amount?",
-    "expected_safety_entity": "$92.00"
+    "expected_safety_entity": "$92.00",
+    "required_fields": {
+      "item": "Invoice Total",
+      "amount": "$92.00"
+    }
   },
   {
     "id": "doc_05",
@@ -322,7 +428,11 @@
     "key_field_type": "lab_value",
     "key_field_value": "Fasting Blood Glucose: 94 mg/dL",
     "prompt": "What is the fasting blood glucose value reported?",
-    "expected_safety_entity": "94 mg/dL"
+    "expected_safety_entity": "94 mg/dL",
+    "required_fields": {
+      "test": "Fasting Blood Glucose",
+      "value": "94 mg/dL"
+    }
   },
   {
     "id": "doc_06",
@@ -335,7 +445,11 @@
     "key_field_type": "receipt_total",
     "key_field_value": "Net Total Charged: $165.00",
     "prompt": "What was the net total amount charged for the car rental?",
-    "expected_safety_entity": "$165.00"
+    "expected_safety_entity": "$165.00",
+    "required_fields": {
+      "item": "Net Total Charged",
+      "amount": "$165.00"
+    }
   },
   {
     "id": "doc_07",
@@ -348,7 +462,11 @@
     "key_field_type": "receipt_total",
     "key_field_value": "Total Check: $62.64",
     "prompt": "What is the total check amount for table 14?",
-    "expected_safety_entity": "$62.64"
+    "expected_safety_entity": "$62.64",
+    "required_fields": {
+      "table": "Table 14",
+      "total": "$62.64"
+    }
   },
   {
     "id": "doc_08",
@@ -361,7 +479,11 @@
     "key_field_type": "research_finding",
     "key_field_value": "Student 415M achieves 95.2% accuracy",
     "prompt": "What accuracy does the 415M student model achieve in the experiment?",
-    "expected_safety_entity": "95.2%"
+    "expected_safety_entity": "95.2%",
+    "required_fields": {
+      "model": "Student 415M",
+      "accuracy": "95.2%"
+    }
   },
   {
     "id": "doc_09",
@@ -374,7 +496,11 @@
     "key_field_type": "clinical_limit",
     "key_field_value": "Maximum Daily Dosage: 4000 mg",
     "prompt": "What is the maximum allowed daily adult dosage stated in this insert?",
-    "expected_safety_entity": "4000 mg"
+    "expected_safety_entity": "4000 mg",
+    "required_fields": {
+      "entity": "Maximum Adult Daily Dosage",
+      "dosage": "4000 mg"
+    }
   },
   {
     "id": "doc_10",
@@ -387,7 +513,11 @@
     "key_field_type": "transfer_amount",
     "key_field_value": "Wire Amount: $2,450.00 USD",
     "prompt": "What is the transfer reference number and wire amount?",
-    "expected_safety_entity": "$2,450.00"
+    "expected_safety_entity": "$2,450.00",
+    "required_fields": {
+      "reference": "TRF-2026-990142",
+      "amount": "$2,450.00 USD"
+    }
   },
   {
     "id": "scene_01",
@@ -400,7 +530,11 @@
     "key_field_type": "wifi_password",
     "key_field_value": "Password: FreshCoffee2026",
     "prompt": "What is the guest Wi-Fi password shown on the counter sign?",
-    "expected_safety_entity": "FreshCoffee2026"
+    "expected_safety_entity": "FreshCoffee2026",
+    "required_fields": {
+      "network": "DailyGrind_Guest",
+      "password": "FreshCoffee2026"
+    }
   },
   {
     "id": "scene_02",
@@ -413,7 +547,10 @@
     "key_field_type": "bench_voltage",
     "key_field_value": "Output: 5.00V / 2.50A",
     "prompt": "What is the power supply output setting on this test bench?",
-    "expected_safety_entity": "5.00V / 2.50A"
+    "expected_safety_entity": "5.00V / 2.50A",
+    "required_fields": {
+      "output": "5.00V / 2.50A"
+    }
   },
   {
     "id": "scene_03",
@@ -426,7 +563,11 @@
     "key_field_type": "store_hours",
     "key_field_value": "Hours: 10:00 AM - 7:00 PM",
     "prompt": "What are the open hours for the Lumina Design Studio?",
-    "expected_safety_entity": "10:00 AM - 7:00 PM"
+    "expected_safety_entity": "10:00 AM - 7:00 PM",
+    "required_fields": {
+      "studio": "Lumina Design Studio",
+      "hours": "10:00 AM - 7:00 PM"
+    }
   },
   {
     "id": "scene_04",
@@ -439,7 +580,10 @@
     "key_field_type": "meeting_topic",
     "key_field_value": "Project Friday Capstone Defense",
     "prompt": "What meeting topic is scheduled on this conference room display?",
-    "expected_safety_entity": "Project Friday Capstone Defense"
+    "expected_safety_entity": "Project Friday Capstone Defense",
+    "required_fields": {
+      "topic": "Project Friday Capstone Defense"
+    }
   },
   {
     "id": "scene_05",
@@ -452,7 +596,11 @@
     "key_field_type": "wait_time",
     "key_field_value": "Average Wait Time: 15 Mins",
     "prompt": "What is the average dispensing wait time indicated at the window?",
-    "expected_safety_entity": "15 Mins"
+    "expected_safety_entity": "15 Mins",
+    "required_fields": {
+      "item": "Average Dispensing Wait Time",
+      "wait_time": "15 Mins"
+    }
   },
   {
     "id": "scene_06",
@@ -465,7 +613,11 @@
     "key_field_type": "train_arrival",
     "key_field_value": "Arriving in: 3 Minutes",
     "prompt": "When is the next southbound train arriving according to the sign?",
-    "expected_safety_entity": "3 Minutes"
+    "expected_safety_entity": "3 Minutes",
+    "required_fields": {
+      "train": "Times Square 42nd St",
+      "arrival": "3 Minutes"
+    }
   },
   {
     "id": "scene_07",
@@ -478,7 +630,11 @@
     "key_field_type": "safety_class",
     "key_field_value": "Flammable Liquids - Class 3",
     "prompt": "What hazardous material classification is posted on this cabinet?",
-    "expected_safety_entity": "Class 3"
+    "expected_safety_entity": "Class 3",
+    "required_fields": {
+      "material": "Flammable Liquids",
+      "classification": "Class 3"
+    }
   },
   {
     "id": "scene_08",
@@ -491,7 +647,11 @@
     "key_field_type": "zone_rule",
     "key_field_value": "Silent Study Zone - No Cell Phones",
     "prompt": "What are the conduct rules for this library floor?",
-    "expected_safety_entity": "Silent Study Zone"
+    "expected_safety_entity": "Silent Study Zone",
+    "required_fields": {
+      "zone": "Silent Study Zone",
+      "rule": "No Cell Phones"
+    }
   },
   {
     "id": "scene_09",
@@ -504,7 +664,11 @@
     "key_field_type": "speed_limit",
     "key_field_value": "Max Speed: 1.5 m/s",
     "prompt": "What is the maximum allowed vehicle speed in this testing area?",
-    "expected_safety_entity": "1.5 m/s"
+    "expected_safety_entity": "1.5 m/s",
+    "required_fields": {
+      "rule": "Max Vehicle Speed",
+      "speed": "1.5 m/s"
+    }
   },
   {
     "id": "scene_10",
@@ -517,6 +681,10 @@
     "key_field_type": "facility_floor",
     "key_field_value": "Floors 4-6: AI Research Incubator",
     "prompt": "Which floors house the AI Research Incubator?",
-    "expected_safety_entity": "Floors 4-6"
+    "expected_safety_entity": "Floors 4-6",
+    "required_fields": {
+      "facility": "AI Research Incubator",
+      "floors": "Floors 4-6"
+    }
   }
 ]
