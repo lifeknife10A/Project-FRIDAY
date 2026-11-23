@@ -1,5 +1,8 @@
 {
-  "git_commit_sha": "5262408",
+  "git_commit_sha": "a8d4439f661fd6133c028af46d0ffa22c7e2e6b9",
+  "short_sha": "a8d4439",
+  "dirty": false,
+  "diff_hash": null,
   "total_samples": 40,
   "overall_summary": {
     "correct": 29,

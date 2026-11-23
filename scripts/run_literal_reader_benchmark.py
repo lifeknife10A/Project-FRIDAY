@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-PROJECT FRIDAY - EXTRACTIVE LITERAL READER BENCHMARK (Auditor Item B5)
+PROJECT FRIDAY - EXTRACTIVE LITERAL READER BENCHMARK (Auditor Items B5 & C0)
 Evaluates the extractive literal reader over all 40 benchmark images
 using RapidOCR 3.10.0 on CPU.
 Outputs per-item results and aggregate category summary table.
+Enforces strict git provenance and clean working tree checks (Item C0).
 """
 
 import os
@@ -25,17 +26,13 @@ from phase1_ai_sandbox.src.benchmark_dataset_evaluator import (
 from phase1_ai_sandbox.src.literal_reader import (
     read_literal, CONFIDENCE_THRESHOLD
 )
+from phase1_ai_sandbox.src.eval_provenance import get_eval_provenance
 
-def run_benchmark(output_dir: str = None, sha: str = None) -> dict:
-    if sha is None:
-        try:
-            res = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=REPO_ROOT)
-            sha = res.stdout.strip() or "c932e12"
-        except Exception:
-            sha = "c932e12"
+def run_benchmark(output_dir: str = None, allow_dirty: bool = False) -> dict:
+    full_sha, short_sha, is_dirty, diff_hash = get_eval_provenance(REPO_ROOT, allow_dirty=allow_dirty)
 
     if output_dir is None:
-        output_dir = os.path.join(REPO_ROOT, "phase1_ai_sandbox/eval_runs", sha)
+        output_dir = os.path.join(REPO_ROOT, "phase1_ai_sandbox/eval_runs", short_sha)
     os.makedirs(output_dir, exist_ok=True)
 
     manifest_path = os.path.join(REPO_ROOT, "assets/benchmark_dataset/benchmark_manifest.json")
@@ -46,8 +43,9 @@ def run_benchmark(output_dir: str = None, sha: str = None) -> dict:
         samples = json.load(f)
 
     print("=" * 70)
-    print("PROJECT FRIDAY - EXTRACTIVE LITERAL READER EMPIRICAL BENCHMARK (B5)")
+    print("PROJECT FRIDAY - EXTRACTIVE LITERAL READER EMPIRICAL BENCHMARK (B5/C0)")
     print("=" * 70)
+    print(f"Git Commit SHA : {full_sha} (short: {short_sha}, dirty: {is_dirty})")
     print(f"Target Dataset : {len(samples)} benchmark photos (assets/benchmark_dataset/)")
     print(f"OCR Engine     : RapidOCR 3.10.0 (PP-OCRv6) on CPU")
     print(f"Safety Config  : Confidence threshold = {CONFIDENCE_THRESHOLD:.2f}")
@@ -58,58 +56,55 @@ def run_benchmark(output_dir: str = None, sha: str = None) -> dict:
     category_breakdown = {}
 
     for idx, item in enumerate(samples):
-        s_id = item["id"]
         cat = item["category"]
-        prompt = item.get("prompt", "")
-        img_fn = item.get("filename", "")
-        img_path = os.path.join(REPO_ROOT, "assets/benchmark_dataset/images", img_fn)
-        gt_full = item.get("ground_truth_full_text", "")
-        target_key = item.get("key_field_value", "")
+        if cat not in category_breakdown:
+            category_breakdown[cat] = {"correct": 0, "safe_refusal": 0, "wrong_spoken": 0, "incomplete": 0, "no_answer": 0}
 
-        category_breakdown.setdefault(cat, {"correct": 0, "safe_refusal": 0, "wrong_spoken": 0, "incomplete": 0, "no_answer": 0})
-
+        img_path = os.path.join(REPO_ROOT, "assets/benchmark_dataset/images", item["filename"])
         if not os.path.exists(img_path):
-            speech = REFUSAL_TEXT
-            source_line_ids = []
-            refusal_reason = f"Image file missing: {img_fn}"
-            verdict = "safe_refusal"
-        else:
-            ocr_lines = run_ocr(img_path)
-            lit_res = read_literal(ocr_lines, cat, prompt)
-            speech = lit_res.get("speech", REFUSAL_TEXT)
-            source_line_ids = lit_res.get("source_line_ids", [])
-            refusal_reason = lit_res.get("refusal_reason")
+            img_path = os.path.join(REPO_ROOT, "phase1_ai_sandbox/benchmark_dataset/images", item["filename"])
 
-            fb = (speech == REFUSAL_TEXT)
-            verdict = score_response(speech, item, gt_full, is_fallback=fb)
+        ocr_lines = run_ocr(img_path)
+        reader_out = read_literal(ocr_lines, category=cat, question=item.get("prompt", ""))
+
+        speech = reader_out.get("speech", REFUSAL_TEXT)
+        reason = reader_out.get("refusal_reason")
+        src_ids = reader_out.get("source_line_ids", [])
+
+        # Evaluate verdict using authoritative score_response
+        is_fb = (speech == REFUSAL_TEXT)
+        verdict = score_response(speech, item, item["ground_truth_full_text"], is_fallback=is_fb)
 
         overall_counts[verdict] += 1
         category_breakdown[cat][verdict] += 1
 
-        record = {
-            "id": s_id,
+        per_item_results.append({
+            "id": item["id"],
             "category": cat,
             "title": item.get("title", ""),
-            "prompt": prompt,
-            "target_key_field": target_key,
+            "prompt": item.get("prompt", ""),
+            "target_key_field": item.get("key_field_value", ""),
             "speech": speech,
             "verdict": verdict,
-            "refusal_reason": refusal_reason,
-            "source_line_ids": source_line_ids
-        }
-        per_item_results.append(record)
+            "refusal_reason": reason,
+            "source_line_ids": src_ids
+        })
 
-        print(f"[{idx+1:02d}/40] {s_id} ({cat:<12s}): {verdict.upper():<12s} | '{speech}'")
-        if refusal_reason:
-            print(f"       -> Refusal Reason: {refusal_reason}")
+        tag = verdict.upper()
+        print(f"[{idx+1:02d}/{len(samples)}] {item['id']:<7s} ({cat:<14s}): {tag:<13s} | '{speech}'")
+        if reason and is_fb:
+            print(f"       -> Refusal Reason: {reason}")
 
-    total_samples = len(samples)
-    acc_pct = (overall_counts["correct"] / total_samples) * 100.0
-    safe_pct = ((overall_counts["correct"] + overall_counts["safe_refusal"]) / total_samples) * 100.0
+    tot = len(samples)
+    acc_pct = (overall_counts["correct"] / tot) * 100.0 if tot else 0.0
+    safe_pct = ((overall_counts["correct"] + overall_counts["safe_refusal"]) / tot) * 100.0 if tot else 0.0
 
     benchmark_report = {
-        "git_commit_sha": sha,
-        "total_samples": total_samples,
+        "git_commit_sha": full_sha,
+        "short_sha": short_sha,
+        "dirty": is_dirty,
+        "diff_hash": diff_hash,
+        "total_samples": tot,
         "overall_summary": {
             "correct": overall_counts["correct"],
             "safe_refusal": overall_counts["safe_refusal"],
@@ -128,7 +123,7 @@ def run_benchmark(output_dir: str = None, sha: str = None) -> dict:
         json.dump(benchmark_report, f, indent=2)
 
     print("\n" + "=" * 70)
-    print("EXTRACTIVE LITERAL READER BENCHMARK SUMMARY (B5)")
+    print("EXTRACTIVE LITERAL READER BENCHMARK SUMMARY (B5/C0)")
     print("=" * 70)
     print(f"{'Category':<16s} | {'Correct':<8s} | {'Safe-Ref':<8s} | {'Wrong-Spk':<10s} | {'Incomplete':<10s} | {'No-Ans':<8s}")
     print("-" * 70)
@@ -145,7 +140,7 @@ def run_benchmark(output_dir: str = None, sha: str = None) -> dict:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run literal reader benchmark over 40 images.")
-    parser.add_argument("--sha", type=str, default=None, help="Commit SHA folder name.")
     parser.add_argument("--output-dir", type=str, default=None, help="Explicit output directory.")
+    parser.add_argument("--allow-dirty", action="store_true", help="Allow running on dirty working tree.")
     args = parser.parse_args()
-    run_benchmark(output_dir=args.output_dir, sha=args.sha)
+    run_benchmark(output_dir=args.output_dir, allow_dirty=args.allow_dirty)

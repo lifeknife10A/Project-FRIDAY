@@ -1,0 +1,5049 @@
+{
+  "provenance": {
+    "full_sha": "b661d8095af548cbe4ac9cae4a7ad3d336682d70",
+    "short_sha": "b661d80",
+    "dirty": true,
+    "diff_hash": "2760b13443e9a6860dce393526a1940639c0ac25545e65b456d07e2616577fa5"
+  },
+  "metadata": {
+    "source_annotations_url": "https://vizwiz.cs.colorado.edu/VizWiz_final/vqa_data/Annotations.zip",
+    "source_annotations_sha256": "dbc32fc1e3f1b1039aea906030d569d6c238b4ddb2eea5e3453a6a565c829ec9",
+    "source_images_url": "https://vizwiz.cs.colorado.edu/VizWiz_final/images/val.zip",
+    "license": "Creative Commons Attribution 4.0 International License (CC BY 4.0)",
+    "total_val_annotations": 4319,
+    "total_matching_rule": 683,
+    "total_matching_answerable": 398,
+    "total_matching_unanswerable": 285,
+    "sampled_subset_size": 500,
+    "sampled_answerable": 289,
+    "sampled_unanswerable": 211,
+    "random_seed": 42,
+    "selection_rule_text": "def is_text_reading_question(q: str) -> bool:\n    q_low = q.lower().strip()\n    direct_patterns = [\n        \"what does this say\",\n        \"what does it say\",\n        \"what does the label\",\n        \"what does this label\",\n        \"what does the bottle\",\n        \"what does the box\",\n        \"what is written\",\n        \"what is this written\",\n        \"read\",\n        \"expiration\",\n        \"how much\",\n        \"price\",\n        \"dosage\",\n        \"how many mg\",\n        \"what kind of\",\n        \"what flavor\"\n    ]\n    for p in direct_patterns:\n        if p in q_low:\n            return True\n    if \"what is this\" in q_low:\n        targets = [\"bottle\", \"box\", \"can\", \"label\", \"package\", \"medicine\", \"pill\"]\n        if any(t in q_low for t in targets):\n            return True\n    return False",
+    "selection_rule_sha256": "c59e3752abc37e3ca7543c8dbc3ddc9e164d5078493b11b30bd25040e1f6bdb0"
+  },
+  "summary": {
+    "total_samples": 500,
+    "answerable_total": 289,
+    "unanswerable_total": 211,
+    "overall_counts": {
+      "correct_refusal": 203,
+      "spoke_on_unanswerable": 8,
+      "refused": 262,
+      "answer_found": 6,
+      "mismatch": 21
+    },
+    "unanswerable_safety_refusal_pct": 96.21,
+    "answerable_exact_consensus_found_pct": 2.08,
+    "medicine_like_total": 14,
+    "medicine_like_counts": {
+      "correct_refusal": 7,
+      "spoke_on_unanswerable": 0,
+      "refused": 7,
+      "answer_found": 0,
+      "mismatch": 0
+    },
+    "review_numeric_count": 1
+  },
+  "item_results": [
+    {
+      "image": "VizWiz_val_00000007.jpg",
+      "question": "Okay I think I got it this time. Can you read the model and serial number for me? Thanks.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000029.jpg",
+      "question": "What does it say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00000045.jpg",
+      "question": "What is the expiration date on this bus pass?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000049.jpg",
+      "question": "What kind of pop is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000100.jpg",
+      "question": "Can you see the dosage information? Thank you.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": true,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000109.jpg",
+      "question": "What is the expiration date on this bus pass?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['expiration', 'bus', 'pass'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00000114.jpg",
+      "question": "Is it impossible for you to read the captcha image in this picture? Thanks.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['impossible', 'read', 'captcha', 'thanks'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00000118.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00000119.jpg",
+      "question": "what is written on the screen?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['written', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00000138.jpg",
+      "question": "What does this say?What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say', 'say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00000166.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": true,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00000182.jpg",
+      "question": "Can you tell me what's on this screen please?  If at all readable or anything like that.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['screen', 'if', 'readable', 'anything', 'like'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00000188.jpg",
+      "question": "Tell me about this creme, what is showing, what is visible, doesn't really matter if you can't read the full text as long as I know there's something going on that's fine. ",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['about', 'creme', 'showing', 'visible', 'doesn', 'really', 'matter', 'if', 'read', 'full', 'as', 'long', 'as', 'know', 'there', 'something', 'going', 'fine'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00000190.jpg",
+      "question": "What software is this, and read any serial number if you can see one.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000201.jpg",
+      "question": "Can you read this seven day forecast and write it out in the app so I can use voice over to read it? It's a seven day forecast",
+      "answerable": 1,
+      "speech": "SEVEN-DAYFORECAST.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 9
+    },
+    {
+      "image": "VizWiz_val_00000205.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000206.jpg",
+      "question": "What is this package?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000248.jpg",
+      "question": "What does the label say on this electronic component?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say', 'electronic', 'component'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 20
+    },
+    {
+      "image": "VizWiz_val_00000259.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 8
+    },
+    {
+      "image": "VizWiz_val_00000264.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 16
+    },
+    {
+      "image": "VizWiz_val_00000274.jpg",
+      "question": "What kind of piano appears in the image I am sending?",
+      "answerable": 1,
+      "speech": "http://www.minipianos.com/pianos/elephant.jpg.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 12
+    },
+    {
+      "image": "VizWiz_val_00000311.jpg",
+      "question": "Ok guys. Me again. Just need to have this security card on the screen read to me. It's a captcha. So that would be appreciated. Normal service isn't working for me for some reason.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000320.jpg",
+      "question": "What is written on the screen?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['written', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00000321.jpg",
+      "question": "I'm trying to find the model number of this device.  It's probably PB10 or PB12 can you read the label or let me know how to rotate so you can.",
+      "answerable": 1,
+      "speech": "PB12.",
+      "verdict": "answer_found",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 10
+    },
+    {
+      "image": "VizWiz_val_00000326.jpg",
+      "question": "just curious to see whether you could read what was on the computer screen just testing this application.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['just', 'curious', 'see', 'whether', 'read', 'computer', 'screen', 'just', 'testing', 'application'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00000328.jpg",
+      "question": "What is written on the screen?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['written', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00000337.jpg",
+      "question": "What does it say on the computer screen?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000338.jpg",
+      "question": "Can you read everything on my TV screen?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['read', 'everything', 'my', 'tv', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 14
+    },
+    {
+      "image": "VizWiz_val_00000341.jpg",
+      "question": "What is written on the back of this sofa",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['written', 'back', 'sofa'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 13
+    },
+    {
+      "image": "VizWiz_val_00000350.jpg",
+      "question": "There are four sets of five numbers on this ticket, can you read them for me?",
+      "answerable": 1,
+      "speech": "Ticket.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 29
+    },
+    {
+      "image": "VizWiz_val_00000365.jpg",
+      "question": "What does it say underneath windows cannot repair this system automatically? It says start something.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say', 'underneath', 'windows', 'cannot', 'repair', 'system', 'automatically', 'says', 'start', 'something'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00000368.jpg",
+      "question": "What does this label say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000369.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000374.jpg",
+      "question": "Can you read this these numbers please?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000388.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00000395.jpg",
+      "question": "what does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000400.jpg",
+      "question": "What is written on the paper?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['written', 'paper'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 12
+    },
+    {
+      "image": "VizWiz_val_00000401.jpg",
+      "question": "What does this label say? Before you said China, can you try and give me more information please",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000403.jpg",
+      "question": "Please, I need to know what is this screen.  What is written in this screen?  Thank you.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['need', 'know', 'screen', 'written', 'screen', 'thank'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 8
+    },
+    {
+      "image": "VizWiz_val_00000413.jpg",
+      "question": "Is this shot better? Can you read what's on the screen and the options for me now? Thank you.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['shot', 'better', 'read', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 18
+    },
+    {
+      "image": "VizWiz_val_00000420.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00000426.jpg",
+      "question": "What does it say on the screen?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 15
+    },
+    {
+      "image": "VizWiz_val_00000428.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 20
+    },
+    {
+      "image": "VizWiz_val_00000437.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000442.jpg",
+      "question": "What does it say on this computer monitor?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000450.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 11
+    },
+    {
+      "image": "VizWiz_val_00000466.jpg",
+      "question": "What does it say on the screen?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00000515.jpg",
+      "question": "Can you please read this?",
+      "answerable": 0,
+      "speech": "extension even if you have already been granted an extension of continuation coverage for Social Security Disability.",
+      "verdict": "spoke_on_unanswerable",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 44
+    },
+    {
+      "image": "VizWiz_val_00000519.jpg",
+      "question": "What does it say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 30
+    },
+    {
+      "image": "VizWiz_val_00000524.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 11
+    },
+    {
+      "image": "VizWiz_val_00000525.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000538.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000540.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00000547.jpg",
+      "question": "What kind of phone is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'phone'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 9
+    },
+    {
+      "image": "VizWiz_val_00000559.jpg",
+      "question": "Can you read this paper please?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['read', 'paper'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 72
+    },
+    {
+      "image": "VizWiz_val_00000562.jpg",
+      "question": "Hi, in the upper left corner of this page is a captcha. I hope you can read it. Thank you. ",
+      "answerable": 0,
+      "speech": "Page.",
+      "verdict": "spoke_on_unanswerable",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 9
+    },
+    {
+      "image": "VizWiz_val_00000573.jpg",
+      "question": "What is written on this computer screen please?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['written', 'computer', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00000576.jpg",
+      "question": "What kind of ram is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'ram'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00000580.jpg",
+      "question": "I'm trying to restart my computer, and my screen reader isn't working and I'm wondering if it's saying to start Windows normally, or repair, or what the options are.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['my', 'screen', 'reader', 'isn', 'working'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 11
+    },
+    {
+      "image": "VizWiz_val_00000583.jpg",
+      "question": "What does this label say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00000601.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00000618.jpg",
+      "question": "What kind of food is in this can?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'food'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 12
+    },
+    {
+      "image": "VizWiz_val_00000622.jpg",
+      "question": "What is written here?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['written', 'here'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 8
+    },
+    {
+      "image": "VizWiz_val_00000623.jpg",
+      "question": "What kind of soup is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'soup'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00000655.jpg",
+      "question": "How much is this ticket?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000657.jpg",
+      "question": "What kind of bite is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000663.jpg",
+      "question": "Can you read the screen to me? THanks.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['read', 'screen', 'thanks'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00000665.jpg",
+      "question": "Hi, which red box is a jam box speaker and I've got the underside facing up.  I'm wondering if you can read the serial number.  I think there are three or four lines of print.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['ve', 'got', 'underside', 'facing', 'up', 'wondering', 'if', 'read', 'serial', 'think', 'there', 'three', 'four', 'lines', 'print'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 8
+    },
+    {
+      "image": "VizWiz_val_00000668.jpg",
+      "question": "Can you read this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000697.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 22
+    },
+    {
+      "image": "VizWiz_val_00000700.jpg",
+      "question": "Who can read this for me?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['read'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 76
+    },
+    {
+      "image": "VizWiz_val_00000709.jpg",
+      "question": "What is this medicine?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": true,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000715.jpg",
+      "question": "What does it say on screen?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00000718.jpg",
+      "question": "What did i just read on my pc?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Candidate query match is not unique",
+      "is_medicine_like": false,
+      "ocr_line_count": 44
+    },
+    {
+      "image": "VizWiz_val_00000729.jpg",
+      "question": "Is the sticker visible now? If it is, what does it say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000766.jpg",
+      "question": "I need to know specifically what is written across the screen on this computer, please.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000773.jpg",
+      "question": "What kind of computer is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'computer'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 14
+    },
+    {
+      "image": "VizWiz_val_00000776.jpg",
+      "question": "What does it say now on the screen?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000794.jpg",
+      "question": "what kind of soda is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000795.jpg",
+      "question": "Can you read me the gift code on this card? ",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000811.jpg",
+      "question": "Can you read this paper, please? ",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000813.jpg",
+      "question": "What is written there?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000821.jpg",
+      "question": "How much is this monitor?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['monitor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00000826.jpg",
+      "question": "Do you tell me what kind of car this is?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000833.jpg",
+      "question": "What kind of card is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'card'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 28
+    },
+    {
+      "image": "VizWiz_val_00000847.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 20
+    },
+    {
+      "image": "VizWiz_val_00000858.jpg",
+      "question": "What does it say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 30
+    },
+    {
+      "image": "VizWiz_val_00000871.jpg",
+      "question": "Can you read any of the text on the bottle to tell me what it is? Thank you.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000873.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000878.jpg",
+      "question": "What does it say on this coupon?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say', 'coupon'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00000882.jpg",
+      "question": "What does it say on the screen?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00000886.jpg",
+      "question": "What did I just read on my PC?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Candidate query match is not unique",
+      "is_medicine_like": false,
+      "ocr_line_count": 44
+    },
+    {
+      "image": "VizWiz_val_00000900.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000903.jpg",
+      "question": "Can you tell me the price of this computer please?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['computer'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 29
+    },
+    {
+      "image": "VizWiz_val_00000910.jpg",
+      "question": "Please read what's on the screen.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['read', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00000918.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000930.jpg",
+      "question": "This is the display of a treadmill, can you tell me the distance in miles off the top display please? Thank you. ",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['treadmill', 'distance', 'miles', 'off', 'top', 'thank'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00000946.jpg",
+      "question": "What kind of system is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00000951.jpg",
+      "question": "I was wondering if you could read what was on the screen? I hope I got a good picture.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['wondering', 'if', 'read', 'screen', 'hope', 'got', 'good'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00000954.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00000957.jpg",
+      "question": "If you can see my computer screen, what does it look like and what does it say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['if', 'see', 'my', 'computer', 'screen', 'look', 'like'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00000961.jpg",
+      "question": "what does it say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00000966.jpg",
+      "question": "Please read me the error message on the screen.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['read', 'error', 'message', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00000980.jpg",
+      "question": "What does it say on the screen?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 12
+    },
+    {
+      "image": "VizWiz_val_00000988.jpg",
+      "question": "Hi, can you read the serial number on this device, please. Thank you. Oh.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['hi', 'read', 'serial', 'device', 'thank', 'oh'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 13
+    },
+    {
+      "image": "VizWiz_val_00000990.jpg",
+      "question": "What is written on the display?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['written'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 25
+    },
+    {
+      "image": "VizWiz_val_00000992.jpg",
+      "question": "What is written on that computer screen, please?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['written', 'computer', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00001002.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001011.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 14
+    },
+    {
+      "image": "VizWiz_val_00001016.jpg",
+      "question": "How much is this bill?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001029.jpg",
+      "question": "What kind of card is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001049.jpg",
+      "question": "Can you please read this menu to me.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['read'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 36
+    },
+    {
+      "image": "VizWiz_val_00001052.jpg",
+      "question": "What does this say? What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001056.jpg",
+      "question": "What does this say? What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001058.jpg",
+      "question": "How much are the french fries?",
+      "answerable": 1,
+      "speech": "French Fries.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 45
+    },
+    {
+      "image": "VizWiz_val_00001059.jpg",
+      "question": "read this paper please",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001068.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001072.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00001079.jpg",
+      "question": "What does this say on my screen?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say', 'my', 'screen'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 12
+    },
+    {
+      "image": "VizWiz_val_00001083.jpg",
+      "question": "what does this say",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001089.jpg",
+      "question": "What is written on the paper?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['written', 'paper'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00001110.jpg",
+      "question": "What does this say please?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00001114.jpg",
+      "question": "This screen doesn't talk. What does it say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['screen', 'doesn', 'talk', 'say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00001117.jpg",
+      "question": "Read the name this box.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001122.jpg",
+      "question": "What does this say, what does this say",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say', 'say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00001123.jpg",
+      "question": "What is written on the screen?",
+      "answerable": 1,
+      "speech": "restart your computer. If this screen appears again,.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 25
+    },
+    {
+      "image": "VizWiz_val_00001137.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 36
+    },
+    {
+      "image": "VizWiz_val_00001149.jpg",
+      "question": "If there is any text on the screen, what does it say? Thanks.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['if', 'there', 'any', 'screen', 'say', 'thanks'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 10
+    },
+    {
+      "image": "VizWiz_val_00001167.jpg",
+      "question": "What does it say on this card?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001170.jpg",
+      "question": "What kind of pastries are these?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001185.jpg",
+      "question": "Can you please read to me what is shown on this display? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['read'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00001193.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001200.jpg",
+      "question": "What is this bottle of detergent? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['bottle', 'detergent'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00001234.jpg",
+      "question": "What does the bottle say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['bottle', 'say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00001237.jpg",
+      "question": "What kind of fish is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001259.jpg",
+      "question": "What is this bottle?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['bottle'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00001262.jpg",
+      "question": "Can you tell me what kind of cereal this is please?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'cereal'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00001281.jpg",
+      "question": "what does this say here what is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say', 'here'] not found on menu/sign",
+      "is_medicine_like": true,
+      "ocr_line_count": 10
+    },
+    {
+      "image": "VizWiz_val_00001292.jpg",
+      "question": "I know this is Marie Callendar's and I know it's frozen, could you please tell me what kind of dinner this is?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['know', 'marie', 'callendar'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00001293.jpg",
+      "question": "Yes this is an hp laptop computer, I need to know where the card reader is in relation to the keyboard. Please be as specific as possible. Thank you. ",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['yes', 'hp', 'laptop', 'computer', 'need', 'know', 'card', 'reader', 'relation', 'keyboard', 'as', 'specific', 'as', 'possible', 'thank'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00001317.jpg",
+      "question": "Expiration date.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['expiration'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 46
+    },
+    {
+      "image": "VizWiz_val_00001337.jpg",
+      "question": "What does this say? What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001338.jpg",
+      "question": "what flavor is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00001352.jpg",
+      "question": "What kind of soup is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'soup'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00001363.jpg",
+      "question": "Can you read anything on this label?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['read', 'anything'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00001365.jpg",
+      "question": "What is this box?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001369.jpg",
+      "question": "Hey, could you tell me what kind of bottle this is?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['hey', 'kind', 'bottle'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00001379.jpg",
+      "question": "What flavor of Spark is this?",
+      "answerable": 1,
+      "speech": "SPARK.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00001398.jpg",
+      "question": "What is this package?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001407.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001413.jpg",
+      "question": "What kind of cookies are these?",
+      "answerable": 1,
+      "speech": "SANDWICH COOKIES.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 9
+    },
+    {
+      "image": "VizWiz_val_00001423.jpg",
+      "question": "What kind of brand is this remote control? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'brand', 'remote', 'control'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00001426.jpg",
+      "question": "What is this bottle?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['bottle'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00001448.jpg",
+      "question": "What kind of soda is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'soda'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00001450.jpg",
+      "question": "Does this temperature read 375 degrees? Thank you.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['temperature', 'read', '375', 'degrees', 'thank'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00001460.jpg",
+      "question": "What kind of coffee is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'coffee'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00001463.jpg",
+      "question": "What is the expiration date?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['expiration'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00001464.jpg",
+      "question": "What kind of beer is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001486.jpg",
+      "question": "Can you tell me what kind of phone this is?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001489.jpg",
+      "question": "What kind of seed is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'seed'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00001492.jpg",
+      "question": "What does this label on this pill bottle say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": true,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001504.jpg",
+      "question": "Can you tell me what is written on the coin holder? Thank you. ",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001508.jpg",
+      "question": "What kind of seasoning is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'seasoning'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 8
+    },
+    {
+      "image": "VizWiz_val_00001513.jpg",
+      "question": "What flavor is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00001516.jpg",
+      "question": "What kind of soda is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'soda'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00001519.jpg",
+      "question": "What kind of soup is this?",
+      "answerable": 1,
+      "speech": "Soup That Eats l.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 23
+    },
+    {
+      "image": "VizWiz_val_00001525.jpg",
+      "question": "How much is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No relevant OCR line matching query found",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00001528.jpg",
+      "question": "This is the display of the treadmill, can you tell me the distance of the top display please?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['treadmill', 'distance', 'top'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00001533.jpg",
+      "question": "What does it say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 12
+    },
+    {
+      "image": "VizWiz_val_00001544.jpg",
+      "question": "Hi, can you please tell me what flavor this is?  ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['hi', 'flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00001545.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00001550.jpg",
+      "question": "Can you please read the title of this book to me? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['read', 'title', 'book'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00001553.jpg",
+      "question": "Can you tell me what kind of chips these are?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'chips', 'these'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00001559.jpg",
+      "question": "What is this can?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No relevant OCR line matching query found",
+      "is_medicine_like": false,
+      "ocr_line_count": 8
+    },
+    {
+      "image": "VizWiz_val_00001588.jpg",
+      "question": "See an expiration date on this milk carton",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['see', 'expiration', 'milk', 'carton'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00001599.jpg",
+      "question": "What kind of pasta-roni is this? Guess what?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'pasta', 'roni', 'guess'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00001609.jpg",
+      "question": "What is this package? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['package'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 31
+    },
+    {
+      "image": "VizWiz_val_00001616.jpg",
+      "question": "Yeah, I don't know if this got out there, but I was just wondering if anyone could read the title of this book, thank you.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['yeah', 'don', 'know', 'if', 'got', 'out', 'there', 'but', 'just', 'wondering', 'if', 'anyone', 'read', 'title', 'book', 'thank'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00001622.jpg",
+      "question": "What does this label say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001630.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001635.jpg",
+      "question": "Okay, I think I have got the instructions right side up. There was actually a telephone call right when I read the message, and I believe I turned the box over. So I need to know what the conventional oven setting temperature is and... ",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['okay', 'think', 'have', 'got', 'instructions', 'right', 'side', 'up', 'there', 'actually', 'telephone', 'call', 'right', 'read', 'message'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00001638.jpg",
+      "question": "What is this can?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No relevant OCR line matching query found",
+      "is_medicine_like": false,
+      "ocr_line_count": 13
+    },
+    {
+      "image": "VizWiz_val_00001644.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 18
+    },
+    {
+      "image": "VizWiz_val_00001652.jpg",
+      "question": "What is this bottle?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['bottle'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00001670.jpg",
+      "question": "Please read the contents of the box. ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['read', 'contents', 'box'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 10
+    },
+    {
+      "image": "VizWiz_val_00001681.jpg",
+      "question": "What kind of dog is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001682.jpg",
+      "question": "What kind of cereal is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'cereal'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00001685.jpg",
+      "question": "i dont know if this will work but will you read the washing directions for this t-shirt?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['dont', 'know', 'if', 'will', 'work', 'but', 'will', 'read', 'washing', 'directions', 'shirt'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00001687.jpg",
+      "question": "What kind of Dr. Pepper is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001704.jpg",
+      "question": "What kind of cookies are these?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001727.jpg",
+      "question": "What kind of food is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'food'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 64
+    },
+    {
+      "image": "VizWiz_val_00001739.jpg",
+      "question": "What kind of braille display is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'braille'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00001743.jpg",
+      "question": "What kind of lighter is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'lighter'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00001762.jpg",
+      "question": "What color is this bedspread? and thank you",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001773.jpg",
+      "question": "Is this picture any closer to the box? What does it say? Thank you.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['any', 'closer', 'box', 'say', 'thank'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 11
+    },
+    {
+      "image": "VizWiz_val_00001774.jpg",
+      "question": "What flavor is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 8
+    },
+    {
+      "image": "VizWiz_val_00001788.jpg",
+      "question": "What kind of pizza is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'pizza'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00001790.jpg",
+      "question": "What kind of dinner is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'dinner'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00001794.jpg",
+      "question": "What is the expiration date?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['expiration'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 16
+    },
+    {
+      "image": "VizWiz_val_00001798.jpg",
+      "question": "What kind of meat is it? Is this chicken or sausage oer what sort of meat? Thank you",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001801.jpg",
+      "question": "Alright what is the expiration on this carton of milk?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Candidate query match is not unique",
+      "is_medicine_like": false,
+      "ocr_line_count": 10
+    },
+    {
+      "image": "VizWiz_val_00001809.jpg",
+      "question": "What flavor is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 15
+    },
+    {
+      "image": "VizWiz_val_00001819.jpg",
+      "question": "What is this bottle of?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['bottle'] not found on menu/sign",
+      "is_medicine_like": true,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00001830.jpg",
+      "question": "Does this oven seem ready?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001833.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001845.jpg",
+      "question": "What flavor is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 15
+    },
+    {
+      "image": "VizWiz_val_00001847.jpg",
+      "question": "What flavor is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00001856.jpg",
+      "question": "What does this label say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00001868.jpg",
+      "question": "What is this can?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001896.jpg",
+      "question": "What kind of coffee is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'coffee'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00001897.jpg",
+      "question": "What kind of speakers is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001912.jpg",
+      "question": "What kind of rice is this? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'rice'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00001915.jpg",
+      "question": "What kind of meds are these?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'meds', 'these'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00001916.jpg",
+      "question": "What kind of shirt am I wearing?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'shirt', 'am', 'wearing'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00001925.jpg",
+      "question": "What kind of wine is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'wine'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00001927.jpg",
+      "question": "What is the expiration date?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['expiration'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00001929.jpg",
+      "question": "What kind of juice is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001941.jpg",
+      "question": "What kind of potato chips are these?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'potato', 'chips', 'these'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 8
+    },
+    {
+      "image": "VizWiz_val_00001955.jpg",
+      "question": "What flavor and brand of k cup is this please?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00001958.jpg",
+      "question": "What flavor soup is this? ",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00001967.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00001970.jpg",
+      "question": "What is this package?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['package'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00001980.jpg",
+      "question": "What kind of yogurt is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'yogurt'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00001997.jpg",
+      "question": "what does it say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00001998.jpg",
+      "question": "What flavor is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002000.jpg",
+      "question": "Hello there can you tell me what flavor this pasta sauce is, please? Thank you.",
+      "answerable": 1,
+      "speech": "SAUCE FOR PASTA.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 13
+    },
+    {
+      "image": "VizWiz_val_00002031.jpg",
+      "question": "What does this thermostat read? ",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002033.jpg",
+      "question": "What kind of CD case is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'cd', 'case'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00002034.jpg",
+      "question": "What is this medicine?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['medicine'] not found on menu/sign",
+      "is_medicine_like": true,
+      "ocr_line_count": 23
+    },
+    {
+      "image": "VizWiz_val_00002045.jpg",
+      "question": "What kind of coffee is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002046.jpg",
+      "question": "What kind of cigarettes are these?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'cigarettes', 'these'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00002055.jpg",
+      "question": "What kind of wine is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002063.jpg",
+      "question": "what is this and how much it cost",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002072.jpg",
+      "question": "What does this label say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002104.jpg",
+      "question": "What kind of soup is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'soup'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00002110.jpg",
+      "question": "Do you have any idea what kind of the plant the one in the middle is?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002133.jpg",
+      "question": "Can you read the writing on this tag and tell me what it says, please? Thank you. ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['read', 'writing', 'tag'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00002145.jpg",
+      "question": "Read the name for this chocolate.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002154.jpg",
+      "question": "what kind of keyboard is this? who makes it?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'keyboard', 'makes'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 18
+    },
+    {
+      "image": "VizWiz_val_00002161.jpg",
+      "question": "What is this bottle?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['bottle'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00002170.jpg",
+      "question": "What kind of spice is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'spice'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00002177.jpg",
+      "question": "Yes, this is the front of an HP probook laptop. I just need to know if there's anything visible that looks like it could be a slot for a card reader? Thank you.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['yes', 'front', 'hp', 'probook', 'laptop', 'just', 'need', 'know', 'if', 'there', 'anything', 'visible', 'looks', 'like', 'slot', 'card', 'reader', 'thank'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00002183.jpg",
+      "question": "What is this item that the camera is pointing at? If you can see the item them please tell me what it says or what you see in the picture. And don't",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002185.jpg",
+      "question": "what kind of soda is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'soda'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00002194.jpg",
+      "question": "What kind of flower is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002198.jpg",
+      "question": "What kind of candy is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002202.jpg",
+      "question": "Can you please tell me what kind of food this is?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002220.jpg",
+      "question": "What kind of granola bars are these?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'granola', 'bars', 'these'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00002230.jpg",
+      "question": "Hello, well I hope you can read this picture, now see if it stops it.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002232.jpg",
+      "question": "What flavor is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00002251.jpg",
+      "question": "What kind of a case is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002253.jpg",
+      "question": "What is this a bottle of?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002264.jpg",
+      "question": "How much is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002275.jpg",
+      "question": "Ok what flavor yogurt is this?",
+      "answerable": 1,
+      "speech": "GREEK YOGURT.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00002295.jpg",
+      "question": "What flavor of jellybeans are in this package?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['flavor', 'jellybeans', 'package'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00002296.jpg",
+      "question": "Can you please tell me what kind of tea this is?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'tea'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00002304.jpg",
+      "question": "What kind of soda is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'soda'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00002329.jpg",
+      "question": "What kind of soup is this?  Thank you.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002336.jpg",
+      "question": "What kind of bottle is this? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002338.jpg",
+      "question": "What kind of beer is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'beer'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00002341.jpg",
+      "question": "What kind of meat is in this package?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'meat', 'package'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00002351.jpg",
+      "question": "What is this can? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No relevant OCR line matching query found",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00002357.jpg",
+      "question": "Hi, thanks for help.  What is this bottle of whiskey?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['hi', 'thanks', 'help', 'bottle', 'whiskey'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00002360.jpg",
+      "question": "Could you read what's on this charger?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002385.jpg",
+      "question": "What does this say",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00002393.jpg",
+      "question": "Can you please tell me if this thermostat is set to cool and what the readings are? Thank you.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['if', 'thermostat', 'set', 'cool'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00002418.jpg",
+      "question": "What flavor is this soup?",
+      "answerable": 0,
+      "speech": "Soup.",
+      "verdict": "spoke_on_unanswerable",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00002431.jpg",
+      "question": "What is in this bottle and what does the label say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['bottle'] not found on menu/sign",
+      "is_medicine_like": true,
+      "ocr_line_count": 19
+    },
+    {
+      "image": "VizWiz_val_00002438.jpg",
+      "question": "What kind of soda is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'soda'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00002450.jpg",
+      "question": "What kind of soup is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002453.jpg",
+      "question": "What is the expiration date?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002456.jpg",
+      "question": "What kind of spray is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002462.jpg",
+      "question": "Please can you tell me what flavor these cookies are.",
+      "answerable": 1,
+      "speech": "cookies.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00002465.jpg",
+      "question": "What flavor is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002483.jpg",
+      "question": "What is this can?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No relevant OCR line matching query found",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00002485.jpg",
+      "question": "What flavor is this? I know its green mountain coffee.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['flavor', 'know', 'green', 'mountain', 'coffee'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00002496.jpg",
+      "question": "What is the expiration date?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['expiration'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00002506.jpg",
+      "question": "What is the expiration date?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['expiration'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00002520.jpg",
+      "question": "How much?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No relevant OCR line matching query found",
+      "is_medicine_like": false,
+      "ocr_line_count": 20
+    },
+    {
+      "image": "VizWiz_val_00002522.jpg",
+      "question": "What kind of pop is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'pop'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00002523.jpg",
+      "question": "What does it say on the display?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00002525.jpg",
+      "question": "What is this box?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['box'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 8
+    },
+    {
+      "image": "VizWiz_val_00002545.jpg",
+      "question": "How much of the page in this photo cross is visible? Thank you.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['page', 'cross', 'visible', 'thank'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 19
+    },
+    {
+      "image": "VizWiz_val_00002547.jpg",
+      "question": "What is this a can of?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No relevant OCR line matching query found",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00002551.jpg",
+      "question": "what is the expiration date",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['expiration'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00002554.jpg",
+      "question": "Hello. This is a picture of a scanner receiver, I'm hoping the picture is clear enough. What I would like to do is if you can give me a description of the keys starting at the top left and then reading across horizontally.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002561.jpg",
+      "question": "What kind of coffee is this?",
+      "answerable": 1,
+      "speech": "1. Start with a clean coffeemaker.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 9
+    },
+    {
+      "image": "VizWiz_val_00002573.jpg",
+      "question": "What is the expiration date?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['expiration'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00002590.jpg",
+      "question": "What kind of TV dinner is this? I know it's Stoffer's but what flavor? Thanks.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'tv', 'dinner', 'know', 'stoffer', 'but', 'flavor', 'thanks'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00002606.jpg",
+      "question": "Can you tell me what kind of frozen dinner that is? Thank you.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'frozen', 'dinner', 'thank'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00002611.jpg",
+      "question": "What kind of oatmeal is this and thank you.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'oatmeal'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00002617.jpg",
+      "question": "What kind of coffee is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002619.jpg",
+      "question": "What flavor are these?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['flavor', 'these'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00002622.jpg",
+      "question": "I would like to know what the medication label is on this bottle is and what dosage it is on the bottle. Thank you.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": true,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002626.jpg",
+      "question": "What does this label say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00002628.jpg",
+      "question": "What does it say here?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say', 'here'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00002637.jpg",
+      "question": "What kind of meat is this? Thank you.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'meat', 'thank'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00002640.jpg",
+      "question": "What kind of fish did I get out of the freezer",
+      "answerable": 1,
+      "speech": "SWORDFISH.",
+      "verdict": "answer_found",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00002647.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00002660.jpg",
+      "question": "Expiration date.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002670.jpg",
+      "question": "What kind of flour is this? All purpose or self rising?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Line 2 confidence 0.54 below threshold 0.6",
+      "is_medicine_like": false,
+      "ocr_line_count": 39
+    },
+    {
+      "image": "VizWiz_val_00002683.jpg",
+      "question": "What is this little package?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['little', 'package'] not found on menu/sign",
+      "is_medicine_like": true,
+      "ocr_line_count": 20
+    },
+    {
+      "image": "VizWiz_val_00002697.jpg",
+      "question": "What is this package?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002703.jpg",
+      "question": "What is this label? Thank you.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002705.jpg",
+      "question": "Does it say what kind of tablets are in this bubble wrap if so please tell me what they are.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": true,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002710.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002715.jpg",
+      "question": "What kind of hand soap is this?",
+      "answerable": 1,
+      "speech": "Hand Soap.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 9
+    },
+    {
+      "image": "VizWiz_val_00002721.jpg",
+      "question": "What flavor is this? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 17
+    },
+    {
+      "image": "VizWiz_val_00002724.jpg",
+      "question": "this is the display of a treadmill could you tell me the distance please.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002732.jpg",
+      "question": "How much money is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['money'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00002741.jpg",
+      "question": "What is this bottle?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002744.jpg",
+      "question": "What is my blood pressure reading?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['my', 'blood', 'pressure', 'reading'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00002757.jpg",
+      "question": "What kind of carton is this? Orange juice or milk?",
+      "answerable": 1,
+      "speech": "Orange Juice.",
+      "verdict": "answer_found",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00002775.jpg",
+      "question": "What kind of bird is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'bird'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00002778.jpg",
+      "question": "what page is this and how much of the page is visible thank you",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['page'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 21
+    },
+    {
+      "image": "VizWiz_val_00002795.jpg",
+      "question": "So um I'm trying to figure what kind of radio this is, so any information so I can get one of my own, that'd be great, thanks. ",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002800.jpg",
+      "question": "What kind of tea is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'tea'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 28
+    },
+    {
+      "image": "VizWiz_val_00002804.jpg",
+      "question": "What flavor are these biscuits?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002808.jpg",
+      "question": "What kind of muffin is this?",
+      "answerable": 1,
+      "speech": "MUFFIN.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00002818.jpg",
+      "question": "What kind of baby formula is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002822.jpg",
+      "question": "What kind of Mr Clean is this?",
+      "answerable": 1,
+      "speech": "Mr. Clean.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 18
+    },
+    {
+      "image": "VizWiz_val_00002826.jpg",
+      "question": "What flavor is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002845.jpg",
+      "question": "What kind of coffee is this?",
+      "answerable": 1,
+      "speech": "CoffeeAM.",
+      "verdict": "answer_found",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00002849.jpg",
+      "question": "What is this bottle? ",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002855.jpg",
+      "question": "What does it say on the box for directions on how to make macaroni and cheese?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Candidate query match is not unique",
+      "is_medicine_like": false,
+      "ocr_line_count": 22
+    },
+    {
+      "image": "VizWiz_val_00002857.jpg",
+      "question": "What kind of animal is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002866.jpg",
+      "question": "Are you ready to put up or shut up?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['ready', 'put', 'up', 'shut', 'up'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00002867.jpg",
+      "question": "What kind of coffee is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002870.jpg",
+      "question": "What is this label?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002873.jpg",
+      "question": "what is this can?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002882.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002890.jpg",
+      "question": "Can you tell how much this says I weigh?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002891.jpg",
+      "question": "What kind of dog is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002894.jpg",
+      "question": "Can you read these words please?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002899.jpg",
+      "question": "What kind of spaghetti sauce jar is this? Thank you.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'spaghetti', 'sauce', 'jar', 'thank'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 35
+    },
+    {
+      "image": "VizWiz_val_00002901.jpg",
+      "question": "What is the expiration date?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['expiration'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00002906.jpg",
+      "question": "what is this can",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No relevant OCR line matching query found",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00002908.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002909.jpg",
+      "question": "What is this can?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002916.jpg",
+      "question": "What kind of Panasonic phone is this, what model?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'panasonic', 'phone', 'model'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00002919.jpg",
+      "question": "What kind of coin is that?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002932.jpg",
+      "question": "What is this on this.. what is the label on this cover? What's the name?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002933.jpg",
+      "question": "What is this bottle?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['bottle'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00002967.jpg",
+      "question": "What kind of coffee. What flavor is this coffee please? Thank you. ",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Candidate query match is not unique",
+      "is_medicine_like": false,
+      "ocr_line_count": 23
+    },
+    {
+      "image": "VizWiz_val_00002972.jpg",
+      "question": "what kind of soft drink is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'soft', 'drink'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00002975.jpg",
+      "question": "What does this label say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002976.jpg",
+      "question": "What kind of beverage is this? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00002991.jpg",
+      "question": "What kind of Keurig cup is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'keurig', 'cup'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00003003.jpg",
+      "question": "What kind of coffee is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'coffee'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00003016.jpg",
+      "question": "What kind of chex mix are those?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'chex', 'mix', 'those'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00003021.jpg",
+      "question": "What is the expiration date on this bus pass?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['expiration', 'bus', 'pass'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00003023.jpg",
+      "question": "Can you tell me what kind of bread this is?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003028.jpg",
+      "question": "What kind of drink is that?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003029.jpg",
+      "question": "What is this can?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No relevant OCR line matching query found",
+      "is_medicine_like": false,
+      "ocr_line_count": 19
+    },
+    {
+      "image": "VizWiz_val_00003040.jpg",
+      "question": "Hey there can you please tell me what flavor this pasta sauce is. Thank you.",
+      "answerable": 1,
+      "speech": "SAUCE FOR PASTA.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 9
+    },
+    {
+      "image": "VizWiz_val_00003044.jpg",
+      "question": "Could you tell me what kind of bill this is? Because I'm looking for a twenty and I think this is a ten but I cannot really tell.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003045.jpg",
+      "question": "What is this? Can i drink this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003047.jpg",
+      "question": "What flavor of coffee is this please? Third times a charm.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['flavor', 'coffee', 'third', 'times', 'charm'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00003049.jpg",
+      "question": "What kind of food is this?",
+      "answerable": 0,
+      "speech": "FOODS.",
+      "verdict": "spoke_on_unanswerable",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 13
+    },
+    {
+      "image": "VizWiz_val_00003083.jpg",
+      "question": "What brand of garlic bread is this, please?",
+      "answerable": 0,
+      "speech": "GARLIC BREAD.",
+      "verdict": "spoke_on_unanswerable",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 18
+    },
+    {
+      "image": "VizWiz_val_00003097.jpg",
+      "question": "Hi can you tell me what flavor of crisps these are please?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['hi', 'flavor', 'crisps', 'these'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00003109.jpg",
+      "question": "How much milk and water do I add to my hamburger helper?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003114.jpg",
+      "question": "Sorry about that, what does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003116.jpg",
+      "question": "please read the text on this box which is another box.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['read', 'box', 'another', 'box'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00003117.jpg",
+      "question": "Could you read this please?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003138.jpg",
+      "question": "what is this bottle?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003141.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00003167.jpg",
+      "question": "What kind of coffee is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'coffee'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 11
+    },
+    {
+      "image": "VizWiz_val_00003174.jpg",
+      "question": "Can you tell me what flavor this is? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00003175.jpg",
+      "question": "What kind of drink is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'drink'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00003193.jpg",
+      "question": "Could I please have the expiration date of this can?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003219.jpg",
+      "question": "Okay, what kind of jerky is this again?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['okay', 'kind', 'jerky', 'again'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00003231.jpg",
+      "question": "What is this a bottle of?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['bottle'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00003232.jpg",
+      "question": "what flavor is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 13
+    },
+    {
+      "image": "VizWiz_val_00003241.jpg",
+      "question": "This is Brooklyn Beans coffee, what flavor is it? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['brooklyn', 'beans', 'coffee', 'flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00003242.jpg",
+      "question": "What flavor is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00003259.jpg",
+      "question": "what kind of snake is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003263.jpg",
+      "question": "Record >> What kind of flower is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003273.jpg",
+      "question": "What does it say on this coupon?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Candidate query match is not unique",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00003275.jpg",
+      "question": "what kind of tosimo coffee is this",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'tosimo', 'coffee'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00003277.jpg",
+      "question": "What kind of yogurt is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'yogurt'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00003280.jpg",
+      "question": "What brand and type of multivitamins is it, and can you read the label, please?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003285.jpg",
+      "question": "What is written on the bottle?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['written', 'bottle'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00003312.jpg",
+      "question": "What is this box?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003323.jpg",
+      "question": "What's the expiration date on the milk?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003324.jpg",
+      "question": "What kind of vegetable is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003383.jpg",
+      "question": "What kind of chips are those?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003418.jpg",
+      "question": "What kind of meat is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'meat'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 11
+    },
+    {
+      "image": "VizWiz_val_00003422.jpg",
+      "question": "What is this package?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['package'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 11
+    },
+    {
+      "image": "VizWiz_val_00003428.jpg",
+      "question": "What is the expiration date?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['expiration'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 15
+    },
+    {
+      "image": "VizWiz_val_00003447.jpg",
+      "question": "What kind of gum is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'gum'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00003455.jpg",
+      "question": "What kind of flower is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'flower'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00003497.jpg",
+      "question": "What kind of pop is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'pop'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00003509.jpg",
+      "question": "What kind of flower is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003512.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00003513.jpg",
+      "question": "What kind of cream is contained in this Usher container?",
+      "answerable": 1,
+      "speech": "USHER.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00003531.jpg",
+      "question": "What kind of food is this? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'food'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 9
+    },
+    {
+      "image": "VizWiz_val_00003551.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003564.jpg",
+      "question": "What kind of flower is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003569.jpg",
+      "question": "What kind of food is in this can?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'food'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 15
+    },
+    {
+      "image": "VizWiz_val_00003570.jpg",
+      "question": "What kind of dinner bowl is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'dinner', 'bowl'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 9
+    },
+    {
+      "image": "VizWiz_val_00003579.jpg",
+      "question": "Can you tell me what kind of cereal this is?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'cereal'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 10
+    },
+    {
+      "image": "VizWiz_val_00003594.jpg",
+      "question": "What is this a can of?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003602.jpg",
+      "question": "What kind of soup is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'soup'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00003611.jpg",
+      "question": "What brand of gum and what flavor is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['brand', 'gum'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00003612.jpg",
+      "question": "What kind of coffee is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'coffee'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00003630.jpg",
+      "question": "What kind of can is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 11
+    },
+    {
+      "image": "VizWiz_val_00003638.jpg",
+      "question": "What kind of pill is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": true,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003641.jpg",
+      "question": "What kind of tracing is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003645.jpg",
+      "question": "What does this label read?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['read'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00003646.jpg",
+      "question": "Is this readable?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['readable'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 38
+    },
+    {
+      "image": "VizWiz_val_00003661.jpg",
+      "question": "What kind of oatmeal is this?",
+      "answerable": 1,
+      "speech": "INSTANT OATMEAL.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00003664.jpg",
+      "question": "What does it say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 21
+    },
+    {
+      "image": "VizWiz_val_00003670.jpg",
+      "question": "What kind of coffee is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003691.jpg",
+      "question": "What kind of soda is this? And thank you so much for your time in answering.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['thank', 'so', 'answering'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 12
+    },
+    {
+      "image": "VizWiz_val_00003695.jpg",
+      "question": "What kind of pop is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'pop'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00003704.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003705.jpg",
+      "question": "What kind of coffee is this?",
+      "answerable": 1,
+      "speech": "CoffeeAM.",
+      "verdict": "answer_found",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00003710.jpg",
+      "question": "The expiration date.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['expiration'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 19
+    },
+    {
+      "image": "VizWiz_val_00003714.jpg",
+      "question": "Now record a question. Read the text on the picture. And then double tap.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['now', 'record', 'question', 'read'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00003715.jpg",
+      "question": "What kind of coffee is this? Thank you.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'coffee', 'thank'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00003723.jpg",
+      "question": "What kind of laundry soup is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'laundry', 'soup'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00003735.jpg",
+      "question": "What flavor of meal is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003740.jpg",
+      "question": "What is this bottle?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003763.jpg",
+      "question": "The brand name is Encore, but I would like to know what kind of spice it is.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['brand', 'name', 'encore', 'but', 'would', 'like', 'know', 'kind', 'spice'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00003766.jpg",
+      "question": "What kind of coffee is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'coffee'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00003773.jpg",
+      "question": "What kind of soup is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003780.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003782.jpg",
+      "question": "What kind of frozen dinner is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'frozen', 'dinner'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00003783.jpg",
+      "question": "Can you please read the temperature on this thermostat? Thank you.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003784.jpg",
+      "question": "What flavor is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00003789.jpg",
+      "question": "i know these are cigarettes but what kind of cigarettes are they",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['know', 'these', 'cigarettes', 'but', 'kind', 'cigarettes', 'they'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00003800.jpg",
+      "question": "What does it say on this bottle?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say', 'bottle'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00003823.jpg",
+      "question": "What kind of cigarettes are these?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003825.jpg",
+      "question": "Hello. Could you please tell me what kind of lunch meat this is? Thank you. The problem is waiting for this to stop. It doesn't",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003840.jpg",
+      "question": "What kind of Progresso soup is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'progresso', 'soup'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00003843.jpg",
+      "question": "What does this say?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003852.jpg",
+      "question": "What kind of dog treats are these?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'dog', 'treats', 'these'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00003858.jpg",
+      "question": "I have turned the box around again. Can you make out an expiration date now? Sorry about this. ",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['have', 'turned', 'box', 'around', 'again', 'make', 'out', 'expiration', 'now', 'sorry', 'about'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00003885.jpg",
+      "question": "What is this can?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003900.jpg",
+      "question": "What is this box?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['box'] not found on menu/sign",
+      "is_medicine_like": true,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00003904.jpg",
+      "question": "What is the photo on the shirt and what does it say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003910.jpg",
+      "question": "What flavor of coffee is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003912.jpg",
+      "question": "What is this package?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['package'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00003928.jpg",
+      "question": "What kind of vitamins are these?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'vitamins', 'these'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 31
+    },
+    {
+      "image": "VizWiz_val_00003932.jpg",
+      "question": "How much time is on the display?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003936.jpg",
+      "question": "What flavor is this dinner? I know it's a smart one.",
+      "answerable": 0,
+      "speech": "Smart eating includes a variety.",
+      "verdict": "spoke_on_unanswerable",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 16
+    },
+    {
+      "image": "VizWiz_val_00003940.jpg",
+      "question": "What flavor is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 10
+    },
+    {
+      "image": "VizWiz_val_00003941.jpg",
+      "question": "Does that say what kind of frozen dinner it is? i cant tell myself",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00003953.jpg",
+      "question": "How much sodium is in each serving of these beans?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['sodium', 'each', 'serving', 'these', 'beans'] not found on menu/sign",
+      "is_medicine_like": true,
+      "ocr_line_count": 17
+    },
+    {
+      "image": "VizWiz_val_00003980.jpg",
+      "question": "What kind of yogurt is this?",
+      "answerable": 0,
+      "speech": "CONTAINS ACTIVE YOGURT CULTURES.",
+      "verdict": "spoke_on_unanswerable",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 30
+    },
+    {
+      "image": "VizWiz_val_00003985.jpg",
+      "question": "What is this a box of?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['box'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00003991.jpg",
+      "question": "Do you see any bread crumbs up there?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00004000.jpg",
+      "question": "what kind of chocolate is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00004014.jpg",
+      "question": "What flavor are these noodles? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00004015.jpg",
+      "question": "What kind of pop is this can?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'pop'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00004020.jpg",
+      "question": "What kind of coffee is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'coffee'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00004032.jpg",
+      "question": "What flavor is this energy bar?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['flavor', 'energy', 'bar'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00004048.jpg",
+      "question": "How much does this laptop cost?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['laptop'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00004049.jpg",
+      "question": "How much sodium is in this package?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['sodium', 'package'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00004061.jpg",
+      "question": "What does this label say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 12
+    },
+    {
+      "image": "VizWiz_val_00004070.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00004088.jpg",
+      "question": "Can you please read what's on this label? Thank you.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['read', 'thank'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 9
+    },
+    {
+      "image": "VizWiz_val_00004093.jpg",
+      "question": "Trying again, what kind of soup is this?",
+      "answerable": 0,
+      "speech": "PropressoSoup.com.",
+      "verdict": "spoke_on_unanswerable",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 9
+    },
+    {
+      "image": "VizWiz_val_00004103.jpg",
+      "question": "What kind of cologne is this/",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00004113.jpg",
+      "question": "What is the expiration date?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['expiration'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00004129.jpg",
+      "question": "What is this bottle?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['bottle'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00004139.jpg",
+      "question": "What does it say on this cap?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00004145.jpg",
+      "question": "What flavor of pop tarts are these?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['flavor', 'pop', 'tarts', 'these'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00004153.jpg",
+      "question": "I'm trying to determine the expiration date on this yogurt. Thanks.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['trying', 'determine', 'expiration', 'yogurt', 'thanks'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 6
+    },
+    {
+      "image": "VizWiz_val_00004161.jpg",
+      "question": "How much money is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00004168.jpg",
+      "question": "Can you tell me what kind of Keurig flavor coffee this is? I know it's Keurig, what flavor please. Thank you",
+      "answerable": 1,
+      "speech": "Keurig makes it possible for everyone to. fresh,consistent, unequaled flavor time afte.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 11
+    },
+    {
+      "image": "VizWiz_val_00004179.jpg",
+      "question": "What flavor of tea is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['flavor', 'tea'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 4
+    },
+    {
+      "image": "VizWiz_val_00004185.jpg",
+      "question": "Can you read the text on this, please?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['read'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00004189.jpg",
+      "question": "What flavor is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['flavor'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00004205.jpg",
+      "question": "What flavor is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00004211.jpg",
+      "question": "So this is my first time using this. I haven't used this product before and would be grateful if someone would please read the directions for me.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['so', 'my', 'first', 'using', 'haven', 'used', 'product', 'before'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 15
+    },
+    {
+      "image": "VizWiz_val_00004219.jpg",
+      "question": "What kind of chips are these?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['kind', 'chips', 'these'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00004222.jpg",
+      "question": "What is the expiration date on this cheese? ",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['expiration', 'cheese'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 14
+    },
+    {
+      "image": "VizWiz_val_00004223.jpg",
+      "question": "You read the highlighted text.",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['read', 'highlighted'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 8
+    },
+    {
+      "image": "VizWiz_val_00004225.jpg",
+      "question": "What kind of, what kind of lizard is that?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00004228.jpg",
+      "question": "What is this can? Like, what's in it?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['like'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 12
+    },
+    {
+      "image": "VizWiz_val_00004240.jpg",
+      "question": "What kind of note is that?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'note'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00004245.jpg",
+      "question": "What kind of K-Cup is this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00004254.jpg",
+      "question": "What kind of cereal is this? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'cereal'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00004258.jpg",
+      "question": "What kind of peanut butter is this? ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'peanut', 'butter'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 7
+    },
+    {
+      "image": "VizWiz_val_00004259.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00004261.jpg",
+      "question": "Ok, move the box to the left. Can you read the label now if it says calming or bedtime? That would be the flavor of the tea, the herbal.",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00004264.jpg",
+      "question": "Can you tell me what kind of phone this is? This is, I mean. ",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'phone', 'mean'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 2
+    },
+    {
+      "image": "VizWiz_val_00004270.jpg",
+      "question": "What kind of pop is in this can?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'pop'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00004272.jpg",
+      "question": "Could you tell me what kind of pudding this is please? Thank you.",
+      "answerable": 1,
+      "speech": "Pudding & Pie Filling.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 8
+    },
+    {
+      "image": "VizWiz_val_00004275.jpg",
+      "question": "Can you tell if this is flavored coffee or decaf? And if it is flavored, what flavor is it?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "Queried entity words ['if', 'flavored', 'coffee', 'decaf'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 1
+    },
+    {
+      "image": "VizWiz_val_00004276.jpg",
+      "question": "How much this?",
+      "answerable": 0,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "correct_refusal",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00004278.jpg",
+      "question": "What kind of soup is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'soup'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 8
+    },
+    {
+      "image": "VizWiz_val_00004281.jpg",
+      "question": "Can you tell me what kind of shampoo this is, or if it's conditioner? ",
+      "answerable": 1,
+      "speech": "SHAMPOO.",
+      "verdict": "mismatch",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 5
+    },
+    {
+      "image": "VizWiz_val_00004290.jpg",
+      "question": "What kind of candy bar is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['kind', 'candy', 'bar'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 8
+    },
+    {
+      "image": "VizWiz_val_00004291.jpg",
+      "question": "What is the expiration date?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    },
+    {
+      "image": "VizWiz_val_00004302.jpg",
+      "question": "What does this say?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "Queried entity words ['say'] not found on menu/sign",
+      "is_medicine_like": false,
+      "ocr_line_count": 3
+    },
+    {
+      "image": "VizWiz_val_00004317.jpg",
+      "question": "What kind of mix is this?",
+      "answerable": 1,
+      "speech": "Blend cake mix water al and eggs in a large bowl.",
+      "verdict": "answer_found",
+      "refusal_reason": null,
+      "is_medicine_like": false,
+      "ocr_line_count": 27
+    },
+    {
+      "image": "VizWiz_val_00004318.jpg",
+      "question": "What kind of spice is this?",
+      "answerable": 1,
+      "speech": "I can't read that clearly. Please hold it closer.",
+      "verdict": "refused",
+      "refusal_reason": "No text detected in OCR",
+      "is_medicine_like": false,
+      "ocr_line_count": 0
+    }
+  ]
+}

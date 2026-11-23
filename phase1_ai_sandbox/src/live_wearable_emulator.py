@@ -97,12 +97,16 @@ class FridayLiveWearableEmulator:
             if os.path.exists(ckpt_p):
                 try:
                     state = torch.load(ckpt_p, map_location=self.device)
-                    self.student_vlm.load_state_dict(state, strict=False)
+                    # Auditor Item C4: Strict key and shape checks (no silent strict=False)
+                    if isinstance(state, dict) and "student_state_dict" in state:
+                        self.student_vlm.load_state_dict(state["student_state_dict"], strict=True)
+                    else:
+                        self.student_vlm.load_state_dict(state, strict=True)
                     self.trained_checkpoint_loaded = True
-                    print(f"[✓] Loaded trained student VLM weights from: {ckpt_p}")
+                    print(f"[✓] Loaded trained student VLM weights from: {ckpt_p} (strict=True verified)")
                     break
                 except Exception as e:
-                    print(f"[!] Warning: Could not load checkpoint from {ckpt_p} ({e})")
+                    print(f"[!] Warning: Strict checkpoint load failed for {ckpt_p} ({e})")
 
         if not self.trained_checkpoint_loaded:
             print("="*65)

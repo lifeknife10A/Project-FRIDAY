@@ -1,0 +1,24 @@
+[
+  {
+    "image": "VizWiz_val_00002561.jpg",
+    "question": "What kind of coffee is this?",
+    "consensus_answers": [
+      "dunkin donuts"
+    ],
+    "all_annotator_answers": [
+      "coffee",
+      "dunkin donuts",
+      "dunkin donuts",
+      "dunkin donuts",
+      "dunkin donuts",
+      "dunkin",
+      "dunkin donuts",
+      "dunkin donuts",
+      "dunkin donuts",
+      "dunkin donuts"
+    ],
+    "speech": "1. Start with a clean coffeemaker.",
+    "verdict": "mismatch",
+    "refusal_reason": null
+  }
+]

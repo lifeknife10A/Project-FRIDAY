@@ -11,11 +11,15 @@ No model generation, no GPU required.
 import os
 import sys
 import json
+import argparse
 import numpy as np
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
+src_dir = os.path.join(REPO_ROOT, "phase1_ai_sandbox/src")
+if src_dir not in sys.path:
+    sys.path.insert(0, src_dir)
 
 from phase1_ai_sandbox.src.benchmark_dataset_evaluator import (
     run_ocr,
@@ -24,8 +28,11 @@ from phase1_ai_sandbox.src.benchmark_dataset_evaluator import (
     score_response,
     REFUSAL_TEXT,
 )
+from phase1_ai_sandbox.src.eval_provenance import get_eval_provenance
 
-def run_rescore():
+def run_rescore(output_dir: str = None, allow_dirty: bool = False):
+    full_sha, short_sha, is_dirty, diff_hash = get_eval_provenance(REPO_ROOT, allow_dirty=allow_dirty)
+
     manifest_path = os.path.join(REPO_ROOT, "assets/benchmark_dataset/benchmark_manifest.json")
     with open(manifest_path, "r", encoding="utf-8") as f:
         manifest_items = json.load(f)
@@ -128,6 +135,10 @@ def run_rescore():
     out_data = {
         "metadata": {
             "evaluation_type": "Audit #13 Item A5 Re-Score (CPU only, rapidocr 3.10.0)",
+            "git_commit_sha": full_sha,
+            "short_sha": short_sha,
+            "dirty": is_dirty,
+            "diff_hash": diff_hash,
             "target_commit_sha": "543234b1abc87d3786493f0e097535284434c9a6",
             "manifest_sha256": manifest_sha256,
             "manifest_items_count": len(manifest_items),
@@ -144,9 +155,10 @@ def run_rescore():
         }
     }
 
-    out_dir = os.path.join(REPO_ROOT, "phase1_ai_sandbox/eval_runs/543234b")
-    os.makedirs(out_dir, exist_ok=True)
-    out_file = os.path.join(out_dir, "rescore.json")
+    if output_dir is None:
+        output_dir = os.path.join(REPO_ROOT, "phase1_ai_sandbox/eval_runs", short_sha)
+    os.makedirs(output_dir, exist_ok=True)
+    out_file = os.path.join(output_dir, "rescore.json")
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump(out_data, f, indent=2)
 
@@ -155,4 +167,8 @@ def run_rescore():
     print("    Kaggle Literal Answers Summary:", kaggle_literal_counts)
 
 if __name__ == "__main__":
-    run_rescore()
+    parser = argparse.ArgumentParser(description="Run rescore with provenance checks.")
+    parser.add_argument("--output-dir", type=str, default=None, help="Explicit output directory.")
+    parser.add_argument("--allow-dirty", action="store_true", help="Allow running on dirty working tree.")
+    args = parser.parse_args()
+    run_rescore(output_dir=args.output_dir, allow_dirty=args.allow_dirty)
