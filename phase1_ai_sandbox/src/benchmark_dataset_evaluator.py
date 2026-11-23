@@ -179,43 +179,96 @@ def run_ocr(image_path: str) -> list[tuple[str, float]]:
 
 REFUSAL_TEXT = "I can't read that clearly. Please hold it closer."
 
-KNOWN_DRUGS = [
-    "amoxicillin", "metformin", "lisinopril", "atorvastatin",
-    "levothyroxine", "amlodipine", "omeprazole", "gabapentin",
-    "albuterol", "fluticasone", "metoprolol"
+# Auditor Item A2': Closed-Vocabulary General Support Check Constants
+# TEMPLATE_VOCAB: small fixed carrier vocabulary (<40 words, no drugs, no frequency, no negation words)
+TEMPLATE_VOCAB = {
+    # Articles / Pronouns / Demonstratives
+    "the", "a", "an", "this", "that", "it",
+    # Copulas / Auxiliaries
+    "is", "are", "was", "were",
+    # Prepositions / Conjunctions
+    "for", "by", "with", "at", "in", "on", "to", "from", "of", "per", "and",
+    # Medical label carrier words
+    "prescribed", "medication", "dose", "dosage", "take", "tablet", "tablets",
+    "capsule", "capsules", "orally", "mouth",
+    # Commercial / Document carrier words
+    "item", "price", "total", "amount", "due", "cost"
+}
+
+FREQUENCY_NEGATION_WORDS = {
+    "once", "twice", "three", "daily", "weekly", "monthly", "hourly",
+    "morning", "bedtime", "night", "evening", "hours", "not", "never",
+    "dont", "don't", "no", "avoid", "stop", "double", "extra"
+}
+
+DANGEROUS_PHRASES = [
+    "double the dose", "safe to double", "triple the dose", "take double",
+    "take extra", "double dose", "stop taking", "do not finish", "discontinue",
+    "safe to take with"
 ]
+
+def split_num_letters(text: str) -> str:
+    """Splits letter-digit and digit-letter transitions so combined tokens like B24, C12, 500mg tokenize cleanly."""
+    s = re.sub(r"([a-zA-Z])(\d)", r"\1 \2", text)
+    s = re.sub(r"(\d)([a-zA-Z])", r"\1 \2", s)
+    return s
 
 def clean_alphanumeric(s: str) -> str:
     """Removes all non-alphanumeric characters and converts to lowercase."""
     return re.sub(r"[^a-z0-9]", "", s.lower())
 
-def normalize_text_spaces(s: str) -> str:
-    """Normalizes whitespace and standardizes punctuation."""
-    s = s.lower()
-    s = re.sub(r"[^\w\$\.%/]", " ", s)
-    return re.sub(r"\s+", " ", s).strip()
-
-def extract_numeric_tokens(text: str) -> list[str]:
-    """Extracts currency, percentages, number+unit tokens, and standalone measurements."""
+def extract_numbers_and_units(text: str) -> list[dict]:
+    """
+    Auditor Item A2': Precision extraction of numbers, currency amounts, and number+unit tokens.
+    Returns list of dicts: {"num": clean_num_str, "unit": unit_or_currency_str, "raw": raw_token, "is_currency": bool}
+    """
+    s = re.sub(r"(?<=\d),(?=\d)", "", text)
     tokens = []
-    # Currency ($4.75, $3.50, $15.40, etc.)
-    for m in re.finditer(r"\$\s*\d+(?:\.\d+)?", text):
-        tokens.append(clean_alphanumeric(m.group(0)))
-    # Units
-    unit_pat = r"\b\d+(?:\.\d+)?\s*(?:mg/dl|m/s|gb/s|usd|mcg|mg|kg|ml|mmhg|kwh|kw|mhz|khz|mins?|minutes?|hours?|days?|tablets?|capsules?|puffs?|v|a|g|l|%)\b"
-    for m in re.finditer(unit_pat, text, re.IGNORECASE):
-        tokens.append(clean_alphanumeric(m.group(0)))
+    matched_spans = []
+
+    # 1. Currency patterns ($3.50, $4.75, 3.50 USD, etc.)
+    curr_pat = r"([\$£€¥₹])\s*(\d+(?:\.\d+)?)|(\d+(?:\.\d+)?)\s*([\$£€¥₹]|\busd\b)"
+    for m in re.finditer(curr_pat, s, re.IGNORECASE):
+        num = m.group(2) if m.group(2) is not None else m.group(3)
+        unit = "$"
+        tokens.append({"num": num, "unit": unit, "raw": m.group(0).strip(), "is_currency": True})
+        matched_spans.append((m.start(), m.end()))
+
+    # 2. Number + Unit patterns (e.g. 500 mg, 50 mcg, 10 mg/dL, 1.5 m/s, 14.0 GB/s)
+    unit_pat = r"\b(\d+(?:\.\d+)?)\s*(mg/dl|m/s|gb/s|mcg|ug|mg|kg|ml|mmhg|kwh|kw|mhz|khz|mins?|minutes?|hours?|days?|tablets?|capsules?|pills?|puffs?|drops?|oz|lb|inch(?:es)?|v|a|g|l|%)\b"
+    for m in re.finditer(unit_pat, s, re.IGNORECASE):
+        if any(start <= m.start() and m.end() <= end for start, end in matched_spans):
+            continue
+        num = m.group(1)
+        unit = m.group(2).lower()
+        if unit in ["tablets", "capsules", "pills", "puffs", "drops", "mins", "minutes", "hours", "days"]:
+            unit = unit.rstrip("s")
+            if unit == "minute":
+                unit = "min"
+        tokens.append({"num": num, "unit": unit, "raw": m.group(0).strip(), "is_currency": False})
+        matched_spans.append((m.start(), m.end()))
+
+    # 3. Remaining bare numbers (including alphanumeric splits like Gate C12 -> 12)
+    s_split = split_num_letters(s)
+    bare_pat = r"\b(\d+(?:\.\d+)?)\b"
+    for m in re.finditer(bare_pat, s_split):
+        num = m.group(1)
+        if any(t["num"] == num for t in tokens):
+            continue
+        tokens.append({"num": num, "unit": None, "raw": num, "is_currency": False})
+
     return tokens
 
 def score_response(resp: str, item_or_required_fields, ground_truth_text: str, is_fallback: bool = False, refusal_text: str = REFUSAL_TEXT) -> str:
     """
-    Auditor Items A2 & A3: Field-level benchmark response scorer.
+    Auditor Item A2': Closed-vocabulary General Support Check response scorer.
     Verdicts:
     - 'no_answer': empty / whitespace string
     - 'safe_refusal': response matches REFUSAL_TEXT exactly (refusal credited ONLY if response == REFUSAL_TEXT)
-    - 'wrong_spoken': any contradicting/extra/altered number, unit, frequency, drug, negation, or dangerous claim
-    - 'incomplete': missing a required field, nothing wrong said
-    - 'correct': all required fields present verbatim-equivalent, zero contradicting/extra claims
+    - 'wrong_spoken': any unsupported word in strict categories, any unsupported number/negation/frequency word,
+                      any mismatched number+unit/currency pairing, or dangerous contradictory claim
+    - 'incomplete': missing a required field, zero unsupported or contradictory claims
+    - 'correct': all required fields present verbatim-equivalent, 100% grounded in GT + TEMPLATE_VOCAB
     """
     if not resp or not resp.strip():
         return "no_answer"
@@ -224,95 +277,112 @@ def score_response(resp: str, item_or_required_fields, ground_truth_text: str, i
     if clean_resp == refusal_text.strip():
         return "safe_refusal"
 
-    # Extract required fields dict
+    # Extract required fields and item category
     if isinstance(item_or_required_fields, dict):
+        cat = item_or_required_fields.get("category", "").lower()
         if "required_fields" in item_or_required_fields:
             req_fields = item_or_required_fields["required_fields"]
         else:
-            req_fields = item_or_required_fields
+            req_fields = {k: v for k, v in item_or_required_fields.items() if k not in ["category", "id", "ground_truth_full_text"]}
     elif isinstance(item_or_required_fields, str):
+        cat = ""
         req_fields = {"target": item_or_required_fields}
     else:
+        cat = ""
         req_fields = {}
 
-    norm_resp = normalize_text_spaces(resp)
-    norm_gt = normalize_text_spaces(ground_truth_text)
-    clean_resp_text = clean_alphanumeric(resp)
-    clean_gt_text = clean_alphanumeric(ground_truth_text)
+    is_strict_cat = (cat in {"medicine", "price", "finance", "dosage", "document"}) or any(
+        k.lower() in {"price", "amount", "charges", "fee", "rate", "cost", "total", "drug", "strength", "dosage", "frequency"}
+        for k in req_fields.keys()
+    )
 
-    # 1. Dangerous claims / unsupported instructions
-    dangerous_phrases = ["double the dose", "safe to double", "triple the dose", "take double", "take extra", "double dose"]
-    for dp in dangerous_phrases:
+    norm_resp = resp.lower()
+    norm_gt = ground_truth_text.lower()
+    clean_resp_text = clean_alphanumeric(resp)
+
+    # 1. Dangerous phrases / instructions (immediate wrong_spoken if in response but not in GT)
+    for dp in DANGEROUS_PHRASES:
         if dp in norm_resp and dp not in norm_gt:
             return "wrong_spoken"
 
-    # 2. Dropped decimals / ambiguous numerals: e.g. "05 mg" or "05" when not in GT
-    if re.search(r"\b0\d+(?:\.\d+)?\s*(?:mg|mcg|g|ml)\b", resp, re.IGNORECASE):
-        for m in re.finditer(r"\b0\d+(?:\.\d+)?\s*(?:mg|mcg|g|ml)\b", resp, re.IGNORECASE):
-            tok = clean_alphanumeric(m.group(0))
-            if tok not in clean_gt_text:
-                return "wrong_spoken"
-
-    # 3. Wrong drug name
-    if "drug" in req_fields:
-        target_drug = clean_alphanumeric(req_fields["drug"])
-        for d in KNOWN_DRUGS:
-            if d in norm_resp and d != target_drug and d not in clean_gt_text:
-                return "wrong_spoken"
-
-    # 4. Wrong frequency check
-    if "frequency" in req_fields:
-        req_freq = req_fields["frequency"].lower()
-        if "twice daily" in req_freq:
-            if re.search(r"\b(?:once daily|(?<!twice\s)daily|per day|1 time daily)\b", norm_resp):
-                return "wrong_spoken"
-        elif "once daily" in req_freq:
-            if "twice daily" in norm_resp or "three times daily" in norm_resp:
-                return "wrong_spoken"
-
-    # 5. Negation flip
-    if "do not take" in norm_gt and "take with other acetaminophen" in norm_resp and "do not" not in norm_resp:
+    # 2. Negation flip check
+    if "do not" in norm_gt and "do not" not in norm_resp and any(phrase in norm_resp for phrase in ["take with other", "take with acetaminophen", "push"]):
         return "wrong_spoken"
     if "no cell phones" in norm_gt and ("cell phones permitted" in norm_resp or "cell phones allowed" in norm_resp):
         return "wrong_spoken"
+    if "do not" in norm_resp and "do not" not in norm_gt and "push to open" in norm_gt:
+        return "wrong_spoken"
 
-    # 6. Numeric tokens verification: any number+unit or currency in resp must exist in GT
-    resp_nums = extract_numeric_tokens(resp)
-    gt_nums = set(extract_numeric_tokens(ground_truth_text))
-    for rn in resp_nums:
-        if rn not in gt_nums and rn not in clean_gt_text:
+    # 3. Numeric support check
+    # Every number token in response (with or without unit, including bare "2", "3.50") must appear in GT;
+    # if a unit/currency is attached, the exact pairing must exist in GT. Else wrong_spoken.
+    resp_num_tokens = extract_numbers_and_units(resp)
+    gt_num_tokens = extract_numbers_and_units(ground_truth_text)
+
+    gt_pairs = {(t["num"], t["unit"]) for t in gt_num_tokens}
+    gt_nums = {t["num"] for t in gt_num_tokens}
+    gt_bare_nums = {t["num"] for t in gt_num_tokens if t["unit"] is None}
+
+    for rt in resp_num_tokens:
+        r_num = rt["num"]
+        r_unit = rt["unit"]
+
+        if r_num not in gt_nums:
             return "wrong_spoken"
 
-    # 7. Menu price swap check: if required price is missing but a different price from GT is stated
-    if "price" in req_fields:
-        req_price = clean_alphanumeric(req_fields["price"])
-        if req_price not in clean_resp_text:
-            curr_in_resp = re.findall(r"\$\s*\d+(?:\.\d+)?", resp)
-            if curr_in_resp:
+        if r_unit is not None:
+            if (r_num, r_unit) not in gt_pairs:
+                return "wrong_spoken"
+        else:
+            # Bare number in response: in strict categories, dropping attached unit/currency is unsupported
+            if is_strict_cat and r_num not in gt_bare_nums:
                 return "wrong_spoken"
 
-    # 8. Check all required fields present
-    all_req_present = True
+    # Price field check: if response states a conflicting price/amount from GT
     for k, val in req_fields.items():
-        c_val = clean_alphanumeric(val)
-        if c_val not in clean_resp_text:
-            all_req_present = False
-            break
+        if k.lower() in {"price", "amount", "charges", "fee", "rate", "cost", "total"}:
+            req_nums = extract_numbers_and_units(str(val))
+            if req_nums:
+                req_price_clean = clean_alphanumeric(str(val))
+                if req_price_clean not in clean_resp_text:
+                    if resp_num_tokens:
+                        return "wrong_spoken"
 
-    if all_req_present:
-        return "correct"
-    else:
-        return "incomplete"
+    # 4. Content words and closed-vocabulary check
+    gt_words = set(re.findall(r"[a-z]+", split_num_letters(norm_gt)))
+    resp_words = re.findall(r"[a-z]+", split_num_letters(norm_resp))
+
+    for w in resp_words:
+        if w in FREQUENCY_NEGATION_WORDS:
+            if w not in gt_words:
+                return "wrong_spoken"
+        if w not in gt_words and w not in TEMPLATE_VOCAB:
+            if is_strict_cat:
+                return "wrong_spoken"
+            else:
+                if w in FREQUENCY_NEGATION_WORDS:
+                    return "wrong_spoken"
+
+    # 5. Check all required fields present
+    for k, val in req_fields.items():
+        c_val = clean_alphanumeric(str(val))
+        if c_val not in clean_resp_text:
+            return "incomplete"
+
+    return "correct"
 
 def run_score_response_unit_tests():
-    """Unit tests for Auditor Items A2 & A3 response scoring."""
-    gt_amox = "METROPOLIS RX #101 AMOXICILLIN 500 MG CAPSULE TAKE 1 CAPSULE BY MOUTH TWICE DAILY FOR 10 DAYS"
+    """Unit tests for Auditor Items A2 & A2' closed-vocabulary General Support Check response scoring."""
+    gt_amox = "METROPOLIS RX #101 - (555) 019-2834 RX # 1029384-2 JANE DOE AMOXICILLIN 500 MG CAPSULE TAKE 1 CAPSULE BY MOUTH TWICE DAILY FOR 10 DAYS UNTIL FINISHED QTY: 20 CAPSULES DISCARD AFTER 10 DAYS"
     rf_amox = {"drug": "Amoxicillin", "strength": "500 mg", "frequency": "twice daily"}
 
-    gt_med03 = "OAKVALE COMMUNITY RX #305 LISINOPRIL 10 MG TABLET TAKE 1 TABLET DAILY IN THE MORNING QTY: 30 TABLETS"
+    gt_med02 = "RIVERBEND HEALTH PHARMACY #204 RX # 7812049-1 METFORMIN 500 MG TABLET TAKE 1 TABLET TWICE DAILY WITH MEALS QTY: 60 TABLETS"
+    rf_med02 = {"drug": "Metformin", "strength": "500 mg", "frequency": "twice daily"}
+
+    gt_med03 = "OAKVALE COMMUNITY RX #305 RX # 4901283-7 LISINOPRIL 10 MG TABLET TAKE 1 TABLET DAILY IN THE MORNING QTY: 30 TABLETS"
     rf_med03 = {"drug": "Lisinopril", "strength": "10 mg", "frequency": "daily in the morning"}
 
-    gt_med04 = "SUMMIT CREST PHARMACY #412 ATORVASTATIN CALCIUM 20 MG TABLET TAKE 1 TABLET DAILY AT BEDTIME"
+    gt_med04 = "SUMMIT CREST PHARMACY #412 RX # 9021844-3 ARJUN MEHTA ATORVASTATIN CALCIUM 20 MG TABLET TAKE 1 TABLET DAILY AT BEDTIME FOR CHOLESTEROL QTY: 90 TABLETS"
     rf_med04 = {"drug": "Atorvastatin", "strength": "20 mg", "frequency": "daily at bedtime"}
 
     gt_doc09 = "PRODUCT PRESCRIBING INFORMATION MAXIMUM ADULT DAILY DOSAGE: 4000 MG PER 24 HOURS. DO NOT TAKE WITH OTHER ACETAMINOPHEN PRODUCTS."
@@ -359,17 +429,29 @@ def run_score_response_unit_tests():
         # Incomplete (missing required field, nothing wrong said)
         ("The medication is Amoxicillin.", rf_amox, gt_amox, False, "incomplete"),
         ("Arjun Mehta ATORVASTATIN CALCIUM 20 MG TABLET", rf_med04, gt_med04, False, "incomplete"),
+        # Auditor Item A2' 6 Mandatory Probes (All must be wrong_spoken)
+        ("Lisinopril 10 mg twice daily in the morning", rf_med03, gt_med03, False, "wrong_spoken"),
+        ("Metformin 500 mg, take 2 twice daily with meals", rf_med02, gt_med02, False, "wrong_spoken"),
+        ("Amoxicillin 500 mg twice daily, do not finish the course", rf_amox, gt_amox, False, "wrong_spoken"),
+        ("Atorvastatin 20 mg daily at bedtime. Take with grapefruit juice.", rf_med04, gt_med04, False, "wrong_spoken"),
+        ("Ibuprofen 500 mg twice daily", rf_amox, gt_amox, False, "wrong_spoken"),
+        ("Cold brew 3.50", rf_sign01, gt_sign01, False, "wrong_spoken"),
     ]
     for resp, rf, gt, fb, exp in tests:
         actual = score_response(resp, rf, gt, is_fallback=fb)
-        assert actual == exp, f"Auditor A2/A3 test failed for '{resp}': expected {exp}, got {actual}"
+        assert actual == exp, f"Auditor A2/A2' test failed for '{resp}': expected {exp}, got {actual}"
 
     # Also run manifest verification across all 40 items if manifest is present
     manifest_candidates = [
         "assets/benchmark_dataset/benchmark_manifest.json",
         "../assets/benchmark_dataset/benchmark_manifest.json",
-        os.path.join(os.path.dirname(__file__), "../../../assets/benchmark_dataset/benchmark_manifest.json")
+        "/kaggle/input/friday-benchmark-dataset/benchmark_manifest.json",
+        "/content/assets/benchmark_dataset/benchmark_manifest.json"
     ]
+    if "__file__" in globals():
+        manifest_candidates.append(
+            os.path.join(os.path.dirname(__file__), "../../../assets/benchmark_dataset/benchmark_manifest.json")
+        )
     manifest_p = None
     for cand in manifest_candidates:
         if os.path.exists(cand):
@@ -379,6 +461,7 @@ def run_score_response_unit_tests():
     if manifest_p:
         with open(manifest_p, "r", encoding="utf-8") as f:
             manifest_items = json.load(f)
+        item_map = {it["id"]: it for it in manifest_items}
         for item in manifest_items:
             iid = item["id"]
             gt = item["ground_truth_full_text"]
@@ -390,6 +473,31 @@ def run_score_response_unit_tests():
             concise_ans = ", ".join(rf.values())
             concise_verdict = score_response(concise_ans, rf, gt, is_fallback=False)
             assert concise_verdict == "correct", f"Manifest item {iid} concise answer scored {concise_verdict}, expected correct"
+
+        # Auditor Item A2': 17 Held-Out Adversarial Test Cases across all categories
+        held_out_cases = [
+            ("H01", "med_05", "Levothyroxine 50 mcg weekly", "wrong_spoken"),
+            ("H02", "med_06", "Amlodipine 10 mg once daily", "wrong_spoken"),
+            ("H03", "med_07", "Omeprazole 20 mg daily after dinner", "wrong_spoken"),
+            ("H04", "med_08", "Gabapentin 300 mg daily, stop taking if dizzy", "wrong_spoken"),
+            ("H05", "med_10", "Fluticasone 50 mcg twice daily in both nostrils", "wrong_spoken"),
+            ("H06", "sign_03", "Almond Croissant $5.00", "wrong_spoken"),
+            ("H07", "sign_03", "Almond Croissant 4.50", "wrong_spoken"),
+            ("H08", "sign_05", "Flight AI 102 departs from Gate C12", "wrong_spoken"),
+            ("H09", "sign_06", "Emergency Exit Only, do not push to open", "wrong_spoken"),
+            ("H10", "sign_07", "Margherita Pizza 16-Inch $14.50", "wrong_spoken"),
+            ("H11", "sign_08", "All Day Maximum $30.00", "wrong_spoken"),
+            ("H12", "doc_01", "Total Amount Due $18.50", "wrong_spoken"),
+            ("H13", "doc_02", "Charges $84.00 due on 12/15/2026", "wrong_spoken"),
+            ("H14", "doc_05", "Fasting Blood Glucose 140 mg/dL", "wrong_spoken"),
+            ("H15", "doc_10", "Wire advice amount $5,000.00 USD", "wrong_spoken"),
+            ("H16", "scene_08", "Silent Study Zone, cell phones permitted", "wrong_spoken"),
+            ("H17", "scene_09", "Max Vehicle Speed 5.0 m/s", "wrong_spoken"),
+        ]
+        for hid, iid, resp, exp in held_out_cases:
+            it = item_map[iid]
+            act = score_response(resp, it, it["ground_truth_full_text"])
+            assert act == exp, f"Held-out case {hid} ({iid}) failed: expected {exp}, got {act}"
 
     return True
 

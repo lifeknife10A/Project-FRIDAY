@@ -134,6 +134,7 @@ def run_rescore():
             "refusal_text": REFUSAL_TEXT
         },
         "raw_ocr_echo_evaluation": {
+            "policy_label": "whole-label echo (upper bound for verbatim reading, not an answer policy)",
             "summary_counts": raw_ocr_counts,
             "items": raw_ocr_results
         },
