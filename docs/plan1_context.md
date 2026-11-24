@@ -299,3 +299,21 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - Keep agy onboarding in one stable prompt that points to repo files, so the repeated prefix is cached.
     - Agy reads only the files a round needs; short reports.
   - Gave Krishna an onboarding-only prompt (understand, don't start work).
+- **2026-11-24 (research setup).**
+  - Krishna wants a research phase: a Claude Researcher (new chat) plus Gemini Notebook (NotebookLM) discussing via Krishna. Requirements are final; the plan of action is weak.
+  - Krishna's ideas:
+    - multiple teachers per skill (DeepSeek-R1 for math/reasoning, Qwen3 for chat);
+    - use the Kaggle quota fully (~30 h/week; Krishna says Phase 1 left ~28 h unused).
+  - At Krishna's request I created `research/`:
+    - README (roles, rules);
+    - 00 brief;
+    - 01 requirements R1–R11;
+    - 02 constraints;
+    - 03 questions Q1–Q9;
+    - 04 sources (arXiv IDs from memory, to verify);
+    - `notes/`.
+  - Auditor flags already written into the files:
+    - full DeepSeek-R1 (~671B) is not runnable on Kaggle, so use R1-Distill-Qwen variants;
+    - logit KD needs tokenizer match;
+    - a 7B fp16 teacher doesn't fit a T4 alongside the student, so precompute/cache teacher outputs;
+    - math answers come from a deterministic evaluator.
