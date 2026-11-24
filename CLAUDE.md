@@ -97,6 +97,9 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- CONTEXT DUMP: read docs/plan1_context.md first in every new session and append a dated entry at the
+  end of every session (Krishna's instruction 2026-11-24).
+
 - Krishna's live run @ 96d2547 (2026-11-24): 5 turns + crash at end. Wake needed 5-6 tries (Whisper-on-
   windows polling); query STT itself fast (~155-180 ms MPS). Read: sticky note -> "It looks like it says:
   love you till the last dies. I'm not sure..." (safe). Router bug: "What does this say?" -> NONE
