@@ -97,6 +97,14 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Krishna asked me to update the BOM (2026-11-24). 73d74b9 (Krishna/agy) had already fixed 1.1 V buck,
+  front-bridge board, Pi 3B consumer board, RK3576 reality check (IMX415 as native fallback). My edits:
+  camera decision marked PENDING; new BOM row for the custom camera breakout/power PCB (parts from RP ref
+  schematic, cost TBD, total = 10,106 + TBD); dims 10.8x10.8 (height TBM); 2.8 V max 50 mA (150 mA was
+  unsourced); regulators must sit on the bridge board (1.1 V @ 0.6 A over 70 mm FFC drops ~0.14 V);
+  40-pin Firefly pinout must come from Firefly docs; RK3576 ISP/GitHub claims marked unverified (403 from
+  review env); IMX708 rail power worst case ~0.89 W noted in power budget.
+
 - Reviewed Krishna's BOM camera blueprint (42af3c4): STILL WRONG/UNVERIFIED: (1) "three LDOs, 1.2 V core"
   — RP ref schematic: DVDD 1.1 V from AP3429K BUCK (up to 600 mA); an LDO from 3.3 V would burn up to
   ~1.3 W in the temple -> fix before PCB design. (2) Routing: sensor flex tail ~24 mm cannot reach a
