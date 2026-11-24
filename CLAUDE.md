@@ -97,6 +97,15 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed live-fix round `6959e7f` -> YES, ready for Krishna's real live test. Verified in code: camera
+  in spawn process + SharedMemory (L259-266), one sd.InputStream in live loop (L1650; L1940 is soak test
+  only), preview bound 127.0.0.1:8765, pyflakes 0 undefined. N1 vocab builder (L697-792) follows the
+  notebook cell-3 procedure exactly (specials -> byte tokens -> Devanagari -> rest by id), so EOS->0 is
+  correct (lowest special id). Agy's crash report: SIGTRAP in cv2 CaptureDelegate CFRelease — matches
+  duplicate libavdevice diagnosis. WATCHLIST: student "image dependence" test still compares visual
+  features, not output text; HF tokenizer revision not pinned (mapping must equal training); soak test
+  injects audio — real-mic behaviour only proven by Krishna's run.
+
 - Live test crash @ f2237f4 (Krishna, 2026-11-24): SIGTRAP after wake. Krishna reproduced: "Hey Friday"
   alone -> starts query recording -> saying "Hey Friday" again -> crash. Matches C3: record_and_transcribe
   (L~309) opens a 2nd sd.InputStream while the live loop's stream (L~1113) is open. Also suspected:
