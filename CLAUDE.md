@@ -97,6 +97,12 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Live test crash @ f2237f4 (Krishna, 2026-11-24): SIGTRAP after wake. Krishna reproduced: "Hey Friday"
+  alone -> starts query recording -> saying "Hey Friday" again -> crash. Matches C3: record_and_transcribe
+  (L~309) opens a 2nd sd.InputStream while the live loop's stream (L~1113) is open. Also suspected:
+  duplicate libavdevice (cv2 + PyAV) objc classes. Found C4: wake VAD checks only first 512 samples of
+  the 1.5 s window. Pending: Krishna's --image test, then ONE combined prompt (C1-C4, C2 preview, N1, N2).
+
 - Reviewed M1-M5 `f2237f4`: M1 offline regression renamed+bannered, M3 camera failure exits (sys.exit
   L140), M4 live loop exists (run_live_harness_loop L1060: InputStream, VAD, whisper, "friday" trigger,
   query split, Ctrl-C), M5 "not run" -> OK. NEW BLOCK N1 (description path): student uses the PRUNED 64k
