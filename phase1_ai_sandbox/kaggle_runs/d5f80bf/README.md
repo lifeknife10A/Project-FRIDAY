@@ -1,4 +1,6 @@
-# Kaggle Execution Run: d5f80bf
+# Kaggle Execution Run: d5f80bf (superseded by 7571e39)
+
+> **Note**: This run is superseded by 7571e39.
 
 - **Git Commit Provenance**: `d5f80bf1b2b38cf48b961033fc02ebbaafbb82f5`
 - **Execution Environment**: Kaggle Notebook Session (2x NVIDIA T4, Python 3.13.16, machine_shape: `NvidiaTeslaT4`)

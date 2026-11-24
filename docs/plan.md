@@ -5,7 +5,12 @@
 **Project Lead:** Krishna  
 **Academic Target:** Capstone Thesis (Phase-Based Execution)  
 **System Target:** Fully Self-Contained Edge Multimodal AI Eyewear  
-**Review Status:** PHASE 1 DISTILLATION CLOSING SPRINT — MILESTONE 2.1 [GO] | MILESTONE 2.2 [HOLD] (H-1 to H-4 Hardware Fixes Applied)  
+**Review Status:** Milestone 1.5 gate: PASS — Kaggle run of commit 7571e392f45830ea1ad1d146758a5e9bd0a40d9e (2x T4), artifacts in phase1_ai_sandbox/kaggle_runs/7571e39/.  
+- Gates 1 and 3 are analytic (calculated), not hardware measurements.  
+- Gate 4 (Kokoro) measured offline on the host CPU (MacBook Air M4), not on RK3576.  
+- Gate 5 uses synthetic rendered labels at camera resolution (canonical): 38/40 correct, 0 wrong-spoken, CER 4.60%. Low-res stress set: 36/40, 0 wrong, CER 6.15%. Held-out auditor TEST set: 17/20, 0 wrong. Real-photo VizWiz subset (500): ~2% answers found, 0 wrong numbers spoken.  
+- Literal reading uses the extractive OCR reader; the student vision-only path is NOT safe for literal reading (1/40 correct, 39 wrong-spoken) and is not used for it. Comparison: Qwen2-VL-2B teacher 23/40 correct, 11 wrong-spoken.  
+- Camera for Phase 2/3 not yet locked (IMX708 preferred, IMX415 native-RK3576 fallback); Gate 1 is computed with IMX415 optics (12.8 px), IMX708 would give 17.4 px.  
 
 ---
 
@@ -386,7 +391,13 @@ $$\text{Verified Physical Headroom below 125g limit} = 125.0\text{g} - 115.0\tex
 * **Milestone 1.2:** Build the 64k vocabulary as a strict subset of Qwen2.5.
 * **Milestone 1.3:** Execute two-stage distillation: Stage 1 (Renormalized Top-64 Forward KD strictly over $\Omega_{64} \subseteq \mathcal{V}_S$ with normalized $\tilde{p}_S$ and $\epsilon = 10^{-5}$) followed by Stage 2 (On-Policy Sequence DPO) using free Kaggle (dual T4 GPUs) or Google Colab.
 * **Milestone 1.4:** Build local Mac M4 sandbox: complete end-to-end voice-to-vision-to-voice simulation with $6^\circ$ down-pitch dynamic text-ROI emulation using Mac FaceTime webcam / mobile camera feed.
-* **Milestone 1.5 (The Zero-Spend Financial & Empirical Gate):** Evaluate real-world multimodal fine-print OCR (using PP-OCRv6 (rapidocr 3.10.0 default small det/rec models) for literal path, noting earlier OCR numbers used the old PP-OCRv4 engine and are not comparable) and instruction following utility on the 40-sample benchmark dataset under strict pre-registered quantitative thresholds: Character Error Rate (CER) $\le 5.0\%$ on in-focus text without stripping punctuation, Word Error Rate (WER) $\le 30.0\%$, Key-Field Exact Match $\ge 95.0\%$ (verbatim extraction of medicine names, doses, sign titles, and prices), Devanagari In-Vocab Coverage $\ge 80.0\%$ with $100.0\%$ character/byte-level exact string roundtrip, low-confidence fallback trigger ("I can't read that clearly, please move closer" for confidence $<0.40$), 144-token optical downsampler latency $< 10.0\text{ ms}$ (measured as host reference), and memory bandwidth $\le 14.00\text{ GB/s}$ safe operational bus ceiling ($5.77\text{ GB/s}$ at 25 tok/s). If the 0.5B student model fails any of these criteria, the project halts with **₹0 spent and zero hardware waste**. If successful, proceed directly to single-shot target hardware procurement.
+* **Milestone 1.5 (The Zero-Spend Financial & Empirical Gate):** Milestone 1.5 gate: PASS — Kaggle run of commit 7571e392f45830ea1ad1d146758a5e9bd0a40d9e (2x T4), artifacts in phase1_ai_sandbox/kaggle_runs/7571e39/.
+  - Gates 1 and 3 are analytic (calculated), not hardware measurements.
+  - Gate 4 (Kokoro) measured offline on the host CPU (MacBook Air M4), not on RK3576.
+  - Gate 5 uses synthetic rendered labels at camera resolution (canonical): 38/40 correct, 0 wrong-spoken, CER 4.60%. Low-res stress set: 36/40, 0 wrong, CER 6.15%. Held-out auditor TEST set: 17/20, 0 wrong. Real-photo VizWiz subset (500): ~2% answers found, 0 wrong numbers spoken.
+  - Literal reading uses the extractive OCR reader; the student vision-only path is NOT safe for literal reading (1/40 correct, 39 wrong-spoken) and is not used for it. Comparison: Qwen2-VL-2B teacher 23/40 correct, 11 wrong-spoken.
+  - Camera for Phase 2/3 not yet locked (IMX708 preferred, IMX415 native-RK3576 fallback); Gate 1 is computed with IMX415 optics (12.8 px), IMX708 would give 17.4 px.
+  - *Historical gate specification*: Evaluate real-world multimodal fine-print OCR (using PP-OCRv6 (rapidocr 3.10.0 default small det/rec models) for literal path) and instruction following utility on the 40-sample benchmark dataset under strict pre-registered quantitative thresholds: Character Error Rate (CER) $\le 5.0\%$ on in-focus text without stripping punctuation, Word Error Rate (WER) $\le 30.0\%$, Key-Field Exact Match $\ge 95.0\%$, 0 wrong-spoken entities, 144-token optical downsampler latency $< 10.0\text{ ms}$, and memory bandwidth $\le 14.00\text{ GB/s}$ safe operational bus ceiling. Target criteria met. Proceed directly to Phase 2.
 
 ### Phase 2: Embedded Bring-Up & Zero-Waste Peripheral Integration
 * **Milestone 2.1 (Free Peripheral Testbed via Raspberry Pi 3B):** Utilize the student's on-hand Raspberry Pi 3B (1 GB LPDDR2) for ₹0 audio peripheral validation: verify hardware I2S clocking (`GPIO 18, 19, 21`) to dual MAX98357A mono amps, test INMP441 MEMS microphone arrays, and benchmark WebRTC AEC3 echo cancellation before purchasing the main compute module.

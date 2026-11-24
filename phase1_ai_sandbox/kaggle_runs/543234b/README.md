@@ -1,4 +1,6 @@
-# Kaggle Execution Run: 543234b
+# Kaggle Execution Run: 543234b (superseded by 7571e39)
+
+> **Note**: This run is superseded by 7571e39.
 
 - **Git Commit Provenance**: `543234b1abc87d3786493f0e097535284434c9a6`
 - **Execution Environment**: Kaggle Notebook Session (2x NVIDIA T4, Python 3.13.16)

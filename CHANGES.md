@@ -1,6 +1,13 @@
-# Project FRIDAY — Review Fixes Audit Trail (Audit #7 & Auditor Review of `1daee40`)
+# Project FRIDAY — Review Fixes Audit Trail
 
-This document records the exact resolution status of every review item from **AUDIT #7** and the subsequent **Auditor Review of `1daee40`** under the strict 7-step zero-waste operational protocol (`docs/plan.md` §0). Every item is mapped as **Fixed**, **Partial**, **Blocked**, or **Disagree** (with reason).
+## Milestone 1.5 Gate Closure (Phase 1 Close)
+
+Milestone 1.5 gate: PASS — Kaggle run of commit 7571e392f45830ea1ad1d146758a5e9bd0a40d9e (2x T4), artifacts in phase1_ai_sandbox/kaggle_runs/7571e39/.
+- Gates 1 and 3 are analytic (calculated), not hardware measurements.
+- Gate 4 (Kokoro) measured offline on the host CPU (MacBook Air M4), not on RK3576.
+- Gate 5 uses synthetic rendered labels at camera resolution (canonical): 38/40 correct, 0 wrong-spoken, CER 4.60%. Low-res stress set: 36/40, 0 wrong, CER 6.15%. Held-out auditor TEST set: 17/20, 0 wrong. Real-photo VizWiz subset (500): ~2% answers found, 0 wrong numbers spoken.
+- Literal reading uses the extractive OCR reader; the student vision-only path is NOT safe for literal reading (1/40 correct, 39 wrong-spoken) and is not used for it. Comparison: Qwen2-VL-2B teacher 23/40 correct, 11 wrong-spoken.
+- Camera for Phase 2/3 not yet locked (IMX708 preferred, IMX415 native-RK3576 fallback); Gate 1 is computed with IMX415 optics (12.8 px), IMX708 would give 17.4 px.
 
 ---
 
