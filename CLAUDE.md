@@ -97,6 +97,12 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Krishna's ROADMAP (2026-11-24): finish Phase 1 first (next: Kaggle run @ 7571e39 -> step-7 review).
+  Hardware discussion paused until then. After Phase 1: full hardware listing + pricing + purchase
+  links, then Phase 2 (port to embedded: Raspberry Pi first, then RK3576), then Phases 3-4.
+  Camera feasibility answer given: project is feasible either way (IMX415 = native RK3576 fallback;
+  IMX708 = better optics but needs carrier + driver port).
+
 - Reviewed BOM power section 0560c32: rail now explicit (2S -> MP2315 -> 5 V bus); thermal operating
   (0.35 W idle / 3.0 W burst / 0.615 W avg, math correct) separated from regulator sizing (2.18 A /
   2.78 A unthrottled) — OK. Remaining (WATCHLIST, before carrier design): camera regs fed from 5 V ->
