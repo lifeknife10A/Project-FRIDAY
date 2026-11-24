@@ -97,6 +97,14 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed BOM power section 0560c32: rail now explicit (2S -> MP2315 -> 5 V bus); thermal operating
+  (0.35 W idle / 3.0 W burst / 0.615 W avg, math correct) separated from regulator sizing (2.18 A /
+  2.78 A unthrottled) — OK. Remaining (WATCHLIST, before carrier design): camera regs fed from 5 V ->
+  LDOs are not 90% efficient: worst case ~1.28 W in = ~0.26 A (not 0.18-0.20 A) and ~0.27 W LDO heat
+  on the nose-bridge board; runtime 3.6 h ignores buck loss (~3.2 h at 90%); BMS line compares a 5 V
+  current with a battery-side trip (battery side ~2.6 A at 6.0 V — still safe); 3.0 W active burst for
+  RK3576 LLM inference is an assumption to measure (Phase 2).
+
 - Reviewed G1-G3 `7571e39` + dry run `dfb29b5` -> YES, PUSH TO KAGGLE @ 7571e39 (full SHA
   7571e392f45830ea1ad1d146758a5e9bd0a40d9e). Verified: regen no diff, 0 syntax errors, 0 undefined
   names; executed dry-run code == 7571e39, 0 tracebacks, recorded SHA matches; dry-run gates 1-6 all
