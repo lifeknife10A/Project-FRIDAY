@@ -97,6 +97,19 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- STEP-7 REVIEW DONE: Kaggle run of 7571e39 (kernel v5, committed c2c2cf8) -> MILESTONE 1.5 GATE PASS
+  (all 6), backed by committed output. Verified: committed notebook code == 7571e39 except injected SHA;
+  both .ipynb identical (ceb58f1b...); 0 tracebacks; recorded SHA 7571e392...; gate JSON matches
+  (overall_gate_pass true, dataset_variant spec). numpy 2.1.3; teacher cuda:1 / student cuda:0 (8.48 /
+  4.44 GB). Splits 1a 1760/440 (20%), 1b 880/320 (26.7%), leakage assert in code (cell 8). Stage 1a
+  held-out 6.4752->5.6063->5.1695->4.9308->4.7724; Stage 1b KD 3.4275 -> best 1.6693 @ step 88 (8 saves).
+  G5 spec: CER 4.60% WER 5.68% 38/40 0 wrong; stress low-res 6.15% 36/40 0 wrong. Comparison paths:
+  teacher 23/40 (11 wrong), vision-only 1/40 (39 wrong), pre-distill 0/40. INT4 209.38 MB, packed
+  loader diff 0. G2 latency 0.291 ms. Report's claim "assert 0.19<=val_fraction<=0.21 executed" is FALSE
+  (no such assert in code; 1b val is 26.7%) — chat only, not in README. Allowed claim wording given to
+  Krishna with caveats (G1/G3 analytic, G4 Mac CPU, G5 synthetic renders, low-res stress, VizWiz ~2%,
+  vision-only path unsafe). NEXT per roadmap: hardware listing/purchase, then Phase 2.
+
 - Krishna's ROADMAP (2026-11-24): finish Phase 1 first (next: Kaggle run @ 7571e39 -> step-7 review).
   Hardware discussion paused until then. After Phase 1: full hardware listing + pricing + purchase
   links, then Phase 2 (port to embedded: Raspberry Pi first, then RK3576), then Phases 3-4.
