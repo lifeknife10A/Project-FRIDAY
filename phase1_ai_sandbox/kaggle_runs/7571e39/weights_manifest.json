@@ -1,0 +1,23 @@
+[
+  {
+    "filename": "best_student_vlm.pt",
+    "relative_path": "FRIDAY_weights/best_student_vlm.pt",
+    "size_bytes": 1672095722,
+    "size_mb": 1594.63,
+    "sha256": "66391bd6cf68e19be4fef44931c28b8e8b0d5ced05031fe5e2b2ac01e5c158b7"
+  },
+  {
+    "filename": "friday_student_w4a16_packed.pt",
+    "relative_path": "FRIDAY_weights/friday_student_w4a16_packed.pt",
+    "size_bytes": 209382303,
+    "size_mb": 199.68,
+    "sha256": "be83cf3fd8e870915ae43dcd385f718e595bcfd550f3b122192cb3e60a88a5d9"
+  },
+  {
+    "filename": "spatial_unshuffle_downsampler.pt",
+    "relative_path": "FRIDAY_weights/spatial_unshuffle_downsampler.pt",
+    "size_bytes": 11011971,
+    "size_mb": 10.5,
+    "sha256": "306c2aa6abde592da4ef4147ec63cf41e459c00543702ea9a0be121b895563cd"
+  }
+]
