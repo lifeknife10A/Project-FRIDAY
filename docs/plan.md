@@ -431,3 +431,60 @@ To eliminate single-point hardware failure and guarantee a successful capstone d
 1. **Machine Learning / IT Contribution:** A mathematically convergent two-stage cross-modal distillation pipeline (Normalized Epsilon-smoothed Top-64 Forward KD bounded strictly over $\Omega_{64} \subseteq \mathcal{V}_S$ + Sequence DPO) using a strict 64k vocabulary subset, compressing the model into a 415.2M student operating under an $8.07\text{ GB/s}$ peak / $5.77\text{ GB/s}$ sustained INT4 memory bandwidth budget (58.8% safe headroom below the 14.0 GB/s bus ceiling).
 2. **Systems Architecture Contribution:** An asynchronous edge orchestration runtime featuring lock-free real-time audio threads, WebRTC AEC3 echo cancellation, dual-temple mono MAX98357A digital I2S amplifiers with hardware-isolated $<0.1\,\mu\text{A}$ shutdown, and a target Time-to-First-Word of **$\sim 1.20\text{ seconds}$ (to be empirically benchmarked in Phase 2)** preceded by an instant earcon chime (**$<80\text{ms}$ in awake state, $<500\text{ms}$ upon wake-from-suspend button interrupt**).
 3. **Hardware / Embedded Contribution:** A completely self-contained smart-glasses form factor with Series 2S passive shunt-bleed balanced battery packaging, 18-conductor/34-conductor continuous rigid-flex hinge interconnects, Titanium Grade 5 kinematic optomechanics, and an open-drain hardware watchdog architecture operating under a planned **117.8-gram nominal mass envelope ($\le 120.0\text{g}$ target)** with zero dependence on cloud infrastructure or smartphone coprocessing.
+
+---
+
+## 11. Requirements Discussion Log (Krishna ↔ Auditor) — NOT YET APPROVED REQUIREMENTS
+
+> This section records the direction discussions after Phase 1. These are inputs to be shaped into requirements; nothing below overrides §0–§10 until Krishna marks an item APPROVED.
+
+### 11.1 Session 2026-11-24 — after the first live Mac demo (friday_live.py @ 96d2547)
+
+**Live-run evidence (Krishna, MacBook Air M4):**
+- The safe reader worked. Sticky note → "It looks like it says: love you till the last dies. I'm not sure about some words or numbers." No wrong content was spoken.
+- "Hey Friday" needed 5–6 attempts. The cause is the wake *method*: Whisper is re-run on 1.5 s audio windows. Speech-to-text itself is ~155–180 ms on MPS.
+- "What am I holding?" gave "The person is holdingThe person is holding…". The Phase 1 student (100 KD steps, text-reading data only) has no object grounding. This was expected.
+- Bugs:
+  - The router maps "What does this say?" to NONE.
+  - `speak(mute=…)` raises a TypeError (`friday_live.py` L1994).
+  - Tokenizers fork warning.
+  - Frame selection takes 2.1–2.7 s.
+  - Wake-to-first-audio is 2.7–6.0 s.
+
+**Krishna's product direction (stated):**
+1. **Scope.**
+   - Not a coding assistant.
+   - Core on-device skills, in Krishna's words: **computation (math), translation, safe reader, chatting, visual Q&A**, the last with uncertainty and follow-ups (e.g. "what colour is it?").
+   - Persona and emotional tone in replies (a "Donna"-style assistant).
+2. **Online fallback (Siri-like: own knowledge + search).**
+   - If the local model can't answer, FRIDAY searches the web over Wi-Fi (or Bluetooth-tethered phone as a modem) and answers *with a citation* (e.g. "according to reddit.com, …").
+   - Weather, news and similar come from search/APIs plus GPS location.
+   - Prefer a correct sourced answer over "I can't do this".
+   - Already consistent with Directive 04 (§1) and Milestone 4.2.
+3. **Novelty.** Combining off-the-shelf small models is NOT the thesis contribution. Use pretrained small models as **teachers** and keep **our own student** as the on-device model: distil multiple skills into it and analyse properly how.
+4. **Research items to actually test (experimental, may fail — results either way go in the thesis):**
+   - Weight editing / model editing: does it work on our student, and how?
+   - "Train big, then prune/distil smaller."
+5. **Timeline.** About one year remains. These can take weeks or months; correctness over speed.
+6. **Latency requirement.** On "Hey Friday" there must be an immediate chime, then processing. Repeating the wake phrase is not acceptable.
+
+**Auditor notes on the above (for shaping, not decisions):**
+- **Multi-teacher distillation scope.** "Multi-teacher, multi-skill distillation into one ~0.5B on-device student, with a safety-verified numeric path" is a defensible contribution. It is an extension of §5: the teacher changes from a single Qwen2-VL-2B to skill-specific teachers.
+  - Needs per-skill teachers, per-skill held-out evals, and a capacity study: which skills fit in one 0.5B student vs. need adapters/LoRA heads.
+- **Safety constraints that stay in force:**
+  - Doses, prices and numbers are spoken only via the extractive reader or deterministic computation (math evaluated by a parser, never generated).
+  - Web answers must name the source.
+  - Medical numbers from the web must not be spoken as instructions without the citation and a caution.
+- **Web-search wording.** Web search via Wi-Fi/BT is allowed by Directive 04. The phone stays a "dumb modem", never an AI coprocessor.
+- **Handwriting limit.** Whiteboard math depends on OCR of handwriting; current PP-OCR models target printed text. Handwriting needs its own eval set.
+- **Research tracks.** Model editing (e.g. ROME/MEMIT-style locate-and-edit) and prune-after-distil are research tracks with defined experiments and success/fail criteria, not product features.
+- **Compute budget.** Kaggle at ~30 GPU-h/week is the binding constraint for "train big"; plan experiments around it.
+- **Wake word.** A dedicated keyword-spotting model (e.g. a custom openWakeWord "hey friday") runs continuously on ~80 ms audio frames at negligible CPU. It detects within ~0.1–0.3 s of the phrase ending, and the chime plays on detection before any other processing.
+  - Plan §6/§10 already specify a capacitive-touch wake + earcon (<80 ms awake, <500 ms from suspend). The voice wake word would be an *addition* (always-on mic cost to be measured on RK3576).
+  - Query STT on RK3576 CPU will be slower than on the M4. Use streaming STT (transcribe while the user speaks) so text is ready when speech ends. Measure in Phase 2.
+
+**Open decisions for Krishna:**
+- **D1.** Approve the switch from a single teacher (Qwen2-VL-2B) to multiple skill teachers (a plan deviation from §5).
+- **D2.** Skill priority order for distillation. Candidate: visual Q&A → chat/persona → translation (which languages?) → math → search/tool-use.
+- **D3.** Voice wake word in addition to the touch button on the glasses (power cost).
+- **D4.** Research-track success criteria for model editing and pruning.
