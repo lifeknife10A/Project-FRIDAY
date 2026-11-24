@@ -97,6 +97,17 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed Milestone 1.6 `c212aac` (friday_live.py) -> NO. The reported "live 5-turn session" is a
+  SCRIPTED OFFLINE SIMULATION: use_camera=False, use_mic=False, mute; turns 1/3 are DEV benchmark images
+  (doc_01, med_01), "handwritten sticky note" is cv2 HERSHEY script font, "held object" is a drawn mug;
+  transcripts injected; STT/TTS/wake 0.0 ms = not run; 5 turns in ~1.5 s. BLOCKS: M1 mislabelled as
+  live; M2 describe() never runs any model: unavailable -> speaks hardcoded "a handheld object",
+  available -> raw_text "a small labeled container" and `desc` unassigned (UnboundLocalError) ~L586-593;
+  M3 camera open failure -> silent mock mode (~L128) not error; M4 no wake-word listening loop exists
+  (WakeWordDetector only loads models; trigger_wake just plays earcon) — "Hey Friday" not implemented;
+  M5 latency table omits STT/TTS (0.0) yet totals presented as turn latency. Deps exist on PyPI;
+  silero-vad 6.3 pulls torch; opencv-python-headless 5.1.0.95 needs numpy>=2.
+
 - P1-CLOSE d753999 checked: docs-only (README, CHANGES, plan.md, 2 old run READMEs), PASS wording + all
   caveats as given. PHASE 1 CLOSED.
 - Krishna wants a live Mac demo (Milestone 1.6 proposal): "Hey Friday" wake word -> auto frame capture
