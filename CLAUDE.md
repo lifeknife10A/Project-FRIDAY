@@ -97,6 +97,16 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed M1-M5 `f2237f4`: M1 offline regression renamed+bannered, M3 camera failure exits (sys.exit
+  L140), M4 live loop exists (run_live_harness_loop L1060: InputStream, VAD, whisper, "friday" trigger,
+  query split, Ctrl-C), M5 "not run" -> OK. NEW BLOCK N1 (description path): student uses the PRUNED 64k
+  vocab but describe() encodes the prompt with raw Qwen ids (tokenizer.encode) and decodes generated
+  64k-space ids with the raw Qwen tokenizer — no old_to_new/new_to_old mapping (exists in notebook cell 3
+  / tokenizer_vocab_pruner.py) -> IndexError for ids >= 64000 or gibberish words; eos 151643 never in
+  64k space. Report also said "SmolLM student" — false, code uses Qwen2.5-0.5B config. Verdict to
+  Krishna: OK to start the live test for READ questions now; IDENTIFY results invalid until N1 fixed;
+  needs Kaggle 7571e39 best_student_vlm.pt (sha 66391bd6...) downloaded to FRIDAY_weights/.
+
 - Reviewed Milestone 1.6 `c212aac` (friday_live.py) -> NO. The reported "live 5-turn session" is a
   SCRIPTED OFFLINE SIMULATION: use_camera=False, use_mic=False, mute; turns 1/3 are DEV benchmark images
   (doc_01, med_01), "handwritten sticky note" is cv2 HERSHEY script font, "held object" is a drawn mug;
