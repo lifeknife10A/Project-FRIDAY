@@ -488,3 +488,33 @@ To eliminate single-point hardware failure and guarantee a successful capstone d
 - **D2.** Skill priority order for distillation. Candidate: visual Q&A → chat/persona → translation (which languages?) → math → search/tool-use.
 - **D3.** Voice wake word in addition to the touch button on the glasses (power cost).
 - **D4.** Research-track success criteria for model editing and pruning.
+
+### 11.2 Offline capability as the differentiator (2026-11-24)
+
+**Krishna's point.** A web search showed that Ray-Ban Meta glasses without a phone connection only:
+- capture photos and video to internal storage;
+- report battery level by voice;
+- act as Bluetooth audio for another device.
+
+All AI features need the phone and the cloud. FRIDAY should do more than this with no connection.
+
+**Auditor notes:**
+- **Offline already works in Phase 1 (Mac emulator):**
+  - wake;
+  - speech-to-text;
+  - safe reader;
+  - text-to-speech (Kokoro).
+- **Planned offline skills (§11.1):**
+  - math;
+  - translation;
+  - visual Q&A;
+  - chat/persona.
+- **Online-only by nature:**
+  - weather;
+  - news;
+  - web search;
+  - messages.
+
+  These are handled by Directive 04, with a spoken offline notice when there is no connection.
+- **Proposed requirement.** Every core skill runs and is evaluated with Wi-Fi and Bluetooth OFF. The thesis reports an offline capability table: FRIDAY vs. Ray-Ban Meta, the latter as documented by Meta.
+- **Source for the thesis.** The Meta comparison must cite Meta's own support or product pages, not search snippets or forum posts, and record the date checked. Meta's offline features may change.
