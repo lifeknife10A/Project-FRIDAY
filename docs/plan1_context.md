@@ -288,3 +288,14 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
   - plan.md §11.1 (`a32eafe`) and §11.2 (`6d4c02c`) added.
   - This file created.
   - Session stopped for the day at Krishna's request.
+- **2026-11-24 (later).**
+  - Antigravity's model "Gemini 3.8 Flash" is leaving soon. Krishna moves agy to "Gemini 4 Hydrogen" in a NEW chat with no project memory.
+  - OpenRouter pricing (Krishna's screenshot):
+    - Input $1.50/M (vs $0.75); output $7.50/M (vs $3.75).
+    - Cached input is the same for both: $0.075/M.
+    - p50 latency 7.81 s (vs 2.59 s); throughput 114 tok/s (vs 60).
+  - My advice:
+    - Effort **Medium** as default; **High** only for safety-reader, KD/training, notebook and Kaggle rounds; **Low** for docs/mechanical edits; never Extra-high.
+    - Keep agy onboarding in one stable prompt that points to repo files, so the repeated prefix is cached.
+    - Agy reads only the files a round needs; short reports.
+  - Gave Krishna an onboarding-only prompt (understand, don't start work).
