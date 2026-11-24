@@ -160,28 +160,29 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
 * **Power Delivery Architecture & Rail Identification:**
   * The dual 1S LiPo cells in series ($2\text{S} = 7.4\text{ V}$ nominal, $6.0\text{--}8.4\text{ V}$) supply an **MP2315 synchronous step-down buck converter** that outputs a regulated **5.0V system power bus**.
   * The Firefly CAM-3576Q38, audio amplifiers, and front-bridge camera regulators are all fed from this **5.0V bus**.
+  * *Camera regulator input (design rule):* feed the 1.8 V and 2.8 V camera LDOs from a 3.3 V rail (or derive 1.8 V from a second small buck), not directly from 5 V. From 5 V the two LDOs would turn up to ~0.27 W into heat on the small front-bridge board at the user's nose bridge (worst case: (5−1.8) V × 50 mA + (5−2.8) V × 50 mA = 0.27 W).
 * **5V Power Rail Current & Thermal Envelope Reconciliation:**
   * **Wearable Thermal Operating Current (plan.md §7 & §7.2 Baseline):**
     * *Standby / Idle State ($0.35\text{ W}$):* $0.35\text{ W} / 5.0\text{ V} = \mathbf{0.07\text{ A}}$ on 5V bus.
-    * *Active Inference Burst ($P_{\text{active}} \le 3.0\text{ W}$, $\le 12\text{ s}$ per turn):* $3.0\text{ W} / 5.0\text{ V} = \mathbf{0.60\text{ A}}$ on 5V bus.
-    * *Duty-Cycle-Averaged Operating Current ($\bar{P} = 0.615\text{ W}$ over 120s period):* $0.615\text{ W} / 5.0\text{ V} = \mathbf{0.123\text{ A}}$ on 5V bus. This guarantees steady-state skin-contact temperature remains strictly $\le 37.5^\circ\text{C}$ and runtime on dual 300mAh cells ($2.22\text{ Wh}$) achieves $\sim 3.6\text{ hours}$.
+    * *Active Inference Burst ($P_{\text{active}} \le 3.0\text{ W}$, $\le 12\text{ s}$ per turn — **design target, not yet measured**: whether the RK3576 sustains the LLM token-rate target within 3.0 W is a Phase 2 measurement):* $3.0\text{ W} / 5.0\text{ V} = \mathbf{0.60\text{ A}}$ on 5V bus.
+    * *Duty-Cycle-Averaged Operating Current ($\bar{P} = 0.615\text{ W}$ over 120s period):* $0.615\text{ W} / 5.0\text{ V} = \mathbf{0.123\text{ A}}$ on 5V bus. This guarantees steady-state skin-contact temperature remains strictly $\le 37.5^\circ\text{C}$ and runtime on dual 300mAh cells ($2.22\text{ Wh}$) is $\sim 3.2\text{ hours}$ after ~90% buck conversion loss ($2.22 \times 0.9 / 0.615$; $3.6\text{ h}$ would assume a lossless converter).
   * **Electrical Dimensioning & Unconstrained Silicon Stress Envelope (Regulator Sizing):**
     * *Critical Distinction:* The figures below represent theoretical unthrottled silicon stress ratings used strictly to size buck regulator headroom and prevent voltage droop under transient spikes. They are **not** continuous wearable operating powers (which are thermally governed to $\le 3.0\text{ W}$):
       * Firefly CAM-3576Q38 unthrottled benchtop ceiling (all 8 CPU cores + GPU + 6 TOPS NPU at 100% torture load): $8.50\text{ W} / 5.0\text{ V} = 1.70\text{ A}$
       * Integrated Wi-Fi 6 TX Burst: $1.50\text{ W} / 5.0\text{ V} = 0.30\text{ A}$
       * Camera Subsystem Power at 5V bus:
         * *Fallback Sony IMX415:* $0.50\text{ W} / 5.0\text{ V} = 0.10\text{ A}$
-        * *Primary Plan Sony IMX708:* Rail power at sensor is $\sim 0.89\text{ W}$ ($1.1\text{V} \times 0.60\text{A} + 1.8\text{V} \times 0.05\text{A} + 2.8\text{V} \times 0.05\text{A} = 0.89\text{W}$, real figure to be measured). Stepped down from 5V via front-bridge buck/LDOs at $\sim 90\%$ efficiency, this draws $\sim 0.99\text{ W} / 5.0\text{ V} \approx \mathbf{0.18\text{--}0.20\text{ A}}$.
+        * *Primary Plan Sony IMX708:* Rail power at sensor is $\sim 0.89\text{ W}$ ($1.1\text{V} \times 0.60\text{A} + 1.8\text{V} \times 0.05\text{A} + 2.8\text{V} \times 0.05\text{A} = 0.89\text{W}$, real figure to be measured). Worst case at the 5 V input if fed directly from 5 V: 1.1 V buck at ~85% efficiency draws $0.66 / 0.85 \approx 0.78\text{ W}$; the LDOs draw their full load current from the input ($5\text{ V} \times 0.05\text{ A} \times 2 = 0.50\text{ W}$; LDOs are not 90% efficient). Total $\approx 1.28\text{ W} / 5.0\text{ V} \approx \mathbf{0.26\text{ A}}$ (lower if the LDOs are fed from 3.3 V; typical to be measured).
       * Dual MAX98357A Audio Amps (clipping transient peak): $2 \times 1.50\text{ W} / 5.0\text{ V} = 0.60\text{ A}$ (transient peaks decoupled by bulk output caps).
     * *Unconstrained Electrical Peak Current (Regulator Sizing Baseline):*
       * With IMX415: $1.70\text{ A} + 0.30\text{ A} + 0.10\text{ A} = \mathbf{2.10\text{ A}}$ steady silicon peak ($\mathbf{2.70\text{ A}}$ transient burst with audio clipping).
-      * With IMX708: $1.70\text{ A} + 0.30\text{ A} + 0.18\text{ A} = \mathbf{2.18\text{ A}}$ steady silicon peak ($\mathbf{2.78\text{ A}}$ transient burst with audio clipping).
+      * With IMX708: $1.70\text{ A} + 0.30\text{ A} + 0.26\text{ A} = \mathbf{2.26\text{ A}}$ steady silicon peak ($\mathbf{2.86\text{ A}}$ transient burst with audio clipping).
 * **MP2315 Regulator Capability & Headroom:**
   * Rated for $3.0\text{ A}$ continuous ($4.0\text{ A}$ peak).
   * *Thermal / Operating Headroom:* Under normal wearable operation ($0.60\text{ A}$ active burst), the regulator operates at only $20\%$ of continuous capacity, generating negligible self-heating ($<0.08\text{ W}$).
-  * *Electrical Transient Headroom:* Under absolute unconstrained silicon stress ($2.18\text{ A}$), the regulator retains $37.6\%$ margin below its $3.0\text{ A}$ rating, and $>7.9\%$ margin over the $2.78\text{ A}$ audio transient peak.
+  * *Electrical Transient Headroom:* Under absolute unconstrained silicon stress ($2.26\text{ A}$), the regulator retains $24.7\%$ margin below its $3.0\text{ A}$ continuous rating; the $2.86\text{ A}$ audio-clipping transient is $4.7\%$ under the continuous rating and $28.5\%$ under the $4.0\text{ A}$ peak rating.
 * **Filter Capacitors:** Input filter: $2 \times 10\,\mu\text{F}$ X7R ceramic $+ 47\,\mu\text{F}$ low-ESR electrolytic. Output filter: $2 \times 22\,\mu\text{F}$ X7R ceramic $+ 100\,\mu\text{F}$ solid polymer.
-* **BMS Safety Margins:** The HY2212 overcurrent trip threshold sits between $4.5\text{ A}$ and $6.0\text{ A}$, safely above the $2.78\text{ A}$ peak and comfortably below the $9.0\text{ A}$ pulse discharge ceiling of the $30\text{C}$ pouch cells ($300\text{ mAh} \times 30\text{C} = 9.0\text{ A}$).
+* **BMS Safety Margins:** The BMS sits on the battery side, so compare battery-side current: the $2.86\text{ A}$ 5 V transient peak corresponds to $2.86 \times 5.0 / (6.0\text{ V} \times 0.9) \approx 2.65\text{ A}$ at the battery at its 6.0 V minimum. The HY2212 overcurrent trip threshold sits between $4.5\text{ A}$ and $6.0\text{ A}$, safely above that $2.65\text{ A}$ battery-side peak and comfortably below the $9.0\text{ A}$ pulse discharge ceiling of the $30\text{C}$ pouch cells ($300\text{ mAh} \times 30\text{C} = 9.0\text{ A}$).
 
 ### F. Thermal Dissipation: Phase Change Material & Track Scope
 * **PCM Specification: Rubitherm RT42 Bio-Based Organic Phase-Change Material** (Rubitherm GmbH Data Sheet):
