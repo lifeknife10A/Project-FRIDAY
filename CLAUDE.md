@@ -97,6 +97,11 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed `96d2547` (P1-P3, Q1-Q6, W0) -> YES, go for Krishna's ~20-item live test. Checked: friday_live
+  SpatialUnshuffleDownsampler identical to notebook cell 4 (training) and both state_dicts load with
+  default strict=True; pyflakes 0 undefined; W0 weights hashes match 7571e39 manifest, banner ACTIVE.
+  Agy's own debug run contained no speech (wake not demonstrated) — Krishna's run is the real test.
+
 - Reviewed live-fix round `6959e7f` -> YES, ready for Krishna's real live test. Verified in code: camera
   in spawn process + SharedMemory (L259-266), one sd.InputStream in live loop (L1650; L1940 is soak test
   only), preview bound 127.0.0.1:8765, pyflakes 0 undefined. N1 vocab builder (L697-792) follows the
