@@ -97,6 +97,18 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed G1-G3 `7571e39` + dry run `dfb29b5` -> YES, PUSH TO KAGGLE @ 7571e39 (full SHA
+  7571e392f45830ea1ad1d146758a5e9bd0a40d9e). Verified: regen no diff, 0 syntax errors, 0 undefined
+  names; executed dry-run code == 7571e39, 0 tracebacks, recorded SHA matches; dry-run gates 1-6 all
+  PASS (G5 on 4 samples). G1: my 3 probes now refuse; legit "HEMOGLOBIN / 13.8 G/DL", "NEURO / ROOM
+  402", "FLIGHT AI 102 / GATE C4" still answered. G2: cell 5 verifies per-image sha256 for spec+lowres,
+  raises instead of falling back, DATASET_VARIANT=spec. My CPU re-run: DEV-spec 4.60% 38/0/2/0,
+  DEV-lowres 6.15% 36/1/3/0, TEST-spec 5.43% 17/2/1/0, TEST-lowres 6.87% 16/3/1/0 (0 wrong everywhere).
+  PRE-FLIGHT: upload assets/kaggle_dataset as a NEW dataset version keeping folder layout
+  (benchmark_dataset_spec/, benchmark_dataset/, eval_runs/bc30294/kokoro/) that cell 5/12 paths expect.
+  Expect full run to pass all 6 gates -> step-7 review before any PASS claim; thesis caveats: G1/G3
+  analytic, G4 on Mac CPU, G5 synthetic spec-res renders (low-res stress + VizWiz 2% reported alongside).
+
 - Krishna asked me to update the BOM (2026-11-24). 73d74b9 (Krishna/agy) had already fixed 1.1 V buck,
   front-bridge board, Pi 3B consumer board, RK3576 reality check (IMX415 as native fallback). My edits:
   camera decision marked PENDING; new BOM row for the custom camera breakout/power PCB (parts from RP ref
