@@ -54,6 +54,13 @@ STOPWORDS = {
     "was", "were", "be", "been", "being"
 }
 
+# Auditor Item R2: Generic read aloud keywords (questions asking to read without specific entities)
+READ_ALOUD_KEYWORDS = {
+    "say", "says", "read", "reading", "written", "write", "writing", "words", "word",
+    "see", "shown", "spelled", "here", "note", "letter", "handwriting", "handwritten",
+    "card", "board", "paper", "content", "contents", "message", "lines"
+}
+
 # Generic price and field words (not specific to an entity)
 GENERIC_FIELD_WORDS = {
     "price", "cost", "how", "much", "rate", "fee", "amount", "due", "total", "charge",
@@ -177,6 +184,117 @@ def validate_line(line: dict, line_id: int) -> tuple[bool, str | None]:
 
     return True, None
 
+
+def _read_aloud_mode(ocr_lines: list) -> dict:
+    """
+    Auditor Item R2: READ_ALOUD mode used when the question has no entity words.
+    Rules:
+      - Speak all lines (reading order) with confidence >= 0.85, prefixed 'It looks like it says:'.
+      - Digits in READ_ALOUD are untrusted: speak a digit token only if its line confidence >= 0.98
+        AND it is not a lone digit token at the start of a line whose other tokens are lowercase words
+        (e.g. handwritten 'I' read as '9'); otherwise drop that token.
+      - If any token/line was dropped -> append 'I\'m not sure about some words or numbers.';
+        if more than half the detected text was dropped -> REFUSAL_TEXT.
+    """
+    if not ocr_lines:
+        return {
+            "speech": REFUSAL_TEXT,
+            "source_line_ids": [],
+            "refusal_reason": "No text detected in OCR"
+        }
+
+    # Sort lines in reading order (top-to-bottom, left-to-right)
+    def line_sort_key(item):
+        idx, line = item
+        box = line.get("box", [])
+        if box and len(box) >= 4:
+            ymin = min(pt[1] for pt in box)
+            xmin = min(pt[0] for pt in box)
+            return (ymin, xmin)
+        return (idx * 10, 0)
+
+    indexed_lines = list(enumerate(ocr_lines))
+    indexed_lines.sort(key=line_sort_key)
+
+    total_detected_tokens = sum(len(str(l.get("raw_text", "")).split()) for l in ocr_lines)
+    if total_detected_tokens == 0:
+        return {
+            "speech": REFUSAL_TEXT,
+            "source_line_ids": [],
+            "refusal_reason": "No text tokens detected in OCR"
+        }
+
+    kept_lines = []
+    source_line_ids = []
+    total_kept_tokens = 0
+    dropped_any = False
+
+    for orig_idx, line in indexed_lines:
+        conf = float(line.get("confidence", line.get("score", 1.0)))
+        raw_t = str(line.get("raw_text", "")).strip()
+        tokens = raw_t.split()
+        if not tokens:
+            continue
+
+        if conf < 0.85:
+            dropped_any = True
+            continue
+
+        line_kept_tokens = []
+        for t_idx, tok in enumerate(tokens):
+            has_digit = any(c.isdigit() for c in tok)
+            if not has_digit:
+                line_kept_tokens.append(tok)
+            else:
+                # Digits in READ_ALOUD are untrusted
+                if conf < 0.98:
+                    dropped_any = True
+                    continue
+
+                # Check if lone digit token at start of line whose other tokens are lowercase words
+                is_start_lone_digit = (t_idx == 0 and tok.isdigit() and len(tokens) > 1)
+                other_tokens = tokens[1:]
+                other_alpha = [t for t in other_tokens if any(c.isalpha() for c in t)]
+                other_are_lower = bool(other_alpha) and all(t.islower() for t in other_alpha)
+                if is_start_lone_digit and other_are_lower:
+                    dropped_any = True
+                    continue
+
+                line_kept_tokens.append(tok)
+
+        if line_kept_tokens:
+            if len(line_kept_tokens) < len(tokens):
+                dropped_any = True
+            kept_lines.append(" ".join(line_kept_tokens))
+            source_line_ids.append(orig_idx)
+            total_kept_tokens += len(line_kept_tokens)
+        else:
+            dropped_any = True
+
+    # If more than half the detected text was dropped -> REFUSAL_TEXT
+    if total_kept_tokens <= (total_detected_tokens / 2.0) or total_kept_tokens == 0:
+        return {
+            "speech": REFUSAL_TEXT,
+            "source_line_ids": source_line_ids,
+            "refusal_reason": f"More than half the detected text was dropped in READ_ALOUD mode ({total_kept_tokens}/{total_detected_tokens} tokens kept)"
+        }
+
+    text_content = " ".join(kept_lines).strip()
+    text_content = re.sub(r"\.{2,}", ".", text_content)
+    if not text_content.endswith((".", "!", "?")):
+        text_content += "."
+
+    speech = f"It looks like it says: {text_content}"
+    if dropped_any:
+        speech += " I'm not sure about some words or numbers."
+
+    return {
+        "speech": speech,
+        "source_line_ids": source_line_ids,
+        "refusal_reason": None
+    }
+
+
 def read_literal(ocr_lines: list, category: str, question: str) -> dict:
     """
     Auditor Item B2 & BR1-BR4: Single entry point for Extractive Literal Reader.
@@ -298,7 +416,6 @@ def read_literal(ocr_lines: list, category: str, question: str) -> dict:
                     y1_prev = max(pt[1] for pt in b_prev)
                     h_prev = max(1.0, y1_prev - y0_prev)
                     y0_j = min(pt[1] for pt in b_j)
-                    y1_j = max(pt[1] for pt in b_j)
 
                     gap = y0_j - y1_prev
                     if gap > 2.5 * h_prev:
@@ -345,7 +462,20 @@ def read_literal(ocr_lines: list, category: str, question: str) -> dict:
         }
 
     # -------------------------------------------------------------
-    # 2. GENERAL / MENU / SIGNAGE / DOCUMENT / SCENE_TEXT
+    # 2. AUDITOR ITEM R2: READ_ALOUD MODE FOR GENERIC REQUESTS
+    # -------------------------------------------------------------
+    is_price_q = any(w in q_lower for w in ["price", "cost", "how much", "rate", "total", "charged", "fee", "amount", "due", "pay", "payable"])
+    all_q_words = [w for w in re.findall(r"[a-z0-9]+", q_lower) if len(w) >= 2]
+    non_stop_words = [w for w in all_q_words if w not in STOPWORDS]
+    entity_words = [w for w in non_stop_words if w not in GENERIC_FIELD_WORDS and w not in READ_ALOUD_KEYWORDS]
+
+    # If the question has NO entity words and is not price/medicine -> READ_ALOUD mode
+    # Strict reader takes priority and never applies READ_ALOUD to medicine or price categories
+    if not is_price_q and len(entity_words) == 0:
+        return _read_aloud_mode(ocr_lines)
+
+    # -------------------------------------------------------------
+    # 3. STRICT GENERAL / MENU / SIGNAGE / DOCUMENT / SCENE_TEXT
     # -------------------------------------------------------------
     clauses = [p.strip() for p in SPLIT_PAT.split(q_lower) if p.strip()]
     if not clauses:
@@ -753,7 +883,20 @@ def run_literal_reader_unit_tests():
     assert "BA 77" not in res16["speech"] and "GATE C4" not in res16["speech"], f"Probe 16 leaked other entity: {res16}"
     assert res16["speech"] in (REFUSAL_TEXT, "FLIGHT AI 102."), f"Probe 16 unexpected output: {res16}"
 
-    print("[✓] ALL 16 BR1-BR5 & ROUND D/F/G LITERAL READER UNIT TESTS PASSED!")
+    # 17. Item R2: READ_ALOUD mode with handwritten note lines (auditor probe)
+    lines17 = [
+        {"raw_text": "9 love you till the", "confidence": 0.971, "box": [[10, 10], [100, 10], [100, 25], [10, 25]]},
+        {"raw_text": "last", "confidence": 0.998, "box": [[10, 30], [50, 30], [50, 45], [10, 45]]},
+        {"raw_text": "Hoer", "confidence": 0.734, "box": [[10, 50], [60, 50], [60, 65], [10, 65]]},
+        {"raw_text": "dies..", "confidence": 0.993, "box": [[10, 70], [70, 70], [70, 85], [10, 85]]}
+    ]
+    res17 = read_literal(lines17, "scene_text", "What does it say?")
+    expected17 = "It looks like it says: love you till the last dies. I'm not sure about some words or numbers."
+    assert res17["speech"] == expected17, f"Probe 17 failed! Expected '{expected17}', got '{res17['speech']}'"
+    assert "9" not in res17["speech"], f"Probe 17 erroneously spoke untrusted digit: {res17['speech']}"
+    assert "Hoer" not in res17["speech"], f"Probe 17 erroneously spoke low-confidence line: {res17['speech']}"
+
+    print("[✓] ALL 17 BR1-BR5, ROUND D/F/G & R2 LITERAL READER UNIT TESTS PASSED!")
 
 if __name__ == "__main__":
     run_literal_reader_unit_tests()
