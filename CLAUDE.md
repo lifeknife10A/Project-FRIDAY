@@ -97,6 +97,17 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- P1-CLOSE d753999 checked: docs-only (README, CHANGES, plan.md, 2 old run READMEs), PASS wording + all
+  caveats as given. PHASE 1 CLOSED.
+- Krishna wants a live Mac demo (Milestone 1.6 proposal): "Hey Friday" wake word -> auto frame capture
+  with discard of useless frames -> mic query -> answer ("you're holding a sticky note, it says ...")
+  -> Kokoro. Plan.md trigger is a capacitive touch button + earcon (wake word = addition, power cost on
+  glasses; Krishna to decide for hardware). STT in emulator = faster-whisper base.en. Honest limits told:
+  handwriting OCR weak (PP-OCR printed-text models); object naming has no validated model (student
+  vision path 1/40 on labels, never evaluated on objects); description path must never speak digits.
+  Replaces the W1-W5 webcam harness prompt (W1 silent synthetic fallback in emulator L188-205 still a
+  BLOCK inside it).
+
 - STEP-7 REVIEW DONE: Kaggle run of 7571e39 (kernel v5, committed c2c2cf8) -> MILESTONE 1.5 GATE PASS
   (all 6), backed by committed output. Verified: committed notebook code == 7571e39 except injected SHA;
   both .ipynb identical (ceb58f1b...); 0 tracebacks; recorded SHA 7571e392...; gate JSON matches
