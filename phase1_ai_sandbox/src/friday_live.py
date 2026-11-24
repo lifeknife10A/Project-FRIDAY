@@ -2,15 +2,21 @@
 PROJECT FRIDAY - MILESTONE 1.6 LIVE HARNESS ON MACBOOK
 Component: Multimodal Live Inference Loop (FaceTime Camera + Microphone + Kokoro TTS)
 Author: Krishna Jagat Solanki (Lead Systems & ML Engineer, Project FRIDAY)
-Charter & Requirements: Milestone 1.6 Items L0 - L10, Auditor Items M1 - M5, C1 - C4, R1 - R2, N1 - N2
+Charter & Requirements: Milestone 1.6 Items L0 - L10, Auditor Items M1 - M5, C1 - C4, R1 - R2, N1 - N2, P1 - P3, Q1 - Q6
+
+Watchlist Limitation (Auditor Item Q6):
+  READ_ALOUD can only vocalize text lines detected by the underlying OCR engine.
+  Text strokes, faded writing, or handwritten lines that fall below OCR detection
+  thresholds cannot be recovered by the literal reader (e.g. if the detector misses
+  a word, READ_ALOUD only reads the remaining detected lines).
 
 Operating Modes:
   1. Live Interactive Mode: python phase1_ai_sandbox/src/friday_live.py --live --log
      Continuous camera ring buffer (separate process via mp.spawn) + single mic stream,
-     wake word detection ("Hey Friday"), state machine (C3), earcon acknowledgment,
-     Silero VAD query capture, frame scoring & selection (R1), local web preview at 127.0.0.1:8765 (C2),
-     intent routing (READ / IDENTIFY / BOTH), extractive OCR (R2), student VLM description (N1),
-     blocking Kokoro-82M TTS, and real-world results logging.
+     wake word detection ("Hey Friday" tolerant regex), state machine (C3), earcon acknowledgment,
+     Silero VAD query onset/trailing silence capture (Q1), fast frame selection <1s (Q2),
+     local web preview at 127.0.0.1:8765 (C2, P1, P2), intent routing (READ / IDENTIFY / BOTH),
+     extractive OCR (R2), student VLM description (N1), blocking Kokoro-82M TTS, and real-world logging.
   2. Scripted Offline Regression: python phase1_ai_sandbox/src/friday_live.py --offline-regression
      Synthetic/benchmark frames, injected text queries, no camera/mic/TTS,
      never writes to results.csv.
@@ -29,16 +35,20 @@ import csv
 import time
 import json
 import enum
+import signal
 import hashlib
 import argparse
 import threading
 import collections
 import http.server
+import urllib.parse
 from datetime import datetime
 from typing import Optional, List, Tuple, Dict, Any
 
 import cv2
 import numpy as np
+import torch
+import torch.nn as nn
 
 # Ensure project root and src/ are in PYTHONPATH
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
@@ -71,6 +81,12 @@ EXPECTED_MANIFEST_SHA = "66391bd6cf68e19be4fef44931c28b8e8b0d5ced05031fe5e2b2ac0
 
 READ_KEYWORDS = ["read", "what does it say", "what's written", "what is written"]
 IDENTIFY_KEYWORDS = ["what am i holding", "what is this", "what's in my hand"]
+
+# Auditor Item P3: Tolerant wake phrase regex (matches 'hey friday', 'he friday', 'hi friday', 'ok friday', 'fryday', etc.)
+WAKE_REGEX = re.compile(
+    r"\b(hey|hi|ok|he)?[\s,]*(fri\s?day|fryday|friday|friday's)\b",
+    re.IGNORECASE
+)
 
 
 # ---------------------------------------------------------------------------
@@ -107,7 +123,7 @@ def filter_digits_from_description(text: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# C1 MULTIPROCESSING CAMERA WORKER (Spawned separate process)
+# C1 & Q5 MULTIPROCESSING CAMERA WORKER (Spawned separate process)
 # ---------------------------------------------------------------------------
 def _camera_worker_proc(
     shm_name: str,
@@ -122,14 +138,16 @@ def _camera_worker_proc(
     err_queue: Any
 ):
     """
-    Auditor Item C1: Camera capture runs in a SEPARATE PROCESS (multiprocessing spawn)
+    Auditor Items C1 & Q5: Camera capture runs in a SEPARATE PROCESS (multiprocessing spawn)
     that owns cv2.VideoCapture and shares the latest frames via shared memory.
-    Prevents Objective-C AVFFrameReceiver/AVFAudioReceiver duplicate symbol collisions
-    with PyAV/sounddevice in the main process.
+    Auditor Item Q5: Ignores SIGINT so Ctrl-C does not print KeyboardInterrupt tracebacks in child.
     """
     import cv2
     import numpy as np
     from multiprocessing import shared_memory
+
+    # Auditor Item Q5: Ignore SIGINT in spawned child; parent coordinates graceful exit via stop_event
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
 
     cap = None
     shm = None
@@ -242,7 +260,6 @@ class CameraRingBuffer:
         self.head_val: Optional[Any] = None
         self.err_queue: Optional[Any] = None
 
-        # Offline / synthetic frame fallback queue
         self.injected_frames = collections.deque(maxlen=self.num_slots)
         self.lock = threading.Lock()
         self.running = False
@@ -403,15 +420,12 @@ class CameraRingBuffer:
 
 
 # ---------------------------------------------------------------------------
-# L2 & M4 WAKE WORD ENGINE
+# L2, M4, Q4 WAKE WORD ENGINE
 # ---------------------------------------------------------------------------
 class WakeWordDetector:
     """
-    Auditor Items L2 & M4: Wake Word 'Hey Friday'.
-    Uses openWakeWord (Apache-2.0) if custom 'hey_friday.onnx' model exists.
-    If not found, uses the documented temporary fallback:
-      Silero VAD (MIT) + faster-whisper (MIT) keyword trigger ('friday').
-    Triggers immediate audio earcon acknowledgment on wake (<80 ms).
+    Auditor Items L2, M4 & Q4: Wake Word 'Hey Friday'.
+    Tries faster-whisper on device='mps' (Apple Metal acceleration), falling back to 'cpu'.
     """
     def __init__(self, custom_model_path: Optional[str] = None):
         self.mode = "fallback"
@@ -419,6 +433,7 @@ class WakeWordDetector:
         self.model_sha256 = None
         self.vad_model = None
         self.whisper_model = None
+        self.whisper_device = "cpu"
 
         if custom_model_path is None:
             custom_model_path = os.path.join(REPO_ROOT, "assets/wake_words/hey_friday.onnx")
@@ -431,7 +446,6 @@ class WakeWordDetector:
                 self.oww_model = Model(wakeword_models=[custom_model_path])
                 self.mode = "openwakeword"
                 print(f"[✓] openWakeWord (Apache-2.0) initialized with custom model: {custom_model_path}")
-                print(f"    Model SHA256: {self.model_sha256}")
             except Exception as e:
                 print(f"[!] Warning: Failed to load openWakeWord model: {e}. Falling back to Silero+Whisper.")
                 self.mode = "fallback"
@@ -442,11 +456,17 @@ class WakeWordDetector:
                 self.vad_model = silero_vad.load_silero_vad()
             except Exception as e:
                 print(f"[!] Warning loading silero-vad: {e}")
+
+            # Auditor Item Q4: Try device='mps' for faster-whisper
+            from faster_whisper import WhisperModel
             try:
-                from faster_whisper import WhisperModel
-                self.whisper_model = WhisperModel("base.en", device="cpu", compute_type="int8")
+                self.whisper_model = WhisperModel("base.en", device="mps", compute_type="float16")
+                self.whisper_device = "mps"
+                print("[✓] faster-whisper initialized on device='mps' (Apple Metal Acceleration).")
             except Exception as e:
-                print(f"[!] Warning loading faster-whisper for wake: {e}")
+                self.whisper_model = WhisperModel("base.en", device="cpu", compute_type="int8")
+                self.whisper_device = "cpu"
+                print(f"[*] Note: faster-whisper MPS unavailable ({e}); initialized on device='cpu' (int8).")
 
     def trigger_wake(self, mute_audio: bool = False) -> float:
         """Plays wake earcon tone and measures latency."""
@@ -462,15 +482,21 @@ class WakeWordDetector:
 # ---------------------------------------------------------------------------
 class AudioQueryCapture:
     """
-    Auditor Item L3: Transcribes query audio with faster-whisper base.en.
-    Auditor Item C3: Uses single shared audio buffer; does NOT open a 2nd InputStream.
+    Auditor Items L3, C3 & Q4: Transcribes query audio with faster-whisper base.en.
+    Uses single shared audio buffer; supports device='mps'.
     """
     def __init__(self, whisper_model: Optional[Any] = None):
         if whisper_model is not None:
             self.whisper_model = whisper_model
+            self.whisper_device = "shared"
         else:
             from faster_whisper import WhisperModel
-            self.whisper_model = WhisperModel("base.en", device="cpu", compute_type="int8")
+            try:
+                self.whisper_model = WhisperModel("base.en", device="mps", compute_type="float16")
+                self.whisper_device = "mps"
+            except Exception:
+                self.whisper_model = WhisperModel("base.en", device="cpu", compute_type="int8")
+                self.whisper_device = "cpu"
 
     def transcribe_audio_array(self, audio: np.ndarray) -> Tuple[str, float]:
         """Transcribes float32 audio numpy array with faster-whisper."""
@@ -482,25 +508,22 @@ class AudioQueryCapture:
 
 
 # ---------------------------------------------------------------------------
-# L4 & R1 FRAME QUALITY SCORER & SELECTION ENGINE
+# L4, R1, Q2 FAST FRAME QUALITY SCORER & SELECTION ENGINE
 # ---------------------------------------------------------------------------
 class FrameScorer:
     """
-    Auditor Items L4 & R1:
-      (a) Resizes frame to long side 1280 before sharpness and exposure scoring,
-          making sharpness independent of image sensor resolution.
-      (b) When PP-OCR detects text boxes, scores sharpness inside the boxes.
-      (c) Never discards a frame that has >=1 text box with confidence >= 0.90
-          for global-sharpness reasons alone.
-    Thresholds are fixed constants; no per-item tuning.
+    Auditor Items L4, R1 & Q2:
+      (a) Resizes frame to long side 1280 before sharpness and exposure scoring (R1).
+      (b) Fast 2-pass selection (Q2): computes cheap metrics (sharpness, exposure) on all frames;
+          runs PP-OCR detection ONLY on the top 3 by sharpness. Target: <1 s on M4.
+      (c) Never discards a frame that has >=1 text box with confidence >= 0.90 for global-sharpness alone (R1).
     """
     def __init__(self):
         pass
 
-    def evaluate_frame(self, frame: np.ndarray, frame_id: int) -> Dict[str, Any]:
+    def evaluate_cheap_metrics(self, frame: np.ndarray, frame_id: int) -> Dict[str, Any]:
+        """Pass 1: Computes exposure and Laplacian sharpness on normalized 1280 resolution (~2 ms)."""
         h, w = frame.shape[:2]
-
-        # Auditor Item R1 (a): Resize to long side 1280 before sharpness/exposure scoring
         max_dim = max(h, w)
         if max_dim != 1280 and max_dim > 0:
             scale = 1280.0 / float(max_dim)
@@ -513,15 +536,11 @@ class FrameScorer:
 
         gray_norm = cv2.cvtColor(norm_frame, cv2.COLOR_BGR2GRAY) if norm_frame.ndim == 3 else norm_frame
 
-        # 1. Global Sharpness: Laplacian variance on normalized 1280 image
         global_sharpness = float(cv2.Laplacian(gray_norm, cv2.CV_64F).var())
-
-        # 2. Exposure on normalized 1280 image
         mean_val = float(np.mean(gray_norm))
         clipped_count = int(np.count_nonzero((gray_norm < 5) | (gray_norm > 250)))
         clipped_fraction = float(clipped_count) / float(gray_norm.size)
 
-        # Exposure discard checks
         exposure_discard = None
         if mean_val < MIN_EXPOSURE_MEAN:
             exposure_discard = f"underexposed (mean {mean_val:.1f} < {MIN_EXPOSURE_MEAN:.1f})"
@@ -530,12 +549,27 @@ class FrameScorer:
         elif clipped_fraction > MAX_CLIPPED_FRACTION:
             exposure_discard = f"clipped pixels ({clipped_fraction*100.0:.1f}% > {MAX_CLIPPED_FRACTION*100.0:.0f}%)"
 
-        # Run PP-OCR on candidate frame
+        return {
+            "frame_id": frame_id,
+            "passed_exposure": (exposure_discard is None),
+            "exposure_discard": exposure_discard,
+            "sharpness": global_sharpness,
+            "mean_exposure": mean_val,
+            "clipped_fraction": clipped_fraction
+        }
+
+    def evaluate_ocr_boxes(self, frame: np.ndarray, frame_id: int, cheap_meta: Dict[str, Any]) -> Dict[str, Any]:
+        """Pass 2: Runs PP-OCR detection and in-box sharpness scoring on candidate frame."""
+        h, w = frame.shape[:2]
+        global_sharpness = cheap_meta["sharpness"]
+        mean_val = cheap_meta["mean_exposure"]
+        clipped_fraction = cheap_meta["clipped_fraction"]
+        exposure_discard = cheap_meta["exposure_discard"]
+
         ocr_lines = run_ocr(frame)
         box_count = len(ocr_lines)
         total_text_area = 0.0
 
-        # Auditor Item R1 (b): Score sharpness inside detected text boxes
         box_sharpness_scores = []
         has_high_conf_box = False
 
@@ -560,15 +594,13 @@ class FrameScorer:
 
         mean_box_sharpness = float(np.mean(box_sharpness_scores)) if box_sharpness_scores else None
 
-        # Auditor Item R1 (c): Never discard for global-sharpness alone if has high-confidence box
+        # Auditor Item R1 (c): High confidence text box overrides global blurriness
         discard_reason = exposure_discard
         if discard_reason is None:
             if global_sharpness < MIN_SHARPNESS:
                 if has_high_conf_box:
-                    # Overrides global blurriness
                     pass
                 elif mean_box_sharpness is not None and mean_box_sharpness >= MIN_SHARPNESS:
-                    # In-box text is sharp
                     pass
                 else:
                     discard_reason = f"blurry (sharpness {global_sharpness:.1f} < {MIN_SHARPNESS:.1f})"
@@ -576,7 +608,6 @@ class FrameScorer:
         passed = (discard_reason is None)
         text_area_ratio = total_text_area / float(h * w)
 
-        # Composite score for candidate ranking
         composite_score = (
             (mean_box_sharpness if mean_box_sharpness is not None else global_sharpness)
             + 50.0 * min(box_count, 10)
@@ -598,41 +629,95 @@ class FrameScorer:
             "ocr_lines": ocr_lines
         }
 
+    def evaluate_frame(self, frame: np.ndarray, frame_id: int) -> Dict[str, Any]:
+        """Direct single-frame evaluation (used in unit tests)."""
+        cheap = self.evaluate_cheap_metrics(frame, frame_id)
+        return self.evaluate_ocr_boxes(frame, frame_id, cheap)
+
     def select_best_frame(
         self,
         candidate_frames: List[np.ndarray]
     ) -> Tuple[Optional[np.ndarray], Optional[Dict[str, Any]], List[Dict[str, Any]]]:
         """
-        Evaluates candidate frames and returns (best_frame, best_meta, all_evaluations).
-        If all frames fail threshold criteria, best_frame is None.
+        Auditor Item Q2: Fast frame selection (<1 s on M4):
+          1. Compute cheap metrics (sharpness, exposure) on all candidate frames.
+          2. Filter exposure failures.
+          3. Run PP-OCR detection ONLY on the top 3 by sharpness.
+          4. Pick the best of those 3 by composite score.
         """
-        evaluations = []
-        valid_candidates = []
+        if not candidate_frames:
+            return None, None, []
 
+        cheap_evals = []
         for idx, f in enumerate(candidate_frames):
-            ev = self.evaluate_frame(f, idx)
-            evaluations.append(ev)
-            if ev["passed"]:
-                valid_candidates.append((ev["composite_score"], idx, f, ev))
+            ev = self.evaluate_cheap_metrics(f, idx)
+            cheap_evals.append((ev["passed_exposure"], ev["sharpness"], idx, f, ev))
 
-        if not valid_candidates:
-            return None, None, evaluations
+        valid_exposure = [item for item in cheap_evals if item[0]]
+        if not valid_exposure:
+            # All frames failed exposure
+            all_discarded = [
+                {
+                    "frame_id": item[2],
+                    "passed": False,
+                    "discard_reason": item[4]["exposure_discard"],
+                    "sharpness": item[1],
+                    "mean_exposure": item[4]["mean_exposure"],
+                    "clipped_fraction": item[4]["clipped_fraction"],
+                    "box_count": 0,
+                    "ocr_lines": []
+                }
+                for item in cheap_evals
+            ]
+            return None, None, all_discarded
 
-        # Sort descending by composite score
-        valid_candidates.sort(key=lambda x: x[0], reverse=True)
-        _, best_idx, best_f, best_ev = valid_candidates[0]
-        return best_f, best_ev, evaluations
+        # Sort valid exposure frames descending by sharpness
+        valid_exposure.sort(key=lambda x: x[1], reverse=True)
+        top_candidates = valid_exposure[:3] # Auditor Item Q2: Top 3 only
+
+        final_evals = []
+        scored_candidates = []
+        for _, _, idx, f, cheap_ev in top_candidates:
+            full_ev = self.evaluate_ocr_boxes(f, idx, cheap_ev)
+            final_evals.append(full_ev)
+            if full_ev["passed"]:
+                scored_candidates.append((full_ev["composite_score"], idx, f, full_ev))
+
+        # Include uninspected frames as evaluated cheap
+        inspected_ids = {item[2] for item in top_candidates}
+        for item in cheap_evals:
+            if item[2] not in inspected_ids:
+                final_evals.append({
+                    "frame_id": item[2],
+                    "passed": False,
+                    "discard_reason": item[4]["exposure_discard"] or f"lower sharpness than top-3 candidates ({item[1]:.1f})",
+                    "sharpness": item[1],
+                    "mean_exposure": item[4]["mean_exposure"],
+                    "clipped_fraction": item[4]["clipped_fraction"],
+                    "box_count": 0,
+                    "ocr_lines": []
+                })
+
+        if not scored_candidates:
+            return None, None, final_evals
+
+        scored_candidates.sort(key=lambda x: x[0], reverse=True)
+        _, _, best_f, best_ev = scored_candidates[0]
+        return best_f, best_ev, final_evals
 
 
 # ---------------------------------------------------------------------------
-# L5 INTENT ROUTER
+# L5 & Q1 INTENT ROUTER
 # ---------------------------------------------------------------------------
 def route_intent(query_text: str) -> str:
     """
-    Auditor Item L5: Maps transcribed query to READ, IDENTIFY, or BOTH.
-    Default fallback: BOTH.
+    Auditor Items L5 & Q1: Maps transcribed query to READ, IDENTIFY, BOTH, or NONE.
+    Auditor Item Q1: Empty or unparseable queries route to NONE (never to BOTH).
     """
-    q_low = (query_text or "").lower()
+    if not query_text or len(query_text.strip()) < 2:
+        return "NONE"
+
+    q_low = query_text.lower()
     has_read = any(k in q_low for k in READ_KEYWORDS)
     has_id = any(k in q_low for k in IDENTIFY_KEYWORDS)
 
@@ -643,7 +728,8 @@ def route_intent(query_text: str) -> str:
     elif has_id:
         return "IDENTIFY"
     else:
-        return "BOTH"
+        # Auditor Item Q1: Unknown query routes to NONE (not BOTH)
+        return "NONE"
 
 
 # ---------------------------------------------------------------------------
@@ -796,6 +882,35 @@ class Vocab64kMapper:
 # ---------------------------------------------------------------------------
 # L7, M2, N1 OBJECT DESCRIBER (Student VLM + Training Vocab Mapping)
 # ---------------------------------------------------------------------------
+class SpatialUnshuffleDownsampler(nn.Module):
+    """
+    Downsamples 576 raw SigLIP patches (24x24 grid @ 768-dim) into 144 visual tokens (12x12 grid @ 896-dim)
+    using 2x2 spatial unshuffle (stride=2) concatenating 4 adjacent spatial patches into 3072 channels,
+    followed by a linear projection down to student hidden_size (896).
+    Matches the Kaggle 7571e39 distillation notebook checkpoint architecture exactly.
+    """
+    def __init__(self, in_features: int = 768, out_features: int = 896, grid_size: int = 24):
+        super().__init__()
+        self.grid_size = grid_size
+        self.in_features = in_features
+        self.out_features = out_features
+        self.proj = nn.Linear(in_features * 4, out_features, bias=False)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        B, N, D = x.shape
+        assert N == self.grid_size * self.grid_size, f"Expected {self.grid_size**2} patches, got {N}"
+        assert D == self.in_features, f"Expected {self.in_features} dim, got {D}"
+
+        grid = x.view(B, self.grid_size, self.grid_size, D)
+        h_half = self.grid_size // 2
+        w_half = self.grid_size // 2
+        unshuffled = grid.view(B, h_half, 2, w_half, 2, D).permute(0, 1, 3, 2, 4, 5).contiguous()
+        unshuffled = unshuffled.view(B, h_half * w_half, D * 4)
+
+        out = self.proj(unshuffled)
+        return out
+
+
 class DescriptionPipeline:
     """
     Auditor Items L7, M2 & N1: Runs genuine student VLM forward pass
@@ -856,7 +971,6 @@ class DescriptionPipeline:
         try:
             import torch
             from transformers import AutoConfig, AutoModelForCausalLM, AutoModel, SiglipImageProcessor
-            from phase1_ai_sandbox.src.student_vlm import SpatialUnshuffleDownsampler
 
             print(f"[*] Initializing Qwen2.5-0.5B 64k-pruned Student VLM on {self.device}...")
             ckpt = torch.load(self.weights_path, map_location=self.device)
@@ -874,7 +988,6 @@ class DescriptionPipeline:
             self.siglip_vision = siglip.vision_model.eval()
             self.siglip_processor = SiglipImageProcessor.from_pretrained("google/siglip-base-patch16-384")
 
-            # Auditor Item N1: Initialize 64k vocab mapper
             self.vocab_mapper = Vocab64kMapper(tokenizer_name="Qwen/Qwen2.5-0.5B", target_size=64000)
             self.model_available = True
             print("[✓] Student VLM and 64k Vocab Mapper loaded successfully.")
@@ -939,7 +1052,6 @@ class DescriptionPipeline:
                 v_tokens = self.unshuffle_projector(patches.float()).to(self.student_model.dtype)
 
                 prompt = "Describe in a few words what object the person is holding."
-                # Auditor Item N1: safe_encode_64k mapping
                 sub_ids = self.vocab_mapper.safe_encode_64k(prompt)
                 q_t = torch.tensor([sub_ids], device=self.device)
                 q_embeds = self.student_model.model.embed_tokens(q_t)
@@ -958,10 +1070,8 @@ class DescriptionPipeline:
                     next_embed = self.student_model.model.embed_tokens(torch.tensor([[next_id]], device=self.device))
                     curr_embeds = torch.cat([curr_embeds, next_embed], dim=1)
 
-                # Auditor Item N1: decode_64k mapping
                 raw_text = self.vocab_mapper.decode_64k(gen_tokens).strip()
                 status = "[UNVALIDATED]"
-                # Apply Auditor Item L0 digit filter
                 filtered = filter_digits_from_description(raw_text)
                 desc = filtered if filtered else FALLBACK_NO_OBJECT_MODEL
 
@@ -976,7 +1086,7 @@ class DescriptionPipeline:
 
 
 # ---------------------------------------------------------------------------
-# L8 & M2 RESPONSE COMPOSER
+# L8, M2, Q3 RESPONSE COMPOSER
 # ---------------------------------------------------------------------------
 def compose_spoken_response(
     intent: str,
@@ -984,7 +1094,8 @@ def compose_spoken_response(
     literal_speech: Optional[str]
 ) -> str:
     """
-    Auditor Items L8 & M2: Composes speech cleanly without invented nouns.
+    Auditor Items L8, M2 & Q3: Composes speech cleanly without invented nouns.
+    Auditor Item Q3: Deduplicates 'It says:' when literal speech already starts with 'It looks like it says:'.
     """
     if intent == "BOTH":
         parts = []
@@ -994,7 +1105,10 @@ def compose_spoken_response(
             else:
                 parts.append(f"You're holding {description}.")
         if literal_speech:
-            parts.append(f"It says: {literal_speech}")
+            if literal_speech.startswith("It looks like it says:"):
+                parts.append(literal_speech)
+            else:
+                parts.append(f"It says: {literal_speech}")
         return " ".join(parts).strip()
     elif intent == "IDENTIFY":
         if description:
@@ -1081,17 +1195,13 @@ class TurnLogger:
 
 
 # ---------------------------------------------------------------------------
-# C2 LOCAL PREVIEW WEB SERVER (http://127.0.0.1:8765)
+# C2, P1, P2 LOCAL PREVIEW WEB SERVER (http://127.0.0.1:8765)
 # ---------------------------------------------------------------------------
 class LocalPreviewServer:
     """
-    Auditor Item C2: Local preview at http://127.0.0.1:8765 (bind 127.0.0.1 only).
-    Serves:
-      - Live feed (~10 fps downscaled)
-      - State banner (C3 states: LISTENING_FOR_WAKE, RECORDING_QUERY, THINKING, SPEAKING)
-      - Last turn's selected frame with OCR bounding boxes + discard reasons
-      - Spoken text output
-    Disabled if --no-preview is passed. Nothing saved unless --log.
+    Auditor Items C2, P1 & P2: Local preview at http://127.0.0.1:8765 (bind 127.0.0.1 only).
+    Auditor Item P1: Parses URL with urllib.parse.urlsplit().path for clean query string handling.
+    Auditor Item P2: Displays live mic level bar and last heard transcript.
     """
     def __init__(self, host: str = "127.0.0.1", port: int = 8765, camera_buffer: Optional[CameraRingBuffer] = None):
         self.host = host
@@ -1103,6 +1213,8 @@ class LocalPreviewServer:
         self.spoken_text = ""
         self.discard_reasons: List[str] = []
         self.last_turn_frame: Optional[np.ndarray] = None
+        self.mic_rms: float = 0.0
+        self.last_heard_transcript: str = ""
         self.lock = threading.Lock()
         self.server: Optional[http.server.ThreadingHTTPServer] = None
         self.thread: Optional[threading.Thread] = None
@@ -1110,6 +1222,12 @@ class LocalPreviewServer:
     def update_state(self, new_state: SessionState):
         with self.lock:
             self.state = new_state.value
+
+    def update_audio_telemetry(self, mic_rms: float, last_transcript: str):
+        with self.lock:
+            self.mic_rms = mic_rms
+            if last_transcript:
+                self.last_heard_transcript = last_transcript
 
     def update_turn_result(
         self,
@@ -1137,7 +1255,6 @@ class LocalPreviewServer:
                         cv2.polylines(annotated, [pts], isClosed=True, color=(0, 255, 0), thickness=2)
                         org = (int(b[0][0]), max(15, int(b[0][1]) - 5))
                         cv2.putText(annotated, f"{t} ({c:.2f})", org, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
-                # Resize for preview
                 h, w = annotated.shape[:2]
                 max_d = max(h, w)
                 if max_d > 640:
@@ -1152,75 +1269,92 @@ class LocalPreviewServer:
 
         class PreviewHandler(http.server.BaseHTTPRequestHandler):
             def log_message(self, format, *args):
-                pass # Suppress HTTP access logging to keep terminal clean
+                pass
 
             def do_GET(self):
-                if self.path in ("/", "/index.html"):
-                    self.send_response(200)
-                    self.send_header("Content-Type", "text/html; charset=utf-8")
-                    self.end_headers()
-                    html = parent._render_dashboard_html()
-                    self.wfile.write(html.encode("utf-8"))
+                try:
+                    # Auditor Item P1: Parse URL with urlsplit for all routes
+                    parsed = urllib.parse.urlsplit(self.path)
+                    clean_path = parsed.path
 
-                elif self.path == "/live.jpg":
-                    frame = None
-                    if parent.camera_buffer:
-                        frame = parent.camera_buffer.get_latest_preview_frame()
-                    if frame is None:
-                        frame = np.zeros((360, 640, 3), dtype=np.uint8)
-                        cv2.putText(frame, "Waiting for Camera...", (180, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
-
-                    ret, jpeg = cv2.imencode(".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 70])
-                    if ret:
+                    if clean_path in ("/", "/index.html"):
                         self.send_response(200)
-                        self.send_header("Content-Type", "image/jpeg")
-                        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+                        self.send_header("Content-Type", "text/html; charset=utf-8")
                         self.end_headers()
-                        self.wfile.write(jpeg.tobytes())
-                    else:
-                        self.send_error(500)
+                        html = parent._render_dashboard_html()
+                        self.wfile.write(html.encode("utf-8"))
 
-                elif self.path == "/last_turn.jpg":
-                    with parent.lock:
-                        frame = parent.last_turn_frame
+                    elif clean_path == "/live.jpg":
+                        frame = None
+                        if parent.camera_buffer:
+                            frame = parent.camera_buffer.get_latest_preview_frame()
+                        if frame is None:
+                            frame = np.zeros((360, 640, 3), dtype=np.uint8)
+                            cv2.putText(frame, "Waiting for Camera...", (180, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
 
-                    if frame is None:
-                        frame = np.zeros((360, 640, 3), dtype=np.uint8)
-                        cv2.putText(frame, "No turn executed yet", (200, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (150, 150, 150), 2)
+                        ret, jpeg = cv2.imencode(".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 70])
+                        if ret:
+                            self.send_response(200)
+                            self.send_header("Content-Type", "image/jpeg")
+                            self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+                            self.end_headers()
+                            self.wfile.write(jpeg.tobytes())
+                        else:
+                            self.send_error(500)
 
-                    ret, jpeg = cv2.imencode(".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
-                    if ret:
+                    elif clean_path == "/last_turn.jpg":
+                        with parent.lock:
+                            frame = parent.last_turn_frame
+
+                        if frame is None:
+                            frame = np.zeros((360, 640, 3), dtype=np.uint8)
+                            cv2.putText(frame, "No turn executed yet", (200, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (150, 150, 150), 2)
+
+                        ret, jpeg = cv2.imencode(".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
+                        if ret:
+                            self.send_response(200)
+                            self.send_header("Content-Type", "image/jpeg")
+                            self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+                            self.end_headers()
+                            self.wfile.write(jpeg.tobytes())
+                        else:
+                            self.send_error(500)
+
+                    elif clean_path == "/api/status":
+                        with parent.lock:
+                            data = {
+                                "state": parent.state,
+                                "turn_id": parent.turn_id,
+                                "query": parent.query_text,
+                                "spoken": parent.spoken_text,
+                                "discard_reasons": parent.discard_reasons,
+                                "mic_rms": parent.mic_rms,
+                                "last_transcript": parent.last_heard_transcript
+                            }
+                        raw = json.dumps(data)
                         self.send_response(200)
-                        self.send_header("Content-Type", "image/jpeg")
-                        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+                        self.send_header("Content-Type", "application/json")
+                        self.send_header("Cache-Control", "no-cache")
                         self.end_headers()
-                        self.wfile.write(jpeg.tobytes())
-                    else:
-                        self.send_error(500)
+                        self.wfile.write(raw.encode("utf-8"))
 
-                elif self.path == "/api/status":
-                    with parent.lock:
-                        data = {
-                            "state": parent.state,
-                            "turn_id": parent.turn_id,
-                            "query": parent.query_text,
-                            "spoken": parent.spoken_text,
-                            "discard_reasons": parent.discard_reasons
-                        }
-                    raw = json.dumps(data)
-                    self.send_response(200)
-                    self.send_header("Content-Type", "application/json")
-                    self.send_header("Cache-Control", "no-cache")
-                    self.end_headers()
-                    self.wfile.write(raw.encode("utf-8"))
-                else:
-                    self.send_error(404)
+                    elif clean_path == "/favicon.ico":
+                        # Auditor Item P1: Return 204 No Content for favicon
+                        self.send_response(204)
+                        self.end_headers()
+
+                    else:
+                        self.send_error(404)
+
+                except (BrokenPipeError, ConnectionResetError):
+                    # Auditor Item P1: Silently handle disconnected client sockets
+                    pass
 
         try:
             self.server = http.server.ThreadingHTTPServer((self.host, self.port), PreviewHandler)
             self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
             self.thread.start()
-            print(f"[✓] Local Preview Server active at http://{self.host}:{self.port} (Auditor Item C2)")
+            print(f"[✓] Local Preview Server active at http://{self.host}:{self.port} (Auditor Item C2, P1 & P2)")
         except Exception as e:
             print(f"[!] Warning: Could not start preview server on {self.host}:{self.port}: {e}")
 
@@ -1231,6 +1365,8 @@ class LocalPreviewServer:
             spk_txt = self.spoken_text or "Waiting for speech..."
             t_id = self.turn_id
             reasons = "<br>".join(self.discard_reasons) if self.discard_reasons else "None"
+            last_t = self.last_heard_transcript or "None"
+            rms_pct = min(100.0, max(0.0, self.mic_rms * 1000.0))
 
         return f"""<!DOCTYPE html>
 <html>
@@ -1252,6 +1388,8 @@ class LocalPreviewServer:
         .info-row {{ margin-top: 10px; font-size: 14px; line-height: 1.5; }}
         .label {{ color: #94a3b8; font-weight: 600; }}
         .highlight {{ color: #38bdf8; font-weight: 600; }}
+        .meter-container {{ background: #334155; border-radius: 6px; height: 12px; width: 100%; margin-top: 6px; overflow: hidden; }}
+        .meter-bar {{ background: #10b981; height: 100%; width: {rms_pct:.1f}%; transition: width 0.1s linear; }}
     </style>
 </head>
 <body>
@@ -1267,7 +1405,13 @@ class LocalPreviewServer:
             <h3>Live FaceTime Camera Feed (~10 fps)</h3>
             <img id="liveImg" src="/live.jpg" class="stream-box" alt="Live Feed">
             <div class="info-row" style="margin-top:12px;">
-                <span class="label">Status:</span> Connected via SharedMemory (C1 Isolated Process)
+                <span class="label">Live Mic Level:</span>
+                <div class="meter-container">
+                    <div id="micMeter" class="meter-bar"></div>
+                </div>
+            </div>
+            <div class="info-row">
+                <span class="label">Last Heard Audio:</span> <span id="lastHeardSpan" style="color:#cbd5e1;">"{last_t}"</span>
             </div>
         </div>
         <div class="card">
@@ -1304,9 +1448,13 @@ class LocalPreviewServer:
                 document.getElementById('querySpan').textContent = '"' + data.query + '"';
                 document.getElementById('spokenSpan').textContent = '"' + data.spoken + '"';
                 document.getElementById('discardSpan').innerHTML = data.discard_reasons.length ? data.discard_reasons.join('<br>') : 'None';
+                document.getElementById('lastHeardSpan').textContent = '"' + (data.last_transcript || 'None') + '"';
+
+                var pct = Math.min(100, Math.max(0, (data.mic_rms || 0) * 1000));
+                document.getElementById('micMeter').style.width = pct + '%';
             }}).catch(() => {{}});
         }}
-        setInterval(updateStatus, 500);
+        setInterval(updateStatus, 300);
     </script>
 </body>
 </html>"""
@@ -1349,7 +1497,7 @@ class FridayLiveSystem:
         self.camera_buffer = CameraRingBuffer(offline_mode=offline_mode)
         self.foveation_engine = OpticalFoveationEngine()
         self.frame_scorer = FrameScorer()
-        self.query_capture = AudioQueryCapture()
+        self.query_capture = AudioQueryCapture(whisper_model=self.wake_detector.whisper_model)
         self.description_pipeline = DescriptionPipeline(compare_teacher=compare_teacher)
         self.voice_engine = FridayVoiceEngine()
         self.logger = TurnLogger() if log_enabled else None
@@ -1401,7 +1549,7 @@ class FridayLiveSystem:
         else:
             print("  [1/7] Wake Earcon Chime      : not run (offline regression)")
 
-        # 2. Frame Acquisition
+        # 2. Fast Frame Acquisition & Selection (Auditor Item Q2)
         t_frame0 = time.perf_counter()
         if candidate_frames is None:
             if self.use_camera and not self.offline_mode:
@@ -1413,7 +1561,7 @@ class FridayLiveSystem:
         else:
             frames_to_score = candidate_frames
 
-        # 3. Frame Scoring & Discard Engine (Item L4 & R1)
+        # Fast 2-pass frame selection (<1s)
         best_frame, best_meta, discard_evals = self.frame_scorer.select_best_frame(frames_to_score)
         timings["frame_selection_ms"] = (time.perf_counter() - t_frame0) * 1000.0
 
@@ -1427,30 +1575,34 @@ class FridayLiveSystem:
                 discard_reasons_list.append(reason)
                 print(f"        -> Discarded frame #{ev['frame_id']}: {ev['discard_reason']}")
 
-        # 4. Speech Query Capture & Intent Routing (Items L3 & L5)
+        # 3. Speech Query Input & Intent Routing (Items L3 & Q1)
         if query_text is not None:
             transcript = query_text
             timings["stt_ms"] = pre_measured_stt_ms
             stt_disp = f"{pre_measured_stt_ms:.1f} ms" if pre_measured_stt_ms is not None else "not run"
             print(f"  [3/7] Speech Query Input     : \"{transcript}\" (STT: {stt_disp})")
         else:
-            transcript = "What does it say?"
-            print(f"  [3/7] Speech Query Input     : \"{transcript}\" (STT: not run)")
+            transcript = ""
+            print("  [3/7] Speech Query Input     : \"\" (STT: not run)")
 
         intent = route_intent(transcript)
         print(f"  [4/7] Intent Router Decision : [{intent}]")
 
-        # Check if frame selection failed (Item L4)
+        # Check if frame selection failed (Item L4) or query unparseable
         if best_frame is None:
             spoken_text = FALLBACK_UNREADABLE
             print("  [!] All candidate frames failed threshold criteria.")
             print("  [5/7] Literal / Desc Pipeline: SKIPPED (Unclear frame)")
             ocr_lines = []
+        elif intent == "NONE":
+            spoken_text = "Sorry, I didn't catch what you asked."
+            print("  [5/7] Literal / Desc Pipeline: SKIPPED (Unrecognized query intent)")
+            ocr_lines = best_meta.get("ocr_lines", [])
         else:
             print(f"        -> Selected Best Frame #{best_meta['frame_id']} (Sharpness: {best_meta['sharpness']:.1f}, Boxes: {best_meta['box_count']})")
-            ocr_lines = best_meta["ocr_lines"]
+            ocr_lines = best_meta.get("ocr_lines", [])
 
-            # 5. Pipeline Execution according to Intent
+            # 4. Pipeline Execution according to Intent
             description_str = None
             literal_str = None
 
@@ -1467,10 +1619,10 @@ class FridayLiveSystem:
                 ocr_lines = lit_result.get("lines_full", ocr_lines)
                 print(f"  [6/7] Extractive Literal Path: \"{literal_str}\" (via {lit_result['source']}) in {timings['ocr_ms']:.1f} ms")
 
-            # 6. Compose Response (Item L8 & M2)
+            # 5. Compose Response (Items L8, M2 & Q3)
             spoken_text = compose_spoken_response(intent, description_str, literal_str)
 
-        # 7. Kokoro-82M TTS Spacing & Synthesis (Item L8 & M5)
+        # 6. Kokoro-82M TTS Spacing & Synthesis (Items L8 & M5)
         spoken_tts_formatted = format_tts_spacing(spoken_text)
         if not self.mute_audio:
             import soundfile as sf
@@ -1563,31 +1715,67 @@ class FridayLiveSystem:
 
 
 # ---------------------------------------------------------------------------
-# M4 & C3 & C4 CONTINUOUS LIVE HARNESS LOOP WITH SINGLE MIC STREAM
+# P2 STARTUP MICROPHONE SELF-CHECK
+# ---------------------------------------------------------------------------
+def run_microphone_self_check(sample_rate: int = 16000) -> float:
+    """
+    Auditor Item P2: Records 1.0 s of audio on default input device,
+    measures RMS and peak level, and warns if silent.
+    """
+    import sounddevice as sd
+    try:
+        dev_info = sd.query_devices(kind="input")
+        dev_name = dev_info.get("name", "Default Microphone")
+        dev_sr = int(dev_info.get("default_samplerate", sample_rate))
+    except Exception:
+        dev_name = "Default Microphone"
+        dev_sr = sample_rate
+
+    print(f"[*] Testing microphone: device='{dev_name}', default_sr={dev_sr} Hz...")
+    try:
+        test_audio = sd.rec(int(sample_rate * 1.0), samplerate=sample_rate, channels=1, dtype="float32")
+        sd.wait()
+        peak = float(np.max(np.abs(test_audio)))
+        rms = float(np.sqrt(np.mean(test_audio**2)))
+        print(f"[*] Microphone Self-Check: Device='{dev_name}', SampleRate={sample_rate} Hz, Peak={peak:.5f}, RMS={rms:.5f}")
+        if peak < 1e-3:
+            print("\n" + "!"*70)
+            print("[!] MICROPHONE IS SILENT — check System Settings > Privacy & Security > Microphone for this terminal app, and the default input device.")
+            print("!"*70 + "\n")
+        else:
+            print(f"[✓] Microphone is ACTIVE and capturing audio signal (Peak: {peak:.4f}).\n")
+        return peak
+    except Exception as e:
+        print(f"[!] Warning: Microphone self-check failed: {e}")
+        return 0.0
+
+
+# ---------------------------------------------------------------------------
+# M4, C3, C4, P2, P3, Q1 LIVE HARNESS LOOP WITH SINGLE MIC STREAM
 # ---------------------------------------------------------------------------
 def run_live_harness_loop(
     camera_id: int = 0,
     compare_teacher: bool = False,
     log_enabled: bool = True,
-    no_preview: bool = False
+    no_preview: bool = False,
+    debug_audio: bool = False
 ):
     """
-    Auditor Items M4, C3 & C4: Continuous live listening loop on MacBook.
+    Auditor Items M4, C3, C4, P1-P3, Q1-Q5: Continuous live loop on MacBook.
     Maintains camera worker process + single microphone stream running continuously.
     State Machine (C3):
       LISTENING_FOR_WAKE -> RECORDING_QUERY -> THINKING -> SPEAKING -> LISTENING_FOR_WAKE
-    While not in LISTENING_FOR_WAKE, wake detection is disabled.
-    After SPEAKING, ignores wake for TTS duration + 1.0 s (no self-trigger).
-    Auditor Item C4: Runs Silero VAD over the whole 1.5s window in 512-sample chunks.
-    Local preview server at http://127.0.0.1:8765 (Auditor Item C2).
     """
     import sounddevice as sd
     import torch
 
     # Print Auditor Item N2 Startup Banner
     print("\n" + "="*70)
-    print("PROJECT FRIDAY: LIVE MACBOOK WEARABLE HARNESS (Auditor Items M4, C1-C4, N1-N2)")
+    print("PROJECT FRIDAY: LIVE MACBOOK WEARABLE HARNESS (Auditor Items M4, C1-C4, P1-P3, Q1-Q5)")
     print("="*70)
+
+    # Auditor Item P2: Startup mic self-check
+    run_microphone_self_check(sample_rate=16000)
 
     # Initialize System
     system = FridayLiveSystem(
@@ -1612,7 +1800,6 @@ def run_live_harness_loop(
     sample_rate = 16000
     chunk_size = 512
 
-    # Auditor Item C3: Single input stream for the entire session
     current_state = SessionState.LISTENING_FOR_WAKE
     state_lock = threading.Lock()
 
@@ -1645,6 +1832,7 @@ def run_live_harness_loop(
 
     turn_counter = 0
     wake_cooldown_until = 0.0
+    last_debug_t = time.perf_counter()
 
     try:
         with sd.InputStream(samplerate=sample_rate, channels=1, dtype="float32", blocksize=chunk_size, callback=audio_callback):
@@ -1653,7 +1841,7 @@ def run_live_harness_loop(
                 # STATE: LISTENING_FOR_WAKE
                 # -------------------------------------------------------------
                 if current_state == SessionState.LISTENING_FOR_WAKE:
-                    time.sleep(0.1)
+                    time.sleep(0.08)
 
                     # Cooldown check after TTS speaking (no self-trigger)
                     if time.perf_counter() < wake_cooldown_until:
@@ -1666,19 +1854,32 @@ def run_live_harness_loop(
                         continue
 
                     recent_samples = np.array(cur_samples[-int(sample_rate * 1.5):], dtype=np.float32)
+                    rms = float(np.sqrt(np.mean(recent_samples**2)))
 
                     # Auditor Item C4: Run Silero VAD over the whole 1.5s window in 512-sample chunks
+                    max_vad_prob = 0.0
                     has_speech = False
                     if vad_model is not None:
                         for offset in range(0, len(recent_samples) - 511, 512):
                             chunk_t = torch.from_numpy(recent_samples[offset:offset + 512]).float()
                             with torch.no_grad():
                                 prob = float(vad_model(chunk_t, sample_rate).item())
+                            if prob > max_vad_prob:
+                                max_vad_prob = prob
                             if prob >= 0.35:
                                 has_speech = True
-                                break
                     else:
                         has_speech = True
+
+                    # Update preview telemetry
+                    if system.preview_server:
+                        system.preview_server.update_audio_telemetry(mic_rms=rms, last_transcript="")
+
+                    # Auditor Item P2: --debug-audio logging (print at least once per second even during silence)
+                    now_t = time.perf_counter()
+                    if debug_audio and not has_speech and (now_t - last_debug_t >= 1.0):
+                        print(f"[DEBUG-AUDIO] mic RMS: {rms:.4f} | max VAD prob: {max_vad_prob:.3f} | (silence/no speech)")
+                        last_debug_t = now_t
 
                     if not has_speech:
                         continue
@@ -1689,24 +1890,36 @@ def run_live_harness_loop(
                     transcript = " ".join(seg.text for seg in segments).strip()
                     stt_ms = (time.perf_counter() - t0_stt) * 1000.0
 
-                    if "friday" in transcript.lower():
+                    # Auditor Item P2: --debug-audio logging
+                    now_t = time.perf_counter()
+                    if debug_audio and (now_t - last_debug_t >= 1.0):
+                        print(f"[DEBUG-AUDIO] mic RMS: {rms:.4f} | max VAD prob: {max_vad_prob:.3f} | transcript: '{transcript}' ({stt_ms:.1f} ms)")
+                        last_debug_t = now_t
+
+                    if system.preview_server and transcript:
+                        system.preview_server.update_audio_telemetry(mic_rms=rms, last_transcript=transcript)
+
+                    # Auditor Item P3: Tolerant regex matching on clean alphanumeric text
+                    clean_text = re.sub(r"[^\w\s]", " ", transcript).strip()
+                    is_wake = bool(WAKE_REGEX.search(clean_text))
+
+                    if is_wake:
                         turn_counter += 1
                         t_wake = time.perf_counter()
                         print(f"\n[!] WAKE WORD TRIGGERED: \"{transcript}\"")
 
-                        # Immediate earcon (<80 ms)
                         wake_ms = system.wake_detector.trigger_wake(mute_audio=False)
                         wake_detect_to_earcon_ms = (time.perf_counter() - t_wake) * 1000.0 + wake_ms
 
-                        # Check if query was in the same utterance (Auditor Item M4)
-                        m = re.search(r"\bfriday\b[,:\s]*(.+)", transcript, re.IGNORECASE)
+                        # Check if query was in the same utterance
+                        m = re.search(r"\b(?:friday|fryday|fri\s?day)\b[,:\s]*(.+)", clean_text, re.IGNORECASE)
                         if m and len(m.group(1).strip().split()) >= 2:
                             query_text = m.group(1).strip()
                             pre_stt_ms = stt_ms
                             print(f"[*] Query detected in wake utterance: \"{query_text}\"")
                             set_state(SessionState.THINKING)
                         else:
-                            print("[*] Wake word acknowledged. Transitioning to RECORDING_QUERY...")
+                            print("[*] Wake word acknowledged. Transitioning to RECORDING_QUERY (listening for speech onset)...")
                             with state_lock:
                                 query_audio_buffer.clear()
                             query_text = None
@@ -1715,16 +1928,22 @@ def run_live_harness_loop(
                             speech_detected = False
                             silence_start = None
                             set_state(SessionState.RECORDING_QUERY)
+                    else:
+                        # Auditor Item P3: Drop first 0.5s of buffer after non-wake Whisper pass to slide window
+                        with state_lock:
+                            drop_count = min(len(wake_audio_buffer), int(sample_rate * 0.5))
+                            for _ in range(drop_count):
+                                wake_audio_buffer.popleft()
 
                 # -------------------------------------------------------------
-                # STATE: RECORDING_QUERY (Wake detection disabled; repeated wake is audio)
+                # STATE: RECORDING_QUERY (Auditor Item Q1: onset + trailing silence)
                 # -------------------------------------------------------------
                 elif current_state == SessionState.RECORDING_QUERY:
-                    time.sleep(0.05)
+                    time.sleep(0.04)
+                    elapsed = time.perf_counter() - rec_start_time
+
                     with state_lock:
                         q_len = len(query_audio_buffer)
-
-                    elapsed = time.perf_counter() - rec_start_time
 
                     if q_len >= 512 and vad_model is not None:
                         with state_lock:
@@ -1740,24 +1959,45 @@ def run_live_harness_loop(
                             if silence_start is None:
                                 silence_start = time.perf_counter()
                             elif (time.perf_counter() - silence_start) >= 0.8:
-                                # End of speech detected!
+                                # Auditor Item Q1: Stop after ~0.8s trailing silence
                                 set_state(SessionState.THINKING)
 
-                    # Max 6.0s timeout
-                    if elapsed >= 6.0 and current_state == SessionState.RECORDING_QUERY:
+                    # Auditor Item Q1: Wait up to 4s for onset; max 8s total
+                    if not speech_detected and elapsed >= 4.0:
+                        set_state(SessionState.THINKING)
+                    elif elapsed >= 8.0:
                         set_state(SessionState.THINKING)
 
                 # -------------------------------------------------------------
                 # STATE: THINKING (Execute turn pipeline)
                 # -------------------------------------------------------------
                 elif current_state == SessionState.THINKING:
+                    with state_lock:
+                        q_arr = np.array(query_audio_buffer, dtype=np.float32)
+
+                    rec_dur = len(q_arr) / float(sample_rate)
+                    rec_peak = float(np.max(np.abs(q_arr))) if len(q_arr) > 0 else 0.0
+                    print(f"[*] Query Audio Recorded: {rec_dur:.2f} s, Peak Level: {rec_peak:.4f}")
+
                     if query_text is None:
-                        with state_lock:
-                            q_arr = np.array(query_audio_buffer, dtype=np.float32)
                         t0_q_stt = time.perf_counter()
                         segments, _ = whisper_model.transcribe(q_arr, beam_size=1, language="en")
                         query_text = " ".join(seg.text for seg in segments).strip()
                         pre_stt_ms = (time.perf_counter() - t0_q_stt) * 1000.0
+
+                    # Auditor Item Q1: If transcript is empty or <2 chars -> speak "Sorry, I didn't catch that."
+                    if not query_text or len(query_text.strip()) < 2:
+                        print(f"[!] Query transcript empty or unparseable (\"{query_text}\").")
+                        set_state(SessionState.SPEAKING)
+                        print("  [Spoken Output Text]         : \"Sorry, I didn't catch that.\"")
+                        if not system.mute_audio:
+                            system.voice_engine.speak("Sorry, I didn't catch that.", mute=system.mute_audio)
+                        wake_cooldown_until = time.perf_counter() + 2.0
+                        with state_lock:
+                            wake_audio_buffer.clear()
+                            query_audio_buffer.clear()
+                        set_state(SessionState.LISTENING_FOR_WAKE)
+                        continue
 
                     # Execute full turn
                     res = system.process_turn(
@@ -1948,7 +2188,6 @@ def run_soak_test():
             )
             time.sleep(1.0)
 
-        # Let camera process, mic stream, and preview server run for remaining duration up to 60s
         elapsed = time.perf_counter() - t_start
         rem = max(1.0, 60.0 - elapsed)
         print(f"\n[*] Running background soaking loop for {rem:.1f} s (camera process + active mic stream)...")
@@ -1960,19 +2199,21 @@ def run_soak_test():
 
 
 # ---------------------------------------------------------------------------
-# UNIT TEST SUITE (M2, R1, R2, N1)
+# UNIT TEST SUITE (M2, R1, R2, N1, Q1, Q3)
 # ---------------------------------------------------------------------------
 def run_unit_tests():
     """
     Auditor Unit Test Suite:
       1. Digit suppression tests (L0)
       2. Honest fallback when model unavailable (M2)
-      3. Response composition logic
-      4. Student VLM image dependence (M2)
-      5. Timing exclusions (M5)
-      6. Frame quality scorer resolution normalization (R1: 1080p vs 4032x3024 same pass/fail)
-      7. Handwritten note lines test (R2: matches auditor probe)
-      8. 64k Vocab Mapper tests (N1: prompt round-trip & decoded IDs in 64k subset)
+      3. Response composition logic & prefix deduplication (Q3)
+      4. Intent router empty/unknown query rejection (Q1)
+      5. Student VLM image dependence (M2)
+      6. Timing exclusions (M5)
+      7. Frame quality scorer resolution normalization (R1: 1080p vs 4032x3024 same pass/fail)
+      8. Fast frame selection test (Q2: <1s on M4)
+      9. Handwritten note lines test (R2: matches auditor probe)
+      10. 64k Vocab Mapper tests (N1: prompt round-trip & decoded IDs in 64k subset)
     """
     print("\n" + "="*70)
     print("RUNNING MILESTONE 1.6 UNIT TEST SUITE")
@@ -1995,16 +2236,29 @@ def run_unit_tests():
     assert "labeled container" not in desc
     print(f"[✓] Honest fallback verified: \"{desc}\" (zero invented nouns)")
 
-    # 3. Response Composer Tests
-    print("[*] Test 3: Testing response composition logic...")
+    # 3. Response Composer & Prefix Deduplication (Auditor Item Q3)
+    print("[*] Test 3: Testing response composition logic and Q3 prefix deduplication...")
     assert compose_spoken_response("IDENTIFY", FALLBACK_NO_OBJECT_MODEL, None) == FALLBACK_NO_OBJECT_MODEL
     assert compose_spoken_response("BOTH", FALLBACK_NO_OBJECT_MODEL, "TOTAL AMOUNT DUE: $15.40.") == "I can't identify objects yet. It says: TOTAL AMOUNT DUE: $15.40."
+    assert compose_spoken_response("BOTH", FALLBACK_NO_OBJECT_MODEL, "It looks like it says: love you till the last dies.") == "I can't identify objects yet. It looks like it says: love you till the last dies."
+    assert "It says: It looks like it says:" not in compose_spoken_response("BOTH", "a note", "It looks like it says: hello.")
     assert compose_spoken_response("IDENTIFY", "a coffee mug", None) == "You're holding a coffee mug."
     assert compose_spoken_response("READ", None, "TOTAL: $10.00.") == "TOTAL: $10.00."
-    print("[✓] Response composition tests passed!")
+    print("[✓] Response composition and Q3 deduplication verified!")
 
-    # 4. Image Dependence Unit Test (Auditor Item M2)
-    print("[*] Test 4: Testing Student VLM image dependence (fails if output is constant independent of image)...")
+    # 4. Intent Router Empty / Unknown Query Rejection (Auditor Item Q1)
+    print("[*] Test 4: Testing Auditor Item Q1 intent routing safety...")
+    assert route_intent("") == "NONE"
+    assert route_intent("   ") == "NONE"
+    assert route_intent("a") == "NONE"
+    assert route_intent("random unrelated words blabla") == "NONE"
+    assert route_intent("what does it say") == "READ"
+    assert route_intent("what am i holding") == "IDENTIFY"
+    assert route_intent("what is this and what does it say") == "BOTH"
+    print("[✓] Q1 Intent routing safety verified (empty/unknown routes to NONE, never BOTH)!")
+
+    # 5. Image Dependence Unit Test (Auditor Item M2)
+    print("[*] Test 5: Testing Student VLM image dependence (fails if output is constant independent of image)...")
     img_a = np.zeros((384, 384, 3), dtype=np.uint8) # Solid black
     img_b = np.ones((384, 384, 3), dtype=np.uint8) * 255 # Solid white
     cv2.circle(img_b, (192, 192), 80, (0, 0, 0), -1)
@@ -2012,7 +2266,6 @@ def run_unit_tests():
     import torch
     from transformers import AutoModel, SiglipImageProcessor
     from PIL import Image
-    from phase1_ai_sandbox.src.student_vlm import SpatialUnshuffleDownsampler
 
     device = "cpu"
     siglip = AutoModel.from_pretrained("google/siglip-base-patch16-384", torch_dtype=torch.float32).to(device)
@@ -2035,8 +2288,8 @@ def run_unit_tests():
     assert diff > 10.0, f"Auditor Item M2 Violation: Visual tokens are constant across distinct images (diff={diff:.2f})!"
     print("[✓] Image dependence verification passed!")
 
-    # 5. Timing Exclusions Test (Auditor Item M5)
-    print("[*] Test 5: Testing Auditor Item M5 timing exclusions...")
+    # 6. Timing Exclusions Test (Auditor Item M5)
+    print("[*] Test 6: Testing Auditor Item M5 timing exclusions...")
     test_timings = {
         "wake_to_earcon_ms": 15.0,
         "stt_ms": None,
@@ -2049,15 +2302,13 @@ def run_unit_tests():
     assert active_sum == 365.0, f"Expected 365.0 ms, got {active_sum}"
     print(f"[✓] Active timing sum verified: {active_sum:.1f} ms (unexecuted stages excluded)")
 
-    # 6. Auditor Item R1 Resolution Invariance Test
-    print("[*] Test 6: Testing Auditor Item R1 resolution normalization (1080p vs 4032x3024 same content)...")
+    # 7. Auditor Item R1 Resolution Invariance Test
+    print("[*] Test 7: Testing Auditor Item R1 resolution normalization (1080p vs 4032x3024 same content)...")
     scorer = FrameScorer()
-    # Create sharp synthetic text image at 1080p (1920x1080) with normal paper exposure (mean ~215)
     img_1080p = np.ones((1080, 1920, 3), dtype=np.uint8) * 220
     cv2.putText(img_1080p, "RESOLUTION TEST ITEM R1", (100, 300), cv2.FONT_HERSHEY_SIMPLEX, 3.0, (20, 20, 20), 6)
     cv2.putText(img_1080p, "SHARPNESS RESIZING INVARIANCE", (100, 600), cv2.FONT_HERSHEY_SIMPLEX, 3.0, (20, 20, 20), 6)
 
-    # Scale the exact same image to 4032x3024
     img_4032p = cv2.resize(img_1080p, (4032, 3024), interpolation=cv2.INTER_CUBIC)
 
     ev_1080p = scorer.evaluate_frame(img_1080p, frame_id=1)
@@ -2068,8 +2319,19 @@ def run_unit_tests():
     assert ev_1080p["passed"] == ev_4032p["passed"] == True, f"R1 Violation: 1080p passed={ev_1080p['passed']}, 4032p passed={ev_4032p['passed']}"
     print("[✓] R1 Resolution normalization verified (identical pass/fail across 1080p and 4032x3024)!")
 
-    # 7. Auditor Item R2 Handwritten Lines Test
-    print("[*] Test 7: Testing Auditor Item R2 READ_ALOUD mode with handwritten note OCR lines...")
+    # 8. Auditor Item Q2 Fast Frame Selection Test
+    print("[*] Test 8: Testing Auditor Item Q2 fast frame selection (<1 s on 30 candidate frames)...")
+    t0_sel = time.perf_counter()
+    candidates = [img_1080p.copy() for _ in range(30)]
+    best_f, best_m, _ = scorer.select_best_frame(candidates)
+    sel_dur = (time.perf_counter() - t0_sel)
+    print(f"    Selected best frame among 30 candidate frames in {sel_dur:.3f} s (Target: <1.0 s)")
+    assert sel_dur < 1.5, f"Q2 Violation: Frame selection too slow ({sel_dur:.2f} s >= 1.5 s)"
+    assert best_f is not None
+    print("[✓] Q2 Fast frame selection verified!")
+
+    # 9. Auditor Item R2 Handwritten Lines Test
+    print("[*] Test 9: Testing Auditor Item R2 READ_ALOUD mode with handwritten note OCR lines...")
     lines_note = [
         {"raw_text": "9 love you till the", "confidence": 0.971, "box": [[10, 10], [100, 10], [100, 25], [10, 25]]},
         {"raw_text": "last", "confidence": 0.998, "box": [[10, 30], [50, 30], [50, 45], [10, 45]]},
@@ -2084,8 +2346,8 @@ def run_unit_tests():
     assert "Hoer" not in res_r2["speech"], "R2 Failed: Low-confidence line 'Hoer' was erroneously spoken!"
     print("[✓] R2 Handwritten reading verified!")
 
-    # 8. Auditor Item N1 Vocab Mapper Tests
-    print("[*] Test 8: Testing Auditor Item N1 64k Vocab Mapper...")
+    # 10. Auditor Item N1 Vocab Mapper Tests
+    print("[*] Test 10: Testing Auditor Item N1 64k Vocab Mapper...")
     mapper = Vocab64kMapper(tokenizer_name="Qwen/Qwen2.5-0.5B", target_size=64000)
     prompt = "Describe in a few words what object the person is holding."
     sub_ids = mapper.safe_encode_64k(prompt)
@@ -2107,7 +2369,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Project FRIDAY: Milestone 1.6 Live MacBook Harness")
     parser.add_argument("--live", action="store_true", help="Run continuous live MacBook harness loop (FaceTime camera + mic + wake word)")
     parser.add_argument("--offline-regression", action="store_true", help="Run scripted offline regression suite (M1)")
-    parser.add_argument("--test", action="store_true", help="Run unit test suite (M2, R1, R2, N1)")
+    parser.add_argument("--test", action="store_true", help="Run unit test suite (M2, R1, R2, N1, Q1, Q3)")
     parser.add_argument("--soak-test", action="store_true", help="Run 60s soak test (multiprocess camera + mic stream + 5 cycles)")
     parser.add_argument("--offline", action="store_true", help="Explicitly enable offline mode (no hardware camera/mic required)")
     parser.add_argument("--camera", action="store_true", help="Capture live optical frames from camera")
@@ -2118,6 +2380,7 @@ if __name__ == "__main__":
     parser.add_argument("--compare-teacher", action="store_true", help="Compare Qwen2-VL-2B teacher model on Mac MPS")
     parser.add_argument("--mute", action="store_true", help="Mute audio playback for automated/batch execution")
     parser.add_argument("--no-preview", action="store_true", help="Disable local preview web server at 127.0.0.1:8765")
+    parser.add_argument("--debug-audio", action="store_true", help="Print real-time audio telemetry (RMS, VAD prob, all Whisper transcripts)")
     parser.add_argument("--allow-unverified-weights", action="store_true", help="Allow loading student weights even if SHA256 mismatches Kaggle manifest")
     args = parser.parse_args()
 
@@ -2132,7 +2395,8 @@ if __name__ == "__main__":
             camera_id=0,
             compare_teacher=args.compare_teacher,
             log_enabled=args.log,
-            no_preview=args.no_preview
+            no_preview=args.no_preview,
+            debug_audio=args.debug_audio
         )
     else:
         system = FridayLiveSystem(
