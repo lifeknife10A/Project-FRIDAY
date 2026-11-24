@@ -97,6 +97,20 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Krishna's live run @ 96d2547 (2026-11-24): 5 turns + crash at end. Wake needed 5-6 tries (Whisper-on-
+  windows polling); query STT itself fast (~155-180 ms MPS). Read: sticky note -> "It looks like it says:
+  love you till the last dies. I'm not sure..." (safe). Router bug: "What does this say?" -> NONE
+  ("What does it say?" -> READ). Frame selection still 2.1-2.7 s. IDENTIFY (student ACTIVE): "The person
+  is holdingThe person is holding..." -> student has no visual grounding (as predicted). Crash:
+  TypeError FridayVoiceEngine.speak() got unexpected kwarg 'mute' (friday_live.py L1994). tokenizers
+  fork warning (set TOKENIZERS_PARALLELISM=false). Wake-to-first-audio 2.7-6.0 s.
+  Krishna's strategic feedback: product = OCR reader only, not novel; wants conversation, object
+  Q&A with uncertainty + follow-ups (colour), whiteboard math, translation, messages/weather, persona/
+  emotional voice, weight editing/"train big then prune". My advice given (see chat): router of skills
+  (safe reader, deterministic math, translation, VLM Q&A, chat LLM); start from a PRETRAINED small VLM /
+  instruct LLM instead of our 100-step student for open-ended vision/chat (plan deviation -> Krishna
+  decides); custom openWakeWord model; interpretability/weight editing not thesis-timeline.
+
 - Reviewed `96d2547` (P1-P3, Q1-Q6, W0) -> YES, go for Krishna's ~20-item live test. Checked: friday_live
   SpatialUnshuffleDownsampler identical to notebook cell 4 (training) and both state_dicts load with
   default strict=True; pyflakes 0 undefined; W0 weights hashes match 7571e39 manifest, banner ACTIVE.
