@@ -52,7 +52,7 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
 
 | Component / Subassembly | Specific Target Part | Purpose in Wearable | Qty | Unit Price (INR) | Total (INR) | Verified Sourcing Channel & Direct URL |
 | :--- | :--- | :--- | :---: | :---: | :---: | :--- |
-| **Compute Core Module** | **Firefly CAM-3576Q38** (Rockchip RK3576, 6.0 TOPS NPU, **4GB LPDDR5**, onboard Wi-Fi 6 + BT 5.4, 38×38×11.5 mm, 14.2g, 40-pin 0.5mm FPC MIPI-CSI camera connector) | Primary on-device AI inference engine mounted inside the 20mm right temple enclosure. Integrated dual-band Wi-Fi 6 + Bluetooth 5.4 directly enables Directives 03, 04, and Milestone 4.2 without USB dongles. | 1 | ₹5,400 | ₹5,400 | [Firefly CAM-3576Q38 Official Product Page](https://en.t-firefly.com/product/industry/cam-3576q38) |
+| **Compute Core Module** | **Compute Core decision: PENDING VENDOR RESPONSE (Krishna)**<br>• *Primary Low-Cost Candidate:* **MuchVision / Sinoseen MV10-V1.0** (Rockchip RK3576, 6.0 TOPS NPU, 2GB/4GB LPDDR5, 38×38 mm modular sandwich with detachable top carrier; inquiry sent on Alibaba to Leo Li for sample quote + DHL air freight to Mumbai).<br>• *Verified Purchasable Fallback:* **Firefly iCORE-3576Q38 / CAM-3576Q38** (Rockchip RK3576, 6.0 TOPS NPU, **2GB LPDDR5 + 64GB eMMC**, 38×38 mm, 14.2g; verified in official Firefly store cart at $149.00 + $55.00 express air shipping = **$204.00 USD / ~₹17,200 INR** landed to Mumbai 400049). | Primary on-device AI inference engine mounted inside the 20mm right temple enclosure. Integrated dual-band Wi-Fi 6 + Bluetooth 5.4 directly enables Directives 03, 04, and Milestone 4.2 without USB dongles. | 1 | TBD / ₹17,200 | TBD / ₹17,200 | [MuchVision Alibaba Listing](https://www.alibaba.com) / [Firefly Store Product Page](https://store.t-firefly.com) |
 | **Camera Sensor Module** | **Raspberry Pi Camera Module 3 (Standard / SA31VA30P)** (Sony IMX708, **11.9MP**, Fast Phase Detection Autofocus (PDAF) 10cm–$\infty$, 76° FoV Standard Lens, HDR). *Stage 1:* Complete consumer board used on Raspberry Pi 3B via native `libcamera`. *Phase 3:* The bare sensor assembly (body $10.8 \times 10.8\text{ mm}$ per datasheet drawing; height to be measured) unclips from the baseboard and plugs into the front-bridge breakout PCB. **Camera decision: PENDING (Krishna)** — IMX708 requires the custom carrier below + an RK3576 driver/ISP port (see §3.1A.4); fallback is the natively supported IMX415. | Miniature optical sensor cube mounted in front frame with $6^\circ$ down-pitch. Hardware PDAF ensures crystal-clear focus on medicine labels at 10–35cm. Zero rigid PCB on face; 24mm flex tail plugs into front-bridge connector board, routing via browline FFC to right temple. | 1 | ₹1,801 | ₹1,801 | [Robu.in Raspberry Pi Camera Module 3 (Standard / SA31VA30P)](https://robu.in/product/raspberry-pi-camera-module-3-sa31va30p/) |
 | **Camera Front-Bridge Breakout + Power (custom PCB)** | **To be designed by Krishna** from the RP Camera Module 3 reference schematic (RP-008969-SD): Hirose DF37 30-pin 0.4 mm mating connector (same series as the reference baseboard's DF37NC-30DS-0.4V — confirm gender against the sensor plug), AP3429K 1.1 V buck + inductor, 2× AP7331 LDOs (1.8 V, 2.8 V), 24 MHz oscillator, POR (XCLR released after MCLK starts), I2C level shifter to 1.8 V, CSI common-mode chokes, FFC connector to the temple | Powers and breaks out the bare IMX708 assembly behind the nose bridge; FFC through the browline/hinge to the CAM-3576Q38 40-pin MIPI connector | 1 | TBD | **TBD** | JLCPCB (PCB) + LCSC/Mouser (parts) — quote pending |
 | **MEMS Microphones** | **INMP441 Omnidirectional Digital I2S MEMS** Breakouts | Dual front-right beamforming microphone array for voice queries and spatial audio capture. | 2 | ₹145 | ₹290 | [Robu.in INMP441 Module](https://robu.in/product/inmp441-omnidirectional-microphone-module-i2s-interface/) |
@@ -68,7 +68,7 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
 | **Harness & Wiring** | **0.5mm FPC Ribbon Jumpers + 30 AWG Ultra-flexible Silicone Wire** | Through-bridge hinge wiring (power pairs doubled for $R_{DC} < 0.030\,\Omega$). | 1 | ₹120 | ₹120 | [Robu.in 30 AWG Silicone Wire](https://robu.in/product/30-awg-flexible-silicone-wire/) |
 | **Thermal Dissipation** | **0.3mm Copper Shim + Organic Phase-Change Material (4.0g Rubitherm RT42, 38–43°C, peak 41°C) + 1.0mm Silica Aerogel Blanket (10 cm²) + Arctic MX-4** | Conductive heat spreader sinking RK3576 junction heat into a 660 J PCM buffer (Rubitherm RT42, 165 J/g latent heat, 38–43°C melting range, peak 41°C) with inner 1.0mm silica aerogel blanket protecting user skin. Sinks heat outward into ambient air. | 1 | ₹350 | ₹350 | [Amazon.in Copper Shim & Robu Aerogel](https://www.amazon.in) |
 | **Assembly Hardware & Contingency** | M1.6/M2 brass threaded heatset inserts, screws, Kapton tape | Mechanical fasteners and assembly prototyping buffer. | 1 | ₹215 | ₹215 | Local Hardware Store / Robu |
-| **TOTAL WEARABLE SPEND** | — | **Complete, Untethered Autonomous Glasses** | — | — | **₹10,106 INR + camera carrier (TBD)** | ~$121 USD + carrier; final once the carrier is quoted |
+| **TOTAL WEARABLE SPEND** | — | **Complete, Untethered Autonomous Glasses** | — | — | **₹4,706 + Compute (TBD MuchVision / ₹17,200 Firefly) + carrier (TBD)** | Baseline peripherals: ₹4,706; compute is pending Alibaba quote vs verified Firefly checkout ($204 USD) |
 
 ---
 
@@ -122,14 +122,20 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a 
     * **Primary Native Production Target for RK3576:** **Sony IMX415** (officially supported in Rockchip BSP kernel 6.1-LTS, native ISP32 integration, official factory-calibrated `rkaiq` tuning files, zero software friction).
     * **Evaluation / Custom Wearable Target:** **Raspberry Pi Camera Module 3 (IMX708)** — validated on Raspberry Pi 3B via native `libcamera`, offering a path to miniature (~$10.8\text{ mm}$) physical packaging if carrier PCB and ISP32 porting milestones are funded.
 
-### B. Compute Core Module: Firefly CAM-3576Q38 & LPDDR5 Bandwidth Ceiling
-* **Official Product Page:** [https://en.t-firefly.com/product/industry/cam-3576q38](https://en.t-firefly.com/product/industry/cam-3576q38)
-* **Architecture:** Rockchip RK3576 (4× Cortex-A72 @ 2.2 GHz + 4× Cortex-A53 @ 1.8 GHz, 6.0 TOPS INT8 NPU).
-* **Memory Subsystem:** 4GB 32-bit LPDDR5 (operating up to 5500 MT/s).
-  * Theoretical Peak Bandwidth: $4\text{ bytes} \times 5.5\text{ GT/s} = \mathbf{22.0\text{ GB/s}}$.
-  * Sustainable Streaming Ceiling (80% bus efficiency): $\mathbf{17.6\text{ GB/s}}$ (compared to $13.50\text{ GB/s}$ on LPDDR4x-4266).
-  * Safe Operational Bus Ceiling (accounting for camera ISP and audio contention): $\mathbf{14.0\text{ GB/s}}$.
-  * Continuous Operating Bandwidth at 25 tok/s ($5.77\text{ GB/s}$) operates with **$58.8\%$ continuous safe headroom**.
+### B. Compute Core Module: Architecture, Dual-Candidate Status & Sourcing Verification
+* **Processor Architecture:** Rockchip RK3576 (4× Cortex-A72 @ 2.2 GHz + 4× Cortex-A53 @ 2.0 GHz, 6.0 TOPS INT4/INT8 NPU).
+* **Memory Subsystem & 2GB RAM Footprint Verification:**
+  * Supported: 2GB or 4GB 32-bit LPDDR5 (operating up to 5500 MT/s).
+  * Theoretical Peak Bandwidth: $4\text{ bytes} \times 5.5\text{ GT/s} = \mathbf{22.0\text{ GB/s}}$ (sustainable $\sim 17.6\text{ GB/s}$, safe ceiling $14.0\text{ GB/s}$).
+  * Continuous Operating Bandwidth at 25 tok/s ($5.75\text{ GB/s}$) operates with $>58\%$ safe headroom.
+  * *RAM Sizing Check (2GB vs 4GB):* The complete runtime memory footprint (headless Linux OS $\sim 350\text{ MB}$, camera ISP buffers $\sim 120\text{ MB}$, distilled INT4 student LLM $209\text{ MB}$, KV-cache $\sim 70\text{ MB}$, SigLIP-B vision encoder $170\text{ MB}$, RapidOCR $50\text{ MB}$, and Kokoro TTS $200\text{ MB}$) totals **$\sim 1.17\text{ GB}$**. A 2GB LPDDR5 configuration operates with $>800\text{ MB}$ of free buffer memory, confirming 2GB is completely sufficient. 64GB eMMC flash exceeds storage requirements by $>10\times$.
+* **Dual Candidate Sourcing Status (Updated 2026-11-25):**
+  * *Candidate 1 (Primary Low-Cost Inquiry):* **MuchVision / Sinoseen MV10-V1.0 (RK3576, 2GB/64GB)**. 38×38 mm modular sandwich architecture (bare SoM unclips from top carrier). Formal inquiry sent via Alibaba to Leo Li requesting sample price for 1 unit + DHL air express to Mumbai 400049 and Ubuntu RKLLM SDK confirmation.
+  * *Candidate 2 (Verified Purchasable Fallback):* **Firefly iCORE-3576Q38 / CAM-3576Q38 (RK3576, 2GB+64GB)**. Verified directly at checkout on `store.t-firefly.com`:
+    * Base Price (2GB+64GB): **$149.00 USD**
+    * Express Air Shipping to Mumbai 400049: **$55.00 USD**
+    * Total Landed Order Cost: **$204.00 USD (~₹17,200 INR)**.
+    * *Hardware Form Factor Note:* `iCORE-3576Q38` is the bare SoM ($38 \times 38\text{ mm}$) with board-to-board mezzanine connectors underneath (no standalone USB or power ports). Benchtop bring-up requires either Firefly's carrier baseboard (`CAM-3576Q38`) or our custom carrier PCB.
 * **Onboard Peripherals:** Dual-band Wi-Fi 6 (802.11ax) + Bluetooth 5.4 with onboard antenna connector.
 * **Physical Envelope:** Dimensions $38.0 \times 38.0 \times 11.5\text{ mm}$, bare module mass **$14.2\text{ g}$**.
 
