@@ -54,3 +54,16 @@ This settles 01_requirements R3 ("language list to be decided"). Krishna should 
 
 1. Confirm that the language scope goes into plan.md §11 as APPROVED.
 2. Is a non-commercial licence (MMS-TTS, CC-BY-NC) acceptable for a thesis-only Marathi TTS fallback? My default is no: prefer Apache/MIT.
+
+## Update 2026-11-25 (Krishna): Gujarati added; language work DEFERRED
+
+- **Scope:** English, Hindi, Marathi, Gujarati.
+- **Priority: low.** Krishna: core functionality (conversation, math, visual recognition) comes first; languages can be added later.
+- **Architecture (Krishna's decision):**
+  - The student works in **English only**.
+  - Other languages go through a translation layer: speech → STT in that language → translate to English → student → translate back → TTS in that language.
+  - Hindi must work; Marathi and Gujarati come later.
+  - Translation candidate: IndicTrans2-Dist (Table 22, Dist column: en→gu 52.9, gu→en 65.5 chrF++ on IN22-Gen).
+- **Consequences:**
+  - **E-LANG-1 is dropped.** The student base is now chosen on English skills plus RK3576 speed only.
+  - **No further language research** until Krishna reopens it.
