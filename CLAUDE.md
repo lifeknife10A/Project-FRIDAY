@@ -97,6 +97,11 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Krishna DECISION (2026-11-26): bare RK3576 BGA on a custom board (Track 2 promoted to primary). Auditor:
+  feasible, highest-risk item; keep SoM/dev-board fallback + software reference; copy Rockchip reference
+  design for SoC/DDR/PMIC; auditor reviews schematic + stackup + DDR layout before any fab. Pitch, package
+  size, PMIC part and doc availability UNVERIFIED until Krishna has the RK3576 datasheet/hardware guide.
+
 - SHARED PLAN: docs/plan1.md (v1.0, 2026-11-26) = merged Researcher gameplan (M0-M9, F1-F10, D1-D4,
   gate C) + my co-sim/E-DEV-1 ruling + Pi audio + dossier rules. Phase 1 extended to the
   "Phase 1 Complete (Mac)" gate before any hardware purchase. Read it every session; status table §6.

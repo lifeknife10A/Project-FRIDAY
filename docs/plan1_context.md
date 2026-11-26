@@ -392,3 +392,17 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
   4. D2 = peak memory during a full live turn.
   5. F1 latency is measured from the audible end of "Friday" to the audible chime.
   6. The KD winner is a default only; per-skill 2-arm check; cache top-64 before M3.
+- **2026-11-26 (bare RK3576 decision).**
+  - Krishna decided: a custom board with a bare RK3576 BGA chip (0.65/0.8 mm pitch) instead of a SoM. This promotes plan.md Track 2 (L415–416, an 8–10 layer HDI stretch goal) to primary.
+  - Auditor view: feasible but the highest-risk item in the project. It needs:
+    - LPDDR4x/5 routing (8–10 layer HDI, length matching, SI);
+    - a PMIC (RK806-class, UNVERIFIED) and power sequencing;
+    - DDR-training loader for the exact DRAM part;
+    - a board-specific BSP/device tree;
+    - BGA reflow + X-ray.
+  - Expect 2–3 spins.
+  - Advice:
+    - keep a SoM/dev-board path as the fallback and as the software reference (plan.md two-track logic);
+    - copy the Rockchip reference design for the SoC + DDR + PMIC block;
+    - have the Auditor review the schematic, stackup and layout before fab.
+  - Decision recorded as a plan deviation; Krishna approves.
