@@ -416,3 +416,18 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - RK806 variant/OTP must match the reference schematic.
     - Missing from the list: 24 MHz / 32.768 kHz crystals, Wi-Fi/BT module + antenna, PMIC inductors/passives, Maskrom/USB flashing path, debug UART, ESD, 2S→PMIC input regulation.
     - HDI PCB + BGA assembly dominate the cost, not the chips.
+- **2026-11-26 (gum-stick BOM review, 1c26f35/474d1ef).**
+  - Krishna locked an LCSC cart (RK3576, RK806-1, RTL8723DS, crystals, USB-C, MaskROM key; $33.69) and a harvested eMCP (₹1,000) for a custom 14×75 mm "gum-stick" board.
+  - Verified on LCSC:
+    - RK3576 C42388007 = **FCCSP-698L 16.1×17.2 mm**;
+    - RK806-1 = QFN-68 7×7;
+    - RTL8723DS = WQFN-48 6×6, **802.11b/g/n 2.4 GHz + BT 4.2**.
+  - Findings:
+    1. **BLOCK (geometry):** the 16.1 mm SoC is wider than the 14 mm board. Use ≥ ~20–22 mm width (Track 1 temple height).
+    2. RK806 variant (OTP) must match the RK3576 reference before power-up.
+    3. Bare RTL8723DS needs RF matching + antenna design; prefer a pre-certified module. BOM still says Wi-Fi 6/BT 5.0 (stale).
+    4. Harvested eMCP: unknown heat/wear, prior-owner data, DDR-loader support unknown. Use a NEW part for spin 1, harvested only later.
+    5. The camera rows are still Sinoseen IMX662/MV12; they contradict the IMX708 decision; IMX708 carrier PCB needed again.
+    6. The physical-envelope line is still 41×41×20.
+    7. The total ₹8.4–9.2k omits the HDI PCB + BGA assembly/X-ray (dominant) and passives.
+    8. **False provenance:** the BOM says the design was made by "Hydrogen, Astra 6.2, Claude Opus 5.5, Autodesk". No design exists in the repo and the Auditor did not design it.

@@ -97,6 +97,13 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed BOM 1c26f35/474d1ef (custom 14x75 mm gum-stick, LCSC cart + harvested eMCP). LCSC-verified:
+  RK3576 FCCSP-698L 16.1x17.2 mm; RK806-1 QFN-68; RTL8723DS = 2.4 GHz 11n + BT 4.2. BLOCK: SoC wider than
+  14 mm board -> >=20-22 mm. Flags: RK806 OTP variant vs RK3576 reference; bare RTL8723DS RF design ->
+  prefer certified module; BOM L141 still "Wi-Fi 6/BT 5.0"; harvested eMCP -> new part for spin 1;
+  camera rows still Sinoseen IMX662/MV12 (contradicts IMX708 decision); envelope still 41x41x20; total
+  omits HDI PCB+assembly; provenance line credits "Claude Opus 5.5" for a design that doesn't exist.
+
 - Krishna DECISION (2026-11-26): bare RK3576 BGA on a custom board (Track 2 promoted to primary). Auditor:
   feasible, highest-risk item; keep SoM/dev-board fallback + software reference; copy Rockchip reference
   design for SoC/DDR/PMIC; auditor reviews schematic + stackup + DDR layout before any fab. Pitch, package
