@@ -71,8 +71,48 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in cl
 | # | Item Description | Specification / Role | Qty | Unit Price (INR) | Total (INR) | Sourcing Channel |
 |---|---|---|:---:|:---:|:---:|---|
 | 9 | **Samsung 4GB LPDDR4X + 64GB eMMC eMCP**<br>(Samsung KM3V series or equivalent) | Single BGA-254 chip combining 4GB RAM + 64GB fast storage. Harvested from scrap Redmi 9 / POCO M2 donor motherboard + technician BGA reballing. | 1 | ₹1,000 | ₹1,000 | Local Mobile Repair / Donor Scrap Board |
-| 10 | **SMD Passives & PMIC Power Circuit Kit**<br>(0402 / 0603 caps, resistors, inductors, diodes) | • Ceramic decoupling capacitors (100nF, 1uF, 4.7uF, 10uF, 22uF X5R/X7R)<br>• Pull-up/pull-down resistors (1k, 2.2k, 4.7k, 10k, 100k, 220k 1%)<br>• Shielded power inductors for RK806-1 buck rails (0.47uH, 1.0uH, 2.2uH)<br>• TVS ESD protection diodes for USB-C lines | 1 kit | ₹650 | ₹650 | LCSC Passives / Local Mumbai Electronics |
+| 10 | **SMD Passives & PMIC Power Circuit Kit**<br>(Itemized component matrix detailed below) | Complete set of 0402/0603 resistors, ceramic decoupling capacitors, PMIC shielded power inductors, and USB ESD TVS diodes. | 1 kit | ₹650 | ₹650 | LCSC Passives / Local Mumbai Electronics |
 | — | **Memory & Passives Subtotal** | — | — | — | **₹1,650** | — |
+
+---
+
+### B.1 Itemized Passive Component Specification Matrix (Exact Ohms, Microfarads, Wattage & Ratings)
+
+The table below defines every discrete passive component required on the custom PCB around the RK3576, RK806-1 PMIC, USB-C port, and audio peripherals:
+
+#### 1. Resistors (SMD 0402, 1% Tolerance, 1/16 Watt / 62.5 mW)
+
+| Resistance | Tolerance | Wattage / Rating | Package | Qty | Circuit Function & Target Nets |
+|---|:---:|:---:|:---:|:---:|---|
+| **5.1 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 2 | **USB-C Port CC1 & CC2 Pull-Downs** (Mandatory for standard 5V/3A Power Delivery sink negotiation). |
+| **2.2 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 4 | **I2C Bus Pull-Ups** on `I2C_SDA` and `I2C_SCL` for RK806-1 PMIC control and Sony IMX708 camera sensor. |
+| **10 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 4 | **Pull-Up & Channel Select:** Left channel audio divider pull-up, INMP441 L/R select, and PMIC reset line. |
+| **220 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 1 | **Left Channel Audio Select Divider Pull-Down** on MAX98357A `SD_MODE` pin (sets 0.77V–1.39V window). |
+| **100 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 2 | **Audio Gain Programming** on MAX98357A `GAIN` pin to VDD (sets safe +3 dB lowest gain configuration). |
+| **300 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 1 | **IP2326 Battery Charge Rate Setting** on Pin 11 `ISET` (enforces strict 300 mA / 1C LiPo charge ceiling). |
+| **22 Ω** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 2 | **Master Clock Series Damping** on 24.000 MHz crystal `OSC_OUT` pin to suppress clock harmonic ringing. |
+| **0 Ω (Jumper)**| — | 1/16 W | SMD 0402 | 4 | Configuration links for RF antenna path tuning and optional audio ground isolation. |
+
+#### 2. Capacitors (SMD Multilayer Ceramic Capacitors - MLCC)
+
+| Capacitance | Voltage Rating | Dielectric | Package | Qty | Circuit Function & Target Nets |
+|---|:---:|:---:|:---:|:---:|---|
+| **12 pF** | 50 V | C0G / NP0 (Ultra-stable) | SMD 0402 | 2 | **24.000 MHz Master Crystal Load Caps** (`OSC_IN` / `OSC_OUT` to GND). |
+| **12.5 pF** | 50 V | C0G / NP0 (Ultra-stable) | SMD 0402 | 2 | **32.768 kHz RTC Sleep Crystal Load Caps** on RK806-1 RTC oscillator inputs. |
+| **100 nF (0.1 µF)**| 6.3 V / 10 V | X5R / X7R | SMD 0402 | 24 | **High-Frequency Decoupling Array:** Placed directly under RK3576 BGA balls and PMIC LDO pins. |
+| **1.0 µF** | 10 V | X5R / X7R | SMD 0402 | 8 | **Mid-Frequency Rail Bypass** on PMIC LDO outputs (`VDD_1V8`, `VDD_0V9`, `AVDD_1V8`). |
+| **4.7 µF** | 10 V | X5R / X7R | SMD 0603 | 4 | **Peripherals Power Smoothing** for IMX708 camera breakout and RTL8723DS Wi-Fi transceiver. |
+| **10 µF** | 16 V / 25 V | X5R / X7R | SMD 0603 | 6 | **Bulk Input Filtering** on 5.0V system bus, USB-C VBUS, and MAX98357A audio power pins. |
+| **22 µF** | 6.3 V / 10 V | X5R / X7R | SMD 0603 | 8 | **PMIC Buck Output Smoothing Filters** on `VDD_CPU`, `VDD_NPU`, `VDD_LOGIC`, and `VCC_DDR`. |
+
+#### 3. Power Inductors & Protection Devices
+
+| Component Type | Value / Rating | Current Rating (Isat) | Package | Qty | Circuit Function & Target Nets |
+|---|:---:|:---:|:---:|:---:|---|
+| **Shielded Power Inductor** | **0.47 µH** (DCR < 35 mΩ) | 4.5 A Saturation | SMD 2016 (2.0 x 1.6 mm) | 2 | **PMIC Buck 1 & Buck 2 Switching Nodes** (`VDD_CPU` and `VDD_NPU` high-current switching rails). |
+| **Shielded Power Inductor** | **1.0 µH** (DCR < 50 mΩ) | 3.2 A Saturation | SMD 2016 (2.0 x 1.6 mm) | 2 | **PMIC Buck 3 & Buck 4 Switching Nodes** (`VDD_LOGIC` and `VCC_DDR` switching rails). |
+| **Ferrite Bead** | 120 Ω @ 100 MHz (2.0 A) | 2.0 A Continuous | SMD 0603 | 2 | **High-Frequency Noise Choke** isolating analog audio power and RF Wi-Fi 3.3V rail. |
+| **TVS ESD Protection Diode** | 5.0 V Clamp (Low Cap < 0.5pF) | 4-Channel Array | SOT-23-6 / DFN | 1 | **High-Speed USB-C ESD Protection** on D+, D-, CC1, CC2 lines (prevents human static shock damage). |
 
 ---
 
