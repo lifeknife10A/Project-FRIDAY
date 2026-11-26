@@ -341,3 +341,9 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - BOM total row (L71) is stale.
     - Camera is open again (IMX708 driver unverified / IMX415 native).
     - Check RKLLM-Toolkit Python wheel versions vs Kaggle 3.13.
+- **2026-11-26 (camera).**
+  - Krishna confirms the camera: **IMX708 sensor assembly SA31VA30P, sourced from Robu.in (India)**, as locked in 03fc2e7.
+  - Open risks remain:
+    - RK3576 IMX708 driver + ISP/AF (verify on Firefly SDK in Phase 2);
+    - a custom DF37 carrier PCB (1.1 V buck, 1.8/2.8 V LDOs, 24 MHz osc) is needed;
+    - the bare assembly does not plug into the Pi 3B 15-pin CSI.
