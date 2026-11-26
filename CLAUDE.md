@@ -97,6 +97,14 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- MV12 REJECTED by Krishna (ebe3b84, 2026-11-26): vendor price $300 board / $396 +IMX662 raw / $515
+  ISP-tuned (Alibaba THB price was camera only). Compute = Firefly CAM-3576Q38 via NMIMS grant request;
+  E-DEV-1 conversion on x86 for Rs 0; audio bring-up on Pi 3B. My notes: BOM L136 duty math wrong
+  ($204 = Rs 17.2k; +42% duty = ~Rs 24.4k, not "past 19,000") -> grant request must quote the real
+  landed figure; L71 total still says "TBD MuchVision"; camera is UNLOCKED again with Firefly (IMX708
+  driver unverified, IMX415 native, IMX662 module was Sinoseen's); RKLLM-Toolkit wheels' Python versions
+  must be checked (Kaggle is 3.13) before E-DEV-1.
+
 - Reviewed MV12-V1.0 + IMX662 sign-off request (datasheet e94217b, researcher note 222e3ca, 2026-11-26).
   Verdict: APPROVE as Phase 2 BENCH board (conditional on vendor answers); NOT signed off for the
   wearable (mass unknown, 41x41x20 stack, 0-40 C board rating, no I2S exposed). Findings: (1) datasheet

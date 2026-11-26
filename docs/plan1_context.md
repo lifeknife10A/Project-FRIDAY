@@ -330,3 +330,14 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - Board rated for 0–40 °C ambient vs our core-temperature model of 42–47 °C.
     - The BOM still says MV10/38 mm/LPDDR5/BT 5.4 with "2 GB sufficient"; recommend 4 GB.
   - Details are in the CLAUDE.md §7 entry.
+- **2026-11-26 (MV12 rejected).**
+  - Vendor pricing: the board alone is $300; the Alibaba price was for the camera only.
+  - Krishna's decisions:
+    - MV12 rejected.
+    - Firefly CAM-3576Q38 stays the target, to be funded by an NMIMS grant request.
+    - ₹0 gates: E-DEV-1 conversion on x86; audio bring-up on Pi 3B.
+  - Auditor notes:
+    - BOM duty arithmetic (L136) is wrong: +42% on ₹17.2k ≈ ₹24.4k.
+    - BOM total row (L71) is stale.
+    - Camera is open again (IMX708 driver unverified / IMX415 native).
+    - Check RKLLM-Toolkit Python wheel versions vs Kaggle 3.13.
