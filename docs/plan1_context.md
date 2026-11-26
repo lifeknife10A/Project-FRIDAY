@@ -317,3 +317,16 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - logit KD needs tokenizer match;
     - a 7B fp16 teacher doesn't fit a T4 alongside the student, so precompute/cache teacher outputs;
     - math answers come from a deterministic evaluator.
+- **2026-11-26 (MV12 sign-off review).**
+  - Krishna requested a sign-off on switching the compute board from Firefly CAM-3576Q38 to Sinoseen MV12-V1.0 (RK3576) with an IMX662 camera, for budget reasons.
+  - Auditor verdict:
+    - **APPROVED** as the Phase 2 bench/dev board, conditional on written vendor answers.
+    - **NOT signed off** for the wearable until mass is weighed, a SoM-only/slim-carrier option is known, I2S audio access is confirmed, and thermal is measured.
+  - Key findings:
+    - No I2S on the carrier.
+    - Undefined 3-pin battery connector; use the 2-pin 5 V input from 2S→MP2315.
+    - USB-C/5 V backfeed risk.
+    - The camera module is 5 V-fed and self-regulated, so no custom IMX708 carrier is needed.
+    - Board rated for 0–40 °C ambient vs our core-temperature model of 42–47 °C.
+    - The BOM still says MV10/38 mm/LPDDR5/BT 5.4 with "2 GB sufficient"; recommend 4 GB.
+  - Details are in the CLAUDE.md §7 entry.

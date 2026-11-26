@@ -97,6 +97,20 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed MV12-V1.0 + IMX662 sign-off request (datasheet e94217b, researcher note 222e3ca, 2026-11-26).
+  Verdict: APPROVE as Phase 2 BENCH board (conditional on vendor answers); NOT signed off for the
+  wearable (mass unknown, 41x41x20 stack, 0-40 C board rating, no I2S exposed). Findings: (1) datasheet
+  defines no I2S header (only SPI x5, I2C x5, GPIO, 1 mic, 1 SPK 2P) -> INMP441/MAX98357A need I2S via
+  custom carrier/B2B pinout or USB audio; (2) p.8 photo shows an undefined 3-pin "Battery Interface";
+  only the 2-pin 5V connector has a pinout -> keep 2S->MP2315->5V on the 2-pin; USB-C VBUS vs MP2315 5V
+  backfeed risk -> ask vendor / ideal-diode OR; (3) camera FFC pins 25/26 = 5 V to module (pin1 1.8V NC)
+  -> Sinoseen camera module self-regulates; our IMX708 carrier design not needed; lane labels in pinout
+  have typos; (4) board ambient rating 0-40 C vs our thermal model core 42-47 C -> enclosure air likely
+  exceeds rating, measure; (5) BOM row L55/L134 says "MV10, 38x38, LPDDR5, BT 5.4" -> request is MV12
+  41x41x20, RAM type unknown, BT 5.0; BOM "2 GB completely sufficient" tally omits STT/translation/
+  multi-skill models -> buy 4 GB; (6) Gate 1 math verified: f=6 mm -> 10.6 px, f=4 -> 7.1 px, HFoV 49.8 deg.
+  Request wording "dual-mic AEC3" wrong: AEC needs speaker reference, not 2 mics (2 mics = beamforming).
+
 - CONTEXT DUMP: read docs/plan1_context.md first in every new session and append a dated entry at the
   end of every session (Krishna's instruction 2026-11-24).
 
