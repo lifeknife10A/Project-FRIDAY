@@ -1,5 +1,5 @@
 # PROJECT FRIDAY: LEAN STUDENT FINANCIAL MATRIX & HARDWARE BOM
-## Systems Architecture v9.1.0 – Zero-Waste Student Financial Sourcing Guide
+## Systems Architecture v9.2.0 – Clean Itemized Procurement & Sourcing Guide
 
 This document defines the exact financial decision framework and itemized component procurement plan for Project FRIDAY. It is engineered specifically for an undergraduate student budget, enforcing a **strict zero-waste rule**: **No intermediate development boards, no throwaway test hardware, and ₹0 spent until the software and AI are empirically proven.**
 
@@ -11,9 +11,9 @@ Before spending a single rupee of your own money, the entire core intelligence, 
 
 | Asset Already in Hand | Hardware Specifications | Role in Project FRIDAY | Out-of-Pocket Cost |
 | :--- | :--- | :--- | :---: |
-| **MacBook Air 15" M4** | Apple M4, 16 GB Unified Memory, 120 GB/s bus, 16-Core Neural Engine | **Phase 1 AI Distillation Sandbox:** Runs student VLM, 64k token vocabulary pruning, 2×2 spatial unshuffle, INT4 quantization simulation, speech-to-text (Whisper.cpp), and TTS (Piper) on webcam/phone video feed. | **₹0** |
+| **MacBook Air 15" M4** | Apple M4, 16 GB Unified Memory, 120 GB/s bus, 16-Core Neural Engine | **Phase 1 AI Distillation Sandbox:** Runs student VLM, 64k token vocabulary pruning, 2x2 spatial unshuffle, INT4 quantization simulation, speech-to-text (Whisper.cpp), and TTS (Piper) on webcam/phone video feed. | **₹0** |
 | **Free Cloud Compute** | Google Colab (Free T4 GPU) & Kaggle (Free 30 hrs/wk Dual T4 GPUs) | **Model Training & Loss Distillation:** Bounded forward-KL divergence training and Sequence DPO on synthetic first-person QA pairs. | **₹0** |
-| **Raspberry Pi 3B** | Quad Cortex-A53 @ 1.2 GHz, 1 GB LPDDR2, 40-pin GPIO (I2S, I2C, SPI) | **Peripheral & Audio Bring-Up Testbed:** Hardware I2S interface (`GPIO 18, 19, 21`) to test MAX98357A audio amps, INMP441 MEMS microphone arrays, and WebRTC AEC3 echo cancellation without buying an expensive SBC. | **₹0** |
+| **Raspberry Pi 3B** | Quad Cortex-A53 @ 1.2 GHz, 1 GB LPDDR2, 40-pin GPIO (I2S, I2C, SPI) | **Peripheral & Audio Bring-Up Testbed:** Hardware I2S interface (GPIO 18, 19, 21) to test MAX98357A audio amps, INMP441 MEMS microphone arrays, and WebRTC AEC3 echo cancellation without buying an expensive SBC. | **₹0** |
 | **Personal Eyewear Lenses** | High-Index Prescription / Plano Lenses | **Optomechanical Integration:** Repurposed into 3D-printed front frame eyewire bezels, saving ₹3,500+ in lab-cut optical glass. | **₹0** |
 | **TOTAL INITIAL CASH OUTLAY** | — | **Full AI & Software Simulation Validated** | **₹0 INR** |
 
@@ -40,277 +40,201 @@ Before spending a single rupee of your own money, the entire core intelligence, 
                          ▼                             ▼
                  [ ABORT PROJECT ]             [ HARDWARE PROCUREMENT ]
              Total Spent: Exactly ₹0       Proceed to Single-Shot Order:
-             No drawer regret.             Buy ONLY the wearable hardware
-             No wasted scholarship.        (₹7,800 – ₹9,200 INR total).
+             No drawer regret.             Buy ONLY the wearable hardware.
+             No wasted scholarship.
 ```
 
 ---
 
-## 3. The Lean "Single-Shot" Wearable Hardware BOM (Track 1 Thick-Temple Wearable)
+## 3. Itemized Wearable Hardware BOM (Track 1 Thick-Temple Architecture)
 
-If and only if Phase 1 passes the zero-rupee gate, procurement is executed in a **single lean batch**. Every component listed below is installed **directly onto the wearable prototype** that you will wear on your face and defend in front of the NMIMS evaluation committee (satisfying Directive 01: all compute, sensors, and power contained within the eyewear frame). Zero intermediate throwaway hardware.
+If and only if Phase 1 passes the zero-rupee gate, procurement is executed in clean batches. Every component listed below is installed **directly onto the wearable prototype** that fits inside the glasses frame (satisfying Directive 01: 100% on-device compute, zero pocket pucks).
 
-| Component / Subassembly | Specific Target Part | Purpose in Wearable | Qty | Unit Price (INR) | Total (INR) | Verified Sourcing Channel & Direct URL |
-| :--- | :--- | :--- | :---: | :---: | :---: | :--- |
-| **Compute Core Silicon Engine (Locked LCSC Order)** | **Custom Slim Wearable PCB (20–22mm × 75mm) Compute Engine (LOCKED CART PRICING 2026-11-26):**<br>• *Rockchip RK3576 SoC (`C42388007`):* $22.33 (~₹1,880 INR). Package: FCCSP-698L ($16.1 \times 17.2\text{ mm}$). Requires $\ge 20\text{--}22\text{ mm}$ board width to accommodate BGA fanout and edge clearances (fits Track 1 20–22mm temple arm height).<br>• *Rockchip RK806-1 PMIC (`C5156483`):* $3.97 (~₹335 INR). QFN-68 ($7 \times 7\text{ mm}$). *Pre-order check:* Verify RK806 OTP default voltage configuration against official RK3576 reference schematic.<br>• *Realtek RTL8723DS Wi-Fi/BT (`C2762334`):* $2.22 (~₹187 INR). WQFN-48 ($6 \times 6\text{ mm}$). Note: 2.4 GHz 802.11b/g/n Wi-Fi 4 + Bluetooth 4.2. Requires external RF matching network / 50Ω trace or migration to pre-certified LGA module (e.g. Fn-Link 6223A-SRD).<br>• *24.000MHz Master Crystal (`C70590`):* 5 pcs @ $0.43 total (~₹36 INR)<br>• *32.768kHz RTC Crystal (`C32346`):* 5 pcs @ $0.75 total (~₹63 INR)<br>• *16-Pin USB-C Receptacle (`C165948`):* 5 pcs @ $0.87 total (~₹73 INR)<br>• *MaskROM Micro Tactile Key (`C318884`):* 20 pcs @ $0.40 total (~₹34 INR)<br>• *Merchandise Subtotal:* **$31.06** (-$0.09 disc = $30.97)<br>• *Shipping (Singapore Post):* **$5.72** (-$3.00 shipping coupon = **$2.72 net**)<br>• **LCSC Order Landed Total: $33.69 USD (~₹2,840 INR)**.<br>• *Off-the-shelf SoM Rejection Confirmed:* Square SoMs ($38\times 38\text{ mm}$ Firefly @ ₹19,000 / $41\times 41\text{ mm}$ Sinoseen @ ₹25,500) disqualified due to 3.8–4.1 cm height exceeding eyeglass temple arm height and severe student cost. | Core on-device AI compute engine, power sequencing, radio transceiver, clocks, and recovery hardware. Form factor custom-routed to 20–22mm × 75mm temple envelope. | 1 set (34 pcs) | ₹2,840 | **₹2,840** | [LCSC Electronics Cart](https://lcsc.com) |
-| **Memory & Storage (Harvested eMCP / Spin 1 Target)** | **Samsung KM3V... / BGA-254 eMCP (4GB LPDDR4X + 64GB eMMC 5.1 in Single 11.5×13mm Chip):**<br>• *Auditor Risk Warning for Spin 1:* Harvesting memory from scrap phone motherboards introduces unknown thermal shock, reballing defects, and flash wear that make initial board bring-up debugging difficult. If Spin 1 fails to boot, diagnosing layout vs. damaged silicon is ambiguous. A brand-new tested chip from Rockchip QVL is recommended for Spin 1, with harvested chips used for subsequent cost reduction.<br>• *Allocated Rework & Harvest Budget:* **₹1,000 INR** (covers donor scrap motherboard purchase ₹500–₹700 + technician precision BGA desoldering and stencil reballing fee ₹300–₹500).<br>• *Official New Backup:* Xiaomi Authorized Service Center new replacement board price verified at ₹2,299.<br>• *Security Protocol:* Complete flash wipe required before provisioning to eliminate prior owner data remnants. | Unified system RAM (4GB LPDDR4X) and fast non-volatile OS storage (64GB eMMC 5.1) on single BGA-254 footprint. | 1 | ₹1,000 | **₹1,000** | Local Mobile Repair / Donor Motherboard |
-| **Camera Sensor Module** | **Raspberry Pi Camera Module 3 Sensor Assembly (SA31VA30P)** (Sony IMX708, **11.9MP**, $7.4\text{ mm}$ optical diagonal, $1.40\,\mu\text{m}$ pixel pitch, hardware PDAF/VCM autofocus $10\text{ cm to } \infty$, bare OEM sensor cube $10.8\times 10.8\text{ mm}$ with $24\text{ mm}$ flex tail). Tested on Raspberry Pi 3B via standard module; transplanted to glasses frame for Phase 3. | Miniature optical sensor cube mounted in front eyewire/bridge with $6^\circ$ down-pitch. Hardware PDAF ensures sharp close-up text reading. | 1 | ₹1,800 | **₹1,800** | [Robu.in SA31VA30P / Camera Module 3](https://robu.in/product/raspberry-pi-camera-module-3-sa31va30p/) |
-| **Camera Front-Bridge Breakout + Power (custom PCB)** | **Front-Bridge Sensor Breakout PCB (Miniature $\sim 14\text{ mm} \times 12\text{ mm}$ board):** Sits directly behind nose bridge. Hosts 30-pin Hirose DF37 socket (`DF37NB-30DS-0.4V`) for SA31VA30P tail, AP3429K 1.1V high-efficiency buck converter (prevents 1.32W LDO thermal dissipation), 1.8V/2.8V LDOs, and 24MHz camera oscillator. Transmits 2-lane MIPI CSI-2 differential pairs across browline FPC to right temple board. | Local camera power regulation, DF37 interface breakout, and MIPI CSI routing to temple arm. | 1 | ₹350 | **₹350** | [JLCPCB 2-Layer FR4](https://jlcpcb.com) |
-| **MEMS Microphones** | **INMP441 Omnidirectional Digital I2S MEMS** Breakouts | Dual front-right beamforming microphone array for voice queries and spatial audio capture. | 2 | ₹145 | ₹290 | [Robu.in INMP441 Module](https://robu.in/product/inmp441-omnidirectional-microphone-module-i2s-interface/) |
-| **Audio Amplifiers** | **MAX98357A I2S Mono 3.2W Class-D** Breakout Modules | Dual mono audio amps (one per temple) with resistor-coupled SD_MODE channel select ($10\text{ k}\Omega$ Left, $220\text{ k}\Omega$ Right on 3.3V I/O). Onboard breakout pull-down resistors verified/desoldered prior to install. | 2 | ₹125 | ₹250 | [Robu.in MAX98357A Amp](https://robu.in/product/max98357a-i2s-3w-class-d-amplifier-interface-audio-dac-module/) |
-| **Speaker Transducers** | **1510 / 1511 Micro Oval Dynamic Speakers (8Ω 1W, 15×10×3.5 mm)** | Downward-firing directional acoustic drivers embedded in temple arm acoustic chambers pointing at the ear canal (the exact acoustic architecture used by Bose Frames & Ray-Ban Meta; avoids frame vibration and clamping headaches of bone conduction). | 2 | ₹55 | ₹110 | [Probots.co.in 1510 8Ω 1W Speaker](https://probots.co.in) / ElectronicsComp |
-| **LiPo Battery Cells** | **GNB / Tattu 3.7V 300mAh 30C/60C High-Discharge** LiPo Pouch Cells | Series 2S configuration ($7.4\text{V}$ nominal, 1 cell per temple arm, 16.0g total). 30C continuous discharge rating (9.0A capability) easily supplies the 1.85A (6.2C) peak board surge at 6.0V cutoff with zero voltage sag. | 2 | ₹190 | ₹380 | [Robu.in GNB 300mAh 30C LiPo](https://robu.in/product/gao-neng-gnb-300mah-1s-30c-lipo-battery/) |
-| **2S Boost Charger** | **IP2326 Type-C 2S Boost Charger Module** (Pin 11 ISET resistor $R_{ISET} = 300\text{ k}\Omega$ for 300mA 1C charge, via $I_{CHG} = 90{,}000 / R_{ISET}$) | Boosts 5V USB-C to 8.4V. Charge current set strictly via Injoinic IP2326 Pin 11 ISET formula: $I_{CHG}\text{ (mA)} = 90{,}000 / R_{ISET}\text{ (k}\Omega\text{)}$ ($R_{ISET} = 300\text{ k}\Omega$ for 300mA 1C rate). Planned verification via inline digital ammeter. | 1 | ₹110 | ₹110 | [Robu.in IP2326 2S Charger](https://robu.in/product/ip2326-type-c-2s-boost-charging-board/) |
-| **2S Battery Protection & Balancing** | **2S 3A/5A LiPo BMS with Passive Shunt-Bleed Cell Balancing** (HY2212 balance IC, 4.20V ± 25mV balance threshold, 35mA bleed shunt) | Passive shunt-bleed cell balancing prevents series cell drift during charging; overcharge (4.25V/cell), overdischarge (2.8V/cell), and short-circuit protection. | 1 | ₹120 | ₹120 | [Robu.in 2S Balancing BMS](https://robu.in/product/2s-3a-bms-balance-protection-board/) |
-| **2S-to-5V System Buck** | **MP2315 / MP2307 High-Efficiency Synchronous Step-Down Buck** Module (17×11×3.8 mm) | True synchronous buck with integrated High/Low-Side N-MOSFETs (95% efficiency, zero external Schottky catch diode drop), eliminating diode thermal buildup inside temple. | 1 | ₹95 | ₹95 | [Robu.in MP2315 Synchronous Buck](https://robu.in/product/mp2315-dc-dc-step-down-voltage-regulator-module-5v-3a/) |
-| **User Interaction** | **TTP223 Capacitive Touch Sensor** Module | Capacitive touch trigger on right temple arm to start queries and control audio volume. | 1 | ₹25 | ₹25 | [Robu.in TTP223 Touch Module](https://robu.in/product/ttp223-touch-key-switch-module/) |
-| **3D Frame Fabrication** | **NUMAKERS PETG 3D Printer Filament, 1.75mm (Pitch Black, 1 kg Spool, ±0.05mm accuracy)** | 3D-printed front frame and thick temple arms ($75^\circ\text{C}$ heat deflection, sweat/moisture resistant, 24.0g net frame mass; 1 kg spool yields 40+ prototype iterations). | 1 | ₹849 | **₹849** | [Amazon.in Numakers PETG Pitch Black (1kg)](https://amzn.in/d/074Tf1Tx) |
-| **Carrier Interconnect** | **Combined 0.8mm Thin 2-Layer FR4 Carrier PCBs** (Batch of 5) | Left & Right temple custom 0.8mm thin breakout carriers routing low-speed I2S audio, power rails, and GPIO (4.5g combined mass, reduced from 16.5g separate modules). | 1 | ₹350 | ₹350 | [JLCPCB 2-Layer FR4 Batch](https://jlcpcb.com) / Robu PCB |
-| **Harness & Wiring** | **0.5mm FPC Ribbon Jumpers + 30 AWG Ultra-flexible Silicone Wire** | Through-bridge hinge wiring (power pairs doubled for $R_{DC} < 0.030\,\Omega$). | 1 | ₹120 | ₹120 | [Robu.in 30 AWG Silicone Wire](https://robu.in/product/30-awg-flexible-silicone-wire/) |
-| **Thermal Dissipation** | **0.3mm Copper Shim + Organic Phase-Change Material (4.0g Rubitherm RT42, 38–43°C, peak 41°C) + 1.0mm Silica Aerogel Blanket (10 cm²) + Arctic MX-4** | Conductive heat spreader sinking RK3576 junction heat into a 660 J PCM buffer (Rubitherm RT42, 165 J/g latent heat, 38–43°C melting range, peak 41°C) with inner 1.0mm silica aerogel blanket protecting user skin. Sinks heat outward into ambient air. | 1 | ₹350 | ₹350 | [Amazon.in Copper Shim & Robu Aerogel](https://www.amazon.in) |
-| **Assembly Hardware & Contingency** | M1.6/M2 brass threaded heatset inserts, screws, Kapton tape | Mechanical fasteners and assembly prototyping buffer. | 1 | ₹215 | ₹215 | Local Hardware Store / Robu |
-| **TOTAL WEARABLE SPEND (Components & Silicon Only)** | — | **Complete, Untethered Autonomous Glasses Component Bill** | — | — | **₹9,254 – ₹10,400 INR (~$110–$124 USD)** | Raw component & silicon BOM total: LCSC silicon order (₹2,840), harvested eMCP (locked at ₹1,000), IMX708 camera (₹1,800), camera breakout PCB (₹350), peripherals (₹1,380), and frame/thermal/carriers including full 1kg Numakers PETG spool (₹1,884).<br>*(Note: Excludes bare 6–8 layer HDI PCB fabrication, SMT stencil, BGA pick-and-place with X-ray inspection, PMIC power passives kit, and prototype iteration spins pending JLCPCB/PCBWay quote).* |
+### A. Compute & Power Silicon (LCSC Locked Cart: Cart_20261126110756)
+
+| # | Item Description | Part # / MPN | Package | Qty | Unit Price (USD) | Line Total (INR) | Sourcing Channel |
+|---|---|---|---|:---:|:---:|:---:|---|
+| 1 | **Rockchip RK3576 SoC**<br>8-Core (4x A72 + 4x A53), 6-TOPS INT4/INT8 NPU | C42388007<br>`RK3576` | FCCSP-698L<br>(16.1 x 17.2 mm) | 1 | $22.33 | ₹1,880 | [LCSC Electronics](https://lcsc.com) |
+| 2 | **Rockchip RK806-1 PMIC**<br>Companion multi-rail power management IC | C5156483<br>`RK806-1` | QFN-68<br>(7 x 7 mm) | 1 | $3.97 | ₹335 | [LCSC Electronics](https://lcsc.com) |
+| 3 | **Realtek RTL8723DS Wi-Fi / BT**<br>2.4 GHz 802.11b/g/n + Bluetooth 4.2 | C2762334<br>`RTL8723DS-CG` | WQFN-48<br>(6 x 6 mm) | 1 | $2.22 | ₹187 | [LCSC Electronics](https://lcsc.com) |
+| 4 | **24.000 MHz Master Crystal**<br>Main system clock for RK3576 (12pF, 10ppm) | C70590<br>`X322524MOB4SI` | SMD-3225-4P<br>(3.2 x 2.5 mm) | 5 | $0.086 | ₹36 | [LCSC Electronics](https://lcsc.com) |
+| 5 | **32.768 kHz RTC Sleep Crystal**<br>Real-time clock for RK806-1 sleep states | C32346<br>`Q13FC13500004` | SMD-3215-2P<br>(3.2 x 1.5 mm) | 5 | $0.151 | ₹63 | [LCSC Electronics](https://lcsc.com) |
+| 6 | **USB Type-C 16-Pin Receptacle**<br>5V power input, firmware flashing, ADB debug | C165948<br>`TYPE-C-31-M-12` | 16-Pin SMD | 5 | $0.174 | ₹73 | [LCSC Electronics](https://lcsc.com) |
+| 7 | **MaskROM Recovery Key Switch**<br>Micro tactile button for fastboot flashing | C318884<br>`TS-1187A-B-A-B` | SMD (3 x 4 mm) | 20 | $0.020 | ₹34 | [LCSC Electronics](https://lcsc.com) |
+| 8 | **LCSC International Shipping**<br>Singapore Post airmail (includes $3 coupon) | Logistics | Tracked Air | 1 | $2.72 | ₹230 | LCSC Direct |
+| — | **LCSC Silicon Subtotal** | — | — | **39 pcs** | **$33.69** | **₹2,838** | Locked Cart Total |
 
 ---
 
-## 3.1 Technical Subsystem Verifications & Planned Specifications
+### B. Memory, Storage & Electronics Passives
 
-### A. Camera Optical Character Resolution, Sensor Assembly & Pinout Mapping
-* **Sensor Model:** **Raspberry Pi Camera Module 3 Sensor Assembly (SA31VA30P)**
-  * **Image Sensor:** Sony IMX708 Back-Illuminated (BSI) CMOS ($4608 \times 2592$ active pixels, 11.9 MP effective, $7.4\text{ mm}$ optical diagonal, $1.40\,\mu\text{m}$ unit pixel pitch).
-  * **Focus Technology:** Hardware-driven Phase Detection Autofocus (PDAF) with Voice Coil Motor (VCM), dynamic focus range: **$10\text{ cm} \text{ to } \infty$**.
-  * **Physical Form Factor:** Bare OEM sensor assembly — body **$10.8 \times 10.8\text{ mm}$** with a ~$24\text{ mm}$ flex tail (datasheet drawing); module height **to be measured** on arrival (the earlier $11.5 \times 11.5 \times 5.5\text{ mm}$ figure has no source). Removes the $25 \times 24\text{ mm}$ baseboard from the user's face.
-  * **Verified Procurement URL:** [https://robu.in/product/raspberry-pi-camera-module-3-sa31va30p/](https://robu.in/product/raspberry-pi-camera-module-3-sa31va30p/)
-  * **Verified Datasheet Artifacts in Repository:**
-    * [Raspberry Pi Camera Module 3 Sensor Assembly Datasheet](file:///Users/krish/NMIMS/Friday/docs/datasheets/Raspberry%20Pi%20Camera%20Module%203%20Sensor%20Assembly.pdf)
-    * [Raspberry Pi Camera Module 3 Schematic](file:///Users/krish/NMIMS/Friday/docs/datasheets/Raspberry%20Pi%20Camera%20Module%203%20Schematic.pdf)
-* **Optical Field-of-View & Character Resolution:**
-  * Diagonal FoV: $76.0^\circ \implies$ Horizontal FoV $\approx 66.0^\circ$.
-  * Lens focal length $f = 4.74\text{ mm}$, pixel pitch $p = 1.40\,\mu\text{m} = 0.00140\text{ mm}$.
-  * At a nominal reading distance $D = 35.0\text{ cm} = 350.0\text{ mm}$ for 8pt printed font / prescription label ($h_{\text{char}} \approx 1.8\text{ mm}$):
-    $$\text{Resolution} = \frac{h_{\text{char}} \cdot f}{D \cdot p} = \frac{1.8\text{ mm} \times 4.74\text{ mm}}{350\text{ mm} \times 0.00140\text{ mm}} = \frac{8.532}{0.490} \approx \mathbf{17.4\text{ pixels/char}}.$$
-    This significantly exceeds the $\ge 10.0\text{ px/char}$ threshold required by PP-OCRv6 / DBNet text recognition (a $36\%$ increase in pixel density over standard 4K 3.6mm optics).
-* **Interface, Routing & Two-Board Topology (Fixing the 24mm Tail Limit):**
-  * *Flex Tail Length Reality:* Per the official datasheet drawing in [Raspberry Pi Camera Module 3 Sensor Assembly.pdf](file:///Users/krish/NMIMS/Friday/docs/datasheets/Raspberry%20Pi%20Camera%20Module%203%20Sensor%20Assembly.pdf), the sensor's integrated flex tail is **only $24.0\text{ mm}$ long**. The physical distance from the center bridge / front eyewire to the right temple arm is **$55\text{ mm to }70\text{ mm}$**. Therefore, the sensor flex **cannot reach the temple directly**.
-  * *Two-Board Architecture:*
-    1. **Front-Bridge Sensor Breakout PCB (Miniature $10\text{ mm} \times 8\text{ mm}$ board):** Sits directly behind the nose bridge or eyewire, hosting the 30-pin Hirose DF37 socket (`DF37NB-30DS-0.4V`) where the $24\text{ mm}$ sensor tail plugs in.
-    2. **Interconnect Flex (Browline FPC):** A continuous flexible flat cable (FFC) routes the 2-lane MIPI CSI-2 pairs, I2C lines, power rails, and clock from the bridge board through the front frame browline and across the hinge into the right temple carrier board.
-* **Where the regulators sit (auditor note, 2026-11-24):** Do NOT send the 1.1 V core rail over the 55–70 mm FFC. One 0.5 mm-pitch FFC conductor (~0.3 mm × 35 µm copper) is ≈0.11 Ω per 70 mm, ≈0.23 Ω out-and-back; at 0.6 A that is a ≈0.14 V drop, so 1.1 V would sag to ≈0.96 V. Send 3.3 V (several conductors in parallel) over the FFC and place the AP3429K buck, both LDOs, the 24 MHz oscillator and the POR circuit on the front-bridge board, next to the sensor. That board will therefore be larger than 10 × 8 mm; size it after placement.
-* **CAM-3576Q38 40-pin MIPI connector mapping:** to be taken from Firefly's official CAM-3576Q38 connector pinout before layout (the earlier mapping was written for Firefly's own IMX415 module and has been removed; do not reuse it unverified). Route the 2-lane CSI pairs as ~100 Ω differential pairs with ground between pairs on the FFC.
-* **Power Supply Architecture: 1.1V Buck vs. LDO Thermal Analysis (Fixing the Core Rail):**
-  * *Reference Schematic Analysis:* Per the official reference schematic in [Raspberry Pi Camera Module 3 Schematic.pdf](file:///Users/krish/NMIMS/Friday/docs/datasheets/Raspberry%20Pi%20Camera%20Module%203%20Schematic.pdf), the power delivery network is strictly divided into:
-    1. **1.1V Sensor Digital Core (`VDD_CORE`, up to 600mA):** Powered by an **AP3429K high-efficiency synchronous buck converter** (operating at $\ge 90\%$ efficiency). 
-       * *Thermal Justification:* Using an LDO to step 3.3V down to 1.1V at 600mA would dissipate:
-         $$P_{\text{loss}} = (3.3\text{V} - 1.1\text{V}) \times 0.60\text{A} = \mathbf{1.32\text{ Watts}}.$$
-         In a wearable smart glasses frame with a strict 3.0W total thermal budget and skin ceiling of $\le 37.5^\circ\text{C}$, burning 1.32W of pure resistive waste heat inside the temple is completely unacceptable. The AP3429K buck converter reduces waste heat dissipation to under $\mathbf{0.07\text{ Watts}}$ ($>94\%$ reduction in thermal dissipation).
-    2. **1.8V Interface I/O Rail (`VDD_IO`, ~50mA):** Powered by an ultra-low-noise low-dropout regulator (LDO).
-    3. **2.8V Sensor Analog & VCM Rail (`VDD_ANA` + `VDD_AF`, reference design LDO AP7331-28 rated max 50 mA; VCM transient current to be measured):** Powered by an ultra-low-noise LDO to preserve analog SNR and minimize image sensor banding.
-* **Stage 1 Testing Compatibility on Raspberry Pi 3B:**
-  * The Raspberry Pi 3B onboard camera port (`J1`) uses a **15-pin 1.0mm pitch FFC receptacle**, whereas the bare SA31VA30P assembly terminates in a **30-pin Hirose DF37 mezzanine connector**.
-  * *Execution Rule for Stage 1:* For Stage 1 benchtop testing on the owned Pi 3B, purchase the **complete consumer Raspberry Pi Camera Module 3 (Standard)** (~₹1,801–₹2,000 on Robu.in). It includes the factory baseboard (integrating the DF37 socket, AP3429K buck, 24MHz oscillator, and 15-pin FFC ribbon).
-  * Stage 1 software benchmarks and prompt-to-speech latency run out-of-the-box on Pi 3B with zero PCB fabrication blockers. For Phase 3 the bare sensor assembly can be unclipped from the factory baseboard and moved to the front-bridge PCB. The DF37 is a fine-pitch connector with a limited number of mating cycles; handle it with care, or buy a separate SA31VA30P for Phase 3.
-* **Rockchip RK3576 Integration Reality Check (Driver, Autofocus & ISP Tuning):**
-  * *Auditor note:* the links and ISP statements below are research notes by Krishna; the auditor could not open the GitHub pages from the review environment, so they are NOT independently verified. Confirm the RK3576 ISP generation in the Firefly/Rockchip SDK.
-  * *1. SoC Target & ISP Version Divergence:*
-    * Community ports (e.g., [Joshua-Riek/ubuntu-rockchip Issue #1338](https://github.com/Joshua-Riek/ubuntu-rockchip/issues/1338) and [Discussion #221](https://github.com/Joshua-Riek/ubuntu-rockchip/discussions/221)) were developed and tested for the **Rockchip RK3588 (ISP30)**, NOT the RK3576.
-    * The **RK3576 utilizes the newer Rockchip ISP32**, which features a revised register architecture, updated media controller topologies (`rkisp-unite`), and different memory-bandwidth DMA arbitration. Porting an RK3588 driver to RK3576 is not zero-effort and requires adapting DTS pipeline bindings.
-  * *2. Autofocus (PDAF/VCM) Status:*
-    * In existing Rockchip community driver ports, **autofocus does NOT work out-of-the-box**. The Voice Coil Motor (VCM) driver (`DW9714` / `AD5398`) is not integrated into a closed-loop PDAF phase-detection algorithm within Rockchip's `rkaiq` daemon. Furthermore, community issue logs document `rkaiq` freezing at `'wait stream start event'` on `rkisp-unite`. Only basic RAW streaming has been demonstrated.
-  * *3. ISP IQ Tuning Profile:*
-    * **No official Rockchip `rkaiq` tuning file exists for the Sony IMX708.**
-    * Generating a custom IQ tuning file requires Rockchip's proprietary *Rockchip Camera IQ Tuning Tool* and an optical calibration lab (D65/TL84/A standard light booth, 24-patch MacBeth ColorChecker chart, and transmissive lens shading charts). Without this calibration, video output suffers from severe chromatic aberration (green/magenta cast) and uncalibrated auto-exposure.
-  * *4. Production Architecture Strategy:*
-    * **Primary Native Production Target for RK3576:** **Sony IMX415** (officially supported in Rockchip BSP kernel 6.1-LTS, native ISP32 integration, official factory-calibrated `rkaiq` tuning files, zero software friction).
-    * **Evaluation / Custom Wearable Target:** **Raspberry Pi Camera Module 3 (IMX708)** — validated on Raspberry Pi 3B via native `libcamera`, offering a path to miniature (~$10.8\text{ mm}$) physical packaging if carrier PCB and ISP32 porting milestones are funded.
-
-### B. Compute Core Module: Architecture, Dual-Candidate Status & Sourcing Verification
-* **Processor Architecture:** Rockchip RK3576 (4× Cortex-A72 @ 2.2 GHz + 4× Cortex-A53 @ 2.0 GHz, 6.0 TOPS INT4/INT8 NPU).
-* **Memory Subsystem & 4GB RAM Footprint Verification (Updated 2026-11-26 per Auditor Ruling):**
-  * Supported: 4GB 32-bit LPDDR4x or LPDDR5 (sample configuration: 4GB RAM + 32GB eMMC).
-  * Theoretical Peak Bandwidth: $4\text{ bytes} \times 5.5\text{ GT/s} = \mathbf{22.0\text{ GB/s}}$ on LPDDR5 (sustainable $\sim 17.6\text{ GB/s}$, safe ceiling $14.0\text{ GB/s}$). *Note:* If the vendor sample populates LPDDR4x, memory bus bandwidth is lower and will reduce autoregressive token decode speed compared to Rockchip's published 32.56 tok/s benchmark (to be benchmarked in Phase 2 via E-DEV-3).
-  * *RAM Sizing Recomputation (Why 4GB is Strictly Mandatory):*
-    * Earlier estimates claimed 2GB was sufficient based on raw model weight file sizes (~1.17 GB). However, official RKLLM runtime for Qwen2-0.5B w4a16 allocates **443 MB** of working memory (benchmark.md).
-    * Full runtime footprint includes: Headless Linux OS $\sim 350\text{ MB}$, camera ISP buffers $\sim 120\text{ MB}$, RKLLM Qwen2-0.5B $\mathbf{443\text{ MB}}$, SigLIP-B vision encoder $\sim 170\text{ MB}$, RapidOCR $\sim 50\text{ MB}$, Kokoro-82M TTS $\sim 200\text{ MB}$, and Speech-to-Text (STT) $\sim 150\text{ MB}$, totaling **$\sim 1.52\text{ GB}$**.
-    * With the planned Hindi translation skill (IndicTrans2-Dist 2×211M INT8/FP16 requiring $\sim 420\text{--}840\text{ MB}$), total memory demand reaches **$\sim 1.94\text{--}2.36\text{ GB}$**.
-    * A 2GB board leaves zero buffer memory for the Linux kernel slab, network ring buffers, or multi-skill concurrency. **Procurement is locked strictly to 4GB RAM**.
-* **Compute Sourcing Strategy & Sourcing Reality (Updated 2026-11-26):**
-  * *Firefly Personal Outlay Rejection:* The Firefly iCORE-3576Q38 ($149 + $55 air shipping = $204 USD / ~₹17,200 INR landed, plus potential ~42% customs duties pushing it past ₹19,000) is **officially rejected for personal out-of-pocket purchase**. A student capstone cannot justify ₹19,000 on a single module. It is retained strictly as an institutional benchmark if departmental grant funding at NMIMS covers the expense.
-  * *Sinoseen MV12-V1.0 Sourcing Collapse & Rejection (2026-11-26):* On 2026-11-26, vendor (Leo Li) clarified that the Alibaba listing price of THB 694.83–1,215.95 (~$25–$35 USD) covered **the camera module only**. The MV12 RK3576 board alone is priced at **$300 USD (~₹25,500 INR)**, rising to **$396 USD (~₹33,600 INR)** with raw camera, and **$515 USD (~₹43,700 INR)** with ISP-tuned camera. At $300–$515, the MV12 is significantly more expensive than the Firefly ($149 / $204 landed) while presenting worse mechanical bulk (20 mm stack) and no exposed I2S audio lines. **The Sinoseen MV12-V1.0 is officially REJECTED for personal student purchase.**
-  * *Mechanical Form Factor Reality:* Both Firefly ($38\times 38\text{ mm}$) and Sinoseen ($41\times 41\text{ mm}$) square boards are physically disqualified because their 3.8–4.1 cm height exceeds the physical height of standard eyeglass temple arms.
-  * *Proposed Architecture: Custom Slim PCB (20–22mm × 75mm):* Designed around bare silicon to fit inside the 20–22mm thick-temple arm profile (Track 1). *Note on SoC width constraint:* The RK3576 package (FCCSP-698L) is $16.1 \times 17.2\text{ mm}$. A 14mm board is physically impossible; minimum board width is strictly $\ge 20\text{--}22\text{ mm}$ to allow for BGA escape fanout, impedance-controlled trace routing, and mechanical edge clearances.
-  * *Locked Sourcing Execution (Cart Confirmed 2026-11-26):*
-    1. **Silicon Passives & ICs (LCSC):** RK3576 SoC (`C42388007`) + RK806-1 PMIC (`C5156483`) + RTL8723DS Wi-Fi/BT (`C2762334`) + 24MHz crystal (`C70590`) + 32.768kHz RTC (`C32346`) + Type-C 16P (`C165948`) + MaskROM switch (`C318884`). Total merchandise: **$31.06**, shipping (Singapore Post): **$2.72 net**, Total Landed: **$33.69 USD (~₹2,840 INR)**.
-    2. **eMCP Memory & Storage Harvest:** BGA-254 package combining 4GB LPDDR4X RAM + 64GB eMMC 5.1 harvested from scrap donor smartphone motherboard (Redmi 9 / POCO M2) with budget locked at **₹1,000 INR** (covers scrap board + technician precision BGA desolder & reballing). *Auditor Caveat:* For Spin 1, a factory-new QVL-tested memory IC is strongly recommended to isolate PCB bring-up defects from memory silicon degradation; harvested chips reserved for subsequent cost-down spins.
-    3. **Total Compute Engine Silicon Landed:** **₹3,840 INR (~$45 USD)** (₹2,840 LCSC + ₹1,000 eMCP). *Full board fabrication and assembly (6–8 layer HDI, microvias, stencil, BGA placement & X-ray) pending quotes.*
-  * *Zero-Rupee Stage 1 & 2 Execution Gate (Strictly Enforced):* Regardless of compute module procurement, Phase 1 is already complete on Kaggle GPU for ₹0, Milestone 0 (E-DEV-1 x86 model conversion to `.rkllm`/`.rknn`) proceeds for ₹0, and Phase 2 Milestone 2.1 peripheral verification executes on the student's owned **Raspberry Pi 3B** with only ₹840 of Robu.in / eBhoot audio parts. No compute board will be purchased out of pocket.
-* **Onboard Radio:** 2.4 GHz 802.11b/g/n (Wi-Fi 4) + Bluetooth 4.2 via Realtek RTL8723DS (requires 50Ω matching network / trace antenna or pre-certified LGA module).
-* **Physical Envelope:** Custom slim elongated board, **$20\text{--}22\text{ mm} \times 75\text{ mm}$**, single/double-sided SMD, integrated into the right temple arm enclosure.
-
-### C. Audio Subsystem: MAX98357A SD_MODE Resistor Biasing & Breakout Verification
-* **Carrier Board Audio Limitation (Auditor Discovery 2026-11-26):** The MV12-V1.0 carrier board exposes only 1 onboard digital MEMS mic and 1 speaker header (2P 1.25mm), with no external I2S header pinned out. For Phase 2 benchtop development, testing will use either the onboard audio codec or a USB-C audio breakout. For the final wearable frame, full dual-mic beamforming (INMP441) and stereo amplification (dual MAX98357A) will be routed from the RK3576 Core SoM B2B connector via the custom slim carrier.
-* **Track 1 Logic Level:** 3.3V logic provided by the system buck / peripheral I/O rail.
-* **SD_MODE Channel Voltage Thresholds:**
-  * Shutdown: $V < 0.16\text{ V}$
-  * Left Channel: intermediate threshold ($0.77\text{ V} \le V \le 1.39\text{ V}$)
-  * Right Channel: high threshold ($V > 1.39\text{ V}$)
-* **Divider Resistor Selection on 3.3V Rail:**
-  * Left Channel: $10\text{ k}\Omega$ pull-up to 3.3V and $220\text{ k}\Omega$ pull-down to GND.
-  * Right Channel: Pull-up directly or $10\text{ k}\Omega$ pull-up to 3.3V with internal $100\text{ k}\Omega$ pulldown yielding $>2.5\text{ V}$.
-* **Breakout Board Inspection:** Commercial MAX98357A breakout boards (Robu, Adafruit) often ship with an onboard $100\text{ k}\Omega$ pull-down resistor or gain resistor. Prior to assembly, the resistance from SD_MODE to GND must be measured using a digital multimeter; if an onboard pulldown is present, its value must either be factored into the divider equation or the onboard surface-mount resistor desoldered.
-* **GAIN Pin Configuration & Acoustic Power Limiting:**
-  The MAX98357A GAIN pin selects amplifier gain: connecting GAIN to VDD through a $100\text{ k}\Omega$ resistor configures the lowest gain setting of $+3\text{ dB}$ (connecting directly to VDD yields $+6\text{ dB}$, floating yields $+9\text{ dB}$, GND yields $+12\text{ dB}$). For Project FRIDAY, the GAIN pin is tied to VDD via $100\text{ k}\Omega$ ($+3\text{ dB}$ gain). Combined with an ALSA/software volume cap at $70\%$ ($-3\text{ dBFS}$), output power into the $8\,\Omega$ transducers is strictly capped below $0.80\text{ W RMS}$ (safely below the $1.0\text{ W}$ continuous rating of the micro bone-conduction transducers), preventing voice-coil burnout and eliminating clipping distortion.
-
-### D. IP2326 2S Boost Charger: Sense Resistor Formulation & Planned Verification
-* **Verification Status:** Planned verification via inline digital ammeter during Phase 2 hardware bring-up (hardware has not yet been purchased; marked unverified pending physical measurement).
-* **Current Programming Formula (Injoinic IP2326 English Datasheet Section 7.2, Pin 11 ISET):**
-  The IP2326 programs battery charge current via the external resistor $R_{ISET}$ connected to Pin 11:
-  $$I_{CHG}\text{ (mA)} = \frac{90{,}000}{R_{ISET}\text{ (k}\Omega\text{)}}.$$
-* **1C Charge Current for 300mAh Cells:**
-  $$I_{CHG} = 300\text{ mA} \implies R_{ISET} = \frac{90{,}000}{300} = \mathbf{300\text{ k}\Omega}.$$
-  The factory resistor (typically $90\text{ k}\Omega$ for $1.0\text{ A}$ or $180\text{ k}\Omega$ for $500\text{ mA}$) is replaced with a $300\text{ k}\Omega$ 1% resistor on Pin 11 to enforce a strict 300mA 1C charge rate.
-
-### E. Battery Management, Balancing & 5V Rail Power Budget Check
-* **Balancing Architecture:** The HY2212 IC provides **passive shunt-bleed cell balancing**. When either series cell reaches $4.20\text{ V} \pm 25\text{ mV}$, the internal balance MOSFET activates a $35\text{ mA}$ bypass bleed resistor, dissipating excess current until the lower-voltage cell reaches full charge.
-* **Power Delivery Architecture & Rail Identification (Updated 2026-11-26 per Auditor Ruling):**
-  * The dual 1S LiPo cells in series ($2\text{S} = 7.4\text{ V}$ nominal, $6.0\text{--}8.4\text{ V}$) supply an **MP2315 synchronous step-down buck converter** that outputs a regulated **5.0V system power bus**.
-  * **MV12-V1.0 Power Input Rule:** The MV12 board must be powered **strictly through its 2-pin 5.0V connector** (labeled SATA_5V in datasheet §6). The undefined 3-pin "Battery Interface" on the carrier board must NOT be used until the vendor provides an official schematic, pinout, and charging IC specification.
-  * **Dual 5V Source Conflict Protection (Auditor Safety Requirement):** When connecting USB-C for ADB debugging/data logging while the MP2315 buck is active, both 5V sources could be tied together. To prevent reverse-biasing or destructive backfeed into the MP2315 regulator, an **ideal diode controller (or low forward-drop Schottky barrier diode / load switch)** must be placed on the MP2315 5.0V output line.
-  * **Camera Front-Bridge Power:** The Sony IMX708 (SA31VA30P) sensor sits on the front-bridge breakout board, receiving 3.3V from the system power bus. The onboard AP3429K synchronous buck regulator steps 3.3V down to 1.1V for the sensor digital core (VDD_CORE, up to 600mA), preventing 1.32W of LDO heat dissipation, while ultra-low-noise LDOs supply 1.8V (VDD_IO) and 2.8V (VDD_ANA + VDD_AF) rails.
-* **5V Power Rail Current & Thermal Envelope Reconciliation:**
-  * **Wearable Thermal Operating Current (plan.md §7 & §7.2 Baseline):**
-    * *Standby / Idle State ($0.35\text{ W}$):* $0.35\text{ W} / 5.0\text{ V} = \mathbf{0.07\text{ A}}$ on 5V bus.
-    * *Active Inference Burst ($P_{\text{active}} \le 3.0\text{ W}$, $\le 12\text{ s}$ per turn — **design target, not yet measured**: whether the RK3576 sustains the LLM token-rate target within 3.0 W is a Phase 2 measurement):* $3.0\text{ W} / 5.0\text{ V} = \mathbf{0.60\text{ A}}$ on 5V bus.
-    * *Duty-Cycle-Averaged Operating Current ($\bar{P} = 0.615\text{ W}$ over 120s period):* $0.615\text{ W} / 5.0\text{ V} = \mathbf{0.123\text{ A}}$ on 5V bus. This guarantees steady-state skin-contact temperature remains strictly $\le 37.5^\circ\text{C}$ and runtime on dual 300mAh cells ($2.22\text{ Wh}$) is $\sim 3.2\text{ hours}$ after ~90% buck conversion loss ($2.22 \times 0.9 / 0.615$; $3.6\text{ h}$ would assume a lossless converter).
-  * **Electrical Dimensioning & Unconstrained Silicon Stress Envelope (Regulator Sizing):**
-    * *Critical Distinction:* The figures below represent theoretical unthrottled silicon stress ratings used strictly to size buck regulator headroom and prevent voltage droop under transient spikes. They are **not** continuous wearable operating powers (which are thermally governed to $\le 3.0\text{ W}$):
-      * Firefly CAM-3576Q38 unthrottled benchtop ceiling (all 8 CPU cores + GPU + 6 TOPS NPU at 100% torture load): $8.50\text{ W} / 5.0\text{ V} = 1.70\text{ A}$
-      * Integrated Wi-Fi 6 TX Burst: $1.50\text{ W} / 5.0\text{ V} = 0.30\text{ A}$
-      * Camera Subsystem Power at 5V bus:
-        * *Fallback Sony IMX415:* $0.50\text{ W} / 5.0\text{ V} = 0.10\text{ A}$
-        * *Primary Plan Sony IMX708:* Rail power at sensor is $\sim 0.89\text{ W}$ ($1.1\text{V} \times 0.60\text{A} + 1.8\text{V} \times 0.05\text{A} + 2.8\text{V} \times 0.05\text{A} = 0.89\text{W}$, real figure to be measured). Worst case at the 5 V input if fed directly from 5 V: 1.1 V buck at ~85% efficiency draws $0.66 / 0.85 \approx 0.78\text{ W}$; the LDOs draw their full load current from the input ($5\text{ V} \times 0.05\text{ A} \times 2 = 0.50\text{ W}$; LDOs are not 90% efficient). Total $\approx 1.28\text{ W} / 5.0\text{ V} \approx \mathbf{0.26\text{ A}}$ (lower if the LDOs are fed from 3.3 V; typical to be measured).
-      * Dual MAX98357A Audio Amps (clipping transient peak): $2 \times 1.50\text{ W} / 5.0\text{ V} = 0.60\text{ A}$ (transient peaks decoupled by bulk output caps).
-    * *Unconstrained Electrical Peak Current (Regulator Sizing Baseline):*
-      * With IMX415: $1.70\text{ A} + 0.30\text{ A} + 0.10\text{ A} = \mathbf{2.10\text{ A}}$ steady silicon peak ($\mathbf{2.70\text{ A}}$ transient burst with audio clipping).
-      * With IMX708: $1.70\text{ A} + 0.30\text{ A} + 0.26\text{ A} = \mathbf{2.26\text{ A}}$ steady silicon peak ($\mathbf{2.86\text{ A}}$ transient burst with audio clipping).
-* **MP2315 Regulator Capability & Headroom:**
-  * Rated for $3.0\text{ A}$ continuous ($4.0\text{ A}$ peak).
-  * *Thermal / Operating Headroom:* Under normal wearable operation ($0.60\text{ A}$ active burst), the regulator operates at only $20\%$ of continuous capacity, generating negligible self-heating ($<0.08\text{ W}$).
-  * *Electrical Transient Headroom:* Under absolute unconstrained silicon stress ($2.26\text{ A}$), the regulator retains $24.7\%$ margin below its $3.0\text{ A}$ continuous rating; the $2.86\text{ A}$ audio-clipping transient is $4.7\%$ under the continuous rating and $28.5\%$ under the $4.0\text{ A}$ peak rating.
-* **Filter Capacitors:** Input filter: $2 \times 10\,\mu\text{F}$ X7R ceramic $+ 47\,\mu\text{F}$ low-ESR electrolytic. Output filter: $2 \times 22\,\mu\text{F}$ X7R ceramic $+ 100\,\mu\text{F}$ solid polymer.
-* **BMS Safety Margins:** The BMS sits on the battery side, so compare battery-side current: the $2.86\text{ A}$ 5 V transient peak corresponds to $2.86 \times 5.0 / (6.0\text{ V} \times 0.9) \approx 2.65\text{ A}$ at the battery at its 6.0 V minimum. The HY2212 overcurrent trip threshold sits between $4.5\text{ A}$ and $6.0\text{ A}$, safely above that $2.65\text{ A}$ battery-side peak and comfortably below the $9.0\text{ A}$ pulse discharge ceiling of the $30\text{C}$ pouch cells ($300\text{ mAh} \times 30\text{C} = 9.0\text{ A}$).
-
-### F. Thermal Dissipation: Phase Change Material & Track Scope
-* **PCM Specification: Rubitherm RT42 Bio-Based Organic Phase-Change Material** (Rubitherm GmbH Data Sheet):
-  * Melting Area (solidus to liquidus): **$38.0^\circ\text{C}$ to $43.0^\circ\text{C}$** (main peak: **$41.0^\circ\text{C}$**), precisely aligning with the plan.md §7 $39\text{--}41^\circ\text{C}$ skin temperature protection envelope.
-  * Congealing Area: $43.0^\circ\text{C}$ to $37.0^\circ\text{C}$ (main peak: $42.0^\circ\text{C}$).
-  * Latent Heat of Fusion / Storage Capacity: **$165.0\text{ kJ/kg}$** ($165.0\text{ J/g}$) between $35^\circ\text{C}$ and $50^\circ\text{C}$.
-  * Latent Buffer Energy: For a $4.0\text{g}$ pad,
-    $$E_{\text{buffer}} = 4.0\text{ g} \times 165.0\text{ J/g} = \mathbf{660.0\text{ Joules}}.$$
-  * *Note on PureTemp 42:* PureTemp 42 exhibits a higher nominal melting peak at $\sim 42.0^\circ\text{C}$ (latent heat $218\text{ J/g}$). Rubitherm RT42 is designated as the primary baseline due to its $38\text{--}43^\circ\text{C}$ melting plateau with main peak at $41.0^\circ\text{C}$, ensuring skin boundary temperatures remain below $42^\circ\text{C}$.
-* **Rejection of Generic Paraffin:** Generic paraffin wax melts between $50^\circ\text{C}$ and $60^\circ\text{C}$. Using generic paraffin would allow the eyewear temple to exceed skin tolerance limits ($>43^\circ\text{C}$) before latent buffering occurs.
-* **Track 1 vs Track 2 Scope Clarification (Auditor Review D1):**
-  * *Track 1 (P1 Defense Baseline):* Integrates an open benchtop thick-temple housing with an aluminum/copper heat spreader, a $1.0\text{mm}$ silica aerogel inner blanket barrier ($R_{\text{skin}} \ge 66.7\text{ K/W}$), a $4.0\text{g}$ Rubitherm RT42 PCM pad, and passive exterior convection. Custom molded pyrolytic graphite conduits and complex microvia rigid-flex substrates are deferred to Track 2.
-  * *Track 2 (P2 Stretch Goal):* Integrates the 10-layer microvia rigid-flex substrate, pyrolytic graphite heat spreaders, vacuum-encapsulated silica aerogel barrier, and precision sealed micro-pockets.
-* **Track 1 Thermal Physics & Multi-Layer Insulation Model (Auditor Review R9, D1, D2):**
-  * *Heat Sources & Outer vs. Inner Thermal Path:*
-    * Outer Convection Path: Outer temple surface area $A_{\text{outer}} \approx 20\text{ cm}^2 = 0.002\text{ m}^2$, ambient convection coefficient $h \approx 15\text{ W/m}^2\cdot\text{K}$.
-      $$R_{\text{conv}} \approx \frac{1}{h \cdot A_{\text{outer}}} = \frac{1}{15 \times 0.002} \approx \mathbf{33.3\text{ K/W}}.$$
-    * Uninsulated Inner PETG Wall: Thickness $t_{\text{PETG}} = 1.2\text{ mm}$, $k_{\text{PETG}} \approx 0.20\text{ W/m}\cdot\text{K}$, area $A_{\text{inner}} \approx 10\text{ cm}^2 = 0.001\text{ m}^2$.
-      $$R_{\text{PETG}} = \frac{0.0012}{0.20 \times 0.001} \approx \mathbf{6.0\text{ K/W}}.$$
-      Because $6.0\text{ K/W} < 33.3\text{ K/W}$, an uninsulated wall would allow the majority of dissipated heat to flow inward toward user skin.
-    * Inner Aerogel Insulation Layer: To guarantee skin safety, a $1.0\text{ mm}$ silica aerogel blanket ($k_{\text{ins}} \approx 0.015\text{ W/m}\cdot\text{K}$) is integrated between the compute core and the inner temple skin-contact face:
-      $$R_{\text{ins}} = \frac{0.001\text{ m}}{0.015\text{ W/m}\cdot\text{K} \times 0.001\text{ m}^2} \approx \mathbf{66.7\text{ K/W}}.$$
-      Total combined inner thermal resistance:
-      $$R_{\text{inner}} = R_{\text{PETG}} + R_{\text{ins}} \approx 6.0 + 66.7 = \mathbf{72.7\text{ K/W}}.$$
-      Now, $R_{\text{inner}} \approx 72.7\text{ K/W} \gg R_{\text{outer}} \approx 33.3\text{ K/W}$, driving $>68\%$ of dissipated heat outward into the exterior copper spreader and ambient air.
-  * *Duty-Cycle-Averaged Power & Two-Sink Network Solution (Auditor Review D1, D2):*
-    * Inference Duty Cycle: Active inference $3.0\text{ W}$ for $12.0\text{ s}$; Standby/idle $0.35\text{ W}$ for $108.0\text{ s}$ ($120.0\text{ s}$ full cycle period).
-    * Duty-cycle-averaged power generation:
-      $$\bar{P} = \frac{(3.0\text{ W} \times 12\text{ s}) + (0.35\text{ W} \times 108\text{ s})}{120\text{ s}} = \frac{36.0\text{ J} + 37.8\text{ J}}{120\text{ s}} = \mathbf{0.615\text{ W}}.$$
-    * Two-Sink Thermal Boundary Conditions:
-      * Outer Sink: Ambient air at $T_{\text{amb}}$ through $R_{\text{outer}} \approx 33.3\text{ K/W}$ ($G_{\text{outer}} = 1/33.3 \approx 0.03002\text{ W/K}$).
-      * Inner Sink: Human skin at $T_{\text{skin}} = 35.0^\circ\text{C}$ through $R_{\text{inner}} \approx 72.7\text{ K/W}$ ($G_{\text{inner}} = 1/72.7 \approx 0.01375\text{ W/K}$).
-    * Total Thermal Conductance and Parallel Resistance:
-      $$G_{\text{tot}} = G_{\text{outer}} + G_{\text{inner}} = 0.03002 + 0.01375 = \mathbf{0.04377\text{ W/K}} \implies R_{\text{eff}} = \frac{1}{G_{\text{tot}}} \approx \mathbf{22.85\text{ K/W}}.$$
-    * Consistent Two-Sink Node Temperature Equation:
-      $$T_{\text{core}} = R_{\text{eff}} \cdot \bar{P} + \frac{G_{\text{outer}}}{G_{\text{tot}}} T_{\text{amb}} + \frac{G_{\text{inner}}}{G_{\text{tot}}} T_{\text{skin}} = 14.05^\circ\text{C} + (0.686 \cdot T_{\text{amb}}) + (0.314 \cdot 35.0^\circ\text{C}) = \mathbf{25.04^\circ\text{C}} + (0.686 \cdot T_{\text{amb}}).$$
-    * Empirical Steady-State Evaluation across Operating Ambients:
-      * **Baseline $T_{\text{amb}} = 25.0^\circ\text{C}$:**
-        $$T_{\text{core}} = 25.04 + (0.686 \times 25.0) = \mathbf{42.19^\circ\text{C}} \approx \mathbf{42.2^\circ\text{C}}.$$
-      * **Elevated Ambient $T_{\text{amb}} = 28.0^\circ\text{C}$:**
-        $$T_{\text{core}} = 25.04 + (0.686 \times 28.0) = \mathbf{44.25^\circ\text{C}} \approx \mathbf{44.3^\circ\text{C}}.$$
-      * **Stress Ambient $T_{\text{amb}} = 32.0^\circ\text{C}$:**
-        $$T_{\text{core}} = 25.04 + (0.686 \times 32.0) = \mathbf{46.99^\circ\text{C}} \approx \mathbf{47.0^\circ\text{C}}.$$
-    * **Physical Consequence of Steady-State $T_{\text{core}} > 41.0^\circ\text{C}$ at $T_{\text{amb}} \ge 28^\circ\text{C}$ (Auditor Directive D1):**
-      * The Rubitherm RT42 melting plateau is $38.0^\circ\text{C}\text{ to }43.0^\circ\text{C}$ with main peak at $41.0^\circ\text{C}$.
-      * At $T_{\text{amb}} \ge 28.0^\circ\text{C}$ (and even at $25.0^\circ\text{C}$ under extended conversational duty cycles), steady-state core temperature ($42.2\text{--}44.3^\circ\text{C}$) exceeds the $41.0^\circ\text{C}$ melting peak.
-      * *Consequence:* The RT42 PCM is fully melted in steady state. Its latent heat buffer ($\Delta H_{\text{fus}} = 165.0\text{ J/g}$, $660\text{ J}$) is entirely liquid at baseline, offering zero latent buffering against subsequent active bursts. Only sensible heat capacity ($C_p \approx 2.0\text{ J/g}\cdot\text{K}$) is available.
-      * *System Mitigations:*
-        1. *Thermal Duty Throttling:* Dynamic power management scales inter-turn standby duration or caps NPU frequency when on-die thermal sensors report $T_{\text{core}} > 41^\circ\text{C}$ at ambient $>28^\circ\text{C}$.
-        2. *Enhanced External Convection:* Micro-grooved or finned exterior aluminum temple plates reduce $R_{\text{outer}}$ from $33.3\text{ K/W}$ to $\le 20.0\text{ K/W}$, pulling steady-state core temperatures below $40.0^\circ\text{C}$ at $28^\circ\text{C}$ ambient.
-        3. *High-Ambient PCM Eutectic:* In high-temperature deployments, an RT44HC or paraffin/octadecane composite pad ($T_{\text{melt}} = 44\text{--}46^\circ\text{C}$) can be substituted.
-    * **Epidermal Safety Verification across All Operating Conditions:**
-      * Inner skin-directed heat flux:
-        $$q_{\text{inner}} = \frac{T_{\text{core}} - T_{\text{skin}}}{R_{\text{inner}}}.$$
-      * At $T_{\text{amb}} = 25^\circ\text{C}$ ($T_{\text{core}} = 42.2^\circ\text{C}$):
-        $$q_{\text{inner}} = \frac{42.2 - 35.0}{72.7} \approx 0.099\text{ W} \implies T_{\text{skin-face}} = 35.0^\circ\text{C} + (0.099 \times 5.0) \approx \mathbf{35.5^\circ\text{C}}.$$
-      * At $T_{\text{amb}} = 32^\circ\text{C}$ ($T_{\text{core}} = 47.0^\circ\text{C}$):
-        $$q_{\text{inner}} = \frac{47.0 - 35.0}{72.7} \approx 0.165\text{ W} \implies T_{\text{skin-face}} = 35.0^\circ\text{C} + (0.165 \times 5.0) \approx \mathbf{35.8^\circ\text{C}}.$$
-      * In all conditions, $T_{\text{skin-face}} \le 36.0^\circ\text{C}$, safely below the $37.5^\circ\text{C}$ medical comfort threshold and far below the $42.0^\circ\text{C}$ epidermal pain/burn limit.
-
-### G. Directive 05 Mass Accounting: Line-by-Line Track 1 Component Mass Budget (Auditor Review R8, D1)
-The table below details every component's verified datasheet, vendor listing, or engineering estimate mass. Note: All figures are design-phase estimates pending physical procurement and lab scale bring-up.
-
-| Subsystem / Component | Item Description | Qty | Unit Mass (g) | Extended Mass (g) | Provenance & Source / Verification Method |
-| :--- | :--- | :---: | :---: | :---: | :--- |
-| **Compute Core** | Custom slim PCB (20–22mm × 75mm) hosting RK3576, RK806-1, eMCP, RTL8723DS, passives | 1 | 12.0 | 12.0 | Design mass budget for 6-layer 20–22mm × 75mm PCB with populated ICs (12.0g estimate). |
-| **Optical Module** | Raspberry Pi Camera Module 3 Sensor Assembly (SA31VA30P / Sony IMX708 11.9MP) + front-bridge PCB | 1 | 4.5 | 4.5 | Bare sensor cube (10.8×10.8mm) ~2.5g + front-bridge breakout PCB ~2.0g (4.5g total, lighter than bulky M12 lens module). |
-| **Optical Lenses** | Clear High-Index 1.67 Prescription Eyewear Lenses (Pair) | 2 | 4.25 | 8.5 | Vendor listing estimate: [Lenskart 1.67 High-Index Lenses](https://www.lenskart.com) (estimate — unmeasured). |
-| **Energy Storage** | GNB 3.7V 300mAh 30C LiPo pouch cells (Series 2S) | 2 | 8.0 | 16.0 | Datasheet: [Gaoneng GNB 300mAh 1S 30C](https://robu.in) (8.0g/cell). |
-| **Power Management** | IP2326 2S boost charger breakout PCB | 1 | 2.2 | 2.2 | Vendor listing: [Injoinic IP2326 2S Breakout on Robu.in](https://robu.in) (estimate — unmeasured, ports stripped). |
-| **Battery Safety** | HY2212 2S BMS protection & balance PCB | 1 | 1.8 | 1.8 | Vendor listing: [HY2212 2S BMS Module on Robu.in](https://robu.in) (estimate — unmeasured). |
-| **Voltage Regulation** | MP2315 2S-to-5V synchronous step-down buck module | 1 | 1.8 | 1.8 | Vendor listing / Datasheet: [MP2315 Mini 3A Buck on Robu.in](https://robu.in) (1.8g). |
-| **Audio Amps** | MAX98357A I2S mono Class-D amplifier breakouts | 2 | 1.4 | 2.8 | Vendor listing / Datasheet: [Adafruit/generic MAX98357A](https://robu.in) (1.4g/each). |
-| **Acoustic Transducers** | 1510 Micro Oval Dynamic Speakers (8Ω 1W, 15×10×3.5 mm) | 2 | 1.4 | 2.8 | Datasheet / Probots PRO4388 (1.4g/each; replaces fictitious bone conduction). |
-| **Microphone Array** | INMP441 omnidirectional digital MEMS breakouts | 2 | 0.8 | 1.6 | Vendor listing / Datasheet: [INMP441 MEMS Breakout](https://robu.in) (0.8g/each). |
-| **User Input** | TTP223 capacitive touch sensor module | 1 | 0.6 | 0.6 | Vendor listing / Datasheet: [TTP223 Capacitive Module](https://robu.in) (0.6g). |
-| **Interconnect** | FPC ribbon jumpers + 30 AWG silicone wiring harness | 1 | 4.5 | 4.5 | Estimate — unmeasured (wiring harness budget). |
-| **Carrier Interconnect** | Combined custom 0.8mm thin 2-layer FR4 carrier PCBs | 2 | 2.25 | 4.5 | Estimate — unmeasured (volumetric design budget for 0.8mm FR4). |
-| **Frame Mechanics** | 3D-printed PETG front frame & thick temple enclosures | 1 | 24.0 | 24.0 | Estimate — unmeasured (design mass budget for 1.2mm shell; no repo CAD yet). |
-| **Phase Change Material**| Rubitherm RT42 organic bio-PCM thermal pad | 1 | 4.0 | 4.0 | Datasheet: [Rubitherm GmbH RT42 Technical Data Sheet](https://www.rubitherm.eu) (4.0g pad). |
-| **Thermal Sinks** | 0.3mm copper foil heat spreader + Arctic MX-4 paste | 1 | 3.8 | 3.8 | Estimate — unmeasured (computed from 0.3mm Cu density and area). |
-| **Thermal Insulation** | 1.0mm Silica Aerogel Blanket (10 cm² skin barrier) | 1 | 0.2 | 0.2 | Vendor listing / Datasheet: [Aerogel Blanket 1mm on Robu.in / Aspen Aerogels](https://robu.in) (density ~0.18 g/cm³, 1.0mm x 10cm² = 0.18g -> 0.2g). |
-| **Mechanical Fasteners**| M1.6/M2 brass heatset inserts and screws | 1 | 2.5 | 2.5 | Vendor listing / Estimate — unmeasured (2.5g hardware buffer). |
-| **Contingency Margin** | Prototyping & assembly tolerance buffer | 1 | 4.8 | 4.8 | Estimate — unmeasured (built-in 4.4% tolerance reserve). |
-| **TOTAL ALL-UP MASS** | **Complete Track 1 Autonomous Wearable** | — | — | **102.9 g** | **Design estimate — unmeasured (17.1g below 120g target; 22.1g below 125g ceiling)** |
-
-*Margin & Arithmetic Analysis:*
-- Physical rows sum: **98.10 g (Estimate)**
-- Prototyping contingency: **4.80 g (Estimate)**
-- Total all-up weight: **102.90 g (Design estimate — unmeasured)**
-- This provides an estimated **10.0 g positive safety margin** below the $120.0\text{ g}$ engineering target, and **15.0 g positive headroom** strictly below the $125.0\text{ g}$ Directive 05 ceiling.
+| # | Item Description | Specification / Role | Qty | Unit Price (INR) | Total (INR) | Sourcing Channel |
+|---|---|---|:---:|:---:|:---:|---|
+| 9 | **Samsung 4GB LPDDR4X + 64GB eMMC eMCP**<br>(Samsung KM3V series or equivalent) | Single BGA-254 chip combining 4GB RAM + 64GB fast storage. Harvested from scrap Redmi 9 / POCO M2 donor motherboard + technician BGA reballing. | 1 | ₹1,000 | ₹1,000 | Local Mobile Repair / Donor Scrap Board |
+| 10 | **SMD Passives & PMIC Power Circuit Kit**<br>(0402 / 0603 caps, resistors, inductors, diodes) | • Ceramic decoupling capacitors (100nF, 1uF, 4.7uF, 10uF, 22uF X5R/X7R)<br>• Pull-up/pull-down resistors (1k, 2.2k, 4.7k, 10k, 100k, 220k 1%)<br>• Shielded power inductors for RK806-1 buck rails (0.47uH, 1.0uH, 2.2uH)<br>• TVS ESD protection diodes for USB-C lines | 1 kit | ₹650 | ₹650 | LCSC Passives / Local Mumbai Electronics |
+| — | **Memory & Passives Subtotal** | — | — | — | **₹1,650** | — |
 
 ---
 
----
+### C. Vision & Optics
 
-## 4. Comparison: The Expensive Path vs. The Lean Student Path
-
-| Engineering Dimension | Traditional / Throwaway Path | Lean Zero-Waste Path (Project FRIDAY) | Student Savings |
-| :--- | :--- | :--- | :--- |
-| **Phase 1 Exploration** | Buy Orange Pi 5 just to test ($₹12,500$) | 100% on MacBook Air M4 + Free Kaggle/Colab | **Save ₹12,500** |
-| **Audio & Peripheral Testing** | Buy auxiliary test rigs ($₹3,000$) | Repurpose owned Raspberry Pi 3B | **Save ₹3,000** |
-| **Optical Lenses** | Custom optical lab cutting ($₹3,500$) | Reuse existing glasses lenses ($₹0$) | **Save ₹3,500** |
-| **Frame Material** | Industrial SLS Nylon PA12 ($₹8,000$) | Local FDM PETG 3D printing ($₹350$) | **Save ₹7,650** |
-| **PCB Prototyping** | 10-layer custom rigid-flex ($₹45,000$) | 2-layer FR4 + 0.5mm FFC ribbons ($₹600$) | **Save ₹44,400** |
-| **Drawer Waste** | 2–3 boards sitting unused forever | **Zero items in drawer; 100% on the wearable** | **Priceless** |
-| **NET PROJECT COST** | **₹72,000+ INR** | **₹9,795 INR total (Ceiling: ₹10,000)** | **86.4% Total Savings** |
+| # | Item Description | Specification / Role | Qty | Unit Price (INR) | Total (INR) | Sourcing Channel |
+|---|---|---|:---:|:---:|:---:|---|
+| 11 | **Sony IMX708 Camera Sensor Assembly**<br>(Raspberry Pi Camera Module 3 SA31VA30P) | 11.9MP STARVIS 2 CMOS, hardware PDAF autofocus (10 cm to infinity), 1.40 µm pixel pitch, 10.8 x 10.8 mm bare sensor cube with 24 mm flex tail. | 1 | ₹1,800 | ₹1,800 | [Robu.in SA31VA30P](https://robu.in/product/raspberry-pi-camera-module-3-sa31va30p/) |
+| 12 | **Front-Bridge Camera Breakout PCB**<br>(Miniature 14 x 12 mm custom board) | Sits behind nose bridge. Hosts 30-pin Hirose DF37 socket, AP3429K 1.1V buck regulator (prevents 1.32W LDO heat waste), 1.8V/2.8V LDOs, and 24MHz camera clock. | 1 | ₹350 | ₹350 | [JLCPCB 2-Layer](https://jlcpcb.com) / Robu PCB |
+| 13 | **High-Index Eyewear Lenses** | Clear 1.67 high-index prescription / plano lenses repurposed from student eyewear. | 2 | ₹0 | ₹0 | Reused Personal Asset |
+| — | **Vision & Optics Subtotal** | — | — | — | **₹2,150** | — |
 
 ---
 
-## 5. Local Vendor Directory (Mumbai / Online Delivery)
+### D. Audio & Acoustics
 
-1. **[Robu.in](https://robu.in):** Best for INMP441 microphones, MAX98357A amplifiers, LiPo cells, IP2326 boost chargers, and FFC ribbon cables. Standard delivery to Mumbai within 48–72 hours.
-2. **[Robocraze](https://robocraze.com) / [ElectronicsComp](https://electronicscomp.com):** Fast backup for camera modules, jumper wires, silicon cables, and breakout boards.
-3. **[JLCPCB](https://jlcpcb.com):** Cheapest 2-layer FR4 boards ($2 USD for 5 boards + shipping).
-4. **Local 3D Print Vendors (Lamington Road / Vile Parle / College Lab):** Cost for printing PETG frame parts is typically ₹3 to ₹5 per gram (~₹300 to ₹400 total).
+| # | Item Description | Specification / Role | Qty | Unit Price (INR) | Total (INR) | Sourcing Channel |
+|---|---|---|:---:|:---:|:---:|---|
+| 14 | **INMP441 Digital MEMS Microphones** | Omnidirectional I2S digital mic breakouts (front-right beamforming array for voice input and noise cancellation). | 2 | ₹145 | ₹290 | [Robu.in INMP441](https://robu.in/product/inmp441-omnidirectional-microphone-module-i2s-interface/) |
+| 15 | **MAX98357A I2S Class-D Mono Amplifiers** | 3.2W Class-D mono amp breakouts (one per temple arm). Hardware-configured via SD_MODE resistor divider. | 2 | ₹125 | ₹250 | [Robu.in MAX98357A](https://robu.in/product/max98357a-i2s-3w-class-d-amplifier-interface-audio-dac-module/) |
+| 16 | **1510 Micro Oval Dynamic Speakers** | 8 Ohm, 1W micro speakers (15 x 10 x 3.5 mm). Downward-firing directional acoustic chambers pointing at ear canals. | 2 | ₹55 | ₹110 | [Probots.co.in 1510 Speaker](https://probots.co.in) |
+| — | **Audio & Acoustics Subtotal** | — | — | — | **₹650** | — |
+
+---
+
+### E. Battery & Power Delivery System
+
+| # | Item Description | Specification / Role | Qty | Unit Price (INR) | Total (INR) | Sourcing Channel |
+|---|---|---|:---:|:---:|:---:|---|
+| 17 | **GNB 3.7V 300mAh 30C LiPo Cells** | High-discharge LiPo pouch cells connected in Series 2S (7.4V nominal, 1 cell per temple, 16.0g total). 9.0A burst rating handles peak surges with zero sag. | 2 | ₹190 | ₹380 | [Robu.in GNB 300mAh LiPo](https://robu.in/product/gao-neng-gnb-300mah-1s-30c-lipo-battery/) |
+| 18 | **IP2326 Type-C 2S Boost Charger** | Boosts 5V USB-C to 8.4V. Pin 11 ISET resistor set to 300 kOhm to enforce safe 300mA (1C) charge rate. | 1 | ₹110 | ₹110 | [Robu.in IP2326 Charger](https://robu.in/product/ip2326-type-c-2s-boost-charging-board/) |
+| 19 | **HY2212 2S BMS Protection & Balance Board** | Cell protection (4.25V overcharge, 2.8V overdischarge) with 35mA passive shunt-bleed cell balancing. | 1 | ₹120 | ₹120 | [Robu.in 2S BMS Board](https://robu.in/product/2s-3a-bms-balance-protection-board/) |
+| 20 | **MP2315 High-Efficiency Step-Down Buck** | Synchronous 2S-to-5V step-down regulator (95% efficiency, 3A continuous). Provides clean 5.0V system power bus. | 1 | ₹95 | ₹95 | [Robu.in MP2315 Buck](https://robu.in/product/mp2315-dc-dc-step-down-voltage-regulator-module-5v-3a/) |
+| 21 | **TTP223 Capacitive Touch Sensor** | Capacitive touch trigger on right temple arm to activate voice queries and adjust volume. | 1 | ₹25 | ₹25 | [Robu.in TTP223 Module](https://robu.in/product/ttp223-touch-key-switch-module/) |
+| — | **Power System Subtotal** | — | — | — | **₹730** | — |
+
+---
+
+### F. Frame, Thermal & Mechanical Assembly
+
+| # | Item Description | Specification / Role | Qty | Unit Price (INR) | Total (INR) | Sourcing Channel |
+|---|---|---|:---:|:---:|:---:|---|
+| 22 | **Numakers Pitch Black PETG Filament** | 1.75mm, 1 kg Spool, +/- 0.05 mm accuracy. Heat deflection 75°C, sweat/humidity resistant. Yields 40+ frame iterations. | 1 | ₹849 | ₹849 | [Amazon.in Numakers PETG](https://amzn.in/d/074Tf1Tx) |
+| 23 | **Custom 0.8mm FR4 Carrier PCBs** | Left & right temple thin 2-layer breakout carriers routing I2S audio, power rails, and GPIO. | 1 set (5 pcs) | ₹350 | ₹350 | [JLCPCB 2-Layer](https://jlcpcb.com) / Robu PCB |
+| 24 | **Wiring Harness & Interconnects** | 0.5mm FPC ribbon jumpers + 30 AWG ultra-flexible silicone wire for through-bridge routing. | 1 | ₹120 | ₹120 | [Robu.in 30 AWG Wire](https://robu.in/product/30-awg-flexible-silicone-wire/) |
+| 25 | **Thermal Spreader & PCM Buffer** | 0.3mm copper shim + 4.0g Rubitherm RT42 phase-change material (660 J buffer) + 1.0mm silica aerogel blanket (skin barrier). | 1 | ₹350 | ₹350 | Amazon / Robu Aerogel |
+| 26 | **Mechanical Hardware & Inserts** | M1.6 and M2 brass heatset threaded inserts, hinge screws, Kapton tape. | 1 | ₹215 | ₹215 | Local Hardware / Robu |
+| — | **Mechanical & Thermal Subtotal** | — | — | — | **₹1,884** | — |
+
+---
+
+### G. Financial Grand Total Summary
+
+| Procurement Category | Scope of Hardware Included | Subtotal (INR) | Subtotal (USD) |
+|---|---|:---:|:---:|
+| **A. Core Compute Silicon** | RK3576 SoC, RK806-1 PMIC, RTL8723DS, Crystals, USB-C, Switch + Shipping | ₹2,838 | $33.69 |
+| **B. Memory & Passives** | Harvested eMCP (4GB RAM + 64GB eMMC) + 0402/0603 caps/resistors/inductors kit | ₹1,650 | $19.64 |
+| **C. Vision & Optics** | IMX708 autofocus camera sensor + front-bridge regulator breakout PCB | ₹2,150 | $25.60 |
+| **D. Audio & Acoustics** | Dual INMP441 mics + dual MAX98357A amps + dual 1510 directional speakers | ₹650 | $7.74 |
+| **E. Power Delivery & Battery** | 2S LiPo cells, IP2326 boost charger, HY2212 BMS, MP2315 buck, touch sensor | ₹730 | $8.69 |
+| **F. Frame, Thermal & Mechanics** | Numakers PETG 1kg spool, carrier PCBs, wiring harness, thermal shim, inserts | ₹1,884 | $22.43 |
+| **GRAND TOTAL (All Wearable Components)** | **Complete Raw Hardware Bill (Directive 01 Untethered Smart Glasses)** | **₹9,902 INR** | **~$118 USD** |
+
+> **Manufacturing Note:** The total above covers 100% of the raw silicon, electronic components, optics, battery, and 3D printing filament. Custom 6-layer HDI PCB bare-board fabrication and BGA assembly services are quoted separately based on JLCPCB/PCBWay prototype run options.
+
+---
+
+## 4. Technical Specifications & Engineering Rules
+
+### A. Camera Character Resolution & Optical Calculations
+* **Sensor Model:** Raspberry Pi Camera Module 3 Sensor Assembly (SA31VA30P / Sony IMX708)
+* **Active Pixels:** 4608 x 2592 (11.9 Megapixels effective)
+* **Pixel Pitch:** 1.40 µm
+* **Lens Focal Length:** f = 4.74 mm (Diagonal FoV = 76°, Horizontal FoV ≈ 66°)
+* **Autofocus Technology:** Hardware PDAF (Phase Detection Autofocus) with Voice Coil Motor (dynamic range: 10 cm to infinity)
+* **Physical Sensor Footprint:** 10.8 x 10.8 mm bare cube with 24 mm flexible ribbon tail
+* **Reading Resolution at 35 cm Reading Distance (8pt font, character height 1.8 mm):**
+  ```
+  Resolution = (h_char * f) / (D * p)
+             = (1.8 mm * 4.74 mm) / (350 mm * 0.00140 mm)
+             = 8.532 / 0.490
+             ≈ 17.4 pixels per character
+  ```
+  This comfortably exceeds the 10.0 pixels/char minimum required for accurate OCR text recognition (PP-OCRv6 / DBNet).
+
+* **Power Architecture at Nose Bridge (Preventing 1.32W of Heat Waste):**
+  Stepping 3.3V down to 1.1V for the sensor core (VDD_CORE at 600mA) using an LDO would generate:
+  ```
+  P_loss = (3.3V - 1.1V) * 0.60A = 1.32 Watts of pure waste heat!
+  ```
+  This is completely unacceptable in an eyewear frame with a 3.0W total thermal budget. The Front-Bridge PCB uses an AP3429K synchronous buck converter (90%+ efficiency) to drop heat loss to under 0.07 Watts (>94% thermal reduction).
+
+---
+
+### B. Compute Engine & Memory Sizing Rules
+* **Processor Architecture:** Rockchip RK3576 (4x Cortex-A72 @ 2.2 GHz + 4x Cortex-A53 @ 2.0 GHz, 6.0 TOPS INT4/INT8 NPU).
+* **Package Dimensions:** FCCSP-698L (16.1 x 17.2 mm).
+* **Board Width Rule:** Because the chip is 16.1 mm wide, the custom PCB width is strictly locked to **20–22 mm** (matching the 20–22 mm temple height profile of Track 1 eyewear).
+* **Runtime Memory Footprint (Why 4GB is Mandatory):**
+  * Headless Linux OS: ~350 MB
+  * Camera ISP streaming buffers: ~120 MB
+  * RKLLM Qwen2-0.5B (w4a16): 443 MB working memory
+  * SigLIP-B vision encoder: ~170 MB
+  * RapidOCR text detection/recognition: ~50 MB
+  * Kokoro-82M TTS & Speech-to-Text: ~350 MB
+  * **English Baseline Working Memory:** **~1.52 GB**
+  * **With IndicTrans2-Dist Hindi Translation:** **~1.94 GB to 2.36 GB**
+  * A 2GB board would trigger out-of-memory kernel panics. **4GB RAM is strictly required.**
+
+---
+
+### C. Audio Subsystem Wiring & Resistor Thresholds
+* **Logic Level:** 3.3V peripheral I/O rail.
+* **MAX98357A SD_MODE Pin Configuration:**
+  * Shutdown: Voltage < 0.16V
+  * Left Channel: Voltage between 0.77V and 1.39V (10 kOhm pull-up to 3.3V, 220 kOhm pull-down to GND)
+  * Right Channel: Voltage > 1.39V (10 kOhm pull-up directly to 3.3V)
+* **GAIN Pin Configuration:** The GAIN pin is tied to VDD via a 100 kOhm resistor (+3 dB gain). Combined with software volume capped at 70% (-3 dBFS), maximum output power into the 8 Ohm speakers is capped below 0.80W RMS, preventing voice-coil distortion and speaker blowout.
+
+---
+
+### D. Battery Charging & Power Calculations
+* **Injoinic IP2326 2S Boost Charger (Pin 11 ISET Formula):**
+  ```
+  I_charge (mA) = 90,000 / R_iset (kOhm)
+  For 300mA 1C charge rate:
+  R_iset = 90,000 / 300 = 300 kOhm
+  ```
+* **System Operating Currents on 5.0V Bus:**
+  * Standby / Idle (0.35W): 0.35W / 5.0V = **0.07 A**
+  * Active AI Burst (3.0W): 3.0W / 5.0V = **0.60 A**
+  * Duty-Cycle Average (0.615W over 120s turn): 0.615W / 5.0V = **0.123 A**
+  * Runtime on dual 300mAh cells (2.22 Wh at 90% buck efficiency): **~3.2 hours** continuous duty.
+
+---
+
+### E. Directive 05 Mass Accounting (All-Up Wearable Weight)
+
+| Subsystem | Components Included | Qty | Unit Mass (g) | Extended Mass (g) |
+|---|---|:---:|:---:|:---:|
+| **Compute Core** | Custom slim PCB (20–22 x 75 mm) with RK3576, PMIC, eMCP, passives | 1 | 12.0 | 12.0 |
+| **Optical Module** | Sony IMX708 bare sensor cube (2.5g) + front-bridge PCB (2.0g) | 1 | 4.5 | 4.5 |
+| **Optical Lenses** | Pair of 1.67 high-index prescription lenses | 2 | 4.25 | 8.5 |
+| **Energy Storage** | GNB 3.7V 300mAh LiPo pouch cells (1 per temple) | 2 | 8.0 | 16.0 |
+| **Power Management** | IP2326 charger, HY2212 BMS, MP2315 buck module | 3 | — | 5.8 |
+| **Audio Subsystem** | Dual MAX98357A amps, dual 1510 speakers, dual INMP441 mics | 6 | — | 7.2 |
+| **User Input** | TTP223 capacitive touch sensor | 1 | 0.6 | 0.6 |
+| **Wiring & Carriers** | Thin FR4 carriers + browline FPC ribbon + silicone wiring | — | — | 9.0 |
+| **Frame Mechanics** | 3D-printed PETG front frame and thick temple arms | 1 | 24.0 | 24.0 |
+| **Thermal Sinks** | Copper shim, 4.0g RT42 bio-PCM pad, aerogel skin barrier | — | — | 8.0 |
+| **Fasteners & Reserve** | M1.6/M2 brass heatset inserts, screws, Kapton + tolerance margin | — | — | 7.3 |
+| **TOTAL ALL-UP MASS** | **Complete Untethered Wearable Smart Glasses** | — | — | **102.9 g** |
+
+* **Target Margin:** **17.1 g below** the 120.0 g target.
+* **Ceiling Margin:** **22.1 g below** the strict 125.0 g Directive 05 ceiling.
+
+---
+
+## 5. Local Sourcing & Vendor Directory (Mumbai / Online)
+
+1. **[LCSC Electronics](https://lcsc.com):** RK3576, RK806-1, RTL8723DS, master crystals, RTC crystals, USB-C ports, micro buttons, SMD passives.
+2. **[Robu.in](https://robu.in):** INMP441 mics, MAX98357A amps, GNB LiPo cells, IP2326 chargers, IMX708 camera, silicone wire, and FPC ribbons. Fast delivery to Juhu/Mumbai within 48–72 hours.
+3. **[Amazon.in](https://amazon.in):** Numakers Pitch Black PETG 1kg spool ([https://amzn.in/d/074Tf1Tx](https://amzn.in/d/074Tf1Tx)), copper shims, heatset inserts.
+4. **[Probots.co.in](https://probots.co.in):** 1510 micro dynamic oval speakers.
+5. **Local BGA Rework (Lamington Road / Grant Road / Juhu):** Scrap donor smartphone motherboard (Redmi 9 / POCO M2) desoldering and precision BGA stencil reballing.
