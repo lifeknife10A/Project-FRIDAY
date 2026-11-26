@@ -360,3 +360,7 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - The 40-label reader gate does not test the student; use OCR-ONNX→RKNN parity instead.
   - Dossier must not claim "only silicon remains".
   - Pi 3B audio: one shared I2S bus (mics + amps); AEC via PipeWire echo-cancel (webrtc); test with ERLE.
+- **2026-11-26 (plan1.md).**
+  - At Krishna's request, merged the Researcher's game plan (M0–M9) with the Auditor's co-simulation/E-DEV-1 ruling into `docs/plan1.md`, the shared plan for all agents.
+  - Phase 1 is extended to the "Phase 1 Complete (Mac)" purchase/grant gate.
+  - Open decisions D1–D14 are listed in §9.

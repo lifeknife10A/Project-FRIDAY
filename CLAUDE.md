@@ -97,6 +97,10 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- SHARED PLAN: docs/plan1.md (v1.0, 2026-11-26) = merged Researcher gameplan (M0-M9, F1-F10, D1-D4,
+  gate C) + my co-sim/E-DEV-1 ruling + Pi audio + dossier rules. Phase 1 extended to the
+  "Phase 1 Complete (Mac)" gate before any hardware purchase. Read it every session; status table §6.
+
 - MV12 REJECTED by Krishna (ebe3b84, 2026-11-26): vendor price $300 board / $396 +IMX662 raw / $515
   ISP-tuned (Alibaba THB price was camera only). Compute = Firefly CAM-3576Q38 via NMIMS grant request;
   E-DEV-1 conversion on x86 for Rs 0; audio bring-up on Pi 3B. My notes: BOM L136 duty math wrong
