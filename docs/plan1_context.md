@@ -406,3 +406,13 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - copy the Rockchip reference design for the SoC + DDR + PMIC block;
     - have the Auditor review the schematic, stackup and layout before fab.
   - Decision recorded as a plan deviation; Krishna approves.
+- **2026-11-26 (bare-RK3576 chip list).**
+  - Krishna listed: RK3576 (~$22), 4 GB LPDDR4X/5 (Micron MT53D1024M32D4), 32 GB eMMC (Samsung KLMAG1JETD), RK806S-5 PMIC.
+  - Auditor flags:
+    - DRAM and eMMC must come from Rockchip's RK3576 memory support list (the DDR training loader is part-specific).
+    - MT53D is, to my knowledge, the LPDDR4 family, not 4X (UNVERIFIED).
+    - KLMAG1JETD is, to my knowledge, 16 GB, not 32 GB (UNVERIFIED).
+    - Choose ONE DRAM type, matching the reference design copied.
+    - RK806 variant/OTP must match the reference schematic.
+    - Missing from the list: 24 MHz / 32.768 kHz crystals, Wi-Fi/BT module + antenna, PMIC inductors/passives, Maskrom/USB flashing path, debug UART, ESD, 2S→PMIC input regulation.
+    - HDI PCB + BGA assembly dominate the cost, not the chips.
