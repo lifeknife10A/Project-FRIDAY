@@ -1,6 +1,6 @@
 # plan1.md — Phase 1 (Extended): Shared Plan for All Agents
 
-> **Status.** v1.0, 2026-11-26. Merged by the Auditor from:
+> **Status.** v1.1, 2026-11-26. v1.1 adds the Researcher's review of v1.0; each correction was verified by the Auditor. Merged by the Auditor from:
 > - the Researcher's game plan (`research/notes/2026-11-25_gameplan_phase1_complete_on_mac.md`);
 > - the Researcher's other notes;
 > - the Auditor's co-simulation / E-DEV-1 ruling (`docs/plan1_context.md`, 2026-11-26).
@@ -85,9 +85,9 @@ All items are backed by committed run output. Thresholds are the Researcher's pr
 | # | Criterion |
 |---|---|
 | D1 | The Mac runs the **artifacts that will ship**: INT4 student, same vision tower, same STT/TTS/OCR models. No fp16-only demo. |
-| D2 | Summed resident memory of all on-device models (measured on the Mac) ≤ the AI budget (proposed 2.0 GB of the 4 GB board). |
+| D2 | Summed resident memory of all on-device **AI models** (measured on the Mac) ≤ the AI budget (proposed 2.0 GB of the 4 GB board). <ul><li>Estimate: about 1.0 GB without Hindi; 1.4–1.85 GB with it.</li><li>With OS and ISP buffers: about 1.5 GB / 1.9–2.4 GB (Researcher `a1b3853`).</li><li>**The Hindi layer is the budget risk.**</li></ul>Measurement method:<ul><li>fresh process per model;</li><li>psutil RSS after load;</li><li>`torch.mps.current_allocated_memory()` for MPS;</li><li>results committed as JSON.</li></ul> |
 | D3 | Every on-device model converts with RKLLM-Toolkit / RKNN-Toolkit2 for target `rk3576` (E-DEV-1, §4) **and passes the numeric checks**. |
-| D4 | Mac latency is reported as Mac latency. RK3576 latency is a **projection** from Rockchip's published benchmark (Qwen2-0.5B w4a16 32.56 tok/s) and is labelled as such. |
+| D4 | Mac latency is reported as Mac latency. RK3576 latency is a **projection** from Rockchip's published benchmark (Qwen2-0.5B w4a16 32.56 tok/s), labelled as such. The benchmark's conditions:<ul><li>maximum CPU/NPU frequency;</li><li>128-token prompt / 64 new tokens;</li><li>memory type unstated.</li></ul>So the projection is an **upper bound**: the glasses run thermally capped. |
 
 ### C. Live acceptance
 
@@ -105,10 +105,10 @@ GPU-h are estimates, redone after E-THR-1 measures real throughput. Weeks count 
 
 | M | Weeks | Content | Kaggle GPU-h | Owner of design |
 |---|---|---|---|---|
-| **M0 Foundations** | 1–2 | (a) Live-demo bugs (§3.1). (b) **Freeze eval sets**: FRIDAY-Real-100, math, router, persona, people (sha256 manifests). (c) **E-DEV-1** conversion (§4). (d) **E-TOK-1** tokenizer test. (e) E-THR-1 throughput. (f) Memory table v0 measured on the Mac. | ~1 | Auditor (E-DEV-1) + Researcher |
+| **M0 Foundations** | 1–2 | (a) Live-demo bugs (§3.1). (b) **Freeze eval sets**: FRIDAY-Real-100, math, router, persona, people (sha256 manifests).<ul><li>Specs (size, source/licence, ground-truth format, rubric, photo shot list) are drafted by the Researcher.</li><li>Items are **authored by Krishna/Auditor, never Hydrogen**.</li></ul>(e′) **E-THR-1 protocol fixed before running.** Student tokens/s with cached teacher vs with a live teacher on the second T4, plus Qwen3-VL-2B batched-generation tokens/s. (c) **E-DEV-1** conversion (§4). (d) **E-TOK-1** tokenizer test. (e) E-THR-1 throughput. (f) Memory table v0 measured on the Mac. | ~1 | Auditor (E-DEV-1) + Researcher |
 | **M1 Wake word** | 2–3 | Custom "Hey Friday" model (openWakeWord-style; synthetic TTS clips + Krishna's recordings). Chime first, then processing. | 0 | Researcher |
 | **M2 KD method** | 3–4 | **E-KD-1** on math (exact-match metric), at equal GPU-h: (a) SeqKD, (b) top-64 forward KL, (c) on-policy / reverse KL. The winner is used in M3–M5. | ~10 | Researcher |
-| **M3 Visual** | 4–7 | Teacher Qwen3-VL-2B (deviation, §8). Data: VQAv2 + VizWiz + Visual Genome (CC-BY-4.0). Uncertainty U-A. Follow-up dialogues. People policy. Easter egg (YuNet + SFace, CPU). | ~25–30 | Researcher |
+| **M3 Visual** | 4–7 | Teacher Qwen3-VL-2B (deviation, §8). Data: VQAv2 + VizWiz + Visual Genome (CC-BY-4.0), **plus teacher-generated (Qwen3-VL-2B) single- and multi-turn answers on those images, with top-16 answer-token logits cached for KD**. COCO captions for projector re-alignment (stage V1; licence UNVERIFIED). Uncertainty U-A. Follow-up dialogues. People policy. Easter egg (YuNet + SFace, CPU). | ~25–30 | Researcher |
 | **M4 Math** | 6–8 | Safe arithmetic expression format; our own parser, **never `eval`**. Teachers Qwen3-1.7B / DeepSeek-R1-Distill-Qwen-1.5B. Whiteboard via OCR → expression. | ~10 | Researcher |
 | **M5 Conversation** | 8–10 | "Donna" persona distilled from Qwen3-4B (non-thinking). Tone tag → Kokoro voice/speed. 3-turn memory. Number filter. | ~20 | Researcher |
 | **M6 Merge + router** | 10–13 | One student vs per-skill LoRA adapters. **Forgetting matrix** (core thesis experiment). Router choice. | ~40–60 | Researcher |
@@ -119,7 +119,12 @@ GPU-h are estimates, redone after E-THR-1 measures real throughput. Weeks count 
 **Totals.** About 110–135 GPU-h over about 17 weeks, against about 500 h of quota. The spare quota is for re-runs and research tracks. Target end: about March 2027, leaving about 8 months for Phases 2–4.
 
 **Research tracks (parallel; never block the gate):**
-- **E-PRUNE-1:** Qwen3-0.6B pruned + healed vs our student.
+- **E-PRUNE-1:** prune Qwen3-0.6B to **matched RK3576 cost**: ≤ Qwen2.5-0.5B's non-embedding parameters and KV-cache size, with the same 64k vocabulary.
+  - Three arms at equal GPU-h:
+    - A: direct distillation into Qwen2.5-0.5B;
+    - B: prune + heal;
+    - C: prune, no heal.
+  - **Pass:** B beats A on ≥3 skill metrics with non-overlapping 95% CIs.
 - **E-EDIT-0 → E-EDIT-1:**
   - first reproduce ROME on GPT-2 XL (within 5 points of the paper);
   - then edit our student, before vs after INT4, at 1/10/100/1,000 edits (ROME vs MEMIT).
@@ -146,14 +151,19 @@ GPU-h are estimates, redone after E-THR-1 measures real throughput. Weeks count 
 | RKLLM-Toolkit (x86) | `.rkllm` w4a16 conversion for `rk3576`, real file size. x86 inference for evaluation: UNVERIFIED | tok/s, memory on the board |
 | QEMU aarch64 | aarch64 package/build checks only | NPU (no `/dev/rknpu`), any meaningful timing → **skip** |
 | v4l2loopback / snd-aloop | Pipeline plumbing with recorded inputs | Real sensor/ISP/I2S behaviour |
-| Raspberry Pi 3B | Real aarch64; A53 cores = RK3576's little cores, so CPU timings are a **pessimistic** bound; real I2S audio | NPU; 1 GB RAM |
+| Raspberry Pi 3B | Real aarch64 and real I2S audio. Timings are **plumbing checks only**: A53 at 1.2 GHz with LPDDR2, while the RK3576 runs the LLM on its NPU and CPU work on A72 cores at 2.2 GHz. At most a loose upper bound for CPU tasks; not quantitative. | NPU; 1 GB RAM |
 
 **Bandwidth.** Use an analytic budget only (bytes/token × tok/s; camera 1080p30 NV12 ≈ 93 MB/s; audio ≈ 0.13 MB/s). It is labelled "estimate, measured in Phase 2". It is never presented as proof.
 
 ### 4.2 E-DEV-1 steps
 
 0. **Environment.**
-   - Linux x86 with the Python version supported by the Rockchip wheels (check the wheel tags: Kaggle's 3.13 may not be supported → use a conda env or a CPU session).
+   - **Python 3.12, x86 Linux.** Verified:
+     - PyPI `rknn-toolkit2` 2.5.0 wheels are cp36–cp312;
+     - the rknn-llm README lists Python 3.10–3.12.
+   - Kaggle's 3.13 can't run them, so use a separate conda env.
+   - Pin `rknn-toolkit2==2.5.0` and one fixed rknn-llm release.
+   - `best_student_vlm.pt` (sha `66391bd6…`) must be on that machine.
    - The Mac can't run the toolkits natively.
    - Record exact tool versions.
 1. **Source.** Start from `best_student_vlm.pt` (full precision), **not** the custom `friday_student_w4a16_packed.pt`.
@@ -164,22 +174,35 @@ GPU-h are estimates, redone after E-THR-1 measures real throughput. Weeks count 
      - then use the stock Qwen tokenizer;
      - cost ≈ +40 MB at INT4.
    - **Alternative:** a rebuilt 64k `tokenizer.json` (riskier).
+   - **Re-expansion is necessary but not enough.** The stock Qwen tokenizer emits ids outside our 64k set for **2.9–5.4% of ordinary English tokens**. Measured by the Researcher and re-measured by the Auditor with the `friday_live.py` L815+ procedure:
+     - README 5.35%;
+     - plan1.md 3.15%.
+   - In training, `safe_encode_64k` (L855) turned these into byte tokens. Stock ids would hit rows the student never trained with: silent quality loss.
+   - **Fix — use the official API (`rkllm.h`, sha `4ad19442…`, verified):**
+     - feed **our own encoder's ids** through `RKLLM_INPUT_TOKEN` (L41), mapped via `new_to_old`, so device input = training input;
+     - use `RKLLM_INFER_GET_LOGITS` (L53) to mask outputs to the 64k set (or at least measure out-of-set emissions).
 3. **Vision → ONNX → `.rknn`.**
    - One module: SigLIP-B/16-384 + 2×2 unshuffle + projector.
    - Fixed input 1×3×384×384, output 1×144×896.
-   - fp16 first, then INT8 calibrated on ~100 COCO images.
-4. **Multimodal join.** Feed the 144 image embeddings to RKLLM as prompt embeddings (check the `rknn-llm` multimodal example; API UNVERIFIED). LoRA support in RKLLM: check (needed for the M6 adapter option).
+   - **FP16 is the baseline**, matching Rockchip's own multimodal benchmarks (encoder in FP16). D2 counts about 190 MB.
+   - INT8 is optional, not a gate.
+4. **Multimodal join, LoRA, multi-turn.** The API exists in `rkllm.h` (verified):
+   - `RKLLM_INPUT_MULTIMODAL` / `image_embed` (L43, L152);
+   - `RKLLMLoraAdapter` (L118–125), for the M6 adapter option;
+   - `keep_history` (L257), for follow-ups.
+
+   E-DEV-1 must still *exercise* each one with our model; existing in the header ≠ working.
 5. **OCR → `.rknn`.** PP-OCRv6 det + rec.
 
 ### 4.3 E-DEV-1 pass/fail (proposed; Krishna fixes in §5)
 
 | Check | Pass |
 |---|---|
-| E-TOK-1: tokenizer round-trip (English, Devanagari, digits, emoji) vs training mapping; teacher vs student non-special ids | 0 mismatches |
+| E-TOK-1: **deployment encoder vs training `Vocab64kMapper`** on 1,000+ strings (English, Devanagari, digits, emoji, chat templates); teacher vs student non-special ids. Also report the outside-64k rate of the stock tokenizer. | 0 mismatches (rate reported, not gated) |
 | HF export vs PyTorch student, same ids, fp32 | max logit diff < 1e-3 |
 | Vision ONNX vs PyTorch, 50 images | cosine ≥ 0.999 |
-| Vision RKNN (simulator) vs PyTorch, 50 images | cosine ≥ 0.995 fp16 / ≥ 0.98 INT8 |
-| LLM w4a16 vs fp16 perplexity on held-out TextVQA answers + own text | ≤ 10% increase |
+| Vision RKNN FP16 (simulator) vs PyTorch, 50 images | cosine ≥ 0.995 (INT8 optional, reported only) |
+| LLM w4a16 vs fp16 perplexity on held-out TextVQA answers + own text | ≤ 10% increase. **If RKLLM x86 inference is unavailable**, use a PyTorch fake-quant w4a16 proxy (labelled "proxy"); the real check moves to E-DEV-2 on the board. Fixed now, not after. |
 | OCR RKNN vs onnxruntime on the 40-label spec set | 0 wrong; correct count within ±1 of 38 |
 | Multimodal embedding input accepted by RKLLM API/simulator | yes / no (record the exact error if no) |
 | Artifact sizes recorded | within the D2 budget |

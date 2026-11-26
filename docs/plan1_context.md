@@ -364,3 +364,22 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
   - At Krishna's request, merged the Researcher's game plan (M0–M9) with the Auditor's co-simulation/E-DEV-1 ruling into `docs/plan1.md`, the shared plan for all agents.
   - Phase 1 is extended to the "Phase 1 Complete (Mac)" purchase/grant gate.
   - Open decisions D1–D14 are listed in §9.
+- **2026-11-26 (plan1.md v1.1).**
+  - The Researcher reviewed v1.0. The Auditor verified its claims:
+    - `rkllm.h` sha 4ad19442 matches; L41/L43/L53/L118/L152/L257 exist;
+    - rknn-toolkit2 2.5.0 wheels are cp36–cp312;
+    - outside-64k rate re-measured: README 5.35%, plan1.md 3.15%.
+  - All corrections were merged into v1.1:
+    - M3 data;
+    - E-PRUNE-1 at matched cost;
+    - D4 conditions;
+    - D2 note and measurement method;
+    - Pi timings = plumbing only;
+    - E-DEV-1 env pinned to Python 3.12;
+    - token-input + logit-mask fix;
+    - API items verified;
+    - vision FP16 baseline;
+    - perplexity fallback;
+    - E-TOK-1 vs the training mapper;
+    - M0 eval-set specs not authored by Hydrogen;
+    - E-THR-1 protocol.
