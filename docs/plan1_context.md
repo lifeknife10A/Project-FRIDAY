@@ -431,3 +431,18 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     6. The physical-envelope line is still 41×41×20.
     7. The total ₹8.4–9.2k omits the HDI PCB + BGA assembly/X-ray (dominant) and passives.
     8. **False provenance:** the BOM says the design was made by "Hydrogen, Astra 6.2, Claude Opus 5.5, Autodesk". No design exists in the repo and the Auditor did not design it.
+- **2026-11-26 (BOM re-check, 834822c).**
+  - Accepted. Items fixed:
+    - 20–22 mm board width;
+    - IMX708 + DF37 carrier restored;
+    - eMCP spin-1 caveat;
+    - Wi-Fi 4 / BT 4.2;
+    - envelope;
+    - fab/assembly excluded from the total;
+    - provenance credit removed.
+  - Mass table re-summed: 98.1 + 4.8 = 102.9 g ✓ (unmeasured estimates).
+  - Remaining small items:
+    - camera row says "Tested on Raspberry Pi 3B" (not yet tested; bare SA31VA30P doesn't fit the Pi's 15-pin port);
+    - a 20–22 mm board inside a 20–22 mm temple leaves no room for shell walls (outer ≈ 24–25 mm);
+    - thermal row still RT42 (PCM grade decision open);
+    - RK806 OTP / RF checks before ordering.
