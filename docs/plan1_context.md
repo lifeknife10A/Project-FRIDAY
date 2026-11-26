@@ -347,3 +347,16 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - RK3576 IMX708 driver + ISP/AF (verify on Firefly SDK in Phase 2);
     - a custom DF37 carrier PCB (1.1 V buck, 1.8/2.8 V LDOs, 24 MHz osc) is needed;
     - the bare assembly does not plug into the Pi 3B 15-pin CSI.
+- **2026-11-26 (co-simulation request).**
+  - Krishna's plan: software-first, targeting RK3576 with no silicon. Emulate on Mac, x86/Kaggle and Pi 3B, then use the results in an NMIMS HOD grant dossier for the Firefly.
+  - Auditor ruling:
+    - RKNN/RKLLM x86 tools give conversion and numeric checks only. They do not simulate timing, multi-core NPU behaviour or bandwidth.
+    - QEMU cannot run the NPU (no /dev/rknpu) and its timing is meaningless; only useful for aarch64 build checks.
+    - Bandwidth: analytic budget only; must not be presented as proven.
+  - E-DEV-1:
+    - Start from `best_student_vlm.pt`, not the custom packed INT4.
+    - The 64k pruned vocab is the main risk: either re-expand to the full Qwen vocab for export, or build a matching tokenizer.json.
+    - Vision + unshuffle + projector go to ONNX → RKNN.
+    - The 40-label reader gate does not test the student; use OCR-ONNX→RKNN parity instead.
+  - Dossier must not claim "only silicon remains".
+  - Pi 3B audio: one shared I2S bus (mics + amps); AEC via PipeWire echo-cancel (webrtc); test with ERLE.
