@@ -383,3 +383,12 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - E-TOK-1 vs the training mapper;
     - M0 eval-set specs not authored by Hydrogen;
     - E-THR-1 protocol.
+- **2026-11-26 (plan1.md v1.2).** Krishna reviewed v1.1. All 6 points accepted:
+  1. D3 split: D3a host-side is in the gate; D3b (image + remapped prompt on the runtime) becomes the first board test.
+     - Auditor finding: `RKLLM_INPUT_MULTIMODAL` takes a text prompt that RKLLM tokenizes itself, so the token-input fix doesn't cover image turns.
+     - Candidate: `RKLLM_INPUT_EMBED` with our own embedding lookup.
+  2. F2 has minimum correct counts: 38/40, 36/40, 17/20.
+  3. F10 checks value + unit (1.5 kg vs 15 kg); Hindi is out of the gate (D15).
+  4. D2 = peak memory during a full live turn.
+  5. F1 latency is measured from the audible end of "Friday" to the audible chime.
+  6. The KD winner is a default only; per-skill 2-arm check; cache top-64 before M3.

@@ -1,6 +1,9 @@
 # plan1.md — Phase 1 (Extended): Shared Plan for All Agents
 
-> **Status.** v1.1, 2026-11-26. v1.1 adds the Researcher's review of v1.0; each correction was verified by the Auditor. Merged by the Auditor from:
+> **Status.** v1.2, 2026-11-26.
+> - v1.1 added the Researcher's review of v1.0.
+> - v1.2 adds Krishna's review of v1.1 (six acceptance-criteria fixes).
+> - Each correction was verified by the Auditor. Merged by the Auditor from:
 > - the Researcher's game plan (`research/notes/2026-11-25_gameplan_phase1_complete_on_mac.md`);
 > - the Researcher's other notes;
 > - the Auditor's co-simulation / E-DEV-1 ruling (`docs/plan1_context.md`, 2026-11-26).
@@ -69,8 +72,8 @@ All items are backed by committed run output. Thresholds are the Researcher's pr
 
 | # | Function | Proposed pass criterion |
 |---|---|---|
-| F1 | "Hey Friday" wake | Chime on the first try in ≥95% of 100 attempts; ≤1 false wake/hour of background speech; chime <80 ms after detection |
-| F2 | Safe reader | 0 wrong numbers on spec / stress / TEST sets, plus a live label check |
+| F1 | "Hey Friday" wake | <ul><li>Chime on the first try in ≥95% of 100 attempts.</li><li>≤1 false wake/hour of background speech.</li><li>**Primary latency:** audible end of "Friday" → audible start of chime, measured on one loopback recording of mic + speaker. Proposed p95 ≤ 300 ms (Krishna fixes).</li><li>**Diagnostic:** detection → chime (proposed ≤ 80 ms), so a slow result can be traced to the detector or to playback.</li></ul> |
+| F2 | Safe reader | **0 wrong spoken numbers/entities (hard limit) AND minimum correct counts**, so a reader that refuses everything cannot pass:<ul><li>spec ≥ 38/40;</li><li>stress ≥ 36/40;</li><li>TEST ≥ 17/20.</li></ul>These equal the `7571e39` baseline (no regression allowed). Live check: 20 real labels, minimum correct fixed before the run. |
 | F3 | Visual Q&A | Objects and colours ≥70% on FRIDAY-Real-100; confident-wrong ≤10%; ≥ SmolVLM-256M on public sets |
 | F4 | Follow-ups | Same-object follow-ups correct in ≥80% of 30 scripted 3-turn dialogues |
 | F5 | People + Easter egg | Description-only policy, 0 sensitive inferences on 30 photos. Easter egg: 0 false triggers on 500 other faces, ≥90% on Krishna |
@@ -78,15 +81,15 @@ All items are backed by committed run output. Thresholds are the Researcher's pr
 | F7 | Conversation / persona | Persona and tone consistent in ≥80% of 50 judged turns; no invented numbers; remembers the last 3 turns |
 | F8 | Router | Correct skill for ≥95% of 200 held-out utterances |
 | F9 | Online fallback | Wi-Fi on: sourced answer in ≥90% of 30 web questions. Wi-Fi off: the Directive-04 offline sentence, never a made-up answer |
-| F10 | Hindi (translation layer) | Hindi in → Hindi out via the English core. Every digit in the Hindi output equals a digit in the English answer, else speak English. **Low priority** (Krishna 2026-11-25) |
+| F10 | Hindi (translation layer) | Hindi in → Hindi out via the English core. **Quantity check:** every complete value + unit in the Hindi output (including numbers spoken as words, e.g. "डेढ़ किलो") must equal a value + unit in the verified English answer. Digit-sequence matching is not enough: `1.5 kg` → `15 kg` keeps the digits. Any unmatched quantity → speak the English answer. **Low priority** (Krishna 2026-11-25); **not part of the purchase gate** unless Krishna decides otherwise (§9 D15). |
 
 ### B. Device-faithfulness (so "works on Mac" transfers)
 
 | # | Criterion |
 |---|---|
 | D1 | The Mac runs the **artifacts that will ship**: INT4 student, same vision tower, same STT/TTS/OCR models. No fp16-only demo. |
-| D2 | Summed resident memory of all on-device **AI models** (measured on the Mac) ≤ the AI budget (proposed 2.0 GB of the 4 GB board). <ul><li>Estimate: about 1.0 GB without Hindi; 1.4–1.85 GB with it.</li><li>With OS and ISP buffers: about 1.5 GB / 1.9–2.4 GB (Researcher `a1b3853`).</li><li>**The Hindi layer is the budget risk.**</li></ul>Measurement method:<ul><li>fresh process per model;</li><li>psutil RSS after load;</li><li>`torch.mps.current_allocated_memory()` for MPS;</li><li>results committed as JSON.</li></ul> |
-| D3 | Every on-device model converts with RKLLM-Toolkit / RKNN-Toolkit2 for target `rk3576` (E-DEV-1, §4) **and passes the numeric checks**. |
+| D2 | **Gate measurement = peak memory during a complete live turn**:<ul><li>all intended models loaded;</li><li>camera active;</li><li>conversation history populated (3 turns);</li><li>image encode + generation + TTS in that turn.</li></ul>Peak ≤ the AI budget (proposed 2.0 GB of the 4 GB board). Per-model readings are **diagnostics only**: they double-count shared runtime and miss inference temporaries. The Mac peak is an estimate for the board. <ul><li>Estimate: about 1.0 GB without Hindi; 1.4–1.85 GB with it.</li><li>With OS and ISP buffers: about 1.5 GB / 1.9–2.4 GB (Researcher `a1b3853`).</li><li>**The Hindi layer is the budget risk.**</li></ul>Measurement method:<ul><li>fresh process per model;</li><li>psutil RSS after load;</li><li>`torch.mps.current_allocated_memory()` for MPS;</li><li>results committed as JSON.</li></ul> |
+| D3 | **D3a (purchase gate, host-side):** every on-device model exports and converts with RKLLM-Toolkit / RKNN-Toolkit2 for `rk3576`, and passes the host-side numeric checks (§4.3). **D3b (first board milestone, E-DEV-2):** the runtime runs an **image + correctly remapped prompt together** with our student (§4.2 step 4). Rockchip documents conversion on PC and inference on the board, so if the pinned SDK cannot run this on x86, D3b is **not** a purchase blocker. It becomes the first test after the board arrives, with the exact test script committed in M0. |
 | D4 | Mac latency is reported as Mac latency. RK3576 latency is a **projection** from Rockchip's published benchmark (Qwen2-0.5B w4a16 32.56 tok/s), labelled as such. The benchmark's conditions:<ul><li>maximum CPU/NPU frequency;</li><li>128-token prompt / 64 new tokens;</li><li>memory type unstated.</li></ul>So the projection is an **upper bound**: the glasses run thermally capped. |
 
 ### C. Live acceptance
@@ -95,7 +98,7 @@ All items are backed by committed run output. Thresholds are the Researcher's pr
 - Mic, camera and speaker really on; every turn logged by TurnLogger.
 - **Pass:** 0 crashes, 0 wrong spoken numbers, per-function criteria met.
 
-**Purchase / grant gate = A + B + C.** Exception: D3 is checked in week 2. If conversion fails, the hardware plan changes *before* any training time is spent.
+**Purchase / grant gate = A (F1–F9) + B (D1, D2, D3a, D4) + C.** Exception: D3a is checked in week 2. If conversion fails, the hardware plan changes *before* any training time is spent.
 
 ---
 
@@ -107,13 +110,13 @@ GPU-h are estimates, redone after E-THR-1 measures real throughput. Weeks count 
 |---|---|---|---|---|
 | **M0 Foundations** | 1–2 | (a) Live-demo bugs (§3.1). (b) **Freeze eval sets**: FRIDAY-Real-100, math, router, persona, people (sha256 manifests).<ul><li>Specs (size, source/licence, ground-truth format, rubric, photo shot list) are drafted by the Researcher.</li><li>Items are **authored by Krishna/Auditor, never Hydrogen**.</li></ul>(e′) **E-THR-1 protocol fixed before running.** Student tokens/s with cached teacher vs with a live teacher on the second T4, plus Qwen3-VL-2B batched-generation tokens/s. (c) **E-DEV-1** conversion (§4). (d) **E-TOK-1** tokenizer test. (e) E-THR-1 throughput. (f) Memory table v0 measured on the Mac. | ~1 | Auditor (E-DEV-1) + Researcher |
 | **M1 Wake word** | 2–3 | Custom "Hey Friday" model (openWakeWord-style; synthetic TTS clips + Krishna's recordings). Chime first, then processing. | 0 | Researcher |
-| **M2 KD method** | 3–4 | **E-KD-1** on math (exact-match metric), at equal GPU-h: (a) SeqKD, (b) top-64 forward KL, (c) on-policy / reverse KL. The winner is used in M3–M5. | ~10 | Researcher |
-| **M3 Visual** | 4–7 | Teacher Qwen3-VL-2B (deviation, §8). Data: VQAv2 + VizWiz + Visual Genome (CC-BY-4.0), **plus teacher-generated (Qwen3-VL-2B) single- and multi-turn answers on those images, with top-16 answer-token logits cached for KD**. COCO captions for projector re-alignment (stage V1; licence UNVERIFIED). Uncertainty U-A. Follow-up dialogues. People policy. Easter egg (YuNet + SFace, CPU). | ~25–30 | Researcher |
+| **M2 KD method** | 3–4 | **E-KD-1** on math (exact-match metric), at equal GPU-h: (a) SeqKD, (b) top-64 forward KL, (c) on-policy / reverse KL. The math winner is the **default** only. Each later skill (M3, M5) runs a small 2-arm check (default vs runner-up, ≈2 GPU-h) on its own metric before full training. **The teacher-logit cache size is decided before M3 data generation**: cache top-64, so both (b) and SeqKD stay possible; storage cost recorded. | ~10 (+≈2 per skill) | Researcher |
+| **M3 Visual** | 4–7 | Teacher Qwen3-VL-2B (deviation, §8). Data: VQAv2 + VizWiz + Visual Genome (CC-BY-4.0), **plus teacher-generated (Qwen3-VL-2B) single- and multi-turn answers on those images, with top-64 answer-token logits cached for KD** (matches E-KD-1 arm b; v1.1 said top-16). COCO captions for projector re-alignment (stage V1; licence UNVERIFIED). Uncertainty U-A. Follow-up dialogues. People policy. Easter egg (YuNet + SFace, CPU). | ~25–30 | Researcher |
 | **M4 Math** | 6–8 | Safe arithmetic expression format; our own parser, **never `eval`**. Teachers Qwen3-1.7B / DeepSeek-R1-Distill-Qwen-1.5B. Whiteboard via OCR → expression. | ~10 | Researcher |
 | **M5 Conversation** | 8–10 | "Donna" persona distilled from Qwen3-4B (non-thinking). Tone tag → Kokoro voice/speed. 3-turn memory. Number filter. | ~20 | Researcher |
 | **M6 Merge + router** | 10–13 | One student vs per-skill LoRA adapters. **Forgetting matrix** (core thesis experiment). Router choice. | ~40–60 | Researcher |
 | **M7 Online fallback** | 12–14 | Search API (Krishna picks; the key is never in the repo). Source naming. Offline sentence. | 0 | Researcher |
-| **M8 Hindi layer** | 14–15 | STT (hi) → IndicTrans2-Dist → student → back → TTS. Digit-preservation check. *Low priority; may slip after M9.* | ~2 | Researcher |
+| **M8 Hindi layer** | 14–15 | STT (hi) → IndicTrans2-Dist → student → back → TTS. Quantity value + unit check (F10). *Low priority; not in the purchase gate; may slip after M9.* | ~2 | Researcher |
 | **M9 Acceptance + dossier** | 15–17 | Gate C live session, D2 memory, D3 conversion of the final models, **grant dossier** (§7). | ~2 | All |
 
 **Totals.** About 110–135 GPU-h over about 17 weeks, against about 500 h of quota. The spare quota is for re-runs and research tracks. Target end: about March 2027, leaving about 8 months for Phases 2–4.
@@ -204,7 +207,7 @@ GPU-h are estimates, redone after E-THR-1 measures real throughput. Weeks count 
 | Vision RKNN FP16 (simulator) vs PyTorch, 50 images | cosine ≥ 0.995 (INT8 optional, reported only) |
 | LLM w4a16 vs fp16 perplexity on held-out TextVQA answers + own text | ≤ 10% increase. **If RKLLM x86 inference is unavailable**, use a PyTorch fake-quant w4a16 proxy (labelled "proxy"); the real check moves to E-DEV-2 on the board. Fixed now, not after. |
 | OCR RKNN vs onnxruntime on the 40-label spec set | 0 wrong; correct count within ±1 of 38 |
-| Multimodal embedding input accepted by RKLLM API/simulator | yes / no (record the exact error if no) |
+| Image + remapped prompt together (D3b). **Finding (Auditor, `rkllm.h` L149–160):** `RKLLM_INPUT_MULTIMODAL` takes a **text `prompt`** that RKLLM tokenizes itself, so the token-input fix (step 2) does not cover image turns. Two candidate paths, both tried:<ul><li>(i) `RKLLM_INPUT_EMBED` (L42, L128–134): we look up text embeddings with our 64k encoder on the CPU, concatenate the 144 image embeddings, and feed the whole sequence. Extra CPU embedding table ≈ 115 MB fp16; record it in D2.</li><li>(ii) `RKLLM_INPUT_MULTIMODAL` with a rebuilt 64k `tokenizer.json`.</li></ul>**Host-side (M0):** output of path (i) on PyTorch == the training forward pass (max logit diff < 1e-3). **Runtime:** on x86 if the SDK allows, else E-DEV-2 (first board test, script committed in M0). | host: pass/fail; runtime: yes/no + exact error |
 | Artifact sizes recorded | within the D2 budget |
 
 **Notes.**
@@ -310,3 +313,4 @@ GPU-h are estimates, redone after E-THR-1 measures real throughput. Weeks count 
 | D12 | E-DEV-1 vocabulary strategy | Re-expand to full Qwen vocab |
 | D13 | Weight limit 120 g vs 125 g | 120 g hard |
 | D14 | Clean the Gemini Notebook sources (remove the AI-generated "Technical Evaluation" doc; add primary papers) | Yes |
+| D15 | Is Hindi (F10) required for the purchase/grant gate? | No; low priority, after the gate |
