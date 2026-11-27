@@ -97,6 +97,10 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- SCH-1 fix round @ d9d37a8 ACCEPTED (netlist-verified X1-X8; ERC 0/0 active/23 approved; io_bank_map.md good).
+  Carry to SCH-2: Y1 USB3 REXT open (EVB R1400 8.2k); Y2 keep BUCK9 net VDD2_DDR_S3 + CKE branch, eMCP VDD2 on
+  it; Y3 INMP441 on 1.8 V to match SAI1 1.8 V bank. Next: SCH-2 eMCP/LPDDR4X (gpt-6.2-astra high).
+
 - SCH-1 @ 1617157 -> NO (2 blocks). OK: FB dividers (0.75/0.61/1.10/2.094/1.10/4.99 V), I2C/VCCIO/PLDO6,
   EXT_EN, NPOR, crystal, core rails, ERC 0 err. X1 BLOCK PMU_LOGIC_DVDD0V75 on VDD_LOGIC_S0 (EVB: VDD_0V75_S3
   NLDO1). X2 BLOCK DDRPHY_CKE_VDDQ on 0.61 V VDDQ (DS 1.06-1.17 V; EVB VDDQ_DDR_CKE_S3). X3 VCCIO7 NC (HDG:

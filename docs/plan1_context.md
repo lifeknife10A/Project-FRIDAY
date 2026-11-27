@@ -595,3 +595,18 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
   - 33 warnings, all EAGLE code 104 "POWER pin X connected to <net>", matching out/FRIDAY_Compute_SCH1_erc.txt (33 × code 104, no other warning types). Sheet 1: D1/J1 VBUS, U10 PVIN/VCC. Sheet 2: U2 VCC1–14, VCCA, VCCIO, VDC, VOUT1–10. Sheet 3: U6/U7 IN.
   - Benign (a supply-type pin tied to a project net name), and the netlist was checked separately.
   - Advice: Approve them in Fusion ERC with a note, so any NEW warning stands out. Library nit: RK806 VOUTx are buck feedback/sense inputs, so mark them in/pas, not pwr.
+- **2026-11-27 (SCH-1 fix round @ d9d37a8, gpt-6.2-sol).** **ACCEPTED.**
+  - Netlist-verified:
+    - X1 PMU_LOGIC → VDD_0V75_S3 (NLDO1);
+    - X2 DDRPHY_CKE_VDDQ → BUCK9 1.1 V (net renamed VDDQ_DDR_CKE_S3);
+    - X3 VCCIO7 → VCC_1V8_S0;
+    - X4 USB3/DP 0V85 → NLDO4, 1V8 → VCCA_1V8_S0;
+    - X5 UFS rails fed through R1320/R1323 (UNVERIFIED topology, safe);
+    - X6 io_bank_map.md (VCCIO2/3 now 1.8 V; Wi-Fi SDIO on VCCIO3 via R2427; camera I2C on VCCIO5 1.8 V);
+    - X7 ERC 0 errors / 0 active / 23 approved;
+    - X8 VOUT pins passive.
+  - Carry into SCH-2:
+    - Y1 USB3/DP REXT open (EVB R1400 8.2k);
+    - Y2 keep BUCK9 net name VDD2_DDR_S3 (EVB) with the CKE branch, and wire eMCP VDD2 to it;
+    - Y3 power INMP441 from 1.8 V (its VDD range allows it) to match the 1.8 V SAI1 bank.
+  - Next: SCH-2 (eMCP + LPDDR4X), gpt-6.2-astra high/xhigh.
