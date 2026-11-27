@@ -446,3 +446,19 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - a 20–22 mm board inside a 20–22 mm temple leaves no room for shell walls (outer ≈ 24–25 mm);
     - thermal row still RT42 (PCM grade decision open);
     - RK806 OTP / RF checks before ordering.
+- **2026-11-27 (schematic_components.md review, 42a6010).**
+  - Verdict: **NOT ready for schematic capture.** It is a generic parts list, not derived from the RK3576 reference schematic.
+  - Errors / hazards:
+    - R11 220k described as a "pull-down for Left" on MAX98357A SD_MODE. It must be a pull-UP; 0.77–1.4 V = RIGHT. As a pull-down, the amp stays in shutdown.
+    - I2C pull-ups to 3.3 V for the IMX708/PMIC: IMX708 I/O is 1.8 V (hazard). RK806 host interface may be SPI (UNVERIFIED).
+    - D2 1 A Schottky as USB backfeed protection on a ~2.3–2.9 A rail (thermal hazard); needs an ideal diode / power-path ≥3 A.
+    - J4 2-pin 1.25 mm for 5 V at ~3 A (under-rated); "1.25 mm ... 2.54 mm spacing" contradictory.
+    - Crystal load caps wrong: CL 12 pF needs ~2×(CL−Cstray) ≈ 18–20 pF; 12.5 pF is not a stock value.
+    - Only 4 PMIC bucks: missing CPU big/little split, GPU, DDR VDD1/VDD2/VDDQ, eMMC VCC/VCCQ, VCCIO banks; no PMIC input caps.
+    - 24 decaps for a 698-ball SoC is far below a reference design.
+    - RTL8723DS: missing its own crystal, RF matching, antenna.
+    - No VBUS TVS; no debug UART; no PWRON key; boot straps missing.
+    - R14 IP2326 ISET is on the compute board, but the IP2326 is a separate module.
+    - "6nm" is wrong (RK3576 = 8 nm per the vendor datasheet).
+    - Ball pitch 0.5 mm UNVERIFIED (Krishna said 0.65/0.8).
+    - "100% JLCPCB compatible" is an unverified claim; a harvested eMCP can't be robot-placed from stock.

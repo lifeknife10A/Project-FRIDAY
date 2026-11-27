@@ -97,6 +97,13 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Reviewed docs/schematic_components.md (42a6010) -> NO, not ready for schematic capture: generic list, not
+  derived from RK3576 reference schematic. Hazards: R11 SD_MODE pull-DOWN (amp shutdown; 0.77-1.4 V is
+  RIGHT); I2C pull-ups to 3.3 V on 1.8 V IMX708/PMIC; D2 1 A Schottky on ~3 A rail; J4 1.25 mm 2-pin at
+  ~3 A. Also: crystal load caps (need ~18-20 pF), only 4 bucks (power tree incomplete), 24 decaps,
+  RTL8723DS crystal/RF/antenna missing, no VBUS TVS/debug UART/PWRON/straps, R14 IP2326 misplaced, "6nm"
+  (8 nm), pitch 0.5 unverified, "100% JLCPCB" unverified.
+
 - Reviewed BOM 1c26f35/474d1ef (custom 14x75 mm gum-stick, LCSC cart + harvested eMCP). LCSC-verified:
   RK3576 FCCSP-698L 16.1x17.2 mm; RK806-1 QFN-68; RTL8723DS = 2.4 GHz 11n + BT 4.2. BLOCK: SoC wider than
   14 mm board -> >=20-22 mm. Flags: RK806 OTP variant vs RK3576 reference; bare RTL8723DS RF design ->
