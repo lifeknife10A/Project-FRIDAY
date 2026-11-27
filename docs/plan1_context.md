@@ -568,3 +568,19 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - "MIPI_DPHY_CSI1-4 grounded" vs the camera's CSI port;
     - FB1/FB2 set "nc" vs EVB;
     - the HDG unused-PHY rules.
+- **2026-11-27 (SCH-1 review @ 1617157 / 0593272).**
+  - Verified from the committed netlist/BOM/ERC:
+    - FB dividers: BUCK5 0.75, BUCK6 0.61, BUCK9 1.10, U6 2.094, U7 1.10, SY8205 4.99 V.
+    - I2C mode (CS→VCCA net, 10k pull-ups to VCCIO = PLDO6 as EVB).
+    - EXT_EN → U6/U7.
+    - NPOR from RESETB.
+    - Crystal 18 pF + 22R + 510k.
+    - CPU/GPU/NPU/LOGIC/DDR rails on the right balls.
+    - ERC 0 errors.
+  - **X1 BLOCK:** PMU_LOGIC_DVDD0V75 on VDD_LOGIC_S0; EVB = VDD_0V75_S3 (NLDO1, which is left unused).
+  - **X2 BLOCK:** DDRPHY_CKE_VDDQ on VDDQ_DDR 0.61 V; DS = 1.06–1.17 V retention; EVB net VDDQ_DDR_CKE_S3.
+  - Other findings:
+    - X3 VCCIO7 NC; HDG says 1.8 V when UFS is unused.
+    - X4 USB3_OTG0_DP_TX rails NC; the cited HDG §2.2.2.13 doesn't allow it.
+    - X5 UFS rails NC uncited.
+    - X6 VCCIO2/3 = 3.3 V vs EVB 1.8 V → needs an IO-bank allocation table.

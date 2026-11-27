@@ -97,6 +97,11 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- SCH-1 @ 1617157 -> NO (2 blocks). OK: FB dividers (0.75/0.61/1.10/2.094/1.10/4.99 V), I2C/VCCIO/PLDO6,
+  EXT_EN, NPOR, crystal, core rails, ERC 0 err. X1 BLOCK PMU_LOGIC_DVDD0V75 on VDD_LOGIC_S0 (EVB: VDD_0V75_S3
+  NLDO1). X2 BLOCK DDRPHY_CKE_VDDQ on 0.61 V VDDQ (DS 1.06-1.17 V; EVB VDDQ_DDR_CKE_S3). X3 VCCIO7 NC (HDG:
+  1.8 V if no UFS). X4 USB3/DP PHY rails NC uncited. X5 UFS rails NC uncited. X6 IO-bank table needed.
+
 - 6bc8e11: RK806 I2C mode is what EVB actually wires (I2C1_*_M0_RK806, R2324 CS->VCCA) -> my "EVB = SPI"
   was a misread of the chip-default note (MY MISS). CW3301 1.8 V switch = EVB U2402 OK; PWRON pin 4 OK.
   Open: J2 "1.2V VDD_CORE" (IMX708 = 1.1 V) + DF37-on-main-board vs front-bridge plan. Issued SCH-1 prompt
