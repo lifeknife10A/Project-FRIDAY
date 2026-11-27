@@ -584,3 +584,10 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - X4 USB3_OTG0_DP_TX rails NC; the cited HDG §2.2.2.13 doesn't allow it.
     - X5 UFS rails NC uncited.
     - X6 VCCIO2/3 = 3.3 V vs EVB 1.8 V → needs an IO-bank allocation table.
+- **2026-11-27 (agent model choice).**
+  - Krishna wants an OpenAI model for the schematic work (Hydrogen = good executor, weak designer).
+  - Auditor advice (web-checked):
+    - GPT-6.2 Astra (released 2026-11-17, Codex id gpt-6.2-astra, API $8/$40 per M tokens) at **high** for first capture of hard sheets (SCH-2 DDR/eMCP, SCH-3 camera MIPI);
+    - GPT-6.2 Sol (gpt-6.2-sol, $2/$10) at **medium/high** for fix rounds and exports;
+    - xhigh only for the DDR ball/pin mapping.
+  - Same cost rules (script-driven Fusion, no screenshots, push before reporting).
