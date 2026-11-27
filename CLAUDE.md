@@ -97,6 +97,12 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Re-reviewed schematic_components.md @ 90a9763 -> NO (one block). S1/S2/S4/S5/S6/S8/S9/S10 OK, S7 power
+  tree added (UNVERIFIED, honest). S3 NOT fixed: TI pages LM66100 = 1.5 A/79 mOhm, TPS2113A = 1.25 A/84 mOhm
+  (claimed >=3 A, <30 mV). Options: TPS2121 4.5 A/56 mOhm (~0.17 V, 0.5 W @3 A) or controller + low-Rds
+  FETs. New: VCCIO_3V3 0.6 A LDO feeding MAX98357A + Wi-Fi + camera buck (amps -> VSYS_5V; resize 3V3);
+  J4 JST-PH ~2 A < 3 A spec; decap count inconsistent with power-tree text.
+
 - Reviewed docs/schematic_components.md (42a6010) -> NO, not ready for schematic capture: generic list, not
   derived from RK3576 reference schematic. Hazards: R11 SD_MODE pull-DOWN (amp shutdown; 0.77-1.4 V is
   RIGHT); I2C pull-ups to 3.3 V on 1.8 V IMX708/PMIC; D2 1 A Schottky on ~3 A rail; J4 1.25 mm 2-pin at

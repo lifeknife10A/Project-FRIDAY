@@ -462,3 +462,15 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - "6nm" is wrong (RK3576 = 8 nm per the vendor datasheet).
     - Ball pitch 0.5 mm UNVERIFIED (Krishna said 0.65/0.8).
     - "100% JLCPCB compatible" is an unverified claim; a harvested eMCP can't be robot-placed from stock.
+- **2026-11-27 (schematic_components.md re-review, 90a9763).**
+  - S1, S2, S4 (text), S5, S6, S8, S9, S10 fixed; S7 power tree added (all UNVERIFIED, honest).
+  - **S3 NOT fixed.** TI pages:
+    - LM66100 = 1.5 A, 79 mΩ;
+    - TPS2113A = 1.25 A, 84 mΩ;
+    - neither meets the "≥3 A, <30 mV" stated.
+    - TPS2121 = 4.5 A / 56 mΩ (≈0.17 V, 0.5 W at 3 A) or TPS2120 = 3 A / 62 mΩ.
+    - <30 mV needs an ideal-diode controller + low-Rds MOSFETs.
+  - New findings:
+    - VCCIO_3V3 0.6 A LDO feeds the MAX98357A amps + Wi-Fi TX + the camera AP3429K: the amps belong on VSYS_5V, and the 3.3 V budget is too small.
+    - J4 "JST-PH 2.0" is rated ~2 A, below the ≥3 A spec → pads only.
+    - 24 decaps vs the power-tree text (4×100 nF per rail).
