@@ -97,6 +97,16 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Ref triage @ 22c42db -> NO for SCH-2 use until R1-R4 fixed. OK: licence handling (0 PDFs committed,
+  references_local/ gitignored), eMCP = SK hynix H9HP52ACPMADAR-KMM 254-ball 11.5x13 0.5 mm, LPDDR4X x16 2ch 2-rank,
+  rails VDD1 1.8/VDD2 1.1/VDDQ 0.6/VCC 3.3/VCCQ 1.8. CSV 254 balls, no dups, corner DNUs symmetric, ChA/ChB mirror ->
+  internally plausible (not yet checked vs p.6). R1 BLOCK: eMCP note ball lists contradict CSV (VCC M18-R18 vs CSV
+  M17/N17/P17; VCCQ, VSF, NC, DNU, VDDI L18 vs L17, CKE/CS/CLK cols; counts wrong; N8 in VSSm+VSF) -> regenerate
+  note from CSV. R2 BLOCK: power note mislabels BUCK5 "CPU_LIT", BUCK9 "NPU", TMI3112H 1.1 V FB 68k/82k + "feeds VDD2"
+  (ours 100k/120k; VDD2 = BUCK9 VDD2_DDR_S3, Y2). R3: CSV generator not committed. R4: VDDI cap 0.1+1 uF (eMCP) vs
+  2.2 uF (discrete eMMC refs) -> follow eMCP DS. Krishna to send p.6-8 images; ZQ 240R to VDDQ to confirm on p.8.
+  WATCHLIST: 2018 part availability + RK3576 memory support list.
+
 - SCH-1 fix round @ d9d37a8 ACCEPTED (netlist-verified X1-X8; ERC 0/0 active/23 approved; io_bank_map.md good).
   Carry to SCH-2: Y1 USB3 REXT open (EVB R1400 8.2k); Y2 keep BUCK9 net VDD2_DDR_S3 + CKE branch, eMCP VDD2 on
   it; Y3 INMP441 on 1.8 V to match SAI1 1.8 V bank. Next: SCH-2 eMCP/LPDDR4X (gpt-6.2-astra high).

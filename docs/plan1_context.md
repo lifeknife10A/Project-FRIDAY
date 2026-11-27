@@ -610,3 +610,9 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - Y2 keep BUCK9 net name VDD2_DDR_S3 (EVB) with the CKE branch, and wire eMCP VDD2 to it;
     - Y3 power INMP441 from 1.8 V (its VDD range allows it) to match the 1.8 V SAI1 bank.
   - Next: SCH-2 (eMCP + LPDDR4X), gpt-6.2-astra high/xhigh.
+
+## 2026-11-27 (auditor)
+- Codex/Astra SCH-2 attempt ran out of 5-h quota with nothing pushed; EVB sheets 38/40 (LPDDR4X, eMMC) are NDA ->
+  Krishna found ArmSoM rk3576-hardware-design repo + SK hynix eMCP spec; Hydrogen triage prompt issued.
+- Hydrogen triage 22c42db reviewed -> NO for SCH-2 input until R1-R4 (see CLAUDE.md §7). Licence handling good
+  (nothing proprietary committed). eMCP = H9HP52ACPMADAR-KMM. Ball map CSV plausible but needs p.6 visual check.
