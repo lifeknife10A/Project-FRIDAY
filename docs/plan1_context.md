@@ -591,3 +591,7 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - GPT-6.2 Sol (gpt-6.2-sol, $2/$10) at **medium/high** for fix rounds and exports;
     - xhigh only for the DDR ball/pin mapping.
   - Same cost rules (script-driven Fusion, no screenshots, push before reporting).
+- **2026-11-27 (SCH-1 ERC warnings, Fusion screenshots from Krishna).**
+  - 33 warnings, all EAGLE code 104 "POWER pin X connected to <net>", matching out/FRIDAY_Compute_SCH1_erc.txt (33 × code 104, no other warning types). Sheet 1: D1/J1 VBUS, U10 PVIN/VCC. Sheet 2: U2 VCC1–14, VCCA, VCCIO, VDC, VOUT1–10. Sheet 3: U6/U7 IN.
+  - Benign (a supply-type pin tied to a project net name), and the netlist was checked separately.
+  - Advice: Approve them in Fusion ERC with a note, so any NEW warning stands out. Library nit: RK806 VOUTx are buck feedback/sense inputs, so mark them in/pas, not pwr.
