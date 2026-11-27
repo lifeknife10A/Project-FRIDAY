@@ -541,3 +541,11 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - 16.5 W transient vs the 3 W thermal burst plan, which needs DVFS/power caps;
     - battery side ≈3.1 A vs the HY2212 3 A BMS trip;
     - hardware_bom.md still lists MP2315 (L148, L175).
+- **2026-11-27 (E7–E10 @ 4d02ff5).**
+  - All accepted:
+    - NLDO1 = VDD_0V75_S3 / NLDO2 = DDR_PLL as on EVB p.6;
+    - defaults/slots match EVB p.6;
+    - watchlist (16.5 W vs thermal; ~3.1 A vs HY2212 trip) written into §2.2;
+    - BOM MP2315 → SY8205FCC.
+  - **GREEN for schematic capture** (copy EVB sheets 04/05/10/23/24 + SoC sheets; eMCP DDR per HDG rules).
+  - Next review = the schematic, then stack-up/DDR layout before fab.

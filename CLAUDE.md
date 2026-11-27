@@ -97,6 +97,10 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- E7-E10 @ 4d02ff5 ACCEPTED (NLDO swap fixed; defaults/slots = EVB p.6; watchlist in §2.2; BOM SY8205FCC).
+  schematic_components.md -> GREEN for schematic capture. Next auditor gate: schematic review, then
+  stack-up + DDR/power layout review before any fab. Open watchlist: thermal cap/DVFS, BMS trip ~3 A.
+
 - E-round @ e8be63b: E1-E6 done (RK806S-5 LCSC C49174044 verified; SY8205FCC 5 A replaces MP2315; TMI3112H
   ext bucks as on EVB; SY6280 load switches; PVTM). E7 BLOCK: NLDO1/NLDO2 swapped vs EVB p.6 -> PMU 0.75 V
   rail would get OTP 0.85 V (> 0.825 V max). Fix defaults/slots to EVB (BUCK1/3/10 0.85 V; slots B1=2, B4=5,
