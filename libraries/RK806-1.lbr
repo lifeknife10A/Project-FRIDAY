@@ -303,12 +303,13 @@
 </connects>
 <technologies>
 <technology name="">
-<attribute name="DESCRIPTION" value="RK806-1 Power Management IC"/>
-<attribute name="MANUFACTURER" value="rockchip"/>
+<attribute name="DESCRIPTION" value="RK806S-5 Dedicated RK3576 Power Management IC"/>
+<attribute name="MANUFACTURER" value="Rockchip"/>
 <attribute name="MAXIMUM_PACKAGE_HEIGHT" value="0.90mm"/>
-<attribute name="MPN" value="RK806-1"/>
+<attribute name="MPN" value="RK806S-5"/>
+<attribute name="LCSC" value="C49174044"/>
 <attribute name="PARTREV" value="1.3"/>
-<attribute name="SOURCE_URL" value="https://www.snapeda.com/parts/RK806-1/Rockchip/view-part/"/>
+<attribute name="SOURCE_URL" value="https://www.lcsc.com/product-detail/PMIC-Solutions_Rockchip-RK806S-5_C49174044.html"/>
 <attribute name="STANDARD" value="IPC-7351B"/>
 </technology>
 </technologies>
