@@ -33,7 +33,7 @@ C5,VSS,LPDDR4X Ground,GND (0V),6
 C6,DQ5_A,LPDDR4X Channel A Data I/O [5],VDDQ (0.60V),6
 C7,VSS,LPDDR4X Ground,GND (0V),6
 C8,DQ7_A,LPDDR4X Channel A Data I/O [7],VDDQ (0.60V),6
-C9,DQS0_t_A,LPDDR4X Channel A Data I/O [S0],VDDQ (0.60V),6
+C9,DQS0_t_A,LPDDR4X Channel A Data Strobe Byte 0 (True),VDDQ (0.60V),6
 C13,CA2_A,LPDDR4X Channel A Command/Address Input [2],VDD2 (1.10V),6
 C14,VSS,LPDDR4X Ground,GND (0V),6
 C15,CA5_A,LPDDR4X Channel A Command/Address Input [5],VDD2 (1.10V),6
@@ -44,7 +44,7 @@ D5,DMI0_A,LPDDR4X Channel A Data Mask Inversion [0],VDDQ (0.60V),6
 D6,VSS,LPDDR4X Ground,GND (0V),6
 D7,DQ6_A,LPDDR4X Channel A Data I/O [6],VDDQ (0.60V),6
 D8,VSS,LPDDR4X Ground,GND (0V),6
-D9,DQS0_c_A,LPDDR4X Channel A Data I/O [S0],VDDQ (0.60V),6
+D9,DQS0_c_A,LPDDR4X Channel A Data Strobe Byte 0 (Complement),VDDQ (0.60V),6
 D13,CA3_A,LPDDR4X Channel A Command/Address Input [3],VDD2 (1.10V),6
 D14,VSS,LPDDR4X Ground,GND (0V),6
 D15,VSS,LPDDR4X Ground,GND (0V),6
@@ -85,7 +85,7 @@ J5,VDDQ,LPDDR4X I/O Power Supply (0.60V),VDDQ (0.60V),6
 J6,VSS,LPDDR4X Ground,GND (0V),6
 J7,DQ12_A,LPDDR4X Channel A Data I/O [12],VDDQ (0.60V),6
 J8,VDDQ,LPDDR4X I/O Power Supply (0.60V),VDDQ (0.60V),6
-J9,DQS1_c_A,LPDDR4X Channel A Data I/O [S1],VDDQ (0.60V),6
+J9,DQS1_c_A,LPDDR4X Channel A Data Strobe Byte 1 (Complement),VDDQ (0.60V),6
 J13,NC,No Connect,N/A,6
 J14,NC,No Connect,N/A,6
 J15,VCCQ,eMMC I/O Power Supply (1.8V),VCCQ (1.8V),6
@@ -98,7 +98,7 @@ K5,DQ8_A,LPDDR4X Channel A Data I/O [8],VDDQ (0.60V),6
 K6,DQ9_A,LPDDR4X Channel A Data I/O [9],VDDQ (0.60V),6
 K7,VSS,LPDDR4X Ground,GND (0V),6
 K8,VSS,LPDDR4X Ground,GND (0V),6
-K9,DQS1_t_A,LPDDR4X Channel A Data I/O [S1],VDDQ (0.60V),6
+K9,DQS1_t_A,LPDDR4X Channel A Data Strobe Byte 1 (True),VDDQ (0.60V),6
 K13,VSSm,eMMC Ground,GND (0V),6
 K14,VSSm,eMMC Ground,GND (0V),6
 K15,VCCQ,eMMC I/O Power Supply (1.8V),VCCQ (1.8V),6
@@ -155,7 +155,7 @@ R5,DQ8_B,LPDDR4X Channel B Data I/O [8],VDDQ (0.60V),6
 R6,DQ9_B,LPDDR4X Channel B Data I/O [9],VDDQ (0.60V),6
 R7,VSS,LPDDR4X Ground,GND (0V),6
 R8,VSS,LPDDR4X Ground,GND (0V),6
-R9,DQS1_t_B,LPDDR4X Channel B Data I/O [S1],VDDQ (0.60V),6
+R9,DQS1_t_B,LPDDR4X Channel B Data Strobe Byte 1 (True),VDDQ (0.60V),6
 R13,VCCQ,eMMC I/O Power Supply (1.8V),VCCQ (1.8V),6
 R14,VCCQ,eMMC I/O Power Supply (1.8V),VCCQ (1.8V),6
 R15,VSSm,eMMC Ground,GND (0V),6
@@ -167,7 +167,7 @@ T5,VDDQ,LPDDR4X I/O Power Supply (0.60V),VDDQ (0.60V),6
 T6,VSS,LPDDR4X Ground,GND (0V),6
 T7,DQ12_B,LPDDR4X Channel B Data I/O [12],VDDQ (0.60V),6
 T8,VDDQ,LPDDR4X I/O Power Supply (0.60V),VDDQ (0.60V),6
-T9,DQS1_c_B,LPDDR4X Channel B Data I/O [S1],VDDQ (0.60V),6
+T9,DQS1_c_B,LPDDR4X Channel B Data Strobe Byte 1 (Complement),VDDQ (0.60V),6
 T13,NC,No Connect,N/A,6
 T14,NC,No Connect,N/A,6
 T15,VCCQ,eMMC I/O Power Supply (1.8V),VCCQ (1.8V),6
@@ -209,7 +209,7 @@ AA5,DMI0_B,LPDDR4X Channel B Data Mask Inversion [0],VDDQ (0.60V),6
 AA6,VSS,LPDDR4X Ground,GND (0V),6
 AA7,DQ6_B,LPDDR4X Channel B Data I/O [6],VDDQ (0.60V),6
 AA8,VSS,LPDDR4X Ground,GND (0V),6
-AA9,DQS0_c_B,LPDDR4X Channel B Data I/O [S0],VDDQ (0.60V),6
+AA9,DQS0_c_B,LPDDR4X Channel B Data Strobe Byte 0 (Complement),VDDQ (0.60V),6
 AA13,CA3_B,LPDDR4X Channel B Command/Address Input [3],VDD2 (1.10V),6
 AA14,VSS,LPDDR4X Ground,GND (0V),6
 AA15,VSS,LPDDR4X Ground,GND (0V),6
@@ -220,7 +220,7 @@ AB5,VSS,LPDDR4X Ground,GND (0V),6
 AB6,DQ5_B,LPDDR4X Channel B Data I/O [5],VDDQ (0.60V),6
 AB7,VSS,LPDDR4X Ground,GND (0V),6
 AB8,DQ7_B,LPDDR4X Channel B Data I/O [7],VDDQ (0.60V),6
-AB9,DQS0_t_B,LPDDR4X Channel B Data I/O [S0],VDDQ (0.60V),6
+AB9,DQS0_t_B,LPDDR4X Channel B Data Strobe Byte 0 (True),VDDQ (0.60V),6
 AB13,CA2_B,LPDDR4X Channel B Command/Address Input [2],VDD2 (1.10V),6
 AB14,VSS,LPDDR4X Ground,GND (0V),6
 AB15,CA5_B,LPDDR4X Channel B Command/Address Input [5],VDD2 (1.10V),6

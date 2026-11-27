@@ -67,7 +67,8 @@ Both ArmSoM Sige5 (sheet 15) and DshanPI-A1 (sheet 19) implement standard JEDEC 
   - 1× 4.7 µF 10V X5R (0402): Sige5 `C4006`, DshanPI-A1 `C173`
   - 2× 100 nF 10V X5R (0201): Sige5 `C4004`, `C4005`; DshanPI-A1 `C171`, `C172`
 - **`VDDI` (Internal Regulator):**
-  - 1× 2.2 µF 10V X5R (0402): Sige5 `C4007`, DshanPI-A1 `C174` (connect between VDDI pin and GND)
+  - 1× 2.2 µF 10V X5R (0402): Sige5 `C4007`, DshanPI-A1 `C174` (connect between VDDI pin and GND).
+    *(Note: The 2.2 µF value applies only to discrete-eMMC reference boards, not our eMCP. For our SK hynix H9HP52ACPMADAR eMCP, the datasheet p. 54 Table 14 is authoritative: the eMCP die package integrates an internal 1 µF capacitor, and specifies an external coupling capacitor of **0.1 µF** between VDDI and GND/VSS).*
 
 ### 2.2 Signal Pull-Up & Damping Resistors
 - **`EMMC_CMD` Pull-Up:**

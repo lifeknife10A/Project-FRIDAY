@@ -20,15 +20,22 @@ This note documents power architecture similarities and differences between the 
 
 ## 2. PMIC (U2: RK806S-5) Comparison
 
-Across all reference designs and FRIDAY SCH-1, the PMIC core topology is 100% identical:
-- **I2C Control Mode:** Pin 18 (`CS`) tied to Pin 21 (`VCCA`) via 0 Ω resistor; 10 kΩ pull-ups on I2C bus to `VCCIO6_1V8`.
+Across all reference designs and FRIDAY SCH-1, the PMIC core topology and rail assignments match:
+- **I2C Control Mode:** Pin 18 (`CS`) tied to Pin 21 (`VCCA`) via 0 Ω resistor (`R2324`); 10 kΩ pull-ups on I2C bus (`R5`, `R6`) to `VCCA1V8_PLDO6_S3` / `VCCIO6_1V8`.
 - **Buck Inductance & Capacitance:**
-  - BUCK1, BUCK2, BUCK3, BUCK4: 0.22 µH inductors (0.22uH / 2016 size, e.g. TFM201610ALM-R22MTAA) with 2× 22 µF + 2× 10 µF output caps.
-  - BUCK5, BUCK6, BUCK7, BUCK8, BUCK9, BUCK10: 0.47 µH inductors (0.47uH / 2016 size) with 1× 22 µF + 2× 10 µF output caps.
-- **External Feedback Dividers (BUCK5, BUCK6, BUCK9):**
-  - `BUCK5` (`VDD_CPU_LIT_S0`): R_top = 49.9 kΩ, R_bot = 100 kΩ -> 0.75 V nominal (matches EVB R2302/R2305, Sige5 sheet 12).
-  - `BUCK6` (`VDDQ_DDR_S0`): R_top = 22 kΩ, R_bot = 100 kΩ -> 0.61 V nominal (matches EVB R2308/R2310, Sige5 sheet 12).
-  - `BUCK9` (`VDD_NPU_S0`): R_top = 120 kΩ, R_bot = 100 kΩ -> 1.10 V nominal (matches EVB R2313/R2315, Sige5 sheet 12).
+  - BUCK1, BUCK2, BUCK3: 0.22 µH inductors (`L1`, `L2`, `L3` / 2016 size, e.g. TFM201610ALM-R22MTAA) with 2× 22 µF + 2× 10 µF output caps.
+  - BUCK4, BUCK5, BUCK6, BUCK7, BUCK8, BUCK9, BUCK10: 0.47 µH inductors (`L4`–`L10` / 2016 size) with 1× 22 µF + 2× 10 µF output caps.
+- **Buck Rail Assignments & External Feedback Dividers:**
+  - `BUCK1` (`VDD_CPU_BIG_S0`): Internal DVS, feeds Cortex-A72 Big cluster cores.
+  - `BUCK2` (`VDD_NPU_S0`): Internal DVS, feeds RK3576 NPU core.
+  - `BUCK3` (`VDD_CPU_LIT_S0`): Internal DVS, feeds Cortex-A53 Little cluster cores.
+  - `BUCK4` (`VCC_3V3_S3`): 3.30 V fixed.
+  - `BUCK5` (`VDD_GPU_S0`): R_top (`R2302`) = 49.9 kΩ, R_bot (`R2305`) = 100 kΩ -> 0.75 V nominal (matches EVB R2302/R2305, Sige5 sheet 12).
+  - `BUCK6` (`VDDQ_DDR_S0`): R_top (`R19`) = 22 kΩ, R_bot (`R21`) = 100 kΩ -> 0.61 V nominal (matches EVB R2308/R2310, Sige5 sheet 12).
+  - `BUCK7` (`VDD_LOGIC_S0`): Internal DVS, feeds RK3576 main logic.
+  - `BUCK8` (`VCC_1V8_S3`): 1.80 V fixed.
+  - `BUCK9` (`VDD2_DDR_S3` / `VDDQ_DDR_CKE_S3`): R_top (`R22`) = 120 kΩ, R_bot (`R24`) = 100 kΩ -> 1.10 V nominal (matches EVB R2313/R2315, Sige5 sheet 12; feeds eMCP LPDDR4X VDD2 and SoC DDR PHY CKE).
+  - `BUCK10` (`VDD_DDR_S0`): Internal DVS, feeds RK3576 DDR controller/PHY core logic.
 - **PLDO & NLDO Decoupling:**
   - PLDO1–6 and NLDO1–5 decoupling capacitor values (1.0 µF to 4.7 µF) are completely identical between Sige5 sheet 12, EVB1 sheet 23, and FRIDAY SCH-1 sheet S2.
 
@@ -37,8 +44,9 @@ Across all reference designs and FRIDAY SCH-1, the PMIC core topology is 100% id
 ## 3. Discrete Power (U6, U7, U8, U9) Comparison
 
 Both ArmSoM Sige5 (sheet 13) and Project FRIDAY (sheet S3) utilize the exact same discrete power topology:
-- **`U6` (TMI3112H):** `VCC_2V0_PLDO_S3` (2.10 V @ 2A buck, FB: 160k / 68k) providing input power to PMIC PLDOs.
-- **`U7` (TMI3112H):** `VCC_1V1_NLDO_S3` (1.10 V @ 2A buck, FB: 68k / 82k) providing input power to PMIC NLDOs and LPDDR4X VDD2.
+- **`U6` (TMI3112H):** `VCC_2V0_PLDO_S3` (2.10 V @ 2A buck, FB: `R25` = 249 kΩ 1% / `R26` = 100 kΩ 1%) providing input power to PMIC PLDOs (`U2.VCC11`).
+- **`U7` (TMI3112H):** `VCC_1V1_NLDO_S3` (1.10 V @ 2A buck, FB: `R27` = 100 kΩ 1% / `R28` = 120 kΩ 1%) providing input power to PMIC NLDOs only (`U2.VCC13`, `U2.VCC14`).
+  *(Note: eMCP VDD2 is NOT powered by U7; it is powered by PMIC BUCK9 `VDD2_DDR_S3` per SCH-1 netlist).*
 - **`U8` (SY6280AAC):** Load switch distributing `VCC_3V3_S3` into `VCC_3V3_S0`.
 - **`U9` (CW3301):** Load switch distributing `VCC_1V8_S3` into `VCC_1V8_S0`.
 
