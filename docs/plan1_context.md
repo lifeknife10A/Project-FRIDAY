@@ -479,3 +479,10 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
   - S11, S12, S13 fixed.
   - One remaining item, S14: VCCIO_3V3 at 0.85 A "RK806 LDO / Ext" from 5 V would burn ≈1.45 W as an LDO → must be a buck (RK806 buck or external). Same check for VCC_EMMC.
   - Verdict: accepted as the parts spec once S14 is fixed. Every value is still UNVERIFIED pending the RK3576 EVB schematic + PDN guide.
+- **2026-11-27 (schematic_components.md @ 724f3b5).** S14 fixed.
+  - VCCIO_3V3 is now RK806 BUCK6: 2.81 W out / 3.05 W in, 0.24 W loss ✓.
+  - VCC_EMMC is BUCK7 or the BUCK6 domain + FB3: 0.11 W loss ✓.
+  - Post-LDO rule added. **Parts spec ACCEPTED** (still UNVERIFIED pending the RK3576 EVB + PDN guide).
+  - Notes:
+    - out-of-scope change: MV12 datasheet PDF deleted; researcher note 222e3ca and the CLAUDE.md log still reference it (history keeps it).
+    - WATCHLIST: per-rail max currents summed far exceed VSYS 3 A / MP2315 3 A; a simultaneous-load power budget is needed before regulator sizing.
