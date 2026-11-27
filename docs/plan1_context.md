@@ -549,3 +549,8 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - BOM MP2315 → SY8205FCC.
   - **GREEN for schematic capture** (copy EVB sheets 04/05/10/23/24 + SoC sheets; eMCP DDR per HDG rules).
   - Next review = the schematic, then stack-up/DDR layout before fab.
+- **2026-11-27 (6bc8e11 + schematic kickoff).**
+  - 6bc8e11 (Krishna) switched the RK806 to I2C (EVB nets I2C1_SDA/SCL_M0_RK806, R2324 CS→VCCA, R2306/R2307 pull-ups); added CW3301 for 1.8 V (EVB U2402); PWRON = pin 4 (INT = pin 19).
+  - **Auditor correction:** the EVB DOES use I2C. My earlier "follow EVB SPI" misread the chip-default "(Def)" note. 6bc8e11 is right.
+  - Open: J2 lists "1.2V VDD_CORE" (IMX708 DVDD = 1.1 V per RP schematic), and J2 = DF37 on the main board conflicts with the front-bridge PCB plan (24 mm sensor tail).
+  - Schematic capture round SCH-1 (power + SoC power/clock/reset/boot) prompt given to Krishna. Tool proposed: KiCad (text-reviewable) = deviation from plan.md §8 Fusion; Krishna decides.

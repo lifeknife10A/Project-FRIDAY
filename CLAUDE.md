@@ -97,6 +97,11 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- 6bc8e11: RK806 I2C mode is what EVB actually wires (I2C1_*_M0_RK806, R2324 CS->VCCA) -> my "EVB = SPI"
+  was a misread of the chip-default note (MY MISS). CW3301 1.8 V switch = EVB U2402 OK; PWRON pin 4 OK.
+  Open: J2 "1.2V VDD_CORE" (IMX708 = 1.1 V) + DF37-on-main-board vs front-bridge plan. Issued SCH-1 prompt
+  (power/SoC power/clock/reset/boot), KiCad proposed (deviation from plan.md §8 Fusion -> Krishna).
+
 - E7-E10 @ 4d02ff5 ACCEPTED (NLDO swap fixed; defaults/slots = EVB p.6; watchlist in §2.2; BOM SY8205FCC).
   schematic_components.md -> GREEN for schematic capture. Next auditor gate: schematic review, then
   stack-up + DDR/power layout review before any fab. Open watchlist: thermal cap/DVFS, BMS trip ~3 A.
