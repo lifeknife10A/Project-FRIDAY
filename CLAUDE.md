@@ -97,6 +97,13 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Ref triage fix @ 905cd31 ACCEPTED (R1-R4). Verified: note ball lists now generated from CSV (all 11 groups
+  match CSV, 254 = 179 LPDDR4X + 42 eMMC + 33 VSF/DNU/NC); CSV changed only DQS function text; BUCK5 = GPU, BUCK9 =
+  VDD2_DDR/CKE (R22 120k/R24 100k matches netlist PMIC_FB9), U7 100k/120k feeds NLDOs only; extract_emcp_ballmap.py
+  committed; ZQ 240R -> VDDQ quoted (p.8, p.229); VDDI = 0.1 uF external (internal 1 uF; DS p.54 Table 14) — my R4
+  "0.1+1 uF" premise was half wrong. Still independent-unverified vs p.6 image (PDF local only): Krishna to send p.6-8
+  before SCH-2 review; I check SCH-2 eMCP pin map against it. SCH-2 may now start.
+
 - Ref triage @ 22c42db -> NO for SCH-2 use until R1-R4 fixed. OK: licence handling (0 PDFs committed,
   references_local/ gitignored), eMCP = SK hynix H9HP52ACPMADAR-KMM 254-ball 11.5x13 0.5 mm, LPDDR4X x16 2ch 2-rank,
   rails VDD1 1.8/VDD2 1.1/VDDQ 0.6/VCC 3.3/VCCQ 1.8. CSV 254 balls, no dups, corner DNUs symmetric, ChA/ChB mirror ->
