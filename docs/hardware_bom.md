@@ -55,10 +55,10 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in cl
 | # | Item Description | Part # / MPN | Package | Qty | Unit Price (USD) | Line Total (INR) | Sourcing Channel |
 |---|---|---|---|:---:|:---:|:---:|---|
 | 1 | **Rockchip RK3576 SoC**<br>8-Core (4x A72 + 4x A53), 6-TOPS INT4/INT8 NPU | C42388007<br>`RK3576` | FCCSP-698L<br>(16.1 x 17.2 mm) | 1 | $22.33 | ₹1,880 | [LCSC Electronics](https://lcsc.com) |
-| 2 | **Rockchip RK806-1 PMIC**<br>Companion multi-rail power management IC | C5156483<br>`RK806-1` | QFN-68<br>(7 x 7 mm) | 1 | $3.97 | ₹335 | [LCSC Electronics](https://lcsc.com) |
+| 2 | **Rockchip RK806S-5 PMIC**<br>Dedicated RK3576 companion multi-rail power management IC (OTP variant) | C49174044<br>`RK806S-5` | QFN-68<br>(7 x 7 mm) | 1 | $2.50 | ₹211 | [LCSC Electronics](https://lcsc.com) |
 | 3 | **Realtek RTL8723DS Wi-Fi / BT**<br>2.4 GHz 802.11b/g/n + Bluetooth 4.2 | C2762334<br>`RTL8723DS-CG` | WQFN-48<br>(6 x 6 mm) | 1 | $2.22 | ₹187 | [LCSC Electronics](https://lcsc.com) |
-| 4 | **24.000 MHz Master Crystal**<br>Main system clock for RK3576 (12pF, 10ppm) | C70590<br>`X322524MOB4SI` | SMD-3225-4P<br>(3.2 x 2.5 mm) | 5 | $0.086 | ₹36 | [LCSC Electronics](https://lcsc.com) |
-| 5 | **32.768 kHz RTC Sleep Crystal**<br>Real-time clock for RK806-1 sleep states | C32346<br>`Q13FC13500004` | SMD-3215-2P<br>(3.2 x 1.5 mm) | 5 | $0.151 | ₹63 | [LCSC Electronics](https://lcsc.com) |
+| 4 | **24.000 MHz Master Crystal**<br>Main system clock for RK3576 (12pF, 10ppm; requires 18pF load caps & 510k feedback resistor) | C70590<br>`X322524MOB4SI` | SMD-3225-4P<br>(3.2 x 2.5 mm) | 5 | $0.086 | ₹36 | [LCSC Electronics](https://lcsc.com) |
+| 5 | **32.768 kHz RTC Sleep Crystal (Optional)**<br>Real-time clock crystal for sleep states (Note: Companion design selects RK3576 internal PMU_PVTM per HDG §2 Table 2-1; external crystal is optional) | C32346<br>`Q13FC13500004` | SMD-3215-2P<br>(3.2 x 1.5 mm) | 5 | $0.151 | ₹63 | [LCSC Electronics](https://lcsc.com) |
 | 6 | **USB Type-C 16-Pin Receptacle**<br>5V power input, firmware flashing, ADB debug | C165948<br>`TYPE-C-31-M-12` | 16-Pin SMD | 5 | $0.174 | ₹73 | [LCSC Electronics](https://lcsc.com) |
 | 7 | **MaskROM Recovery Key Switch**<br>Micro tactile button for fastboot flashing | C318884<br>`TS-1187A-B-A-B` | SMD (3 x 4 mm) | 20 | $0.020 | ₹34 | [LCSC Electronics](https://lcsc.com) |
 | 8 | **LCSC International Shipping**<br>Singapore Post airmail (includes $3 coupon) | Logistics | Tracked Air | 1 | $2.72 | ₹230 | LCSC Direct |
@@ -70,9 +70,9 @@ If and only if Phase 1 passes the zero-rupee gate, procurement is executed in cl
 
 | # | Item Description | Specification / Role | Qty | Unit Price (INR) | Total (INR) | Sourcing Channel |
 |---|---|---|:---:|:---:|:---:|---|
-| 9 | **Samsung 4GB LPDDR4X + 64GB eMMC eMCP**<br>(Samsung KM3V series or equivalent) | Single BGA-254 chip combining 4GB RAM + 64GB fast storage. Harvested from scrap Redmi 9 / POCO M2 donor motherboard + technician BGA reballing. | 1 | ₹1,000 | ₹1,000 | Local Mobile Repair / Donor Scrap Board |
-| 10 | **SMD Passives & PMIC Power Circuit Kit**<br>(Itemized component matrix detailed below) | Complete set of 0402/0603 resistors, ceramic decoupling capacitors, PMIC shielded power inductors, and USB ESD TVS diodes. | 1 kit | ₹650 | ₹650 | LCSC Passives / Local Mumbai Electronics |
-| — | **Memory & Passives Subtotal** | — | — | — | **₹1,650** | — |
+| 9 | **Samsung 4GB LPDDR4X + 64GB eMMC eMCP**<br>(Donor part verification mandatory) | Single BGA-254 chip combining 4GB RAM + 64GB fast storage. Harvested from scrap donor smartphone + technician BGA reballing.<br>*Mandatory Pre-Routing Verification:* Verify exact donor part marking, eMMC vs UFS storage interface, DDR channel organization supported by RK3576 boot firmware, and BGA-254 ball map before assigning schematic pins (HDG §2.1.7 & §3.6). | 1 | ₹1,000 | ₹1,000 | Local Mobile Repair / Donor Scrap Board |
+| 10 | **SMD Passives & Multi-Rail Power Circuit Kit**<br>(13x power inductors + caps/resistors matrix below) | Complete set of 0402/0603 resistors, ceramic decoupling capacitors, 13x shielded power inductors (10x PMIC + 2x intermediate bucks + 1x battery buck), and USB ESD TVS diodes. | 1 kit | ₹750 | ₹750 | LCSC Passives / Local Mumbai Electronics |
+| — | **Memory & Passives Subtotal** | — | — | — | **₹1,750** | — |
 
 ---
 
@@ -84,33 +84,36 @@ The table below defines every discrete passive component required on the custom 
 
 | Resistance | Tolerance | Wattage / Rating | Package | Qty | Circuit Function & Target Nets |
 |---|:---:|:---:|:---:|:---:|---|
-| **5.1 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 2 | **USB-C Port CC1 & CC2 Pull-Downs** (Mandatory for standard 5V/3A Power Delivery sink negotiation). |
-| **2.2 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 4 | **I2C Bus Pull-Ups** on `I2C_SDA` and `I2C_SCL` for RK806-1 PMIC control and Sony IMX708 camera sensor. |
-| **10 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 4 | **Pull-Up & Channel Select:** Left channel audio divider pull-up, INMP441 L/R select, and PMIC reset line. |
-| **220 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 1 | **Left Channel Audio Select Divider Pull-Down** on MAX98357A `SD_MODE` pin (sets 0.77V–1.39V window). |
+| **5.1 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 2 | **USB-C Port CC1 & CC2 Pull-Downs** (Mandatory for standard 5V sink negotiation). |
+| **2.2 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 2 | **Camera I2C Bus Pull-Ups** on `I2C_CAM_SDA` and `I2C_CAM_SCL` to 1.8V domain for Sony IMX708 sensor. |
+| **10 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 5 | **Pull-Ups & Channel Select:** PMIC I2C bus pull-ups (`R2306`, `R2307` to `VCCIO` Pin 20), MAX98357A Left channel select (> 1.39V), INMP441 L/R select, and PMIC reset line. |
+| **220 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 1 | **MAX98357A Right Channel Select Pull-Up** on `SD_MODE` pin to 3.3V (with internal 100k pulldown yields 1.03V, falling inside 0.77V–1.39V window selecting Right channel). |
 | **100 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 2 | **Audio Gain Programming** on MAX98357A `GAIN` pin to VDD (sets safe +3 dB lowest gain configuration). |
-| **300 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 1 | **IP2326 Battery Charge Rate Setting** on Pin 11 `ISET` (enforces strict 300 mA / 1C LiPo charge ceiling). |
+| **300 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 1 | **IP2326_NPD Battery Charge Rate Setting** on Pin 11 `ISET` (enforces strict 300 mA / 1C LiPo charge ceiling). |
+| **510 kΩ** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 1 | **24.000 MHz Crystal Feedback Resistor** in parallel across `OSC_IN` and `OSC_OUT` (EVB Sheet 11 `R1101`, HDG §2.1.2). |
 | **22 Ω** | ±1% | 1/16 W (62.5 mW) | SMD 0402 | 2 | **Master Clock Series Damping** on 24.000 MHz crystal `OSC_OUT` pin to suppress clock harmonic ringing. |
-| **0 Ω (Jumper)**| — | 1/16 W | SMD 0402 | 4 | Configuration links for RF antenna path tuning and optional audio ground isolation. |
+| **0 Ω (Jumper)**| — | 1/16 W | SMD 0402 | 5 | Configuration links: PMIC mode strap (`R2324` ties CS to VCCA for I2C), RF antenna path tuning, and audio ground isolation. |
 
 #### 2. Capacitors (SMD Multilayer Ceramic Capacitors - MLCC)
 
 | Capacitance | Voltage Rating | Dielectric | Package | Qty | Circuit Function & Target Nets |
 |---|:---:|:---:|:---:|:---:|---|
-| **12 pF** | 50 V | C0G / NP0 (Ultra-stable) | SMD 0402 | 2 | **24.000 MHz Master Crystal Load Caps** (`OSC_IN` / `OSC_OUT` to GND). |
-| **12.5 pF** | 50 V | C0G / NP0 (Ultra-stable) | SMD 0402 | 2 | **32.768 kHz RTC Sleep Crystal Load Caps** on RK806-1 RTC oscillator inputs. |
-| **100 nF (0.1 µF)**| 6.3 V / 10 V | X5R / X7R | SMD 0402 | 24 | **High-Frequency Decoupling Array:** Placed directly under RK3576 BGA balls and PMIC LDO pins. |
-| **1.0 µF** | 10 V | X5R / X7R | SMD 0402 | 8 | **Mid-Frequency Rail Bypass** on PMIC LDO outputs (`VDD_1V8`, `VDD_0V9`, `AVDD_1V8`). |
+| **18 pF** | 50 V | C0G / NP0 (Ultra-stable) | SMD 0402 | 2 | **24.000 MHz Master Crystal Load Caps** (`OSC_IN` / `OSC_OUT` to GND; calculated via C = 2 * (CL - Cstray) = 2 * (12 - 3) = 18 pF). |
+| **12.5 pF** | 50 V | C0G / NP0 (Ultra-stable) | SMD 0402 | 2 | **32.768 kHz RTC Sleep Crystal Load Caps** on PMIC RTC inputs (optional; unpopulated if internal PMU_PVTM is used). |
+| **100 nF (0.1 µF)**| 6.3 V / 10 V | X5R / X7R | SMD 0402 | 24 | **High-Frequency Decoupling Array:** Distributed directly under RK3576 BGA balls and PMIC LDO pins. |
+| **1.0 µF** | 10 V | X5R / X7R | SMD 0402 | 8 | **Mid-Frequency Rail Bypass** on PMIC LDO outputs and external buck bootstrap/VCC nodes. |
 | **4.7 µF** | 10 V | X5R / X7R | SMD 0603 | 4 | **Peripherals Power Smoothing** for IMX708 camera breakout and RTL8723DS Wi-Fi transceiver. |
 | **10 µF** | 16 V / 25 V | X5R / X7R | SMD 0603 | 6 | **Bulk Input Filtering** on 5.0V system bus, USB-C VBUS, and MAX98357A audio power pins. |
-| **22 µF** | 6.3 V / 10 V | X5R / X7R | SMD 0603 | 8 | **PMIC Buck Output Smoothing Filters** on `VDD_CPU`, `VDD_NPU`, `VDD_LOGIC`, and `VCC_DDR`. |
+| **22 µF** | 6.3 V / 10 V | X5R | SMD 0603 | 28 | **PMIC & Discrete Buck Switching Output Filters:** Sized per EVB1 reference schematics (3x 22 µF on BUCK1–4, 2x 22 µF on BUCK5–10, 2x 22 µF on external intermediate bucks U6/U7 and battery buck U10). |
 
-#### 3. Power Inductors & Protection Devices
+#### 3. Power Inductors & Protection Devices (Complete 13-Inductor Power Tree)
 
 | Component Type | Value / Rating | Current Rating (Isat) | Package | Qty | Circuit Function & Target Nets |
 |---|:---:|:---:|:---:|:---:|---|
-| **Shielded Power Inductor** | **0.47 µH** (DCR < 35 mΩ) | 4.5 A Saturation | SMD 2016 (2.0 x 1.6 mm) | 2 | **PMIC Buck 1 & Buck 2 Switching Nodes** (`VDD_CPU` and `VDD_NPU` high-current switching rails). |
-| **Shielded Power Inductor** | **1.0 µH** (DCR < 50 mΩ) | 3.2 A Saturation | SMD 2016 (2.0 x 1.6 mm) | 2 | **PMIC Buck 3 & Buck 4 Switching Nodes** (`VDD_LOGIC` and `VCC_DDR` switching rails). |
+| **Shielded Power Inductor** | **0.22 µH** (DCR < 25 mΩ) | ≥ 5.0 A – 6.5 A Saturation | SMD 2016 (2.0 x 1.6 mm) | 4 | **RK806S-5 Buck 1–4 Switching Nodes:** `VDD_CPU_BIG_S0`, `VDD_NPU_S0`, `VDD_CPU_LIT_S0`, `VCC_3V3_S3`. |
+| **Shielded Power Inductor** | **0.47 µH** (DCR < 35 mΩ) | ≥ 3.0 A Saturation | SMD 2016 (2.0 x 1.6 mm) | 6 | **RK806S-5 Buck 5–10 Switching Nodes:** `VDD_GPU_S0`, `VDDQ_DDR_S0`, `VDD_LOGIC_S0`, `VCC_1V8_S3`, `VDD2_DDR_S3`, `VDD_DDR_S0`. |
+| **Shielded Power Inductor** | **1.0 µH** (DCR < 65 mΩ) | ≥ 3.2 A Saturation | SMD 2520 (2.5 x 2.0 mm) | 2 | **External Intermediate Bucks U6 & U7 (TMI3112H):** Generating `VCC_2V0_PLDO_S3` and `VCC_1V1_NLDO_S3` (EVB Sheet 24 p.22). |
+| **Shielded Power Inductor** | **2.2 µH** (DCR < 25 mΩ) | ≥ 6.5 A Saturation | SMD 4040 (4.0 x 4.0 mm) | 1 | **Battery 5V Buck Switching Node:** Sits at LX switching pin of U10 (SY8205FCC) to generate 5.0V @ 5A continuous / 6A peak. |
 | **Ferrite Bead** | 120 Ω @ 100 MHz (2.0 A) | 2.0 A Continuous | SMD 0603 | 2 | **High-Frequency Noise Choke** isolating analog audio power and RF Wi-Fi 3.3V rail. |
 | **TVS ESD Protection Diode** | 5.0 V Clamp (Low Cap < 0.5pF) | 4-Channel Array | SOT-23-6 / DFN | 1 | **High-Speed USB-C ESD Protection** on D+, D-, CC1, CC2 lines (prevents human static shock damage). |
 
@@ -143,9 +146,9 @@ The table below defines every discrete passive component required on the custom 
 | # | Item Description | Specification / Role | Qty | Unit Price (INR) | Total (INR) | Sourcing Channel |
 |---|---|---|:---:|:---:|:---:|---|
 | 17 | **GNB 3.7V 300mAh 30C LiPo Cells** | High-discharge LiPo pouch cells connected in Series 2S (7.4V nominal, 1 cell per temple, 16.0g total). 9.0A burst rating handles peak surges with zero sag. | 2 | ₹190 | ₹380 | [Robu.in GNB 300mAh LiPo](https://robu.in/product/gao-neng-gnb-300mah-1s-30c-lipo-battery/) |
-| 18 | **IP2326 Type-C 2S Boost Charger** | Boosts 5V USB-C to 8.4V. Pin 11 ISET resistor set to 300 kOhm to enforce safe 300mA (1C) charge rate. | 1 | ₹110 | ₹110 | [Robu.in IP2326 Charger](https://robu.in/product/ip2326-type-c-2s-boost-charging-board/) |
-| 19 | **HY2212 2S BMS Protection & Balance Board** | Cell protection (4.25V overcharge, 2.8V overdischarge) with 35mA passive shunt-bleed cell balancing. | 1 | ₹120 | ₹120 | [Robu.in 2S BMS Board](https://robu.in/product/2s-3a-bms-balance-protection-board/) |
-| 20 | **SY8205FCC High-Efficiency 5A Step-Down Buck** | Silergy SY8205FCC (LCSC C111875) synchronous 2S-to-5V step-down regulator (5A continuous, 6A peak). Provides robust 5.0V system power bus without brownouts during concurrent NPU+LLM compute bursts. | 1 | ₹95 | ₹95 | [LCSC C111875 / Robu](https://www.lcsc.com/product-detail/DC-DC-Converters_Silergy-Corp-SY8205FCC_C111875.html) |
+| 18 | **IP2326_NPD Type-C 2S Boost Charger** | Injoinic IP2326_NPD synchronous boost charger (specifically required for <700mA charging; Injoinic DS pp. 5 & 11). Pin 11 ISET resistor set to 300 kΩ to enforce safe 300mA (1C) charge ceiling. | 1 | ₹110 | ₹110 | [Robu.in IP2326 Charger](https://robu.in/product/ip2326-type-c-2s-boost-charging-board/) |
+| 19 | **2S BMS Protection & Balance Architecture** | 2S multi-cell protection (HY2120 2S protection IC or equivalent discrete dual-FET architecture providing per-cell OVP, UVP, OCP, and SCP) paired with HY2212 35mA passive shunt-bleed balancing, cell NTC thermistor sensing, and midpoint tap. | 1 | ₹120 | ₹120 | [Robu.in 2S BMS Board](https://robu.in/product/2s-3a-bms-balance-protection-board/) |
+| 20 | **SY8205FCC 5A Battery Buck + TPS2121 Power Mux** | Silergy SY8205FCC (LCSC C111875) synchronous 2S-to-5V step-down regulator (5A cont, 6A peak) + TI TPS2121RUXR priority power multiplexer (4.5A rated). Seamlessly priority-switches VSYS between USB-C 5V and battery buck with zero backfeeding. | 1 | ₹195 | ₹195 | [LCSC C111875 / TI](https://www.lcsc.com/product-detail/DC-DC-Converters_Silergy-Corp-SY8205FCC_C111875.html) |
 | 21 | **TTP223 Capacitive Touch Sensor** | Capacitive touch trigger on right temple arm to activate voice queries and adjust volume. | 1 | ₹25 | ₹25 | [Robu.in TTP223 Module](https://robu.in/product/ttp223-touch-key-switch-module/) |
 | — | **Power System Subtotal** | — | — | — | **₹730** | — |
 
@@ -226,10 +229,11 @@ The table below defines every discrete passive component required on the custom 
 
 ### C. Audio Subsystem Wiring & Resistor Thresholds
 * **Logic Level:** 3.3V peripheral I/O rail.
-* **MAX98357A SD_MODE Pin Configuration:**
+* **MAX98357A SD_MODE Pin Configuration (Datasheet Table 1):**
   * Shutdown: Voltage < 0.16V
-  * Left Channel: Voltage between 0.77V and 1.39V (10 kOhm pull-up to 3.3V, 220 kOhm pull-down to GND)
-  * Right Channel: Voltage > 1.39V (10 kOhm pull-up directly to 3.3V)
+  * Left Channel: Voltage > 1.39V (10 kΩ pull-up to 3.3V; with internal 100k pulldown yields ~3.0V, selecting Left channel)
+  * Right Channel: Voltage between 0.77V and 1.39V (220 kΩ pull-up to 3.3V; with internal 100k pulldown yields ~1.03V, selecting Right channel)
+  * *Note on Breakouts vs Bare IC:* If utilizing Adafruit/generic breakout boards, verify whether onboard 100k/1M pull resistors are already fitted before adding external pull-ups.
 * **GAIN Pin Configuration:** The GAIN pin is tied to VDD via a 100 kOhm resistor (+3 dB gain). Combined with software volume capped at 70% (-3 dBFS), maximum output power into the 8 Ohm speakers is capped below 0.80W RMS, preventing voice-coil distortion and speaker blowout.
 
 ---
