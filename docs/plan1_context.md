@@ -511,3 +511,15 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - P5 rail values / missing rails.
     - P6 Y2 crystal unusable on RK806.
     - P7 boot via SARADC_IN0_BOOT.
+- **2026-11-27 (EVB + HDG @ de26548; spec @ 7e67e27).**
+  - 7e67e27 applied P1, P2, P4–P7 and marked the mapping DO-NOT-CAPTURE (OK).
+  - EVB "Schematics Only for RK3576 EVB1" (28 p) and the RK3576 Hardware Design Guide (265 p) added.
+  - **The EVB/HDG use the RK806S-5, NOT the RK806-1** (EVB p1/p5/p6; HDG §2 "RK3576 with RK806S-5"); the LCSC cart has RK806-1 C5156483.
+  - EVB p6 mapping (RK806S-5):
+    - BUCK1 CPU_BIG 0.85 / BUCK2 NPU 0.75 / BUCK3 CPU_LIT 0.85 / BUCK4 VCC_3V3_S3 3.3 / BUCK5 GPU ADJ / BUCK6 VDDQ_DDR ADJ 0.61 (LP4x) / BUCK7 LOGIC + LOGIC_MEM 0.75 / BUCK8 VCC_1V8_S3 / BUCK9 VDD2_DDR ADJ 1.1 / BUCK10 VDD_DDR 0.85;
+    - PLDO1–3 fed from an external 2.1 V buck, NLDO1–5 from an external 1.1 V buck;
+    - eMMC 3V3/1V8 from load switches;
+    - VCC5V0_SYS = 5 A DC/DC.
+  - EVB defaults the PMIC to **SPI mode** (CS floating); I2C is optional. The Auditor's earlier "pick I2C" advice is revised: follow the EVB (SPI) to match the BSP.
+  - RK3576 32k: internal PVTM or external 32.768 kHz (EVB uses an RTC IC).
+  - EVB memory = LPDDR4X 200-ball + separate storage; our eMCP-254 needs its own DDR routing per HDG rules.

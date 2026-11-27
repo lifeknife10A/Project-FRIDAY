@@ -97,6 +97,12 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- EVB schematic + RK3576 HW Design Guide added (de26548); spec 7e67e27 applied P1/P2/P4-P7 (OK). KEY: RK3576
+  EVB/HDG use RK806S-5, NOT RK806-1 (LCSC cart C5156483 is RK806-1 -> wrong OTP). Rail map = EVB p.6
+  (BUCK1 CPU_BIG, 2 NPU, 3 CPU_LIT, 4 3V3, 5 GPU adj, 6 VDDQ_DDR adj, 7 LOGIC, 8 1V8, 9 VDD2_DDR adj, 10
+  VDD_DDR; PLDO1-3 from ext 2.1 V buck, NLDO from ext 1.1 V buck; eMMC via load switches; 5V SYS 5 A).
+  EVB PMIC = SPI mode default -> my earlier "use I2C" advice revised: follow EVB SPI. Spec needs E-round.
+
 - Datasheets 7dd3b38 (RK3576 Rev1.5, RK806 Rev1.3, crystals, USB-C, switch) checked vs schematic_components.
   EVB schematic / HW design guide / PDN / memory support list STILL MISSING (commit msg says "reference
   design" — not included). RK806 PDF watermarked "Rockchip Confidential". Findings: P1 pitch 0.55/0.60/0.65
