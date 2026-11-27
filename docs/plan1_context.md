@@ -554,3 +554,10 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
   - **Auditor correction:** the EVB DOES use I2C. My earlier "follow EVB SPI" misread the chip-default "(Def)" note. 6bc8e11 is right.
   - Open: J2 lists "1.2V VDD_CORE" (IMX708 DVDD = 1.1 V per RP schematic), and J2 = DF37 on the main board conflicts with the front-bridge PCB plan (24 mm sensor tail).
   - Schematic capture round SCH-1 (power + SoC power/clock/reset/boot) prompt given to Krishna. Tool proposed: KiCad (text-reviewable) = deviation from plan.md §8 Fusion; Krishna decides.
+- **2026-11-27.** Krishna's decision: schematic in **Autodesk Fusion Electronics via MCP** (Hydrogen, reasoning high), per plan.md §8. KiCad proposal withdrawn.
+  - Review needs committed exports from Fusion:
+    - PDF;
+    - netlist;
+    - BOM CSV;
+    - ERC/DRC report;
+    - EAGLE-format .sch if Fusion can export it (UNVERIFIED).
