@@ -59,3 +59,7 @@ phase1_ai_sandbox/real_world_tests/
 FRIDAY_weights/
 !dry_run_gate_report.json
 
+# Local uncommitted / confidential reference materials
+references_local/
+
+
