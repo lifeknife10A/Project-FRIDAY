@@ -98,8 +98,8 @@ Approvals name one SHA; any new commit restarts at step 3.
 ## 7. Current state (update every review)
 
 - schematic_components.md @ 724f3b5: S14 fixed (3V3 + eMMC on RK806 bucks, loss 0.24 W / 0.11 W, math OK)
-  -> parts spec ACCEPTED (values UNVERIFIED until RK3576 EVB + PDN guide). Notes: unrequested deletion of
-  MV12 PDF (refs dangle; history keeps it). WATCHLIST: simultaneous-load power budget vs VSYS/MP2315 3 A.
+  -> parts spec ACCEPTED (values UNVERIFIED until RK3576 EVB + PDN guide). MV12 PDF deletion was
+  Krishna's instruction (OK). WATCHLIST: simultaneous-load power budget vs VSYS/MP2315 3 A.
 
 - schematic_components.md @ f3bb3a6: S3 fixed (TPS2121RUXR verified TI 4.5 A/56 mOhm), S11-S13 fixed.
   Remaining S14: VCCIO_3V3 0.85 A from "LDO/Ext" off 5 V = ~1.45 W LDO loss -> must be a buck (check

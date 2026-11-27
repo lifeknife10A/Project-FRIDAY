@@ -484,5 +484,5 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
   - VCC_EMMC is BUCK7 or the BUCK6 domain + FB3: 0.11 W loss ✓.
   - Post-LDO rule added. **Parts spec ACCEPTED** (still UNVERIFIED pending the RK3576 EVB + PDN guide).
   - Notes:
-    - out-of-scope change: MV12 datasheet PDF deleted; researcher note 222e3ca and the CLAUDE.md log still reference it (history keeps it).
+    - MV12 PDF deletion was Krishna's instruction (MV12 not used); note 222e3ca's link now points to git history only.
     - WATCHLIST: per-rail max currents summed far exceed VSYS 3 A / MP2315 3 A; a simultaneous-load power budget is needed before regulator sizing.
