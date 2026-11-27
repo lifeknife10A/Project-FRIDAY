@@ -97,6 +97,12 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- E-round @ e8be63b: E1-E6 done (RK806S-5 LCSC C49174044 verified; SY8205FCC 5 A replaces MP2315; TMI3112H
+  ext bucks as on EVB; SY6280 load switches; PVTM). E7 BLOCK: NLDO1/NLDO2 swapped vs EVB p.6 -> PMU 0.75 V
+  rail would get OTP 0.85 V (> 0.825 V max). Fix defaults/slots to EVB (BUCK1/3/10 0.85 V; slots B1=2, B4=5,
+  B8=3, PLDO2=5; PLDO4 3.0 V; NLDO5 0.5 A). WATCHLIST: 16.5 W peak vs 3 W thermal plan; ~3.1 A battery vs
+  HY2212 3 A trip; BOM still MP2315. After E7 -> green for schematic capture.
+
 - EVB schematic + RK3576 HW Design Guide added (de26548); spec 7e67e27 applied P1/P2/P4-P7 (OK). KEY: RK3576
   EVB/HDG use RK806S-5, NOT RK806-1 (LCSC cart C5156483 is RK806-1 -> wrong OTP). Rail map = EVB p.6
   (BUCK1 CPU_BIG, 2 NPU, 3 CPU_LIT, 4 3V3, 5 GPU adj, 6 VDDQ_DDR adj, 7 LOGIC, 8 1V8, 9 VDD2_DDR adj, 10

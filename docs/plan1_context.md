@@ -523,3 +523,21 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
   - EVB defaults the PMIC to **SPI mode** (CS floating); I2C is optional. The Auditor's earlier "pick I2C" advice is revised: follow the EVB (SPI) to match the BSP.
   - RK3576 32k: internal PVTM or external 32.768 kHz (EVB uses an RTC IC).
   - EVB memory = LPDDR4X 200-ball + separate storage; our eMCP-254 needs its own DDR routing per HDG rules.
+- **2026-11-27 (E-round @ e8be63b).**
+  - E1–E6 implemented. Verified:
+    - RK806S-5 = LCSC C49174044;
+    - SY8205FCC 5 A (C111875), replacing MP2315;
+    - TMI3112H 2 A (C2985060, also on the EVB);
+    - SY6280AAC (C55136);
+    - PVTM 32k chosen;
+    - eMCP DDR rules noted.
+  - **E7 BLOCK:** NLDO1/NLDO2 swapped vs EVB p.6 (EVB: NLDO1 = VDD_0V75_S3 0.75 V, NLDO2 = VDDA_DDR_PLL 0.85 V). Wired per the spec, PMU_LOGIC (max 0.825 V, RK3576 DS T3-2) would get 0.85 V from OTP.
+  - Doc mismatches vs EVB p.6:
+    - BUCK1/3/10 default 0.85 V (spec 0.75);
+    - slots BUCK1 = 2, BUCK4 = 5, BUCK8 = 3, PLDO2 = 5 (spec differs);
+    - PLDO4 = 3.0 V (spec 3.3);
+    - NLDO5 0.5 A (spec 0.3).
+  - Watchlist:
+    - 16.5 W transient vs the 3 W thermal burst plan, which needs DVFS/power caps;
+    - battery side ≈3.1 A vs the HY2212 3 A BMS trip;
+    - hardware_bom.md still lists MP2315 (L148, L175).
