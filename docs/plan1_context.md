@@ -561,3 +561,10 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - BOM CSV;
     - ERC/DRC report;
     - EAGLE-format .sch if Fusion can export it (UNVERIFIED).
+- **2026-11-27 (SCH-1 report).**
+  - Hydrogen reported SCH-1 commit 3262024 (Fusion v1, ERC 0 errors / 33 warnings), but **3262024 is NOT on origin** (only libs cf68c7b + docs 9d9afcf were pushed). Review pending the push.
+  - Checked libraries/RK806-1.lbr: all 69 pads mapped (SW1/VCC1/SW2/VCC2 dual pads OK); **MPN attribute = "RK806-1" → must be RK806S-5** (same QFN68).
+  - To verify after push:
+    - "MIPI_DPHY_CSI1-4 grounded" vs the camera's CSI port;
+    - FB1/FB2 set "nc" vs EVB;
+    - the HDG unused-PHY rules.
