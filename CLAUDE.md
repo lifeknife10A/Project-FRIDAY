@@ -97,6 +97,10 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- schematic_components.md @ f3bb3a6: S3 fixed (TPS2121RUXR verified TI 4.5 A/56 mOhm), S11-S13 fixed.
+  Remaining S14: VCCIO_3V3 0.85 A from "LDO/Ext" off 5 V = ~1.45 W LDO loss -> must be a buck (check
+  VCC_EMMC too). Accepted once S14 fixed; still all UNVERIFIED pending RK3576 EVB + PDN guide.
+
 - Re-reviewed schematic_components.md @ 90a9763 -> NO (one block). S1/S2/S4/S5/S6/S8/S9/S10 OK, S7 power
   tree added (UNVERIFIED, honest). S3 NOT fixed: TI pages LM66100 = 1.5 A/79 mOhm, TPS2113A = 1.25 A/84 mOhm
   (claimed >=3 A, <30 mV). Options: TPS2121 4.5 A/56 mOhm (~0.17 V, 0.5 W @3 A) or controller + low-Rds

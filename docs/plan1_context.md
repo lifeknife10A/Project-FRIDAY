@@ -474,3 +474,8 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
     - VCCIO_3V3 0.6 A LDO feeds the MAX98357A amps + Wi-Fi TX + the camera AP3429K: the amps belong on VSYS_5V, and the 3.3 V budget is too small.
     - J4 "JST-PH 2.0" is rated ~2 A, below the ≥3 A spec → pads only.
     - 24 decaps vs the power-tree text (4×100 nF per rail).
+- **2026-11-27 (schematic_components.md @ f3bb3a6).**
+  - S3 fixed: TPS2121RUXR verified on TI (4.5 A, 56 mΩ, RUX 12-pin); drop 0.17 V and 0.5 W stated.
+  - S11, S12, S13 fixed.
+  - One remaining item, S14: VCCIO_3V3 at 0.85 A "RK806 LDO / Ext" from 5 V would burn ≈1.45 W as an LDO → must be a buck (RK806 buck or external). Same check for VCC_EMMC.
+  - Verdict: accepted as the parts spec once S14 is fixed. Every value is still UNVERIFIED pending the RK3576 EVB schematic + PDN guide.
