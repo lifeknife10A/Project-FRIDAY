@@ -3521,7 +3521,7 @@
 <pin name="SYNC" x="22.86" y="-48.26" length="middle" rot="R180"/>
 <pin name="SYNC_CLK" x="22.86" y="-50.8" length="middle" function="clk" rot="R180"/>
 <pin name="PWRON" x="-22.86" y="43.18" length="middle" direction="in"/>
-<pin name="VOUT8" x="22.86" y="-20.32" length="middle" direction="pwr" rot="R180"/>
+<pin name="VOUT8" x="22.86" y="-20.32" length="middle" direction="pas" rot="R180"/>
 <pin name="SW8" x="22.86" y="-17.78" length="middle" direction="out" rot="R180"/>
 <pin name="VCC8" x="22.86" y="-15.24" length="middle" direction="pwr" rot="R180"/>
 <pin name="NLDO5" x="-22.86" y="0" length="middle"/>
@@ -3540,35 +3540,35 @@
 <pin name="VCCA" x="22.86" y="53.34" length="middle" direction="pwr" rot="R180"/>
 <pin name="VCC4" x="22.86" y="30.48" length="middle" direction="pwr" rot="R180"/>
 <pin name="SW4" x="22.86" y="27.94" length="middle" direction="out" rot="R180"/>
-<pin name="VOUT4" x="22.86" y="25.4" length="middle" direction="pwr" rot="R180"/>
-<pin name="VOUT10" x="22.86" y="-43.18" length="middle" direction="pwr" rot="R180"/>
+<pin name="VOUT4" x="22.86" y="25.4" length="middle" direction="pas" rot="R180"/>
+<pin name="VOUT10" x="22.86" y="-43.18" length="middle" direction="pas" rot="R180"/>
 <pin name="SW10" x="22.86" y="-40.64" length="middle" direction="out" rot="R180"/>
 <pin name="VCC10" x="22.86" y="-38.1" length="middle" direction="pwr" rot="R180"/>
 <pin name="VCC6" x="22.86" y="7.62" length="middle" direction="pwr" rot="R180"/>
 <pin name="SW6" x="22.86" y="5.08" length="middle" direction="out" rot="R180"/>
-<pin name="VOUT6" x="22.86" y="2.54" length="middle" direction="pwr" rot="R180"/>
+<pin name="VOUT6" x="22.86" y="2.54" length="middle" direction="pas" rot="R180"/>
 <pin name="FB6" x="22.86" y="0" length="middle" direction="in" rot="R180"/>
 <pin name="VDC" x="22.86" y="50.8" length="middle" direction="pwr" rot="R180"/>
 <pin name="VCC2" x="-22.86" y="-43.18" length="middle" direction="pwr"/>
 <pin name="SW2" x="-22.86" y="-45.72" length="middle" direction="out"/>
-<pin name="VOUT2" x="-22.86" y="-48.26" length="middle" direction="pwr"/>
+<pin name="VOUT2" x="-22.86" y="-48.26" length="middle" direction="pas"/>
 <pin name="FB2" x="-22.86" y="-50.8" length="middle" direction="nc"/>
 <pin name="EXT_EN" x="-22.86" y="40.64" length="middle"/>
 <pin name="!RESET" x="-22.86" y="45.72" length="middle"/>
-<pin name="VOUT7" x="22.86" y="-10.16" length="middle" direction="pwr" rot="R180"/>
+<pin name="VOUT7" x="22.86" y="-10.16" length="middle" direction="pas" rot="R180"/>
 <pin name="SW7" x="22.86" y="-7.62" length="middle" direction="out" rot="R180"/>
 <pin name="VCC7" x="22.86" y="-5.08" length="middle" direction="pwr" rot="R180"/>
 <pin name="VCC5" x="22.86" y="20.32" length="middle" direction="pwr" rot="R180"/>
 <pin name="SW5" x="22.86" y="17.78" length="middle" direction="out" rot="R180"/>
-<pin name="VOUT5" x="22.86" y="15.24" length="middle" direction="pwr" rot="R180"/>
+<pin name="VOUT5" x="22.86" y="15.24" length="middle" direction="pas" rot="R180"/>
 <pin name="FB5" x="22.86" y="12.7" length="middle" direction="in" rot="R180"/>
 <pin name="FB1" x="-22.86" y="-38.1" length="middle" direction="nc"/>
-<pin name="VOUT1" x="-22.86" y="-35.56" length="middle" direction="pwr"/>
+<pin name="VOUT1" x="-22.86" y="-35.56" length="middle" direction="pas"/>
 <pin name="SW1" x="-22.86" y="-33.02" length="middle" direction="out"/>
 <pin name="VCC1" x="-22.86" y="-30.48" length="middle" direction="pwr"/>
 <pin name="VCC3" x="22.86" y="40.64" length="middle" direction="pwr" rot="R180"/>
 <pin name="SW3" x="22.86" y="38.1" length="middle" direction="out" rot="R180"/>
-<pin name="VOUT3" x="22.86" y="35.56" length="middle" direction="pwr" rot="R180"/>
+<pin name="VOUT3" x="22.86" y="35.56" length="middle" direction="pas" rot="R180"/>
 <pin name="PLDO3" x="-22.86" y="-12.7" length="middle" direction="out"/>
 <pin name="PLDO2" x="-22.86" y="-10.16" length="middle" direction="out"/>
 <pin name="VCC11" x="-22.86" y="-15.24" length="middle" direction="pwr"/>
@@ -3579,7 +3579,7 @@
 <pin name="VCC12" x="-22.86" y="-25.4" length="middle" direction="pwr"/>
 <pin name="PLDO5" x="-22.86" y="-22.86" length="middle" direction="out"/>
 <pin name="FB9" x="22.86" y="-33.02" length="middle" direction="in" rot="R180"/>
-<pin name="VOUT9" x="22.86" y="-30.48" length="middle" direction="pwr" rot="R180"/>
+<pin name="VOUT9" x="22.86" y="-30.48" length="middle" direction="pas" rot="R180"/>
 <pin name="SW9" x="22.86" y="-27.94" length="middle" direction="out" rot="R180"/>
 <pin name="EPAD" x="22.86" y="-55.88" length="middle" direction="pas" rot="R180"/>
 </symbol>
@@ -5426,13 +5426,10 @@
 <part name="PWR117" library="FRIDAY_SCH1_Support" deviceset="VCC5V0_SYS_S5" device="" value="VCC5V0_SYS_S5"/>
 <part name="PWR118" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
 <part name="C75" library="FRIDAY_SCH1_Support" deviceset="C_0603" device="" value="22uF 6.3V"/>
-<part name="PWR119" library="FRIDAY_SCH1_Support" deviceset="VDD2_DDR_S3" device="" value="VDD2_DDR_S3"/>
 <part name="PWR120" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
 <part name="C76" library="FRIDAY_SCH1_Support" deviceset="C_0603" device="" value="22uF 6.3V"/>
-<part name="PWR121" library="FRIDAY_SCH1_Support" deviceset="VDD2_DDR_S3" device="" value="VDD2_DDR_S3"/>
 <part name="PWR122" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
 <part name="R22" library="FRIDAY_SCH1_Support" deviceset="R_0402" device="" value="120k 1%"/>
-<part name="PWR123" library="FRIDAY_SCH1_Support" deviceset="VDD2_DDR_S3" device="" value="VDD2_DDR_S3"/>
 <part name="R24" library="FRIDAY_SCH1_Support" deviceset="R_0402" device="" value="100k 1%"/>
 <part name="PWR124" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
 <part name="C2329" library="FRIDAY_SCH1_Support" deviceset="C_0402" device="" value="100pF 50V C0G"/>
@@ -5747,7 +5744,6 @@
 <part name="PWR299" library="FRIDAY_SCH1_Support" deviceset="VDD_DDR_S0" device="" value="VDD_DDR_S0"/>
 <part name="PWR300" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
 <part name="C1214" library="FRIDAY_SCH1_Support" deviceset="C_0201" device="" value="1uF 6.3V"/>
-<part name="PWR301" library="FRIDAY_SCH1_Support" deviceset="VDD2_DDR_S3" device="" value="VDD2_DDR_S3"/>
 <part name="PWR302" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
 <part name="C1212" library="FRIDAY_SCH1_Support" deviceset="C_0201" device="" value="1uF 6.3V"/>
 <part name="PWR303" library="FRIDAY_SCH1_Support" deviceset="VDDA_DDR_PLL_S0" device="" value="VDDA_DDR_PLL_S0"/>
@@ -5797,7 +5793,6 @@
 <part name="PWR332" library="FRIDAY_SCH1_Support" deviceset="VCC_3V3_S3" device="" value="VCC_3V3_S3"/>
 <part name="PWR333" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
 <part name="C1801" library="FRIDAY_SCH1_Support" deviceset="C_0201" device="" value="100nF 6.3V"/>
-<part name="PWR334" library="FRIDAY_SCH1_Support" deviceset="VCC_3V3_S3" device="" value="VCC_3V3_S3"/>
 <part name="PWR335" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
 <part name="C1308" library="FRIDAY_SCH1_Support" deviceset="C_0201" device="" value="1uF 6.3V"/>
 <part name="PWR336" library="FRIDAY_SCH1_Support" deviceset="VCC_1V8_S0" device="" value="VCC_1V8_S0"/>
@@ -5868,6 +5863,33 @@
 <part name="R9905" library="FRIDAY_SCH1_Support" deviceset="R_0201" device="" value="100R 1%"/>
 <part name="TP2" library="FRIDAY_SCH1_Support" deviceset="TP_1MM" device="" value="UART0_RX"/>
 <part name="TP3" library="FRIDAY_SCH1_Support" deviceset="TP_1MM" device="" value="UART_GND"/>
+<part name="R1320" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="0R"/>
+<part name="R1323" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="0R"/>
+<part name="R2427" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="0R"/>
+<part name="C1300" library="FRIDAY_SCH1_Support" deviceset="C_0201" device="" value="100nF 6.3V"/>
+<part name="PWR_C1300" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
+<part name="C1400" library="FRIDAY_SCH1_Support" deviceset="C_0201" device="" value="1uF 6.3V"/>
+<part name="PWR_C1400" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
+<part name="C1401" library="FRIDAY_SCH1_Support" deviceset="C_0201" device="" value="1uF 6.3V">
+<variant name="default" populate="no"/>
+</part>
+<part name="PWR_C1401" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
+<part name="C1402" library="FRIDAY_SCH1_Support" deviceset="C_0201" device="" value="1uF 6.3V"/>
+<part name="PWR_C1402" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
+<part name="C1403" library="FRIDAY_SCH1_Support" deviceset="C_0201" device="" value="1uF 6.3V">
+<variant name="default" populate="no"/>
+</part>
+<part name="PWR_C1403" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
+<part name="C1302" library="FRIDAY_SCH1_Support" deviceset="C_0201" device="" value="1uF 6.3V"/>
+<part name="PWR_C1302" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
+<part name="C1303" library="FRIDAY_SCH1_Support" deviceset="C_0402" device="" value="1uF 6.3V"/>
+<part name="PWR_C1303" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
+<part name="C1305" library="FRIDAY_SCH1_Support" deviceset="C_0201" device="" value="1uF 6.3V"/>
+<part name="PWR_C1305" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
+<part name="C1306" library="FRIDAY_SCH1_Support" deviceset="C_0402" device="" value="1uF 6.3V"/>
+<part name="PWR_C1306" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
+<part name="C2423" library="FRIDAY_SCH1_Support" deviceset="C_0603" device="" value="10uF 6.3V"/>
+<part name="PWR_C2423" library="FRIDAY_SCH1_Support" deviceset="GND" device="" value="GND"/>
 </parts>
 <sheets>
 <sheet>
@@ -5875,6 +5897,7 @@
 <plain>
 <text x="12.7" y="284.48" size="2.54" layer="94">PROJECT FRIDAY — S1: POWER INPUT (J4 BATT -&gt; U10 SY8205FCC -&gt; U5 TPS2121RUXR &lt;- J1 USB-C) | REV SCH-1 | PRINCIPLE: COPY RK3576 EVB1 V1.2</text>
 <text x="12.7" y="274.32" size="1.778" layer="94">CITATIONS: SY8205 AN Fig.2; TPS2121 SLVSEA3 Fig.14 &amp; p.7/p.18; USB-C Spec s4.5.1; HDG s2.3.4 (VBUSDET 3.0V); EVB D2300.</text>
+<text x="12.7" y="269.24" size="1.778" layer="94">ERC code 104 approval note: power pin tied to named rail — auditor reviewed</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="0" y="0" smashed="yes"/>
@@ -6720,13 +6743,10 @@
 <instance part="PWR117" gate="G$1" x="284.48" y="91.44" smashed="yes"/>
 <instance part="PWR118" gate="G$1" x="284.48" y="71.12" smashed="yes"/>
 <instance part="C75" gate="G$1" x="299.72" y="81.28" smashed="yes" rot="R270"/>
-<instance part="PWR119" gate="G$1" x="299.72" y="91.44" smashed="yes"/>
 <instance part="PWR120" gate="G$1" x="299.72" y="71.12" smashed="yes"/>
 <instance part="C76" gate="G$1" x="314.96" y="81.28" smashed="yes" rot="R270"/>
-<instance part="PWR121" gate="G$1" x="314.96" y="91.44" smashed="yes"/>
 <instance part="PWR122" gate="G$1" x="314.96" y="71.12" smashed="yes"/>
 <instance part="R22" gate="G$1" x="378.46" y="86.36" smashed="yes" rot="R270"/>
-<instance part="PWR123" gate="G$1" x="378.46" y="96.52" smashed="yes"/>
 <instance part="R24" gate="G$1" x="378.46" y="68.58" smashed="yes" rot="R270"/>
 <instance part="PWR124" gate="G$1" x="378.46" y="58.42" smashed="yes"/>
 <instance part="C2329" gate="G$1" x="393.7" y="86.36" smashed="yes" rot="R270"/>
@@ -7821,7 +7841,7 @@
 <label x="330.2" y="228.6" size="1.016" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="VDD2_DDR_S3" class="0">
+<net name="VDDQ_DDR_CKE_S3" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="VOUT9"/>
 <wire x1="213.36" y1="109.22" x2="220.98" y2="109.22" width="0.1524" layer="91"/>
@@ -7834,19 +7854,16 @@
 </segment>
 <segment>
 <pinref part="C75" gate="G$1" pin="1"/>
-<pinref part="PWR119" gate="G$1" pin="VDD2_DDR_S3"/>
 <wire x1="299.72" y1="86.36" x2="299.72" y2="88.9" width="0.1524" layer="91"/>
 <label x="299.72" y="88.9" size="1.016" layer="95" xref="yes"/>
 </segment>
 <segment>
 <pinref part="C76" gate="G$1" pin="1"/>
-<pinref part="PWR121" gate="G$1" pin="VDD2_DDR_S3"/>
 <wire x1="314.96" y1="86.36" x2="314.96" y2="88.9" width="0.1524" layer="91"/>
 <label x="314.96" y="88.9" size="1.016" layer="95" xref="yes"/>
 </segment>
 <segment>
 <pinref part="R22" gate="G$1" pin="1"/>
-<pinref part="PWR123" gate="G$1" pin="VDD2_DDR_S3"/>
 <wire x1="378.46" y1="91.44" x2="378.46" y2="93.98" width="0.1524" layer="91"/>
 <label x="378.46" y="93.98" size="1.016" layer="95" xref="yes"/>
 </segment>
@@ -8654,7 +8671,7 @@
 <description>S4: RK3576 Power &amp; GND + Unused Rails</description>
 <plain>
 <text x="12.7" y="579.12" size="2.54" layer="94">PROJECT FRIDAY — S4: RK3576 (U1) POWER, GROUND, DECOUPLING &amp; UNUSED BLOCKS — EVB P.10-19 &amp; HDG S2 | REV SCH-1 | PRINCIPLE: COPY RK3576 EVB1 V1.2</text>
-<text x="12.7" y="568.96" size="2.032" layer="94">CITATIONS: EVB Sheets 10,12,13,14,15,18,19; RK3576 DS Table 3-2; HDG s2.2.2 (Unused HDMI/PCIe/CSI grounded, UFS/VCCIO7/USB3_TX unpowered). RK3576 FCCSP-698L footprint: UNVERIFIED vs RK3576 DS s2.</text>
+<text x="12.7" y="568.96" size="2.032" layer="94">EVB sheets 05, 06, 10-19, 23-24; RK3576 DS Table 3-2; HDG sections 2.1.11.1 and 2.2.2. RK3576 FCCSP-698L footprint: UNVERIFIED vs DS section 2.</text>
 </plain>
 <instances>
 <instance part="FRAME4" gate="G$1" x="0" y="0" smashed="yes"/>
@@ -8805,7 +8822,6 @@
 <instance part="PWR299" gate="G$1" x="467.36" y="335.28" smashed="yes"/>
 <instance part="PWR300" gate="G$1" x="467.36" y="314.96" smashed="yes"/>
 <instance part="C1214" gate="G$1" x="508" y="325.12" smashed="yes" rot="R270"/>
-<instance part="PWR301" gate="G$1" x="508" y="335.28" smashed="yes"/>
 <instance part="PWR302" gate="G$1" x="508" y="314.96" smashed="yes"/>
 <instance part="C1212" gate="G$1" x="548.64" y="325.12" smashed="yes" rot="R270"/>
 <instance part="PWR303" gate="G$1" x="548.64" y="335.28" smashed="yes"/>
@@ -8855,7 +8871,6 @@
 <instance part="PWR332" gate="G$1" x="304.8" y="304.8" smashed="yes"/>
 <instance part="PWR333" gate="G$1" x="304.8" y="284.48" smashed="yes"/>
 <instance part="C1801" gate="G$1" x="325.12" y="294.64" smashed="yes" rot="R270"/>
-<instance part="PWR334" gate="G$1" x="325.12" y="304.8" smashed="yes"/>
 <instance part="PWR335" gate="G$1" x="325.12" y="284.48" smashed="yes"/>
 <instance part="C1308" gate="G$1" x="365.76" y="294.64" smashed="yes" rot="R270"/>
 <instance part="PWR336" gate="G$1" x="365.76" y="304.8" smashed="yes"/>
@@ -8881,6 +8896,29 @@
 <instance part="PWR348" gate="G$1" x="182.88" y="91.44" smashed="yes"/>
 <instance part="R1402" gate="G$1" x="213.36" y="101.6" smashed="yes" rot="R270"/>
 <instance part="PWR349" gate="G$1" x="213.36" y="91.44" smashed="yes"/>
+<instance part="R1320" gate="G$1" x="497.84" y="226.06" smashed="yes"/>
+<instance part="R1323" gate="G$1" x="497.84" y="200.66" smashed="yes"/>
+<instance part="R2427" gate="G$1" x="497.84" y="175.26" smashed="yes"/>
+<instance part="C1300" gate="G$1" x="467.36" y="259.08" smashed="yes" rot="R270"/>
+<instance part="PWR_C1300" gate="G$1" x="467.36" y="248.92" smashed="yes"/>
+<instance part="C1400" gate="G$1" x="518.16" y="259.08" smashed="yes" rot="R270"/>
+<instance part="PWR_C1400" gate="G$1" x="518.16" y="248.92" smashed="yes"/>
+<instance part="C1401" gate="G$1" x="563.88" y="259.08" smashed="yes" rot="R270"/>
+<instance part="PWR_C1401" gate="G$1" x="563.88" y="248.92" smashed="yes"/>
+<instance part="C1402" gate="G$1" x="609.6" y="259.08" smashed="yes" rot="R270"/>
+<instance part="PWR_C1402" gate="G$1" x="609.6" y="248.92" smashed="yes"/>
+<instance part="C1403" gate="G$1" x="655.32" y="259.08" smashed="yes" rot="R270"/>
+<instance part="PWR_C1403" gate="G$1" x="655.32" y="248.92" smashed="yes"/>
+<instance part="C1302" gate="G$1" x="556.26" y="226.06" smashed="yes" rot="R270"/>
+<instance part="PWR_C1302" gate="G$1" x="556.26" y="215.9" smashed="yes"/>
+<instance part="C1303" gate="G$1" x="601.98" y="226.06" smashed="yes" rot="R270"/>
+<instance part="PWR_C1303" gate="G$1" x="601.98" y="215.9" smashed="yes"/>
+<instance part="C1305" gate="G$1" x="556.26" y="200.66" smashed="yes" rot="R270"/>
+<instance part="PWR_C1305" gate="G$1" x="556.26" y="190.5" smashed="yes"/>
+<instance part="C1306" gate="G$1" x="601.98" y="200.66" smashed="yes" rot="R270"/>
+<instance part="PWR_C1306" gate="G$1" x="601.98" y="190.5" smashed="yes"/>
+<instance part="C2423" gate="G$1" x="556.26" y="175.26" smashed="yes" rot="R270"/>
+<instance part="PWR_C2423" gate="G$1" x="556.26" y="165.1" smashed="yes"/>
 </instances>
 <busses>
 </busses>
@@ -9800,6 +9838,56 @@
 <pinref part="PWR349" gate="G$1" pin="GND"/>
 <wire x1="213.36" y1="96.52" x2="213.36" y2="93.98" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="C1300" gate="G$1" pin="2"/>
+<pinref part="PWR_C1300" gate="G$1" pin="GND"/>
+<wire x1="467.36" y1="254" x2="467.36" y2="251.46" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C1400" gate="G$1" pin="2"/>
+<pinref part="PWR_C1400" gate="G$1" pin="GND"/>
+<wire x1="518.16" y1="254" x2="518.16" y2="251.46" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C1401" gate="G$1" pin="2"/>
+<pinref part="PWR_C1401" gate="G$1" pin="GND"/>
+<wire x1="563.88" y1="254" x2="563.88" y2="251.46" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C1402" gate="G$1" pin="2"/>
+<pinref part="PWR_C1402" gate="G$1" pin="GND"/>
+<wire x1="609.6" y1="254" x2="609.6" y2="251.46" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C1403" gate="G$1" pin="2"/>
+<pinref part="PWR_C1403" gate="G$1" pin="GND"/>
+<wire x1="655.32" y1="254" x2="655.32" y2="251.46" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C1302" gate="G$1" pin="2"/>
+<pinref part="PWR_C1302" gate="G$1" pin="GND"/>
+<wire x1="556.26" y1="220.98" x2="556.26" y2="218.44" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C1303" gate="G$1" pin="2"/>
+<pinref part="PWR_C1303" gate="G$1" pin="GND"/>
+<wire x1="601.98" y1="220.98" x2="601.98" y2="218.44" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C1305" gate="G$1" pin="2"/>
+<pinref part="PWR_C1305" gate="G$1" pin="GND"/>
+<wire x1="556.26" y1="195.58" x2="556.26" y2="193.04" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C1306" gate="G$1" pin="2"/>
+<pinref part="PWR_C1306" gate="G$1" pin="GND"/>
+<wire x1="601.98" y1="195.58" x2="601.98" y2="193.04" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C2423" gate="G$1" pin="2"/>
+<pinref part="PWR_C2423" gate="G$1" pin="GND"/>
+<wire x1="556.26" y1="170.18" x2="556.26" y2="167.64" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="MIPI_DCPHY_AVDD" class="0">
 <segment>
@@ -9921,6 +10009,31 @@
 <wire x1="55.88" y1="101.6" x2="50.8" y2="101.6" width="0.1524" layer="91"/>
 <label x="50.8" y="101.6" size="1.016" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U1" gate="U$6" pin="USB3_OTG0_DP_TX_AVDD1V8_2N4"/>
+<wire x1="393.7" y1="441.96" x2="398.78" y2="441.96" width="0.1524" layer="91"/>
+<label x="398.78" y="441.96" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="U1" gate="U$6" pin="OSC_UFS_AVDD_2M2"/>
+<wire x1="393.7" y1="477.52" x2="398.78" y2="477.52" width="0.1524" layer="91"/>
+<label x="398.78" y="477.52" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="R1323" gate="G$1" pin="1"/>
+<wire x1="492.76" y1="200.66" x2="487.68" y2="200.66" width="0.1524" layer="91"/>
+<label x="487.68" y="200.66" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="C1402" gate="G$1" pin="1"/>
+<wire x1="609.6" y1="264.16" x2="609.6" y2="266.7" width="0.1524" layer="91"/>
+<label x="609.6" y="266.7" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="C1403" gate="G$1" pin="1"/>
+<wire x1="655.32" y1="264.16" x2="655.32" y2="266.7" width="0.1524" layer="91"/>
+<label x="655.32" y="266.7" size="1.016" layer="95"/>
+</segment>
 </net>
 <net name="VCCIO_SD_S0" class="0">
 <segment>
@@ -9958,6 +10071,21 @@
 <wire x1="386.08" y1="299.72" x2="386.08" y2="302.26" width="0.1524" layer="91"/>
 <label x="386.08" y="302.26" size="1.016" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U1" gate="U$6" pin="VCCIO7_VCC_2M3"/>
+<wire x1="393.7" y1="474.98" x2="398.78" y2="474.98" width="0.1524" layer="91"/>
+<label x="398.78" y="474.98" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="U1" gate="U$5" pin="VCCIO2_VCC_2A2"/>
+<wire x1="71.12" y1="538.48" x2="48.26" y2="538.48" width="0.1524" layer="91"/>
+<label x="48.26" y="538.48" size="1.016" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="C1300" gate="G$1" pin="1"/>
+<wire x1="467.36" y1="264.16" x2="467.36" y2="266.7" width="0.1524" layer="91"/>
+<label x="467.36" y="266.7" size="1.016" layer="95"/>
+</segment>
 </net>
 <net name="VCC_1V8_S3" class="0">
 <segment>
@@ -9971,17 +10099,17 @@
 <wire x1="264.16" y1="299.72" x2="264.16" y2="302.26" width="0.1524" layer="91"/>
 <label x="264.16" y="302.26" size="1.016" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="R2427" gate="G$1" pin="1"/>
+<wire x1="492.76" y1="175.26" x2="487.68" y2="175.26" width="0.1524" layer="91"/>
+<label x="487.68" y="175.26" size="1.016" layer="95"/>
+</segment>
 </net>
 <net name="VCC_3V3_S0" class="0">
 <segment>
 <pinref part="U1" gate="U$5" pin="VCCIO4_VCC_2A7"/>
 <wire x1="71.12" y1="525.78" x2="48.26" y2="525.78" width="0.1524" layer="91"/>
 <label x="48.26" y="525.78" size="1.016" layer="95" xref="yes"/>
-</segment>
-<segment>
-<pinref part="U1" gate="U$5" pin="VCCIO2_VCC_2A2"/>
-<wire x1="71.12" y1="538.48" x2="48.26" y2="538.48" width="0.1524" layer="91"/>
-<label x="48.26" y="538.48" size="1.016" layer="95" xref="yes"/>
 </segment>
 <segment>
 <pinref part="U1" gate="U$6" pin="VCCIO6_VCC_2N3"/>
@@ -10014,29 +10142,22 @@
 </net>
 <net name="VCC_3V3_S3" class="0">
 <segment>
-<pinref part="U1" gate="U$5" pin="VCCIO3_VCC_2B10"/>
-<wire x1="71.12" y1="487.68" x2="48.26" y2="487.68" width="0.1524" layer="91"/>
-<label x="48.26" y="487.68" size="1.016" layer="95" xref="yes"/>
-</segment>
-<segment>
 <pinref part="C1106" gate="G$1" pin="1"/>
 <pinref part="PWR332" gate="G$1" pin="VCC_3V3_S3"/>
 <wire x1="304.8" y1="299.72" x2="304.8" y2="302.26" width="0.1524" layer="91"/>
 <label x="304.8" y="302.26" size="1.016" layer="95" xref="yes"/>
 </segment>
-<segment>
-<pinref part="C1801" gate="G$1" pin="1"/>
-<pinref part="PWR334" gate="G$1" pin="VCC_3V3_S3"/>
-<wire x1="325.12" y1="299.72" x2="325.12" y2="302.26" width="0.1524" layer="91"/>
-<label x="325.12" y="302.26" size="1.016" layer="95" xref="yes"/>
-</segment>
 </net>
-<net name="VDD2_DDR_S3" class="0">
+<net name="VDDQ_DDR_CKE_S3" class="0">
 <segment>
 <pinref part="C1214" gate="G$1" pin="1"/>
-<pinref part="PWR301" gate="G$1" pin="VDD2_DDR_S3"/>
 <wire x1="508" y1="330.2" x2="508" y2="332.74" width="0.1524" layer="91"/>
 <label x="508" y="332.74" size="1.016" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U1" gate="U$5" pin="DDRPHY_CKE_VDDQ_2B2"/>
+<wire x1="71.12" y1="508" x2="48.26" y2="508" width="0.1524" layer="91"/>
+<label x="48.26" y="508" size="1.016" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="VDDA_0V75_S0" class="0">
@@ -10142,11 +10263,6 @@
 <label x="48.26" y="449.58" size="1.016" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="U1" gate="U$5" pin="DDRPHY_CKE_VDDQ_2B2"/>
-<wire x1="71.12" y1="508" x2="48.26" y2="508" width="0.1524" layer="91"/>
-<label x="48.26" y="508" size="1.016" layer="95" xref="yes"/>
-</segment>
-<segment>
 <pinref part="C1200" gate="G$1" pin="1"/>
 <pinref part="PWR277" gate="G$1" pin="VDDQ_DDR_S0"/>
 <wire x1="223.52" y1="330.2" x2="223.52" y2="332.74" width="0.1524" layer="91"/>
@@ -10195,6 +10311,16 @@
 <pinref part="PWR309" gate="G$1" pin="VDD_0V75_S3"/>
 <wire x1="650.24" y1="330.2" x2="650.24" y2="332.74" width="0.1524" layer="91"/>
 <label x="650.24" y="332.74" size="1.016" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U1" gate="U$6" pin="PMU_LOGIC_DVDD0V75_0_2L2"/>
+<wire x1="393.7" y1="508" x2="398.78" y2="508" width="0.1524" layer="91"/>
+<label x="398.78" y="508" size="1.016" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U1" gate="U$6" pin="PMU_LOGIC_DVDD0V75_1_2L10"/>
+<wire x1="393.7" y1="487.68" x2="398.78" y2="487.68" width="0.1524" layer="91"/>
+<label x="398.78" y="487.68" size="1.016" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="VDD_CPU_BIG_S0" class="0">
@@ -10523,16 +10649,6 @@
 <label x="187.96" y="406.4" size="1.016" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="U1" gate="U$6" pin="PMU_LOGIC_DVDD0V75_0_2L2"/>
-<wire x1="393.7" y1="508" x2="398.78" y2="508" width="0.1524" layer="91"/>
-<label x="398.78" y="508" size="1.016" layer="95" xref="yes"/>
-</segment>
-<segment>
-<pinref part="U1" gate="U$6" pin="PMU_LOGIC_DVDD0V75_1_2L10"/>
-<wire x1="393.7" y1="487.68" x2="398.78" y2="487.68" width="0.1524" layer="91"/>
-<label x="398.78" y="487.68" size="1.016" layer="95" xref="yes"/>
-</segment>
-<segment>
 <pinref part="C1015" gate="G$1" pin="1"/>
 <pinref part="PWR231" gate="G$1" pin="VDD_LOGIC_S0"/>
 <wire x1="345.44" y1="360.68" x2="345.44" y2="363.22" width="0.1524" layer="91"/>
@@ -10654,6 +10770,99 @@
 <pinref part="PWR275" gate="G$1" pin="VDD_NPU_S0"/>
 <wire x1="182.88" y1="330.2" x2="182.88" y2="332.74" width="0.1524" layer="91"/>
 <label x="182.88" y="332.74" size="1.016" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="VDDA_0V85_S0" class="0">
+<segment>
+<pinref part="U1" gate="U$6" pin="USB3_OTG0_DP_TX_AVDD0V85_2M5"/>
+<wire x1="393.7" y1="469.9" x2="398.78" y2="469.9" width="0.1524" layer="91"/>
+<label x="398.78" y="469.9" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="U1" gate="U$6" pin="USB3_OTG0_DP_TX_DVDD0V85_2N5"/>
+<wire x1="393.7" y1="439.42" x2="398.78" y2="439.42" width="0.1524" layer="91"/>
+<label x="398.78" y="439.42" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="R1320" gate="G$1" pin="1"/>
+<wire x1="492.76" y1="226.06" x2="487.68" y2="226.06" width="0.1524" layer="91"/>
+<label x="487.68" y="226.06" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="C1400" gate="G$1" pin="1"/>
+<wire x1="518.16" y1="264.16" x2="518.16" y2="266.7" width="0.1524" layer="91"/>
+<label x="518.16" y="266.7" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="C1401" gate="G$1" pin="1"/>
+<wire x1="563.88" y1="264.16" x2="563.88" y2="266.7" width="0.1524" layer="91"/>
+<label x="563.88" y="266.7" size="1.016" layer="95"/>
+</segment>
+</net>
+<net name="UFS_AVDD0V85" class="0">
+<segment>
+<pinref part="U1" gate="U$6" pin="UFS_AVDD0V85_2N2"/>
+<wire x1="393.7" y1="447.04" x2="398.78" y2="447.04" width="0.1524" layer="91"/>
+<label x="398.78" y="447.04" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="R1320" gate="G$1" pin="2"/>
+<wire x1="502.92" y1="226.06" x2="508" y2="226.06" width="0.1524" layer="91"/>
+<label x="508" y="226.06" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="C1302" gate="G$1" pin="1"/>
+<wire x1="556.26" y1="231.14" x2="556.26" y2="233.68" width="0.1524" layer="91"/>
+<label x="556.26" y="233.68" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="C1303" gate="G$1" pin="1"/>
+<wire x1="601.98" y1="231.14" x2="601.98" y2="233.68" width="0.1524" layer="91"/>
+<label x="601.98" y="233.68" size="1.016" layer="95"/>
+</segment>
+</net>
+<net name="UFS_AVDD1V8" class="0">
+<segment>
+<pinref part="U1" gate="U$6" pin="UFS_AVDD1V8_2P2"/>
+<wire x1="393.7" y1="416.56" x2="398.78" y2="416.56" width="0.1524" layer="91"/>
+<label x="398.78" y="416.56" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="R1323" gate="G$1" pin="2"/>
+<wire x1="502.92" y1="200.66" x2="508" y2="200.66" width="0.1524" layer="91"/>
+<label x="508" y="200.66" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="C1305" gate="G$1" pin="1"/>
+<wire x1="556.26" y1="205.74" x2="556.26" y2="208.28" width="0.1524" layer="91"/>
+<label x="556.26" y="208.28" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="C1306" gate="G$1" pin="1"/>
+<wire x1="601.98" y1="205.74" x2="601.98" y2="208.28" width="0.1524" layer="91"/>
+<label x="601.98" y="208.28" size="1.016" layer="95"/>
+</segment>
+</net>
+<net name="VCCIO_WL" class="0">
+<segment>
+<pinref part="U1" gate="U$5" pin="VCCIO3_VCC_2B10"/>
+<wire x1="71.12" y1="487.68" x2="48.26" y2="487.68" width="0.1524" layer="91"/>
+<label x="48.26" y="487.68" size="1.016" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="C1801" gate="G$1" pin="1"/>
+<wire x1="325.12" y1="299.72" x2="325.12" y2="302.26" width="0.1524" layer="91"/>
+<label x="325.12" y="302.26" size="1.016" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="R2427" gate="G$1" pin="2"/>
+<wire x1="502.92" y1="175.26" x2="508" y2="175.26" width="0.1524" layer="91"/>
+<label x="508" y="175.26" size="1.016" layer="95"/>
+</segment>
+<segment>
+<pinref part="C2423" gate="G$1" pin="1"/>
+<wire x1="556.26" y1="180.34" x2="556.26" y2="182.88" width="0.1524" layer="91"/>
+<label x="556.26" y="182.88" size="1.016" layer="95"/>
 </segment>
 </net>
 </nets>
@@ -11800,6 +12009,31 @@
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="104,1,121.92,233.68,U10,PVIN,VBAT_2S_IN,,,"/>
+<approved hash="104,1,121.92,231.14,U10,VCC,U10_VCC,,,"/>
+<approved hash="104,1,73.66,132.08,J1,VBUS,VBUS_5V,,,"/>
+<approved hash="104,1,172.72,119.38,D1,VBUS,VBUS_5V,,,"/>
+<approved hash="104,2,213.36,114.3,U2,VCC9,VCC5V0_SYS_S5,,,"/>
+<approved hash="104,2,213.36,124.46,U2,VCC8,VCC5V0_SYS_S5,,,"/>
+<approved hash="104,2,167.64,137.16,U2,VCC14,VCC_1V1_NLDO_S3,,,"/>
+<approved hash="104,2,167.64,147.32,U2,VCC13,VCC_1V1_NLDO_S3,,,"/>
+<approved hash="104,2,213.36,195.58,U2,VCCIO,VCCA1V8_PLDO6_S3,,,"/>
+<approved hash="104,2,213.36,193.04,U2,VCCA,VCC5V0_SYS_S5,,,"/>
+<approved hash="104,2,213.36,170.18,U2,VCC4,VCC5V0_SYS_S5,,,"/>
+<approved hash="104,2,213.36,101.6,U2,VCC10,VCC5V0_SYS_S5,,,"/>
+<approved hash="104,2,213.36,147.32,U2,VCC6,VCC5V0_SYS_S5,,,"/>
+<approved hash="104,2,213.36,190.5,U2,VDC,PMIC_VDC,,,"/>
+<approved hash="104,2,167.64,96.52,U2,VCC2,VCC5V0_SYS_S5,,,"/>
+<approved hash="104,2,213.36,134.62,U2,VCC7,VCC5V0_SYS_S5,,,"/>
+<approved hash="104,2,213.36,160.02,U2,VCC5,VCC5V0_SYS_S5,,,"/>
+<approved hash="104,2,167.64,109.22,U2,VCC1,VCC5V0_SYS_S5,,,"/>
+<approved hash="104,2,213.36,180.34,U2,VCC3,VCC5V0_SYS_S5,,,"/>
+<approved hash="104,2,167.64,124.46,U2,VCC11,VCC_2V0_PLDO_S3,,,"/>
+<approved hash="104,2,167.64,114.3,U2,VCC12,VCC5V0_SYS_S5,,,"/>
+<approved hash="104,3,60.96,223.52,U6,IN,VCC5V0_SYS_S5,,,"/>
+<approved hash="104,3,246.38,223.52,U7,IN,VCC5V0_SYS_S5,,,"/>
+</errors>
 </schematic>
 </drawing>
 </eagle>

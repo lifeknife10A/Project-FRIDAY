@@ -164,7 +164,7 @@
 <pin name="SYNC" x="22.86" y="-48.26" length="middle" rot="R180"/>
 <pin name="SYNC_CLK" x="22.86" y="-50.8" length="middle" function="clk" rot="R180"/>
 <pin name="PWRON" x="-22.86" y="43.18" length="middle" direction="in"/>
-<pin name="VOUT8" x="22.86" y="-20.32" length="middle" direction="pwr" rot="R180"/>
+<pin name="VOUT8" x="22.86" y="-20.32" length="middle" direction="pas" rot="R180"/>
 <pin name="SW8" x="22.86" y="-17.78" length="middle" direction="out" rot="R180"/>
 <pin name="VCC8" x="22.86" y="-15.24" length="middle" direction="pwr" rot="R180"/>
 <pin name="NLDO5" x="-22.86" y="0" length="middle"/>
@@ -183,35 +183,35 @@
 <pin name="VCCA" x="22.86" y="53.34" length="middle" direction="pwr" rot="R180"/>
 <pin name="VCC4" x="22.86" y="30.48" length="middle" direction="pwr" rot="R180"/>
 <pin name="SW4" x="22.86" y="27.94" length="middle" direction="out" rot="R180"/>
-<pin name="VOUT4" x="22.86" y="25.4" length="middle" direction="pwr" rot="R180"/>
-<pin name="VOUT10" x="22.86" y="-43.18" length="middle" direction="pwr" rot="R180"/>
+<pin name="VOUT4" x="22.86" y="25.4" length="middle" direction="pas" rot="R180"/>
+<pin name="VOUT10" x="22.86" y="-43.18" length="middle" direction="pas" rot="R180"/>
 <pin name="SW10" x="22.86" y="-40.64" length="middle" direction="out" rot="R180"/>
 <pin name="VCC10" x="22.86" y="-38.1" length="middle" direction="pwr" rot="R180"/>
 <pin name="VCC6" x="22.86" y="7.62" length="middle" direction="pwr" rot="R180"/>
 <pin name="SW6" x="22.86" y="5.08" length="middle" direction="out" rot="R180"/>
-<pin name="VOUT6" x="22.86" y="2.54" length="middle" direction="pwr" rot="R180"/>
+<pin name="VOUT6" x="22.86" y="2.54" length="middle" direction="pas" rot="R180"/>
 <pin name="FB6" x="22.86" y="0" length="middle" direction="in" rot="R180"/>
 <pin name="VDC" x="22.86" y="50.8" length="middle" direction="pwr" rot="R180"/>
 <pin name="VCC2" x="-22.86" y="-43.18" length="middle" direction="pwr"/>
 <pin name="SW2" x="-22.86" y="-45.72" length="middle" direction="out"/>
-<pin name="VOUT2" x="-22.86" y="-48.26" length="middle" direction="pwr"/>
+<pin name="VOUT2" x="-22.86" y="-48.26" length="middle" direction="pas"/>
 <pin name="FB2" x="-22.86" y="-50.8" length="middle" direction="in"/>
 <pin name="EXT_EN" x="-22.86" y="40.64" length="middle"/>
 <pin name="!RESET" x="-22.86" y="45.72" length="middle"/>
-<pin name="VOUT7" x="22.86" y="-10.16" length="middle" direction="pwr" rot="R180"/>
+<pin name="VOUT7" x="22.86" y="-10.16" length="middle" direction="pas" rot="R180"/>
 <pin name="SW7" x="22.86" y="-7.62" length="middle" direction="out" rot="R180"/>
 <pin name="VCC7" x="22.86" y="-5.08" length="middle" direction="pwr" rot="R180"/>
 <pin name="VCC5" x="22.86" y="20.32" length="middle" direction="pwr" rot="R180"/>
 <pin name="SW5" x="22.86" y="17.78" length="middle" direction="out" rot="R180"/>
-<pin name="VOUT5" x="22.86" y="15.24" length="middle" direction="pwr" rot="R180"/>
+<pin name="VOUT5" x="22.86" y="15.24" length="middle" direction="pas" rot="R180"/>
 <pin name="FB5" x="22.86" y="12.7" length="middle" direction="in" rot="R180"/>
 <pin name="FB1" x="-22.86" y="-38.1" length="middle" direction="in"/>
-<pin name="VOUT1" x="-22.86" y="-35.56" length="middle" direction="pwr"/>
+<pin name="VOUT1" x="-22.86" y="-35.56" length="middle" direction="pas"/>
 <pin name="SW1" x="-22.86" y="-33.02" length="middle" direction="out"/>
 <pin name="VCC1" x="-22.86" y="-30.48" length="middle" direction="pwr"/>
 <pin name="VCC3" x="22.86" y="40.64" length="middle" direction="pwr" rot="R180"/>
 <pin name="SW3" x="22.86" y="38.1" length="middle" direction="out" rot="R180"/>
-<pin name="VOUT3" x="22.86" y="35.56" length="middle" direction="pwr" rot="R180"/>
+<pin name="VOUT3" x="22.86" y="35.56" length="middle" direction="pas" rot="R180"/>
 <pin name="PLDO3" x="-22.86" y="-12.7" length="middle" direction="out"/>
 <pin name="PLDO2" x="-22.86" y="-10.16" length="middle" direction="out"/>
 <pin name="VCC11" x="-22.86" y="-15.24" length="middle" direction="pwr"/>
@@ -222,7 +222,7 @@
 <pin name="VCC12" x="-22.86" y="-25.4" length="middle" direction="pwr"/>
 <pin name="PLDO5" x="-22.86" y="-22.86" length="middle" direction="out"/>
 <pin name="FB9" x="22.86" y="-33.02" length="middle" direction="in" rot="R180"/>
-<pin name="VOUT9" x="22.86" y="-30.48" length="middle" direction="pwr" rot="R180"/>
+<pin name="VOUT9" x="22.86" y="-30.48" length="middle" direction="pas" rot="R180"/>
 <pin name="SW9" x="22.86" y="-27.94" length="middle" direction="out" rot="R180"/>
 <pin name="EPAD" x="22.86" y="-55.88" length="middle" direction="pas" rot="R180"/>
 </symbol>

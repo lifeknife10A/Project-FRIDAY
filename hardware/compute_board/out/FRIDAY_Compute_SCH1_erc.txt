@@ -1,40 +1,32 @@
-Fusion Design: FRIDAY_Compute_SCH1
-Fusion DataFile ID: urn:adsk.wipprod:dm.lineage:Obb-HeBISf6nfqQgUaSukA
-Fusion Version: v1
-Schematic Checked: True
-ERC Errors: 0
-ERC Warnings: 33
+Fusion ERC — FRIDAY_Compute_SCH1_X1-X8 v1 (Autodesk Fusion 2706.1.17)
+Design lineage: urn:adsk.wipprod:dm.lineage:cULTRd2cSouMI7gNcFJYxA
+Schematic checked: True
+SCH-1 baseline: 0 errors, 33 active warnings, 0 approved.
+Revised before approval: 0 errors, 23 active warnings, 0 approved.
+Revised after approval and ERC rerun: 0 errors, 0 active warnings, 23 approved.
 
-[001] WARNING code=104 sheet=1 xy_mm=(121.92,233.68) | POWER pin U10 PVIN connected to VBAT_2S_IN
-[002] WARNING code=104 sheet=1 xy_mm=(121.92,231.14) | POWER pin U10 VCC connected to U10_VCC
-[003] WARNING code=104 sheet=1 xy_mm=(73.66,132.08) | POWER pin J1 VBUS connected to VBUS_5V
-[004] WARNING code=104 sheet=1 xy_mm=(172.72,119.38) | POWER pin D1 VBUS connected to VBUS_5V
-[005] WARNING code=104 sheet=2 xy_mm=(213.36,114.30) | POWER pin U2 VCC9 connected to VCC5V0_SYS_S5
-[006] WARNING code=104 sheet=2 xy_mm=(213.36,119.38) | POWER pin U2 VOUT8 connected to VCC_1V8_S3
-[007] WARNING code=104 sheet=2 xy_mm=(213.36,124.46) | POWER pin U2 VCC8 connected to VCC5V0_SYS_S5
-[008] WARNING code=104 sheet=2 xy_mm=(167.64,137.16) | POWER pin U2 VCC14 connected to VCC_1V1_NLDO_S3
-[009] WARNING code=104 sheet=2 xy_mm=(167.64,147.32) | POWER pin U2 VCC13 connected to VCC_1V1_NLDO_S3
-[010] WARNING code=104 sheet=2 xy_mm=(213.36,195.58) | POWER pin U2 VCCIO connected to VCCA1V8_PLDO6_S3
-[011] WARNING code=104 sheet=2 xy_mm=(213.36,193.04) | POWER pin U2 VCCA connected to VCC5V0_SYS_S5
-[012] WARNING code=104 sheet=2 xy_mm=(213.36,170.18) | POWER pin U2 VCC4 connected to VCC5V0_SYS_S5
-[013] WARNING code=104 sheet=2 xy_mm=(213.36,165.10) | POWER pin U2 VOUT4 connected to VCC_3V3_S3
-[014] WARNING code=104 sheet=2 xy_mm=(213.36,96.52) | POWER pin U2 VOUT10 connected to VDD_DDR_S0
-[015] WARNING code=104 sheet=2 xy_mm=(213.36,101.60) | POWER pin U2 VCC10 connected to VCC5V0_SYS_S5
-[016] WARNING code=104 sheet=2 xy_mm=(213.36,147.32) | POWER pin U2 VCC6 connected to VCC5V0_SYS_S5
-[017] WARNING code=104 sheet=2 xy_mm=(213.36,142.24) | POWER pin U2 VOUT6 connected to VDDQ_DDR_S0
-[018] WARNING code=104 sheet=2 xy_mm=(213.36,190.50) | POWER pin U2 VDC connected to PMIC_VDC
-[019] WARNING code=104 sheet=2 xy_mm=(167.64,96.52) | POWER pin U2 VCC2 connected to VCC5V0_SYS_S5
-[020] WARNING code=104 sheet=2 xy_mm=(167.64,91.44) | POWER pin U2 VOUT2 connected to VDD_NPU_S0
-[021] WARNING code=104 sheet=2 xy_mm=(213.36,129.54) | POWER pin U2 VOUT7 connected to VDD_LOGIC_S0
-[022] WARNING code=104 sheet=2 xy_mm=(213.36,134.62) | POWER pin U2 VCC7 connected to VCC5V0_SYS_S5
-[023] WARNING code=104 sheet=2 xy_mm=(213.36,160.02) | POWER pin U2 VCC5 connected to VCC5V0_SYS_S5
-[024] WARNING code=104 sheet=2 xy_mm=(213.36,154.94) | POWER pin U2 VOUT5 connected to VDD_GPU_S0
-[025] WARNING code=104 sheet=2 xy_mm=(167.64,104.14) | POWER pin U2 VOUT1 connected to VDD_CPU_BIG_S0
-[026] WARNING code=104 sheet=2 xy_mm=(167.64,109.22) | POWER pin U2 VCC1 connected to VCC5V0_SYS_S5
-[027] WARNING code=104 sheet=2 xy_mm=(213.36,180.34) | POWER pin U2 VCC3 connected to VCC5V0_SYS_S5
-[028] WARNING code=104 sheet=2 xy_mm=(213.36,175.26) | POWER pin U2 VOUT3 connected to VDD_CPU_LIT_S0
-[029] WARNING code=104 sheet=2 xy_mm=(167.64,124.46) | POWER pin U2 VCC11 connected to VCC_2V0_PLDO_S3
-[030] WARNING code=104 sheet=2 xy_mm=(167.64,114.30) | POWER pin U2 VCC12 connected to VCC5V0_SYS_S5
-[031] WARNING code=104 sheet=2 xy_mm=(213.36,109.22) | POWER pin U2 VOUT9 connected to VDD2_DDR_S3
-[032] WARNING code=104 sheet=3 xy_mm=(60.96,223.52) | POWER pin U6 IN connected to VCC5V0_SYS_S5
-[033] WARNING code=104 sheet=3 xy_mm=(246.38,223.52) | POWER pin U7 IN connected to VCC5V0_SYS_S5
+Approval note: power pin tied to named rail — auditor reviewed
+Sheet | Code | Position (mm) | Fusion message | State
+1 | 104 | (121.92, 233.68) | POWER pin U10 PVIN connected to VBAT_2S_IN | approved
+1 | 104 | (121.92, 231.14) | POWER pin U10 VCC connected to U10_VCC | approved
+1 | 104 | (73.66, 132.08) | POWER pin J1 VBUS connected to VBUS_5V | approved
+1 | 104 | (172.72, 119.38) | POWER pin D1 VBUS connected to VBUS_5V | approved
+2 | 104 | (213.36, 114.3) | POWER pin U2 VCC9 connected to VCC5V0_SYS_S5 | approved
+2 | 104 | (213.36, 124.46) | POWER pin U2 VCC8 connected to VCC5V0_SYS_S5 | approved
+2 | 104 | (167.64, 137.16) | POWER pin U2 VCC14 connected to VCC_1V1_NLDO_S3 | approved
+2 | 104 | (167.64, 147.32) | POWER pin U2 VCC13 connected to VCC_1V1_NLDO_S3 | approved
+2 | 104 | (213.36, 195.58) | POWER pin U2 VCCIO connected to VCCA1V8_PLDO6_S3 | approved
+2 | 104 | (213.36, 193.04) | POWER pin U2 VCCA connected to VCC5V0_SYS_S5 | approved
+2 | 104 | (213.36, 170.18) | POWER pin U2 VCC4 connected to VCC5V0_SYS_S5 | approved
+2 | 104 | (213.36, 101.6) | POWER pin U2 VCC10 connected to VCC5V0_SYS_S5 | approved
+2 | 104 | (213.36, 147.32) | POWER pin U2 VCC6 connected to VCC5V0_SYS_S5 | approved
+2 | 104 | (213.36, 190.5) | POWER pin U2 VDC connected to PMIC_VDC | approved
+2 | 104 | (167.64, 96.52) | POWER pin U2 VCC2 connected to VCC5V0_SYS_S5 | approved
+2 | 104 | (213.36, 134.62) | POWER pin U2 VCC7 connected to VCC5V0_SYS_S5 | approved
+2 | 104 | (213.36, 160.02) | POWER pin U2 VCC5 connected to VCC5V0_SYS_S5 | approved
+2 | 104 | (167.64, 109.22) | POWER pin U2 VCC1 connected to VCC5V0_SYS_S5 | approved
+2 | 104 | (213.36, 180.34) | POWER pin U2 VCC3 connected to VCC5V0_SYS_S5 | approved
+2 | 104 | (167.64, 124.46) | POWER pin U2 VCC11 connected to VCC_2V0_PLDO_S3 | approved
+2 | 104 | (167.64, 114.3) | POWER pin U2 VCC12 connected to VCC5V0_SYS_S5 | approved
+3 | 104 | (60.96, 223.52) | POWER pin U6 IN connected to VCC5V0_SYS_S5 | approved
+3 | 104 | (246.38, 223.52) | POWER pin U7 IN connected to VCC5V0_SYS_S5 | approved

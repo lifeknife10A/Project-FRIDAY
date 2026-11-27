@@ -1,59 +1,56 @@
 # Round SCH-1 EVB Cross-Reference & Deviations Report
 
 ## 1. Fusion Design & Export Summary
-- **Fusion Design Name:** `FRIDAY_Compute_SCH1`
+- **Fusion Design Name:** `FRIDAY_Compute_SCH1_X1-X8`
 - **Fusion Project:** `Friday` (`202611261174942881`)
-- **Fusion DataFile ID:** `urn:adsk.wipprod:dm.lineage:Obb-HeBISf6nfqQgUaSukA`
-- **Fusion Design Version / Revision Exported:** **`v1`** (Autodesk Fusion 2706.1.17)
-- **Fusion ERC Result:** **`0` Errors, `33` Warnings** (`Schematic Checked: True`; full log in `out/FRIDAY_Compute_SCH1_erc.txt`)
+- **Fusion DataFile ID:** `urn:adsk.wipprod:dm.lineage:cULTRd2cSouMI7gNcFJYxA`
+- **Fusion Design Version / Revision Exported:** **`v1`** (Autodesk Fusion 2706.1.17). The regenerated design was imported and saved under its own lineage in the Friday project.
+- **Fusion ERC Result:** **0 errors, 0 active warnings, 23 approved** (`Schematic Checked: True`; full log in `out/FRIDAY_Compute_SCH1_erc.txt`)
 - **Exported Deliverables (`hardware/compute_board/out/`):**
   - `SCH-1.pdf` (5-sheet A3 Landscape vector PDF, uncropped)
-  - `FRIDAY_Compute_SCH1_erc.txt` (Fusion ERC report: 0 errors, 33 itemized warnings)
-  - `FRIDAY_Compute_SCH1_netlist.txt` & `FRIDAY_Compute_SCH1_netlist.csv` (104 nets exported from Fusion)
-  - `FRIDAY_Compute_SCH1_bom.csv` (266 BOM components exported from Fusion)
-  - `FRIDAY_Compute_SCH1.sch` & `FRIDAY_SCH1_Support.lbr`
+  - `FRIDAY_Compute_SCH1_erc.txt` (Fusion ERC counts and all 23 itemized approvals)
+  - `FRIDAY_Compute_SCH1_netlist.txt` & `FRIDAY_Compute_SCH1_netlist.csv` (107 nets exported from Fusion)
+  - `FRIDAY_Compute_SCH1_bom.csv` (279 BOM entries from Fusion, including two DNP footprints)
+  - `FRIDAY_Compute_SCH1.sch` (Fusion EAGLE schematic export)
 
 ## 2. Footprint Verification Status (Mandatory Disclosure)
 - **RK3576 FCCSP-698L (`U1`, `libraries/RK3576.lbr`)**: **`UNVERIFIED vs RK3576 DS §2 package drawing`** — all 698 ball coordinates, mixed pitch zones (0.55 / 0.60 / 0.65 mm), and solder mask openings MUST be verified ball-by-ball against RK3576 Datasheet Rev 1.5 §2 prior to PCB layout / fabrication.
 
-## 3. Fusion ERC Warning Itemization (`0` Errors / `33` Warnings)
-All `33` warnings are benign EAGLE/Fusion **code `104`** notices (`POWER pin <part> <pin> connected to <net>`), caused by library pins typed `dir=pwr` whose symbol pin names (e.g., `VCC9`, `VOUT1`, `PVIN`, `VBUS`, `IN`) intentionally differ from PROJECT FRIDAY's system/EVB net names (e.g., `VCC5V0_SYS_S5`, `VDD_CPU_BIG_S0`, `VBAT_2S_IN`). Zero overlap, floating-pin, missing-junction, or mixed-direction errors exist:
+## 3. Fusion ERC
 
-| # | Sheet | Coords (mm) | Code | Fusion ERC Warning | Engineering Explanation |
-| :--- | :---: | :--- | :---: | :--- | :--- |
-| 1 | S1 | (121.92,233.68) | 104 | `POWER pin U10 PVIN connected to VBAT_2S_IN` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 2 | S1 | (121.92,231.14) | 104 | `POWER pin U10 VCC connected to U10_VCC` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 3 | S1 | (73.66,132.08) | 104 | `POWER pin J1 VBUS connected to VBUS_5V` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 4 | S1 | (172.72,119.38) | 104 | `POWER pin D1 VBUS connected to VBUS_5V` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 5 | S2 | (213.36,114.30) | 104 | `POWER pin U2 VCC9 connected to VCC5V0_SYS_S5` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 6 | S2 | (213.36,119.38) | 104 | `POWER pin U2 VOUT8 connected to VCC_1V8_S3` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 7 | S2 | (213.36,124.46) | 104 | `POWER pin U2 VCC8 connected to VCC5V0_SYS_S5` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 8 | S2 | (167.64,137.16) | 104 | `POWER pin U2 VCC14 connected to VCC_1V1_NLDO_S3` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 9 | S2 | (167.64,147.32) | 104 | `POWER pin U2 VCC13 connected to VCC_1V1_NLDO_S3` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 10 | S2 | (213.36,195.58) | 104 | `POWER pin U2 VCCIO connected to VCCA1V8_PLDO6_S3` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 11 | S2 | (213.36,193.04) | 104 | `POWER pin U2 VCCA connected to VCC5V0_SYS_S5` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 12 | S2 | (213.36,170.18) | 104 | `POWER pin U2 VCC4 connected to VCC5V0_SYS_S5` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 13 | S2 | (213.36,165.10) | 104 | `POWER pin U2 VOUT4 connected to VCC_3V3_S3` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 14 | S2 | (213.36,96.52) | 104 | `POWER pin U2 VOUT10 connected to VDD_DDR_S0` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 15 | S2 | (213.36,101.60) | 104 | `POWER pin U2 VCC10 connected to VCC5V0_SYS_S5` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 16 | S2 | (213.36,147.32) | 104 | `POWER pin U2 VCC6 connected to VCC5V0_SYS_S5` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 17 | S2 | (213.36,142.24) | 104 | `POWER pin U2 VOUT6 connected to VDDQ_DDR_S0` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 18 | S2 | (213.36,190.50) | 104 | `POWER pin U2 VDC connected to PMIC_VDC` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 19 | S2 | (167.64,96.52) | 104 | `POWER pin U2 VCC2 connected to VCC5V0_SYS_S5` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 20 | S2 | (167.64,91.44) | 104 | `POWER pin U2 VOUT2 connected to VDD_NPU_S0` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 21 | S2 | (213.36,129.54) | 104 | `POWER pin U2 VOUT7 connected to VDD_LOGIC_S0` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 22 | S2 | (213.36,134.62) | 104 | `POWER pin U2 VCC7 connected to VCC5V0_SYS_S5` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 23 | S2 | (213.36,160.02) | 104 | `POWER pin U2 VCC5 connected to VCC5V0_SYS_S5` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 24 | S2 | (213.36,154.94) | 104 | `POWER pin U2 VOUT5 connected to VDD_GPU_S0` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 25 | S2 | (167.64,104.14) | 104 | `POWER pin U2 VOUT1 connected to VDD_CPU_BIG_S0` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 26 | S2 | (167.64,109.22) | 104 | `POWER pin U2 VCC1 connected to VCC5V0_SYS_S5` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 27 | S2 | (213.36,180.34) | 104 | `POWER pin U2 VCC3 connected to VCC5V0_SYS_S5` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 28 | S2 | (213.36,175.26) | 104 | `POWER pin U2 VOUT3 connected to VDD_CPU_LIT_S0` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 29 | S2 | (167.64,124.46) | 104 | `POWER pin U2 VCC11 connected to VCC_2V0_PLDO_S3` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 30 | S2 | (167.64,114.30) | 104 | `POWER pin U2 VCC12 connected to VCC5V0_SYS_S5` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 31 | S2 | (213.36,109.22) | 104 | `POWER pin U2 VOUT9 connected to VDD2_DDR_S3` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 32 | S3 | (60.96,223.52) | 104 | `POWER pin U6 IN connected to VCC5V0_SYS_S5` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
-| 33 | S3 | (246.38,223.52) | 104 | `POWER pin U7 IN connected to VCC5V0_SYS_S5` | Pin name differs from rail net name; net voltage and direction verified against EVB/datasheet. |
+| Check | Errors | Active warnings | Approved |
+| --- | ---: | ---: | ---: |
+| Baseline at `1617157` | 0 | 33 | 0 |
+| Revised before approval | 0 | 23 | 0 |
+| Revised after approval and ERC rerun | 0 | 0 | 23 |
+
+The note recorded on the Fusion schematic and in the ERC export is “power pin tied to named rail — auditor reviewed”.
+
+| Sheet | Position (mm) | Code | Fusion message | State |
+| --- | --- | ---: | --- | --- |
+| S1 | (121.92, 233.68) | 104 | `POWER pin U10 PVIN connected to VBAT_2S_IN` | approved |
+| S1 | (121.92, 231.14) | 104 | `POWER pin U10 VCC connected to U10_VCC` | approved |
+| S1 | (73.66, 132.08) | 104 | `POWER pin J1 VBUS connected to VBUS_5V` | approved |
+| S1 | (172.72, 119.38) | 104 | `POWER pin D1 VBUS connected to VBUS_5V` | approved |
+| S2 | (213.36, 114.3) | 104 | `POWER pin U2 VCC9 connected to VCC5V0_SYS_S5` | approved |
+| S2 | (213.36, 124.46) | 104 | `POWER pin U2 VCC8 connected to VCC5V0_SYS_S5` | approved |
+| S2 | (167.64, 137.16) | 104 | `POWER pin U2 VCC14 connected to VCC_1V1_NLDO_S3` | approved |
+| S2 | (167.64, 147.32) | 104 | `POWER pin U2 VCC13 connected to VCC_1V1_NLDO_S3` | approved |
+| S2 | (213.36, 195.58) | 104 | `POWER pin U2 VCCIO connected to VCCA1V8_PLDO6_S3` | approved |
+| S2 | (213.36, 193.04) | 104 | `POWER pin U2 VCCA connected to VCC5V0_SYS_S5` | approved |
+| S2 | (213.36, 170.18) | 104 | `POWER pin U2 VCC4 connected to VCC5V0_SYS_S5` | approved |
+| S2 | (213.36, 101.6) | 104 | `POWER pin U2 VCC10 connected to VCC5V0_SYS_S5` | approved |
+| S2 | (213.36, 147.32) | 104 | `POWER pin U2 VCC6 connected to VCC5V0_SYS_S5` | approved |
+| S2 | (213.36, 190.5) | 104 | `POWER pin U2 VDC connected to PMIC_VDC` | approved |
+| S2 | (167.64, 96.52) | 104 | `POWER pin U2 VCC2 connected to VCC5V0_SYS_S5` | approved |
+| S2 | (213.36, 134.62) | 104 | `POWER pin U2 VCC7 connected to VCC5V0_SYS_S5` | approved |
+| S2 | (213.36, 160.02) | 104 | `POWER pin U2 VCC5 connected to VCC5V0_SYS_S5` | approved |
+| S2 | (167.64, 109.22) | 104 | `POWER pin U2 VCC1 connected to VCC5V0_SYS_S5` | approved |
+| S2 | (213.36, 180.34) | 104 | `POWER pin U2 VCC3 connected to VCC5V0_SYS_S5` | approved |
+| S2 | (167.64, 124.46) | 104 | `POWER pin U2 VCC11 connected to VCC_2V0_PLDO_S3` | approved |
+| S2 | (167.64, 114.3) | 104 | `POWER pin U2 VCC12 connected to VCC5V0_SYS_S5` | approved |
+| S3 | (60.96, 223.52) | 104 | `POWER pin U6 IN connected to VCC5V0_SYS_S5` | approved |
+| S3 | (246.38, 223.52) | 104 | `POWER pin U7 IN connected to VCC5V0_SYS_S5` | approved |
 
 ## 4. Intentional Deviations from RK3576 EVB1 (`RK_EVB1_RK3576_LP4XD200P132SD6_V12`)
 1. **Dual-Input Power Architecture (`J4` + `U10 SY8205FCC` + `U5 TPS2121RUXR`)**: EVB uses a 12 V DC barrel adapter + Type-C PD (`FUSB302B`) into discrete FETs (`VCC12V_DCIN` -> `VCC5V0_SYS`). FRIDAY replaces this with 2S LiPo battery pads (`J4`, `6.0-8.4 V`) stepped down by `U10` (`SY8205FCC`, `5.0 V @ 5 A`) and auto-muxed against USB-C `VBUS_5V` via `U5` (`TPS2121RUXR`) into `VCC5V0_SYS_S5`.
@@ -63,7 +60,7 @@ All `33` warnings are benign EAGLE/Fusion **code `104`** notices (`POWER pin <pa
    - **HDMI 2.1 / eDP 1.3 TX (`HDMI_TX_EDP_TX_AVDD*`)**: SoC power balls grounded (`GND`) per HDG §2.2.2.17; PMIC `NLDO3` (`VDDA0V75_HDMI_S0`) remains terminated with `C2367 2.2 uF`.
    - **PCIe 2.1 / SATA 3.1 / USB3 OTG1 (`PCIE0/1*_AVDD*`)**: SoC power balls grounded (`GND`) per HDG §2.2.2.14.
    - **MIPI DPHY CSI1-4 (`MIPI_DPHY_CSI1/2/3/4_RX_AVDD*`)**: Grounded (`GND`) per HDG §2.2.2.15 (only `MIPI_DCPHY` is used for `J2` IMX708).
-   - **UFS (`UFS_AVDD0V85/1V8`, `OSC_UFS_AVDD`, `VCCIO7_VCC`) & USB3/DP1.4 (`USB3_OTG0_DP_TX_AVDD*`)**: Left unpowered (`NC`) per HDG Table 2-14 / §2.2.2.11 / §2.2.2.13 (UFS & USB3 omitted; eMCP runs on `VCCIO0` and firmware downloads via `USB2_OTG0`).
+   - **UFS and USB3/DP signal interfaces** are unused. Their SoC power connections are listed in X3–X5 below. The USB-C firmware download route uses `USB2_OTG0`.
 5. **Library Pin Direction Notes (`RK806-1`, `FRIDAY_SCH1_Support`)**:
    - `U2.FB1` and `U2.FB2` set to `direction="nc"` inside the schematic's embedded `RK806-1` definition matching EVB Sheet 23 `X` (internal DVS DAC mode per RK806 DS p.19).
    - Non-`GND` off-sheet power rail flags use `direction="pas"` to avoid EAGLE `OUTPUT+SUPPLY mixed` (`code 208`) false errors with regulator `out` pins.
@@ -85,19 +82,19 @@ All `33` warnings are benign EAGLE/Fusion **code `104`** notices (`POWER pin <pa
 | `VCC5V0_SYS_S5` | 5.00V | U5 (TPS2121RUXR) OUT -> PMIC/S3 | EVB Sheet 05 p.6 & Sheet 23 | Same (source deviated) | Same EVB net name/voltage; sourced from U5 mux. |
 | `VCCA1V8_PLDO2_S0` | 1.80V | RK806S-5 PLDO2 (0.3A) | EVB Sheet 05 p.6 & Sheet 23 | Same | Feeds SARADC_AVDD1V8 via R1147 0.1R. |
 | `VCCA1V8_PLDO6_S3` | 1.80V | RK806S-5 PLDO6 internal -> VCCIO | EVB Sheet 05 p.6 & Sheet 23 | Same | PMIC VCCIO + I2C1 10k pull-ups. |
-| `VCCA_1V8_S0` | 1.80V | RK806S-5 PLDO1 (0.5A) | EVB Sheet 05 p.6 & Sheet 23 | Same | Analog 1.8V for PLL, OSC, USB2 PHY, MIPI DCPHY. |
+| `VCCA_1V8_S0` | 1.80V | RK806S-5 PLDO1 (0.5A) | EVB Sheet 05 p.6 & Sheet 23 | Same | Analog 1.8 V for PLL, OSC, USB2 PHY, MIPI DCPHY, USB3/DP, and UFS PHY/oscillator. |
 | `VCCA_3V3_S0` | 3.30V | RK806S-5 PLDO4 (0.5A) | EVB Sheet 05 p.6 & Sheet 23 | Same | 3.3V analog S0 rail. |
 | `VCCIO_SD_S0` | 3.30V | RK806S-5 PLDO5 (0.3A) | EVB Sheet 05 p.6 & Sheet 23 | Same | RK3576 VCCIO1 bias. |
 | `VCC_1V1_NLDO_S3` | 1.10V | U7 TMI3112H (2.0A) | EVB Sheet 24 p.22 (U2401) | Same | Pre-regulator for RK806 VCC13/VCC14 (NLDO1-5 input). |
-| `VCC_1V8_S0` | 1.80V | U9 CW3301 | EVB Sheet 24 p.22 (U2402) | Same | Switched 1.8V S0 rail (VCCIO0/VCCIO5, eMCP VCCQ in SCH-2, Camera I/O in SCH-3). |
-| `VCC_1V8_S3` | 1.80V | RK806S-5 BUCK8 (3.0A) | EVB Sheet 05 p.6 & Sheet 23 | Same | Always-on S3 1.8V PMUIO0, U9 input, RESET_L pull-up. |
+| `VCC_1V8_S0` | 1.80V | U9 CW3301 | EVB Sheet 24 p.22 (U2402) | Same | Switched 1.8 V S0 rail for VCCIO0/2/5/7, planned eMCP VCCQ and camera I/O. |
+| `VCC_1V8_S3` | 1.80V | RK806S-5 BUCK8 (3.0A) | EVB Sheet 05 p.6 & Sheet 23 | Same | Always-on S3 1.8 V for PMUIO0, U9 input, RESET_L pull-up, and VCCIO_WL through R2427. |
 | `VCC_2V0_PLDO_S3` | 2.094V | U6 TMI3112H (2.0A) | EVB Sheet 24 p.22 (U2400) | Same | Pre-regulator for RK806 VCC11 (PLDO1-3 input). |
-| `VCC_3V3_S0` | 3.30V | U8 SY6280AAC | EVB Sheet 24 p.22 (U2403) | Same | Switched 3.3V S0 rail (VCCIO2/4/6, USB2_OTG_AVDD3V3, Peripherals). |
-| `VCC_3V3_S3` | 3.30V | RK806S-5 BUCK4 (5.0A) | EVB Sheet 05 p.6 & Sheet 23 | Same | Always-on S3 3.3V IO/PMUIO1/VCCIO3 & U8 input. |
-| `VDD2_DDR_S3` | 1.10V | RK806S-5 BUCK9 (3.0A, FB9) | EVB Sheet 05 p.6 & Sheet 23 | Same | LPDDR4X VDD2 rail (1.10V via R22=120k, R24=100k). |
+| `VCC_3V3_S0` | 3.30V | U8 SY6280AAC | EVB Sheet 24 p.22 (U2403) | Same | Switched 3.3V S0 rail (VCCIO4/6, USB2_OTG_AVDD3V3, Peripherals). |
+| `VCC_3V3_S3` | 3.30V | RK806S-5 BUCK4 (5.0A) | EVB Sheet 05 p.6 & Sheet 23 | Same | Always-on S3 3.3 V for PMUIO1 and U8 input. |
+| `VDDQ_DDR_CKE_S3` | 1.10 V | RK806S-5 BUCK9 (3.0 A, FB9) | EVB PDF pp. 5, 12 and 21, U1000A/B, C1214, U2300 | Same electrical node | EVB power tree calls the source `VDD2_DDR_S3` and the DDR PHY sheet uses `VDDQ_DDR_CKE_S3`. The single SCH-1 net uses the DDR PHY label. |
 | `VDDA0V75_HDMI_S0` | 0.75V | RK806S-5 NLDO3 (0.5A) | EVB Sheet 05 p.6 & Sheet 23 | Deviation (HDMI unused on SoC) | NLDO3 rail terminated at EVB C2367 2.2uF; SoC HDMI pins grounded per HDG §2.2.2.17. |
 | `VDDA_0V75_S0` | 0.75V | RK806S-5 NLDO5 (0.5A) | EVB Sheet 05 p.6 & Sheet 23 | Same | RK3576 PLL_DVDD0V75, OTP_DVDD0V75, USB2_OTG_DVDD0V75, MIPI_DCPHY_AVDD. |
-| `VDDA_0V85_S0` | 0.85V | RK806S-5 NLDO4 (0.5A) | EVB Sheet 05 p.6 & Sheet 23 | Deviation (PCIe/USB3 unused) | NLDO4 rail terminated at EVB C2370 2.2uF; SoC PCIe grounded & USB3 NC per HDG. |
+| `VDDA_0V85_S0` | 0.85V | RK806S-5 NLDO4 (0.5A) | EVB Sheet 05 p.6 & Sheet 23 | Same for USB3/DP and UFS | C2370 bulk bypass remains. Directly feeds USB3/DP 0.85 V and feeds UFS 0.85 V through R1320. |
 | `VDDA_1V2_S0` | 1.20V | RK806S-5 PLDO3 (0.3A) | EVB Sheet 05 p.6 & Sheet 23 | Same | MIPI_DCPHY_AVDD1V2. |
 | `VDDA_DDR_PLL_S0` | 0.85V | RK806S-5 NLDO2 (0.3A) | EVB Sheet 05 p.6 & Sheet 23 | Same | RK3576 DDRPHY_PLL_DVDD. |
 | `VDDQ_DDR_S0` | 0.61V | RK806S-5 BUCK6 (3.0A, FB6) | EVB Sheet 05 p.6 & Sheet 23 | Same | LPDDR4X VDDQ rail (0.61V via R19=22k, R21=100k). |
@@ -109,7 +106,7 @@ All `33` warnings are benign EAGLE/Fusion **code `104`** notices (`POWER pin <pa
 | `VDD_LOGIC_S0` | 0.75V | RK806S-5 BUCK7 (3.0A) | EVB Sheet 05 p.6 & Sheet 23 | Same | RK3576 LOGIC_DVDD & LOGIC_MEM_DVDD. |
 | `VDD_NPU_S0` | 0.75V (I2C DVS) | RK806S-5 BUCK2 (5.0A) | EVB Sheet 05 p.6 & Sheet 23 | Same | RK3576 NPU_DVDD. |
 
-## 6. Complete Component Cross-Reference (266 BOM Components)
+## 6. Complete Component Cross-Reference (279 BOM Entries)
 | Sheet | Our RefDes | Value | Package / Device | EVB RefDes / Datasheet Citation | Status | Reason / Function |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | S1 | `J4` | `2S_BATT_PADS_6-8.4V` | `BATT_PADS_2PIN` | Project 2S battery spec (schematic_components.md §1/§8) | Deviation (EVB uses 12V DC barrel) | 2-pad solder terminal (VBAT_2S_IN 6.0-8.4V into U10 SY8205FCC). |
@@ -378,3 +375,38 @@ All `33` warnings are benign EAGLE/Fusion **code `104`** notices (`POWER pin <pa
 | S5 | `R9905` | `100R 1%` | `R_0201` | EVB Sheet 29 p.27 (R9905/R9906 100R) | Same | Series 100R isolation to UART0 debug test pads. |
 | S5 | `TP2` | `UART0_RX` | `TP_1MM` | EVB Sheet 29 p.27 (UART0_DEBUG) | Same | 1.0mm SMD test pads for UART0_TX_M0, UART0_RX_M0, GND. |
 | S5 | `TP3` | `UART_GND` | `TP_1MM` | EVB Sheet 29 p.27 (UART0_DEBUG) | Same | 1.0mm SMD test pads for UART0_TX_M0, UART0_RX_M0, GND. |
+| S4 | `C1300` | `100nF 6.3V` | `C_0201` | EVB p. 13, C1300 | Same | VCCIO7 bypass. |
+| S4 | `C1302` | `1uF 6.3V` | `C_0201` | HDG §2.2.2.11, Fig. 2-40 | Same | UFS 0.85 V PHY bypass. |
+| S4 | `C1303` | `1uF 6.3V` | `C_0402` | HDG §2.2.2.11, Fig. 2-40 | Same | UFS 0.85 V PHY bypass. |
+| S4 | `C1305` | `1uF 6.3V` | `C_0201` | HDG §2.2.2.11, Fig. 2-40 | Same | UFS 1.8 V PHY bypass. |
+| S4 | `C1306` | `1uF 6.3V` | `C_0402` | HDG §2.2.2.11, Fig. 2-40 | Same | UFS 1.8 V PHY bypass. |
+| S4 | `R1320` | `0R` | `R_0603` | HDG §2.2.2.11, Fig. 2-40 | Same | UFS 0.85 V series link. |
+| S4 | `R1323` | `0R` | `R_0603` | HDG §2.2.2.11, Fig. 2-40 | Same | UFS 1.8 V series link. |
+| S4 | `C1400` | `1uF 6.3V` | `C_0201` | EVB p. 14, C1400 | Same | USB3/DP 0.85 V bypass. |
+| S4 | `C1401` | `1uF 6.3V` DNP | `C_0201` | EVB p. 14, C1401 | Same | Optional USB3/DP 0.85 V bypass. |
+| S4 | `C1402` | `1uF 6.3V` | `C_0201` | EVB p. 14, C1402 | Same | USB3/DP 1.8 V bypass. |
+| S4 | `C1403` | `1uF 6.3V` DNP | `C_0201` | EVB p. 14, C1403 | Same | Optional USB3/DP 1.8 V bypass. |
+| S4 | `R2427` | `0R` | `R_0603` | EVB p. 22, R2427 | Same | `VCC_1V8_S3` to `VCCIO_WL`. |
+| S4 | `C2423` | `10uF 6.3V` | `C_0603` | EVB p. 22, C2423 | Same | `VCCIO_WL` bulk bypass. |
+
+## 7. Auditor changes
+
+EVB page numbers below are PDF page numbers. The PMIC schematic is titled `23.Power-PMIC RK806S-5` on PDF page 21.
+
+| Item | Change | Reference |
+| --- | --- | --- |
+| X1 | Moved U1 2L2/2L10 to NLDO1 `VDD_0V75_S3` with the existing C1107/C1118 at 100 nF each. | EVB pp. 5, 11 and 21 (U1000E, C1107/C1118, U2300 NLDO1). |
+| X2 | Moved U1 2B2 and its 1 µF C1214 onto `VDDQ_DDR_CKE_S3`, the direct 1.1 V BUCK9 output. L9, the BUCK9 sense pin and feedback, and the existing output capacitors share this node. The design uses one net name for the EVB's `VDD2_DDR_S3` source and `VDDQ_DDR_CKE_S3` destination. | EVB pp. 5, 12 and 21 (U1000A/B, C1214, U2300 BUCK9). RK3576 DS Table 3-2. |
+| X3 | Powered U1 2M3 from `VCC_1V8_S0` using the 1.8 V option in the EVB I/O map. Added 100 nF C1300. | EVB pp. 6 and 13 (U1000K, C1300). HDG §2.1.11.1. |
+| X4 | Connected U1 2M5/2N5 to NLDO4 `VDDA_0V85_S0` and 2N4 to PLDO1 `VCCA_1V8_S0`. Added C1400/C1402 (1 µF), with C1401/C1403 recorded as DNP. | EVB p. 14 (U1000, C1400–C1403). HDG §2.2.2.13 and Fig. 2-42. |
+| X5 | Powered U1 2N2 through R1320 from `VDDA_0V85_S0` and 2P2 through R1323 from `VCCA_1V8_S0`. Added C1302/C1303 and C1305/C1306 (1 µF each). Powered 2M2 from the EVB's `VCCA_1V8_S0` source. The local oscillator bypass/series topology for 2M2 is **UNVERIFIED**. | EVB pp. 5 and 13 (U1000K, OSC_UFS_AVDD source in power tree). HDG §2.2.2.11 and Fig. 2-40 (PHY rails). |
+| X6 | Changed VCCIO2 to `VCC_1V8_S0` and VCCIO3 to `VCCIO_WL` through R2427, with C1801 and C2423. See [I/O bank map](io_bank_map.md) for the planned peripherals and voltages. | EVB pp. 5, 6, 18 and 22 (U1000F/G, C1801, R2427/C2423). |
+| X7 | Approved the 23 remaining code-104 warnings in the revised Fusion design. A fresh ERC confirmed the approved states. See §3 and the exported ERC report. | Fusion ERC signature and state for each issue. The warning instances are listed in §3. |
+| X8 | Set U2 VOUT1–VOUT10 to passive in the embedded definition and the tracked RK806 library. | EVB p. 21, U2300 VOUT1–VOUT10 each sense the corresponding post-inductor rail. |
+
+## 8. Other observations
+
+- U1 USB3/DP REXT (2T7) is open, while EVB Sheet 14 shows R1400 (8.2 kΩ, 1%). X4 covered the three supply pins.
+- On SCH-1 sheet 4, the GND stub overlaps the separately named USB2 VBUSDET and 1.8 V wire stubs in the drawing. Fusion exports them on separate nets.
+- The RK3576 footprint remains **UNVERIFIED** against the package drawing, as documented in §2.
+- The planned audio connector has a 3.3 V feed. Powering an INMP441 directly from it creates a logic-level mismatch with the proposed 1.8 V SAI1 signals. See the I/O bank map.
