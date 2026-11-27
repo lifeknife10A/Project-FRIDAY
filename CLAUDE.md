@@ -103,6 +103,11 @@ Approvals name one SHA; any new commit restarts at step 3.
   committed; ZQ 240R -> VDDQ quoted (p.8, p.229); VDDI = 0.1 uF external (internal 1 uF; DS p.54 Table 14) — my R4
   "0.1+1 uF" premise was half wrong. Still independent-unverified vs p.6 image (PDF local only): Krishna to send p.6-8
   before SCH-2 review; I check SCH-2 eMCP pin map against it. SCH-2 may now start.
+  UPDATE: Krishna sent the PDF (chat upload, not in git). My own bbox parse of p.6 = CSV 254/254 (0 diffs) -> ball map
+  INDEPENDENTLY VERIFIED. ZQ->VDDQ (p.8) confirmed. Carry Y4 to SCH-2 from p.54 Table 14 (eMMC side): VCCQ 2x2.2 uF
+  (max 4.7), VCC 2x4.7 uF (max 10), VDDi 0.1 uF (max 2.2; 1 uF internal), CMD pull-up 10k, DAT0-7 pull-ups 50k
+  (10-100k; ref boards omit them), RSTn 50k optional, DS no resistor (internal pull-down), CLK series 27 R (0-30;
+  remove for HS200). VSF: SK hynix uses M7/N6 only; leave all VSF/DNU/NC unconnected.
 
 - Ref triage @ 22c42db -> NO for SCH-2 use until R1-R4 fixed. OK: licence handling (0 PDFs committed,
   references_local/ gitignored), eMCP = SK hynix H9HP52ACPMADAR-KMM 254-ball 11.5x13 0.5 mm, LPDDR4X x16 2ch 2-rank,
