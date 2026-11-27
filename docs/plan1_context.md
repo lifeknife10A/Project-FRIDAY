@@ -486,3 +486,28 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
   - Notes:
     - MV12 PDF deletion was Krishna's instruction (MV12 not used); note 222e3ca's link now points to git history only.
     - WATCHLIST: per-rail max currents summed far exceed VSYS 3 A / MP2315 3 A; a simultaneous-load power budget is needed before regulator sizing.
+- **2026-11-27 (datasheets 7dd3b38 vs schematic_components.md).**
+  - Added: RK3576 DS Rev1.5, RK806 DS Rev1.3, crystals, USB-C, switch.
+  - **Missing:** RK3576 EVB reference schematic, hardware design guide, PDN guide and memory support list. The commit message says "reference design" but none is included.
+  - RK806 pages carry a "Rockchip Confidential" watermark (Krishna says not NDA).
+  - Verified facts:
+    - RK3576 FCCSP698L 16.1×17.2 mm, ball 0.30 mm, pitch 0.55/0.60/0.65 mixed.
+    - Rails typ 0.75 V (CPU ≤1.0, GPU/NPU ≤0.918, LOGIC ≤0.825).
+    - Separate rails: PMU 0.75, DDRPHY 0.75, PLL 0.75/1.8, OSC 1.8, USB2 0.75/1.8/3.3, USB3/PCIe 0.85.
+    - LPDDR4 VDDQ 0.6 + retention 1.1; LPDDR4X-4266 and eMMC 5.1 supported.
+    - θJA 15.84, θJB 6.96, θJC 0.67 °C/W.
+    - RK806: VIN 2.7–5.5 V (abs 6.5).
+      - BUCK1 6.5 A, 2–4 5 A, 5–10 3 A.
+      - NLDO/PLDO 300/500 mA.
+      - I2C (CS→VCCA, addr 0x23) or SPI.
+      - Internal 32.768 kHz RC oscillator, so no crystal.
+      - Typical app: 0.22 µH on BUCK1–4, 0.47 µH on 5–10; 3×/2×22 µF out; 22 µF per VCCx.
+      - OTP defaults per variant (-1, -2 master/slave, -3).
+  - Findings P1–P7:
+    - P1 pitch.
+    - P2 interface.
+    - **P3 BLOCK:** rail→buck mapping ignores OTP defaults (e.g. BUCK5 = 0.85 V, BUCK7 = 2.0 V at boot); variant for RK3576 is unknown without the EVB.
+    - P4 inductors/caps.
+    - P5 rail values / missing rails.
+    - P6 Y2 crystal unusable on RK806.
+    - P7 boot via SARADC_IN0_BOOT.

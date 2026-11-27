@@ -97,6 +97,15 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Datasheets 7dd3b38 (RK3576 Rev1.5, RK806 Rev1.3, crystals, USB-C, switch) checked vs schematic_components.
+  EVB schematic / HW design guide / PDN / memory support list STILL MISSING (commit msg says "reference
+  design" — not included). RK806 PDF watermarked "Rockchip Confidential". Findings: P1 pitch 0.55/0.60/0.65
+  mixed, ball 0.30; P2 RK806 I2C (CS->VCCA, 0x23) or SPI, pull-ups to RK806 VCCIO; P3 BLOCK rail->buck map
+  must follow RK806 OTP defaults/sequence (BUCK5 0.85 V, BUCK7 2.0 V seq1, BUCK8 3.3 V in RK806-1) and the
+  variant for RK3576 is unknown; P4 inductors 0.22 uH (B1-4)/0.47 uH (B5-10), caps per typical app; P5 rails
+  typ 0.75 V, missing PMU/DDRPHY/PLL/OSC/USB/0.85 V/1.1 V retention rails, no 0.9 V rail; P6 RK806 has no
+  crystal (internal 32k RC) -> Y2 wrong; P7 boot via SARADC_IN0_BOOT. Not green for schematic capture.
+
 - schematic_components.md @ 724f3b5: S14 fixed (3V3 + eMMC on RK806 bucks, loss 0.24 W / 0.11 W, math OK)
   -> parts spec ACCEPTED (values UNVERIFIED until RK3576 EVB + PDN guide). MV12 PDF deletion was
   Krishna's instruction (OK). WATCHLIST: simultaneous-load power budget vs VSYS/MP2315 3 A.
