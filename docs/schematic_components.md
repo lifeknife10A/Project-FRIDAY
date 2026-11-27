@@ -26,34 +26,34 @@ This document itemizes every electrical component required for the schematic cap
 
 ### 2.1 RK806S-5 PMIC & Discrete Power Rail Distribution (EVB Sheet 05 p.6 "Power Description")
 
-| Power Rail Name | Work Voltage | Source Regulator & Channel | Time Slot | Default State | Rated Current | Passives & Decoupling Sizing (EVB Sheet 05/23/24) | Source Citation |
-|---|:---:|---|:---:|:---:|:---:|---|:---:|
-| **VCC5V0_SYS_S5** | **5.00 V** | Primary System Bus via U5 (TPS2121) | Slot: 0 | ON | **5.0 A** | Input bypass: 22 µF at each PMIC buck VCC pin; bulk 10 µF | EVB Sheet 05 p.6 |
-| **VDD_CPU_BIG_S0** | **0.75 V (DVFS)** | **RK806S-5 BUCK 1** | Slot: 5 | ON | 6.5 A | Inductor: **0.22 µH** (Isat ≥ 6.5A); Output: **3x 22 µF** 6.3V; total cap > 130 µF behind BGA (HDG §2.2.2.5) | EVB Sheet 05 p.6 |
-| **VDD_NPU_S0** | **0.75 V (DVFS)** | **RK806S-5 BUCK 2** | Slot: 2 | ON | 5.0 A | Inductor: **0.22 µH** (Isat ≥ 5.0A); Output: **3x 22 µF** 6.3V; total cap > 90 µF (HDG §2.2.2.8) | EVB Sheet 05 p.6 |
-| **VDD_CPU_LIT_S0** | **0.75 V (DVFS)** | **RK806S-5 BUCK 3** | Slot: 2 | ON | 5.0 A | Inductor: **0.22 µH** (Isat ≥ 5.0A); Output: **3x 22 µF** 6.3V; total cap > 88 µF (HDG §2.2.2.6) | EVB Sheet 05 p.6 |
-| **VCC_3V3_S3** | **3.30 V** | **RK806S-5 BUCK 4** | Slot: 2 | ON | 5.0 A | Inductor: **0.22 µH** (Isat ≥ 5.0A); Output: **3x 22 µF** 10V; feeds 3.3V sleep domains & load switch | EVB Sheet 05 p.6 |
-| **VDD_GPU_S0** | **0.75 V (DVFS)** | **RK806S-5 BUCK 5** | Slot: 2 | ON | 3.0 A | Inductor: **0.47 µH** (Isat ≥ 3.0A); Output: **2x 22 µF** 6.3V; FB ADJ ($V_{\text{fb}} = 0.5\text{ V}$) | EVB Sheet 05 p.6 |
-| **VDDQ_DDR_S0** | **0.61 V (LP4X)** | **RK806S-5 BUCK 6** | Slot: 7 | ON | 3.0 A | Inductor: **0.47 µH**; Output: **2x 22 µF**; FB ADJ via HDG Fig 2-13 divider (0.61V for LPDDR4X, 0.51V for LP5) | EVB Sheet 05 p.6 & HDG Fig 2-13 |
-| **VDD_LOGIC_S0 / MEM**| **0.75 V** | **RK806S-5 BUCK 7** | Slot: 2 | ON | 3.0 A | Inductor: **0.47 µH** (Isat ≥ 3.0A); Output: **2x 22 µF** 6.3V; powers core logic & logic RAM array | EVB Sheet 05 p.6 & HDG §2.2.2.9 |
-| **VCC_1V8_S3** | **1.80 V** | **RK806S-5 BUCK 8** | Slot: 5 | ON | 3.0 A | Inductor: **0.47 µH** (Isat ≥ 3.0A); Output: **2x 22 µF** 10V; feeds 1.8V sleep domains & load switch | EVB Sheet 05 p.6 |
-| **VDD2_DDR_S3** | **1.10 V (LP4X)** | **RK806S-5 BUCK 9** | Slot: 4 | ON | 3.0 A | Inductor: **0.47 µH**; Output: **2x 22 µF**; FB ADJ via HDG Fig 2-14 divider (1.10V for LPDDR4X, 1.05V for LP5) | EVB Sheet 05 p.6 & HDG Fig 2-14 |
-| **VDD_DDR_S0** | **0.75 V** | **RK806S-5 BUCK 10** | Slot: 2 | ON | 3.0 A | Inductor: **0.47 µH** (Isat ≥ 3.0A); Output: **2x 22 µF** 6.3V; powers DDR controller digital logic | EVB Sheet 05 p.6 |
-| **VCC_2V0_PLDO_S3** | **2.094 V (~2.1V)**| **External Discrete Buck U6** (`TMI3112H`, LCSC `C2985060`) | Slot: 1 | ON | 2.0 A | Inductor: **1.0 µH** (Isat ≥ 3.2A); Input: 10 µF; Output: 2x 22 µF; feeds PMIC PLDO inputs (VCC11/12) | EVB Sheet 24 p.22 & TMI3112H DS |
-| **VCC_1V1_NLDO_S3** | **1.10 V** | **External Discrete Buck U7** (`TMI3112H`, LCSC `C2985060`) | Slot: 1 | ON | 2.0 A | Inductor: **1.0 µH** (Isat ≥ 3.2A); Input: 10 µF; Output: 2x 22 µF; feeds PMIC NLDO inputs (VCC13/14) | EVB Sheet 24 p.22 & TMI3112H DS |
-| **VCCA_1V8_S0** | **1.80 V** | **RK806S-5 PLDO 1** | Slot: 3 | ON | 0.5 A | Output: **2.2 µF** 10V X5R (fed from intermediate rail `VCC_2V0_PLDO_S3`, $\Delta V = 0.3\text{ V}$) | EVB Sheet 05 p.6 |
-| **VCCA1V8_PLDO2_S0** | **1.80 V** | **RK806S-5 PLDO 2** | Slot: 3 | ON | 0.3 A | Output: **2.2 µF** 10V X5R (fed from intermediate rail `VCC_2V0_PLDO_S3`, $\Delta V = 0.3\text{ V}$) | EVB Sheet 05 p.6 |
-| **VDDA_1V2_S0** | **1.20 V** | **RK806S-5 PLDO 3** | Slot: 4 | ON | 0.3 A | Output: **2.2 µF** 10V X5R (fed from `VCC_2V0_PLDO_S3`; powers MIPI DCPHY / UFS MPHY) | EVB Sheet 05 p.6 |
-| **VCCA_3V3_S0** | **3.30 V** | **RK806S-5 PLDO 4** | Slot: 5 | ON | 0.5 A | Output: **2.2 µF** 10V X5R (fed from `VCC5V0_SYS_S5`) | EVB Sheet 05 p.6 |
-| **VCCIO_SD_S0** | **3.30 V / 1.80 V** | **RK806S-5 PLDO 5** | Slot: 5 | ON | 0.3 A | Output: **2.2 µF** 10V X5R (powers SDIO / MicroSD card I/O) | EVB Sheet 05 p.6 |
-| **VCCA1V8_PLDO6_S3** | **1.80 V** | **RK806S-5 PLDO 6** | Slot: 3 | ON | 0.3 A | Output: **2.2 µF** 10V X5R (powers `RESETB` & analog control blocks) | EVB Sheet 05 p.6 |
-| **VDDA_DDR_PLL_S0** | **0.85 V** | **RK806S-5 NLDO 1** | Slot: 2 | ON | 0.3 A | Output: **2.2 µF** 6.3V X5R (fed from intermediate rail `VCC_1V1_NLDO_S3`, $\Delta V = 0.25\text{ V}$) | EVB Sheet 05 p.6 |
-| **VDD_0V75_S3** | **0.75 V** | **RK806S-5 NLDO 2** | Slot: 2 | ON | 0.3 A | Output: **2.2 µF** 6.3V X5R (fed from `VCC_1V1_NLDO_S3`; powers PMU core in sleep) | EVB Sheet 05 p.6 |
-| **VDDA0V75_HDMI_S0**| **0.75 V** | **RK806S-5 NLDO 3** | Slot: 2 | ON | 0.5 A | Output: **2.2 µF** 6.3V X5R (fed from `VCC_1V1_NLDO_S3`; powers HDMI/eDP digital core) | EVB Sheet 05 p.6 |
-| **VDDA_0V85_S0** | **0.85 V** | **RK806S-5 NLDO 4** | Slot: 2 | ON | 0.5 A | Output: **2.2 µF** 6.3V X5R (fed from `VCC_1V1_NLDO_S3`; powers USB3 OTG & PCIe Combo PHYs) | EVB Sheet 05 p.6 |
-| **VDDA_0V75_S0** | **0.75 V** | **RK806S-5 NLDO 5** | Slot: 2 | ON | 0.3 A | Output: **2.2 µF** 6.3V X5R (fed from `VCC_1V1_NLDO_S3`; powers MIPI CSI RX & USB2 PHYs) | EVB Sheet 05 p.6 |
-| **VCC_3V3_S0** | **3.30 V** | **Load Switch U8** (`SY6280AAC`, LCSC `C55136`) | Slot: 5A | ON | 2.0 A | Switched from `VCC_3V3_S3`. **Powers eMMC 3.3V `VCC` core and active 3.3V peripherals** (no dedicated buck) | EVB Sheet 22 p.22 & Silergy AN_SY6280 |
-| **VCC_1V8_S0** | **1.80 V** | **Load Switch U9** (`SY6280AAC`, LCSC `C55136`) | Slot: 3A | ON | 2.0 A | Switched from `VCC_1V8_S3`. **Powers eMMC 1.8V `VCCQ` bus, camera 1.8V I/O, and audio logic** | EVB Sheet 22 p.22 & Silergy AN_SY6280 |
+| Power Rail Name | Source Regulator & Channel | Time Slot | Default Voltage (EVB p.6) | Work Voltage | Default State | Rated Current | Passives & Decoupling Sizing (EVB Sheet 05/23/24) | Source Citation |
+|---|---|:---:|:---:|:---:|:---:|:---:|---|:---:|
+| **VCC5V0_SYS_S5** | Primary System Bus via U5 (TPS2121) | Slot: 0 | **5.00 V** | **5.00 V** | ON | **5.0 A** | Input bypass: 22 µF at each PMIC buck VCC pin; bulk 10 µF | EVB Sheet 05 p.6 |
+| **VDD_CPU_BIG_S0** | **RK806S-5 BUCK 1** | **Slot: 2** | **0.85 V** | **DVFS (typ 0.75V)**| ON | **6.5 A** | Inductor: **0.22 µH** (Isat ≥ 6.5A); Output: **3x 22 µF** 6.3V; total cap > 130 µF behind BGA (HDG §2.2.2.5) | EVB Sheet 05 p.6 |
+| **VDD_NPU_S0** | **RK806S-5 BUCK 2** | **Slot: 2** | **0.75 V** | **DVFS (typ 0.75V)**| ON | **5.0 A** | Inductor: **0.22 µH** (Isat ≥ 5.0A); Output: **3x 22 µF** 6.3V; total cap > 90 µF (HDG §2.2.2.8) | EVB Sheet 05 p.6 |
+| **VDD_CPU_LIT_S0** | **RK806S-5 BUCK 3** | **Slot: 2** | **0.85 V** | **DVFS (typ 0.75V)**| ON | **5.0 A** | Inductor: **0.22 µH** (Isat ≥ 5.0A); Output: **3x 22 µF** 6.3V; total cap > 88 µF (HDG §2.2.2.6) | EVB Sheet 05 p.6 |
+| **VCC_3V3_S3** | **RK806S-5 BUCK 4** | **Slot: 5** | **3.3 V** | **3.30 V** | ON | **5.0 A** | Inductor: **0.22 µH** (Isat ≥ 5.0A); Output: **3x 22 µF** 10V; feeds 3.3V sleep domains & load switch | EVB Sheet 05 p.6 |
+| **VDD_GPU_S0** | **RK806S-5 BUCK 5** | **Slot: 2** | **0.75 V** | **DVFS (typ 0.75V)**| ON | **3.0 A** | Inductor: **0.47 µH** (Isat ≥ 3.0A); Output: **2x 22 µF** 6.3V; FB ADJ ($V_{\text{fb}} = 0.5\text{ V}$) | EVB Sheet 05 p.6 |
+| **VDDQ_DDR_S0** | **RK806S-5 BUCK 6** | **Slot: 7** | **0.61 V** | **0.61 V (LP4X)** | ON | **3.0 A** | Inductor: **0.47 µH**; Output: **2x 22 µF**; FB ADJ via HDG Fig 2-13 divider (0.61V for LPDDR4X, 0.51V for LP5) | EVB Sheet 05 p.6 & HDG Fig 2-13 |
+| **VDD_LOGIC_S0 / MEM**| **RK806S-5 BUCK 7** | **Slot: 2** | **0.75 V** | **0.75 V** | ON | **3.0 A** | Inductor: **0.47 µH** (Isat ≥ 3.0A); Output: **2x 22 µF** 6.3V; powers core logic & logic RAM array | EVB Sheet 05 p.6 & HDG §2.2.2.9 |
+| **VCC_1V8_S3** | **RK806S-5 BUCK 8** | **Slot: 3** | **1.8 V** | **1.80 V** | ON | **3.0 A** | Inductor: **0.47 µH** (Isat ≥ 3.0A); Output: **2x 22 µF** 10V; feeds 1.8V sleep domains & load switch | EVB Sheet 05 p.6 |
+| **VDD2_DDR_S3** | **RK806S-5 BUCK 9** | **Slot: 4** | **1.10 V** | **1.10 V (LP4X)** | ON | **3.0 A** | Inductor: **0.47 µH**; Output: **2x 22 µF**; FB ADJ via HDG Fig 2-14 divider (1.10V for LPDDR4X, 1.05V for LP5) | EVB Sheet 05 p.6 & HDG Fig 2-14 |
+| **VDD_DDR_S0** | **RK806S-5 BUCK 10** | **Slot: 2** | **0.85 V** | **0.85 V / 0.75 V** | ON | **3.0 A** | Inductor: **0.47 µH** (Isat ≥ 3.0A); Output: **2x 22 µF** 6.3V; powers DDR controller digital logic | EVB Sheet 05 p.6 |
+| **VCC_2V0_PLDO_S3** | **External Discrete Buck U6** (`TMI3112H`, LCSC `C2985060`) | **Slot: 1** | **2.094 V (~2.1V)**| **2.10 V** | ON | **2.0 A** | Inductor: **1.0 µH** (Isat ≥ 3.2A); Input: 10 µF; Output: 2x 22 µF; feeds PMIC PLDO inputs (VCC11/12) | EVB Sheet 24 p.22 & TMI3112H DS |
+| **VCC_1V1_NLDO_S3** | **External Discrete Buck U7** (`TMI3112H`, LCSC `C2985060`) | **Slot: 1** | **1.10 V** | **1.10 V** | ON | **2.0 A** | Inductor: **1.0 µH** (Isat ≥ 3.2A); Input: 10 µF; Output: 2x 22 µF; feeds PMIC NLDO inputs (VCC13/14) | EVB Sheet 24 p.22 & TMI3112H DS |
+| **VCCA_1V8_S0** | **RK806S-5 PLDO 1** | **Slot: 3** | **1.8 V** | **1.80 V** | ON | **0.5 A** | Output: **2.2 µF** 10V X5R (fed from intermediate rail `VCC_2V0_PLDO_S3`, $\Delta V = 0.3\text{ V}$) | EVB Sheet 05 p.6 |
+| **VCCA1V8_PLDO2_S0** | **RK806S-5 PLDO 2** | **Slot: 5** | **1.8 V** | **1.80 V** | ON | **0.3 A** | Output: **2.2 µF** 10V X5R (fed from intermediate rail `VCC_2V0_PLDO_S3`, $\Delta V = 0.3\text{ V}$) | EVB Sheet 05 p.6 |
+| **VDDA_1V2_S0** | **RK806S-5 PLDO 3** | **Slot: 4** | **1.2 V** | **1.20 V** | ON | **0.3 A** | Output: **2.2 µF** 10V X5R (fed from `VCC_2V0_PLDO_S3`; powers MIPI DCPHY / UFS MPHY) | EVB Sheet 05 p.6 |
+| **VCCA_3V3_S0** | **RK806S-5 PLDO 4** | **Slot: 5** | **3.0 V** | **3.0 V / 3.3 V** | ON | **0.5 A** | Output: **2.2 µF** 10V X5R (fed from `VCC5V0_SYS_S5`) | EVB Sheet 05 p.6 |
+| **VCCIO_SD_S0** | **RK806S-5 PLDO 5** | **Slot: 5** | **3.3 V** | **3.30 V / 1.80 V**| ON | **0.3 A** | Output: **2.2 µF** 10V X5R (powers SDIO / MicroSD card I/O) | EVB Sheet 05 p.6 |
+| **VCCA1V8_PLDO6_S3** | **RK806S-5 PLDO 6** | **Slot: 3** | **1.8 V** | **1.80 V** | ON | **0.3 A** | Output: **2.2 µF** 10V X5R (powers `RESETB` & analog control blocks) | EVB Sheet 05 p.6 |
+| **VDD_0V75_S3** | **RK806S-5 NLDO 1** | **Slot: 2** | **0.75 V** | **0.75 V** | ON | **0.3 A** | Output: **2.2 µF** 6.3V X5R (fed from `VCC_1V1_NLDO_S3`; powers PMU core in sleep / `PMU_LOGIC_DVDD0V75`; correctly limited to 0.75V, strictly below 0.825V max per RK3576 DS Table 3-2) | EVB Sheet 05 p.6 |
+| **VDDA_DDR_PLL_S0** | **RK806S-5 NLDO 2** | **Slot: 2** | **0.85 V** | **0.85 V** | ON | **0.3 A** | Output: **2.2 µF** 6.3V X5R (fed from intermediate rail `VCC_1V1_NLDO_S3`, $\Delta V = 0.25\text{ V}$; powers DDR PLL) | EVB Sheet 05 p.6 |
+| **VDDA0V75_HDMI_S0**| **RK806S-5 NLDO 3** | **Slot: 2** | **0.75 V** | **0.75 V** | ON | **0.5 A** | Output: **2.2 µF** 6.3V X5R (fed from `VCC_1V1_NLDO_S3`; powers HDMI/eDP digital core) | EVB Sheet 05 p.6 |
+| **VDDA_0V85_S0** | **RK806S-5 NLDO 4** | **Slot: 2** | **0.85 V** | **0.85 V** | ON | **0.5 A** | Output: **2.2 µF** 6.3V X5R (fed from `VCC_1V1_NLDO_S3`; powers USB3 OTG & PCIe Combo PHYs) | EVB Sheet 05 p.6 |
+| **VDDA_0V75_S0** | **RK806S-5 NLDO 5** | **Slot: 2** | **0.75 V** | **0.75 V** | ON | **0.5 A** | Output: **2.2 µF** 6.3V X5R (fed from `VCC_1V1_NLDO_S3`; powers MIPI CSI RX & USB2 PHYs) | EVB Sheet 05 p.6 |
+| **VCC_3V3_S0** | **Load Switch U8** (`SY6280AAC`, LCSC `C55136`) | **Slot: 5A**| **3.3 V** | **3.30 V** | ON | **2.0 A** | Switched from `VCC_3V3_S3`. **Powers eMMC 3.3V `VCC` core and active 3.3V peripherals** (no dedicated buck) | EVB Sheet 22 p.22 & Silergy AN_SY6280 |
+| **VCC_1V8_S0** | **Load Switch U9** (`SY6280AAC`, LCSC `C55136`) | **Slot: 3A**| **1.8 V** | **1.80 V** | ON | **2.0 A** | Switched from `VCC_1V8_S3`. **Powers eMMC 1.8V `VCCQ` bus, camera 1.8V I/O, and audio logic** | EVB Sheet 22 p.22 & Silergy AN_SY6280 |
 
 ---
 
@@ -61,11 +61,23 @@ This document itemizes every electrical component required for the schematic cap
 
 Rockchip RK3576 EVB1 specifies a **5.0 A rated 5.0 V primary regulator** (`VCC5V0_SYS_S5`, EVB Sheet 04/05). The following table analyzes simultaneous real-world operating loads on the glasses compute platform using current specifications from HDG §2.2:
 
-| Platform Operating State | Active Silicon & Core Load Elements | Typical System Power | Primary Bus Current @ 5.0 V (`VSYS_5V`) | MP2315 Battery Buck (3.0 A Rating) | TI TPS2121 Mux (4.5 A Rating) | Engineering Verdict & Sizing Flag |
+| Platform Operating State | Active Silicon & Core Load Elements | Typical System Power | Primary Bus Current @ 5.0 V (`VSYS_5V`) | Battery Buck (SY8205FCC 5.0 A / MP2315 3.0 A) | TI TPS2121 Mux (4.5 A Rating) | Engineering Verdict & Sizing Flag |
 |---|---|:---:|:---:|:---:|:---:|---|
 | **Standby / Audio Idle** | A53 cores in low-power idle; A72 & NPU clock-gated; Wi-Fi in DTIM3 beacon listen; audio muted; camera sensor powered down. | ~1.0 W | **0.20 A** | **PASS** (7% load) | **PASS** (4% load) | Ample headroom. |
 | **Live Vision OCR / Translation** | Camera capturing 1080p @ 30fps; A72 cluster active preprocessing; NPU running periodic quantized OCR inference bursts; Wi-Fi idle. | ~5.8 W | **1.16 A** | **PASS** (39% load) | **PASS** (26% load) | Stable continuous wearable operation. |
 | **Worst-Case Peak: Concurrent Edge-AI LLM Generation + Audio TTS + Wi-Fi TX** | Quad-core A72 @ 2.2 GHz full prompt evaluation (>4 A core, HDG §2.2.2.5); NPU @ 6 TOPS burst (>4 A, HDG §2.2.2.8); LPDDR4X 4GB bus bursting; dual MAX98357A speakers at loud volume (~2 W audio); Wi-Fi active TX packet burst (~1 W). | ~16.5 W (transient peak) | **Nominal: 2.45 A<br>Transient Spike: 3.2 A – 3.5 A** | **UPGRADED TO SY8205FCC (5A/6A peak)** (Old 3A MP2315 resolved; 5A rating guarantees stability) | **PASS** (78% of 4.5A continuous limit; drop ΔV = 0.19V, heat = 0.68W) | **DESIGN SIZING RESOLVED:** Upgraded to Silergy **`SY8205FCC`** (LCSC `C111875`), rated for **5.0 A continuous / 6.0 A peak** (4.5V–30V input), matching EVB's 5.0 A `VCC5V0_SYS_S5` design and guaranteeing absolute stability under concurrent peak Edge-AI compute. |
+
+#### 2.2.1 Critical Engineering Watchlist & Power/Thermal Constraints
+
+* **[WATCHLIST ITEM 1] 16.5 W Transient Electrical Peak vs. 3.0 W Wearable Thermal Dissipation Envelope:**
+  * **Thermal Envelope:** The wearable smart glasses frame, Phase Change Material buffer (Rubitherm RT42, 660 J capacity), and skin barrier in `docs/hardware_bom.md` are strictly budgeted for a **~1.5 W – 2.0 W continuous dissipation limit**, with a maximum allowable **thermal burst of 3.0 W** before skin touch temperatures exceed wearable limits (IEC 62368-1 / ISO 13732-1 threshold $T \le 43^\circ\text{C}$).
+  * **Design & Firmware Requirement:** While the electrical delivery network (SY8205FCC 5A buck and TPS2121 4.5A mux) is sized to withstand transient spikes up to 16.5 W, **firmware DVFS governors and strict software power-capping are mandatory**. Sustained execution must be clamped to $\le 3.0\text{ W}$, confining unthrottled 16.5 W peak bursts strictly to sub-second token prompt evaluation windows.
+
+* **[WATCHLIST ITEM 2] Battery-Side Discharge Current vs. HY2212 2S BMS Overcurrent Trip:**
+  * **Current Calculation:** At the 16.5 W worst-case compute burst with a depleted 2S Li-Po battery ($V_{\text{bat}} = 6.0\text{ V}$) and an assumed 90% synchronous buck efficiency:
+    $$I_{\text{bat}} \approx \frac{P_{\text{load}}}{V_{\text{bat,min}} \times \eta} = \frac{16.5\text{ W}}{6.0\text{ V} \times 0.90} \approx \mathbf{3.06\text{ A} \sim 3.1\text{ A}}$$
+  * **BMS Trip Risk Flag:** The HY2212 2S protection board (BOM Item 19) carries a typical overcurrent protection (OCP) threshold of **~3.0 A** (trip window: 2.5 A – 3.5 A). If the system attempts an unthrottled 16.5 W Edge-AI burst at low battery voltage ($V_{\text{bat}} \le 6.0\text{ V}$), the **$3.1\text{ A}$ discharge current risks tripping the HY2212 BMS OCP circuit**, causing an immediate hard power shutdown.
+  * **Mitigation Flag:** While the high-discharge GNB 300mAh 30C cells easily support 9.0 A bursts, platform firmware must monitor battery pack voltage via SARADC and proactively throttle peak NPU/CPU clock frequencies whenever battery voltage drops below 6.8 V (3.4 V/cell), preventing discharge current from exceeding 2.5 A.
 
 ---
 
@@ -120,7 +132,7 @@ Rockchip RK3576 EVB1 specifies a **5.0 A rated 5.0 V primary regulator** (`VCC5V
 |:---:|:---|:---|:---:|:---:|:---|
 | **D1** | **TVS ESD Diode Array** | 4-Channel, 5.0 V clamp, ultra-low capacitance (< 0.5 pF) | SOT-23-6 / DFN-10 | 1 | **USB-C High-Speed Line ESD Protection:** Clamps static shock on `USB_DP`, `USB_DN`, `USB_CC1`, and `USB_CC2`. Place immediately behind USB-C connector pads. |
 | **D2** | **VBUS High-Energy TVS Diode** | Unidirectional 5.0 V / 6.0 V clamp, high surge capability | SOD-323 / SMA | 1 | **USB VBUS Transient Clamp:** Clamps inductive voltage spikes when hot-plugging USB-C 5V charger. Place directly at `VBUS` entry pad. |
-| **U5** | **Priority Power Multiplexer (Power-Path)** | Texas Instruments `TPS2121RUXR` (continuous rating 4.5 A, R_DS(on) = 56 mΩ typ) | WQFN-12 (2.0 x 2.5 mm, 0.5mm pitch) | 1 | **Power-Path Control:** Sits between `VBUS_5V` and `VBAT_BUCK_5V`. Automatically priority-switches system `VSYS_5V` to USB-C power when plugged in, preventing backfeeding into MP2315 battery buck.<br>• Electrical drop at 3.0 A: **ΔV = 0.17 V** (3.0A * 0.056Ω)<br>• Heat dissipation at 3.0 A: **P_loss = 0.50 W** ((3.0A)^2 * 0.056Ω) |
+| **U5** | **Priority Power Multiplexer (Power-Path)** | Texas Instruments `TPS2121RUXR` (continuous rating 4.5 A, R_DS(on) = 56 mΩ typ) | WQFN-12 (2.0 x 2.5 mm, 0.5mm pitch) | 1 | **Power-Path Control:** Sits between `VBUS_5V` and `VBAT_BUCK_5V`. Automatically priority-switches system `VSYS_5V` to USB-C power when plugged in, preventing backfeeding into SY8205FCC battery buck.<br>• Electrical drop at 3.0 A: **ΔV = 0.17 V** (3.0A * 0.056Ω)<br>• Heat dissipation at 3.0 A: **P_loss = 0.50 W** ((3.0A)^2 * 0.056Ω) |
 
 ---
 

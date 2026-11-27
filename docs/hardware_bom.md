@@ -145,7 +145,7 @@ The table below defines every discrete passive component required on the custom 
 | 17 | **GNB 3.7V 300mAh 30C LiPo Cells** | High-discharge LiPo pouch cells connected in Series 2S (7.4V nominal, 1 cell per temple, 16.0g total). 9.0A burst rating handles peak surges with zero sag. | 2 | ₹190 | ₹380 | [Robu.in GNB 300mAh LiPo](https://robu.in/product/gao-neng-gnb-300mah-1s-30c-lipo-battery/) |
 | 18 | **IP2326 Type-C 2S Boost Charger** | Boosts 5V USB-C to 8.4V. Pin 11 ISET resistor set to 300 kOhm to enforce safe 300mA (1C) charge rate. | 1 | ₹110 | ₹110 | [Robu.in IP2326 Charger](https://robu.in/product/ip2326-type-c-2s-boost-charging-board/) |
 | 19 | **HY2212 2S BMS Protection & Balance Board** | Cell protection (4.25V overcharge, 2.8V overdischarge) with 35mA passive shunt-bleed cell balancing. | 1 | ₹120 | ₹120 | [Robu.in 2S BMS Board](https://robu.in/product/2s-3a-bms-balance-protection-board/) |
-| 20 | **MP2315 High-Efficiency Step-Down Buck** | Synchronous 2S-to-5V step-down regulator (95% efficiency, 3A continuous). Provides clean 5.0V system power bus. | 1 | ₹95 | ₹95 | [Robu.in MP2315 Buck](https://robu.in/product/mp2315-dc-dc-step-down-voltage-regulator-module-5v-3a/) |
+| 20 | **SY8205FCC High-Efficiency 5A Step-Down Buck** | Silergy SY8205FCC (LCSC C111875) synchronous 2S-to-5V step-down regulator (5A continuous, 6A peak). Provides robust 5.0V system power bus without brownouts during concurrent NPU+LLM compute bursts. | 1 | ₹95 | ₹95 | [LCSC C111875 / Robu](https://www.lcsc.com/product-detail/DC-DC-Converters_Silergy-Corp-SY8205FCC_C111875.html) |
 | 21 | **TTP223 Capacitive Touch Sensor** | Capacitive touch trigger on right temple arm to activate voice queries and adjust volume. | 1 | ₹25 | ₹25 | [Robu.in TTP223 Module](https://robu.in/product/ttp223-touch-key-switch-module/) |
 | — | **Power System Subtotal** | — | — | — | **₹730** | — |
 
@@ -168,11 +168,11 @@ The table below defines every discrete passive component required on the custom 
 
 | Procurement Category | Scope of Hardware Included | Subtotal (INR) | Subtotal (USD) |
 |---|---|:---:|:---:|
-| **A. Core Compute Silicon** | RK3576 SoC, RK806-1 PMIC, RTL8723DS, Crystals, USB-C, Switch + Shipping | ₹2,838 | $33.69 |
+| **A. Core Compute Silicon** | RK3576 SoC, RK806S-5 PMIC, RTL8723DS, Crystals, USB-C, Switch + Shipping | ₹2,838 | $33.69 |
 | **B. Memory & Passives** | Harvested eMCP (4GB RAM + 64GB eMMC) + 0402/0603 caps/resistors/inductors kit | ₹1,650 | $19.64 |
 | **C. Vision & Optics** | IMX708 autofocus camera sensor + front-bridge regulator breakout PCB | ₹2,150 | $25.60 |
 | **D. Audio & Acoustics** | Dual INMP441 mics + dual MAX98357A amps + dual 1510 directional speakers | ₹650 | $7.74 |
-| **E. Power Delivery & Battery** | 2S LiPo cells, IP2326 boost charger, HY2212 BMS, MP2315 buck, touch sensor | ₹730 | $8.69 |
+| **E. Power Delivery & Battery** | 2S LiPo cells, IP2326 boost charger, HY2212 BMS, SY8205FCC buck, touch sensor | ₹730 | $8.69 |
 | **F. Frame, Thermal & Mechanics** | Numakers PETG 1kg spool, carrier PCBs, wiring harness, thermal shim, inserts | ₹1,884 | $22.43 |
 | **GRAND TOTAL (All Wearable Components)** | **Complete Raw Hardware Bill (Directive 01 Untethered Smart Glasses)** | **₹9,902 INR** | **~$118 USD** |
 
@@ -257,7 +257,7 @@ The table below defines every discrete passive component required on the custom 
 | **Optical Module** | Sony IMX708 bare sensor cube (2.5g) + front-bridge PCB (2.0g) | 1 | 4.5 | 4.5 |
 | **Optical Lenses** | Pair of 1.67 high-index prescription lenses | 2 | 4.25 | 8.5 |
 | **Energy Storage** | GNB 3.7V 300mAh LiPo pouch cells (1 per temple) | 2 | 8.0 | 16.0 |
-| **Power Management** | IP2326 charger, HY2212 BMS, MP2315 buck module | 3 | — | 5.8 |
+| **Power Management** | IP2326 charger, HY2212 BMS, SY8205FCC buck module | 3 | — | 5.8 |
 | **Audio Subsystem** | Dual MAX98357A amps, dual 1510 speakers, dual INMP441 mics | 6 | — | 7.2 |
 | **User Input** | TTP223 capacitive touch sensor | 1 | 0.6 | 0.6 |
 | **Wiring & Carriers** | Thin FR4 carriers + browline FPC ribbon + silicone wiring | — | — | 9.0 |
