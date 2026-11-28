@@ -97,6 +97,16 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Gap audit docs/hardware_gap_audit.md @ e0f5a4e (Gemini Flash) -> USEFUL, fix G1-G6 (docs only). HDG citations
+  spot-checked OK (p.171 Table 3-3, p.237 LPDDR4X 90R/5/90 mil, p.243 MIPI 100R/95R, p.244 eMMC 50R/120 mil). G1 BLOCK
+  D.4 mass table invented (PETG 16 g frame, 15 g lenses, 18 g enclosures -> 121 g) and cites plan.md L223-231, whose
+  real table is 115.0 g (PA12 12 g, lenses 8.5 g, chassis 7.2 g; all unmeasured, SoM-era). G2 Y4 mis-described
+  (Y4 = eMMC passives p.54). G3 eMCP height 1.2 mm max (DS p.9) not 1.00; IMX708 FOV 75 deg diag not 120. G4 SCH-1
+  "3262024" never pushed -> 1617157/d9d37a8. G5 mark UNVERIFIED: JLC stackup name/HDI numbers, IP2326 ISET 300k,
+  part heights w/o source; "0.5 mm BGA impossible without microvias" = likely, decision for stack-up review. G6 add
+  missing: antenna part (none in BOM), RK3576 memory support list for H9HP52, bridge CSI CM chokes + XCLR POR, RK806S-5
+  OTP doc, IMX708 RK3576 driver gate. Ranked list + D.5 measurement checklist good.
+
 - Ref triage fix @ 905cd31 ACCEPTED (R1-R4). Verified: note ball lists now generated from CSV (all 11 groups
   match CSV, 254 = 179 LPDDR4X + 42 eMMC + 33 VSF/DNU/NC); CSV changed only DQS function text; BUCK5 = GPU, BUCK9 =
   VDD2_DDR/CKE (R22 120k/R24 100k matches netlist PMIC_FB9), U7 100k/120k feeds NLDOs only; extract_emcp_ballmap.py
