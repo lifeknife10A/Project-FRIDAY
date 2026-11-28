@@ -2117,20 +2117,6 @@
               <smd name="2" x="0.95" y="-1.0" dx="0.68" dy="0.9" layer="1" cream="yes" />
               <smd name="3" x="0" y="1.0" dx="0.68" dy="0.9" layer="1" cream="yes" />
             </package>
-            <package name="DIODES_SOT23">
-              <wire x1="-1.45" y1="-0.65" x2="1.45" y2="-0.65" width="0.1524" layer="51" />
-              <wire x1="1.45" y1="-0.65" x2="1.45" y2="0.65" width="0.1524" layer="51" />
-              <wire x1="1.45" y1="0.65" x2="-1.45" y2="0.65" width="0.1524" layer="51" />
-              <wire x1="-1.45" y1="0.65" x2="-1.45" y2="-0.65" width="0.1524" layer="51" />
-              <wire x1="-1.7" y1="-0.9" x2="1.7" y2="-0.9" width="0.1524" layer="39" />
-              <wire x1="1.7" y1="-0.9" x2="1.7" y2="0.9" width="0.1524" layer="39" />
-              <wire x1="1.7" y1="0.9" x2="-1.7" y2="0.9" width="0.1524" layer="39" />
-              <wire x1="-1.7" y1="0.9" x2="-1.7" y2="-0.9" width="0.1524" layer="39" />
-              <text x="-1.45" y="1.0" size="0.8" layer="25">&gt;NAME</text>
-              <smd name="1" x="-0.95" y="-1.0" dx="0.8" dy="0.9" layer="1" cream="yes" />
-              <smd name="2" x="0.95" y="-1.0" dx="0.8" dy="0.9" layer="1" cream="yes" />
-              <smd name="3" x="0" y="1.0" dx="1.35" dy="0.9" layer="1" cream="yes" />
-            </package>
             <package name="C_1206">
               <wire x1="-1.6" y1="-0.8" x2="1.6" y2="-0.8" width="0.1524" layer="51" />
               <wire x1="1.6" y1="-0.8" x2="1.6" y2="0.8" width="0.1524" layer="51" />
@@ -2266,17 +2252,6 @@
               <pin name="G" x="-22.86" y="-1.27" length="middle" direction="pas" visible="pin" rot="R0" />
               <pin name="S" x="22.86" y="0.0" length="middle" direction="pas" visible="pin" rot="R180" />
             </symbol>
-            <symbol name="DMN2058U">
-              <wire x1="-17.78" y1="-5.08" x2="17.78" y2="-5.08" width="0.1524" layer="94" />
-              <wire x1="17.78" y1="-5.08" x2="17.78" y2="5.08" width="0.1524" layer="94" />
-              <wire x1="17.78" y1="5.08" x2="-17.78" y2="5.08" width="0.1524" layer="94" />
-              <wire x1="-17.78" y1="5.08" x2="-17.78" y2="-5.08" width="0.1524" layer="94" />
-              <text x="-17.78" y="6.35" size="1.27" layer="95">&gt;NAME</text>
-              <text x="-17.78" y="-7.62" size="1.27" layer="96">&gt;VALUE</text>
-              <pin name="G" x="-22.86" y="0.0" length="middle" direction="pas" visible="pin" rot="R0" />
-              <pin name="D" x="22.86" y="1.27" length="middle" direction="pas" visible="pin" rot="R180" />
-              <pin name="S" x="22.86" y="-1.27" length="middle" direction="pas" visible="pin" rot="R180" />
-            </symbol>
             <symbol name="C_1206">
               <pin name="1" x="-5.08" y="0.0" length="short" direction="pas" visible="off" rot="R0" />
               <pin name="2" x="5.08" y="0.0" length="short" direction="pas" visible="off" rot="R180" />
@@ -2334,23 +2309,6 @@
                   <connects>
                     <connect gate="G$1" pin="D" pad="3" />
                     <connect gate="G$1" pin="G" pad="1" />
-                    <connect gate="G$1" pin="S" pad="2" />
-                  </connects>
-                  <technologies>
-                    <technology name="" />
-                  </technologies>
-                </device>
-              </devices>
-            </deviceset>
-            <deviceset name="DMN2058U" uservalue="yes">
-              <gates>
-                <gate name="G$1" symbol="DMN2058U" x="0" y="0" />
-              </gates>
-              <devices>
-                <device name="" package="DIODES_SOT23">
-                  <connects>
-                    <connect gate="G$1" pin="G" pad="1" />
-                    <connect gate="G$1" pin="D" pad="3" />
                     <connect gate="G$1" pin="S" pad="2" />
                   </connects>
                   <technologies>

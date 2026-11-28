@@ -1,0 +1,23 @@
+Fusion ERC — FRIDAY_Compute_SCH4b.sch (Autodesk Fusion 2706.1.17)
+0 errors, 2 active warnings, 23 inherited approvals, 65 newly approved inherited eMCP warnings.
+Matched 238 native nets and 1667 physical pad connections.
+
+J5 and J6 match both CSVs and their far-end netlists. J6 reserved contacts 15–17 open; left protected return maps to compute GND.
+All six CSI signal names and polarities match the bridge, including clock. Compute I2C has no local pull-ups.
+All 20 RK3576 ball connections and the existing J4/SY8205 path verified.
+CHG_EN open-drain low: ≤0.100 V with ≤89.5 µA from its 22 kΩ pull-up.
+SD selector input trip screen 0.640–0.878 V between host low ≤0.487 V and high ≥1.225 V.
+SAI1 BCLK/LRCK: 22 Ω at the SoC. 65 mm + 130 mm flex estimate plus local branches: about 46 pF per clock.
+Right SD_MODE high: 0.956–1.215 V at 4.50–5.50 V, wholly within 0.825–1.245 V. Shutdown screen ≤22.7 mV at the rated 55 °C P-FET leakage point.
+SARADC at 8.5 V: 0.547 V nominal, 0.557 V resistor-tolerance high, and 1.558 V unloaded vs 1.62 V minimum full-scale rail.
+SARADC divider maximum direct pack draw 8.03 µA. TMUX1511 powered-off isolation is backed by the ADC-side 100 kΩ resistor.
+USB eFuse 0.507 A typical. Scaled screen 0.430–0.583 A; three flex contacts in each direction screen at 0.750 A total.
+0.20 A charging estimates 0.395 A at 5.0 V and 0.444 A at 4.5 V / 8.5 V pack, assuming 85% efficiency. Full current is not guaranteed at the low-line/current-limit corner.
+All 1481 SCH-2 physical pad connections preserved.
+
+Active warnings
+Sheet 11 / code 104 / POWER pin U16 VDD connected to VCC5V0_SYS_S5. MAX98357A power input uses the named local 5 V supply.
+Sheet 11 / code 104 / POWER pin U16 EP connected to GND. Connect the exposed pad to the local ground as specified by MAX98357A.
+
+Newly approved inherited eMCP power warnings: power pin tied to named rail — auditor reviewed (SCH-2 accepted 08e94c8)
+Exact signatures: SCH-4b_emcp_erc_approvals.json

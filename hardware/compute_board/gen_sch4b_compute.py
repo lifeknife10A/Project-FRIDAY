@@ -2,6 +2,7 @@
 """Extend accepted SCH-2 with FRIDAY's bridge, left-aux and right audio interfaces."""
 
 import csv
+import json
 import sys
 from pathlib import Path
 
@@ -17,7 +18,7 @@ from sch4b_audio import (
 
 BASELINE = "08e94c847ed6b1c0665002e86ff34b9d0e210bb2"
 SCHEMATIC_NAME = "FRIDAY_Compute_SCH4b.sch"
-APPROVALS_PATH = BOARD_DIRECTORY / "SCH-4b_emcp_erc_approvals.txt"
+APPROVALS_PATH = BOARD_DIRECTORY / "SCH-4b_emcp_erc_approvals.json"
 APPROVAL_REASON = "power pin tied to named rail — auditor reviewed (SCH-2 accepted 08e94c8)"
 VCCIO_S0 = "VCC_1V8_S0"
 VCCIO_S3 = "VCC_1V8_S3"
@@ -67,6 +68,8 @@ def add_compute_devices(design, library):
     bridge = Extension("6ae5713d08860d3c5aa9ff0ccfd014daa86729c1",
                        "hardware/bridge_board/FRIDAY_Bridge_SCH3.sch")
     copy_support_device(library, bridge.libraries.find("library[@name='FRIDAY_SCH3_Camera']"), "SN74LV1T34")
+    inline_device(library, "SN74LVC1G06", "SOT23_DBV",
+                  (("A", "2"), ("VCC", "5"), ("GND", "3")), (("Y", "4"), ("NC", "1")))
     pads = []
     for index in range(7):
         position_y = 1.95 - 0.65 * index
@@ -118,20 +121,20 @@ def charger_and_adc_sheet(design):
                  "DVDT": "USB_CHG_DVDT", "ILM": "USB_CHG_ILM"}, AUDIO_LIBRARY)
     design.part(sheet, "U14", "SN74LV1T34", "SN74LV1T34DBVR", 79, 146,
                 {"A": "USB_CHG_ALLOW_SOC", "Y": "USB_CHG_ALLOW", "VCC": VCCIO_S0, "GND": "GND"}, AUDIO_LIBRARY)
-    design.part(sheet, "Q12", "DMN2058U", "DMN2058U-7", 315, 146,
-                {"G": "CHG_EN_SINK_CTRL", "D": "CHG_EN", "S": "GND"}, AUDIO_LIBRARY)
+    design.part(sheet, "U18", "SN74LVC1G06", "SN74LVC1G06DBVR", 315, 146,
+                {"A": "CHG_EN_SINK_CTRL", "Y": "CHG_EN", "VCC": VCCIO_S3, "GND": "GND"}, AUDIO_LIBRARY)
     design.part(sheet, "U15", "TMUX1511", "TMUX1511PWR", 215, 65,
                 {"VDD": ADC_REFERENCE_SOURCE, "SEL1": ADC_REFERENCE_SOURCE, "S1": "PACK_DIV_FILTER",
                  "D1": "PACK_SARADC_IN2", "GND": "GND", "SEL2": "GND", "SEL3": "GND", "SEL4": "GND"}, AUDIO_LIBRARY)
     for number, value, x, y, first, second in (
         (805, "365k 1%", 250, 245, USB_INPUT, "USB_CHG_OVLO"),
         (806, "100k 1%", 250, 223, "USB_CHG_OVLO", "GND"),
-        (807, "6.65k 1%", 360, 227, "USB_CHG_ILM", "GND"),
+        (807, "6.57k 0.1%", 360, 227, "USB_CHG_ILM", "GND"),
         (808, "100k 1%", 48, 172, "USB_CHG_ALLOW_SOC", "GND"),
         (809, "100k 1%", 49, 210, "USB_CHG_ALLOW", "GND"),
         (810, "10k 1%", 204, 172, VCCIO_S0, "DOCK_DET"),
         (811, "10k 1%", 204, 149, VCCIO_S0, "CHG_STAT"),
-        (812, "4.7k 1%", 343, 174, VCCIO_S3, "CHG_EN"),
+        (812, "22k 1%", 343, 174, VCCIO_S3, "CHG_EN"),
         (813, "100k 1%", 278, 116, "CHG_EN_SINK_CTRL", "GND"),
         (814, "1M 1%", 78, 97, PACK_INPUT, "PACK_DIV_FILTER"),
         (815, "220k 1%", 78, 65, "PACK_DIV_FILTER", "GND"),
@@ -144,6 +147,7 @@ def charger_and_adc_sheet(design):
         (804, "100nF 16V X7R", 143, 122, VCCIO_S0),
         (805, "100nF 16V X7R", 78, 42, "PACK_DIV_FILTER"),
         (806, "100nF 16V X7R", 328, 91, ADC_REFERENCE_SOURCE),
+        (807, "100nF 16V X7R", 360, 113, VCCIO_S3),
     ):
         design.capacitor(sheet, f"C{number}", "C_0603", value, x, y, net, "GND")
     design.note(sheet, "Firmware authorizes USB charge only after USB source-current policy allows it.",
@@ -161,14 +165,14 @@ def right_amplifier_sheet(design):
 def add_emcp_approvals(design):
     if not APPROVALS_PATH.exists():
         return
-    records = APPROVALS_PATH.read_text(encoding="utf-8").splitlines()
-    header, signatures = records[0], records[1:]
+    records = json.loads(APPROVALS_PATH.read_text(encoding="utf-8"))
+    header, signatures = records["reason"], records["signatures"]
     if header != APPROVAL_REASON or len(signatures) != 65 or len(set(signatures)) != 65:
         raise ValueError("Expected exactly 65 unique inherited eMCP warning approvals")
     errors = design.schematic.find("errors")
     for signature in signatures:
         code, sheet, x, y, part, pin, net, *unused = signature.split("\t")
-        if code != "104" or part != "U11" or not pin or not net:
+        if code != "104" or part != "U11POWER" or not pin or not net:
             raise ValueError(f"Unexpected approval {signature}")
         element(errors, "approved", hash=signature)
 

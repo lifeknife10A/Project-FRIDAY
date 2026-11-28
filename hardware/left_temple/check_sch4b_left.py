@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ElementTree
 
 from check_sch4a_exports import check_paths, expected_rows, require
 from gen_sch4b_left import BOARD_DIRECTORY, PROTECTION_FET, SCHEMATIC_NAME, SHUNT
-from sch4b_audio import sd_mode_screen
+from sch4b_audio import gpio_channel_screen, sd_mode_screen
 
 
 PROTECTION_PADS = {"1": "G1", "4": "G2", "S1_78": "S1A", "S2_56": "S2A", "2": "EP", "3": "EP"}
@@ -40,6 +40,7 @@ def check_left(pins, values):
         "At 3 A the shunt and maximum specified FET pair drop sum to 78 mV. Bench-check hot trip and fuse coordination.",
         f"Left SD_MODE high: {sd_low:.3f}–{sd_high:.3f} V at 4.50–5.50 V amp supply. "
         f"Shutdown screen ≤{sd_off * 1000:.1f} mV at the rated 55 °C P-FET leakage point.",
+        gpio_channel_screen(),
         "MAX98357A gain +3 dB. Speaker outputs remain a local floating BTL pair.",
     ))
     return checks

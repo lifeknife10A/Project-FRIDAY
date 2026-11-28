@@ -5614,20 +5614,6 @@
               <smd name="2" x="0.95" y="-1.0" dx="0.68" dy="0.9" layer="1" cream="yes" />
               <smd name="3" x="0" y="1.0" dx="0.68" dy="0.9" layer="1" cream="yes" />
             </package>
-            <package name="DIODES_SOT23">
-              <wire x1="-1.45" y1="-0.65" x2="1.45" y2="-0.65" width="0.1524" layer="51" />
-              <wire x1="1.45" y1="-0.65" x2="1.45" y2="0.65" width="0.1524" layer="51" />
-              <wire x1="1.45" y1="0.65" x2="-1.45" y2="0.65" width="0.1524" layer="51" />
-              <wire x1="-1.45" y1="0.65" x2="-1.45" y2="-0.65" width="0.1524" layer="51" />
-              <wire x1="-1.7" y1="-0.9" x2="1.7" y2="-0.9" width="0.1524" layer="39" />
-              <wire x1="1.7" y1="-0.9" x2="1.7" y2="0.9" width="0.1524" layer="39" />
-              <wire x1="1.7" y1="0.9" x2="-1.7" y2="0.9" width="0.1524" layer="39" />
-              <wire x1="-1.7" y1="0.9" x2="-1.7" y2="-0.9" width="0.1524" layer="39" />
-              <text x="-1.45" y="1.0" size="0.8" layer="25">&gt;NAME</text>
-              <smd name="1" x="-0.95" y="-1.0" dx="0.8" dy="0.9" layer="1" cream="yes" />
-              <smd name="2" x="0.95" y="-1.0" dx="0.8" dy="0.9" layer="1" cream="yes" />
-              <smd name="3" x="0" y="1.0" dx="1.35" dy="0.9" layer="1" cream="yes" />
-            </package>
             <package name="C_1206">
               <wire x1="-1.6" y1="-0.8" x2="1.6" y2="-0.8" width="0.1524" layer="51" />
               <wire x1="1.6" y1="-0.8" x2="1.6" y2="0.8" width="0.1524" layer="51" />
@@ -5762,17 +5748,6 @@
               <pin name="G" x="-22.86" y="-1.27" length="middle" direction="pas" visible="pin" rot="R0" />
               <pin name="S" x="22.86" y="0.0" length="middle" direction="pas" visible="pin" rot="R180" />
             </symbol>
-            <symbol name="DMN2058U">
-              <wire x1="-17.78" y1="-5.08" x2="17.78" y2="-5.08" width="0.1524" layer="94" />
-              <wire x1="17.78" y1="-5.08" x2="17.78" y2="5.08" width="0.1524" layer="94" />
-              <wire x1="17.78" y1="5.08" x2="-17.78" y2="5.08" width="0.1524" layer="94" />
-              <wire x1="-17.78" y1="5.08" x2="-17.78" y2="-5.08" width="0.1524" layer="94" />
-              <text x="-17.78" y="6.35" size="1.27" layer="95">&gt;NAME</text>
-              <text x="-17.78" y="-7.62" size="1.27" layer="96">&gt;VALUE</text>
-              <pin name="G" x="-22.86" y="0.0" length="middle" direction="pas" visible="pin" rot="R0" />
-              <pin name="D" x="22.86" y="1.27" length="middle" direction="pas" visible="pin" rot="R180" />
-              <pin name="S" x="22.86" y="-1.27" length="middle" direction="pas" visible="pin" rot="R180" />
-            </symbol>
             <symbol name="C_1206">
               <pin name="1" x="-5.08" y="0.0" length="short" direction="pas" visible="off" rot="R0" />
               <pin name="2" x="5.08" y="0.0" length="short" direction="pas" visible="off" rot="R180" />
@@ -5847,6 +5822,19 @@
               <pin name="Y" x="22.86" y="1.27" length="middle" direction="pas" visible="pin" rot="R180" />
               <pin name="NC" x="22.86" y="-1.27" length="middle" direction="pas" visible="pin" rot="R180" />
             </symbol>
+            <symbol name="SN74LVC1G06">
+              <wire x1="-17.78" y1="-6.35" x2="17.78" y2="-6.35" width="0.1524" layer="94" />
+              <wire x1="17.78" y1="-6.35" x2="17.78" y2="6.35" width="0.1524" layer="94" />
+              <wire x1="17.78" y1="6.35" x2="-17.78" y2="6.35" width="0.1524" layer="94" />
+              <wire x1="-17.78" y1="6.35" x2="-17.78" y2="-6.35" width="0.1524" layer="94" />
+              <text x="-17.78" y="7.619999999999999" size="1.27" layer="95">&gt;NAME</text>
+              <text x="-17.78" y="-8.89" size="1.27" layer="96">&gt;VALUE</text>
+              <pin name="A" x="-22.86" y="2.54" length="middle" direction="pas" visible="pin" rot="R0" />
+              <pin name="VCC" x="-22.86" y="0.0" length="middle" direction="pas" visible="pin" rot="R0" />
+              <pin name="GND" x="-22.86" y="-2.54" length="middle" direction="pas" visible="pin" rot="R0" />
+              <pin name="Y" x="22.86" y="1.27" length="middle" direction="pas" visible="pin" rot="R180" />
+              <pin name="NC" x="22.86" y="-1.27" length="middle" direction="pas" visible="pin" rot="R180" />
+            </symbol>
             <symbol name="TMUX1511">
               <wire x1="-17.78" y1="-11.43" x2="17.78" y2="-11.43" width="0.1524" layer="94" />
               <wire x1="17.78" y1="-11.43" x2="17.78" y2="11.43" width="0.1524" layer="94" />
@@ -5880,23 +5868,6 @@
                   <connects>
                     <connect gate="G$1" pin="D" pad="3" />
                     <connect gate="G$1" pin="G" pad="1" />
-                    <connect gate="G$1" pin="S" pad="2" />
-                  </connects>
-                  <technologies>
-                    <technology name="" />
-                  </technologies>
-                </device>
-              </devices>
-            </deviceset>
-            <deviceset name="DMN2058U" uservalue="yes">
-              <gates>
-                <gate name="G$1" symbol="DMN2058U" x="0" y="0" />
-              </gates>
-              <devices>
-                <device name="" package="DIODES_SOT23">
-                  <connects>
-                    <connect gate="G$1" pin="G" pad="1" />
-                    <connect gate="G$1" pin="D" pad="3" />
                     <connect gate="G$1" pin="S" pad="2" />
                   </connects>
                   <technologies>
@@ -5999,6 +5970,25 @@
             <deviceset name="SN74LV1T34" uservalue="yes">
               <gates>
                 <gate name="G$1" symbol="SN74LV1T34" x="0" y="0" />
+              </gates>
+              <devices>
+                <device name="" package="SOT23_DBV">
+                  <connects>
+                    <connect gate="G$1" pin="A" pad="2" />
+                    <connect gate="G$1" pin="VCC" pad="5" />
+                    <connect gate="G$1" pin="GND" pad="3" />
+                    <connect gate="G$1" pin="Y" pad="4" />
+                    <connect gate="G$1" pin="NC" pad="1" />
+                  </connects>
+                  <technologies>
+                    <technology name="" />
+                  </technologies>
+                </device>
+              </devices>
+            </deviceset>
+            <deviceset name="SN74LVC1G06" uservalue="yes">
+              <gates>
+                <gate name="G$1" symbol="SN74LVC1G06" x="0" y="0" />
               </gates>
               <devices>
                 <device name="" package="SOT23_DBV">
@@ -7057,16 +7047,16 @@
         <part name="FRAME10" library="FRIDAY_SCH1_Support" deviceset="A3_FRAME" device="" value="" />
         <part name="U13" library="FRIDAY_SCH4b_Audio" deviceset="TPS259470" device="" value="TPS259470ARPW" />
         <part name="U14" library="FRIDAY_SCH4b_Audio" deviceset="SN74LV1T34" device="" value="SN74LV1T34DBVR" />
-        <part name="Q12" library="FRIDAY_SCH4b_Audio" deviceset="DMN2058U" device="" value="DMN2058U-7" />
+        <part name="U18" library="FRIDAY_SCH4b_Audio" deviceset="SN74LVC1G06" device="" value="SN74LVC1G06DBVR" />
         <part name="U15" library="FRIDAY_SCH4b_Audio" deviceset="TMUX1511" device="" value="TMUX1511PWR" />
         <part name="R805" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="365k 1%" />
         <part name="R806" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="100k 1%" />
-        <part name="R807" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="6.65k 1%" />
+        <part name="R807" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="6.57k 0.1%" />
         <part name="R808" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="100k 1%" />
         <part name="R809" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="100k 1%" />
         <part name="R810" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="10k 1%" />
         <part name="R811" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="10k 1%" />
-        <part name="R812" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="4.7k 1%" />
+        <part name="R812" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="22k 1%" />
         <part name="R813" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="100k 1%" />
         <part name="R814" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="1M 1%" />
         <part name="R815" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="220k 1%" />
@@ -7076,6 +7066,7 @@
         <part name="C804" library="FRIDAY_SCH1_Support" deviceset="C_0603" device="" value="100nF 16V X7R" />
         <part name="C805" library="FRIDAY_SCH1_Support" deviceset="C_0603" device="" value="100nF 16V X7R" />
         <part name="C806" library="FRIDAY_SCH1_Support" deviceset="C_0603" device="" value="100nF 16V X7R" />
+        <part name="C807" library="FRIDAY_SCH1_Support" deviceset="C_0603" device="" value="100nF 16V X7R" />
         <part name="FRAME11" library="FRIDAY_SCH1_Support" deviceset="A3_FRAME" device="" value="" />
         <part name="U16" library="MAX98357AETE_T" deviceset="MAX98357AETE+T" device="" value="MAX98357AETE+T" />
         <part name="J7" library="FRIDAY_SCH4b_Audio" deviceset="BTL_SPEAKER" device="" value="1510 / 8 ohm assumed" />
@@ -16700,9 +16691,9 @@
               <attribute name="NAME" x="61.22" y="153.62" size="1.27" layer="95" align="bottom-left" />
               <attribute name="VALUE" x="61.22" y="137.11" size="1.27" layer="96" align="bottom-left" />
             </instance>
-            <instance part="Q12" gate="G$1" x="315" y="146" smashed="yes">
-              <attribute name="NAME" x="297.22" y="152.35" size="1.27" layer="95" align="bottom-left" />
-              <attribute name="VALUE" x="297.22" y="138.38" size="1.27" layer="96" align="bottom-left" />
+            <instance part="U18" gate="G$1" x="315" y="146" smashed="yes">
+              <attribute name="NAME" x="297.22" y="153.62" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="297.22" y="137.11" size="1.27" layer="96" align="bottom-left" />
             </instance>
             <instance part="U15" gate="G$1" x="215" y="65" smashed="yes">
               <attribute name="NAME" x="197.22" y="77.7" size="1.27" layer="95" align="bottom-left" />
@@ -16776,6 +16767,10 @@
               <attribute name="NAME" x="325.46" y="93.2" size="1.27" layer="95" align="bottom-left" />
               <attribute name="VALUE" x="325.46" y="87.4" size="1.27" layer="96" align="bottom-left" />
             </instance>
+            <instance part="C807" gate="G$1" x="360" y="113" smashed="yes">
+              <attribute name="NAME" x="357.46" y="115.2" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="357.46" y="109.4" size="1.27" layer="96" align="bottom-left" />
+            </instance>
           </instances>
           <busses />
           <nets>
@@ -16815,9 +16810,9 @@
                 <label x="38.36" y="143.46" size="1.016" layer="95" />
               </segment>
               <segment>
-                <pinref part="Q12" gate="G$1" pin="S" />
-                <wire x1="337.86" y1="144.73" x2="342.94" y2="144.73" width="0.1524" layer="91" />
-                <label x="342.94" y="144.73" size="1.016" layer="95" />
+                <pinref part="U18" gate="G$1" pin="GND" />
+                <wire x1="292.14" y1="143.46" x2="274.36" y2="143.46" width="0.1524" layer="91" />
+                <label x="274.36" y="143.46" size="1.016" layer="95" />
               </segment>
               <segment>
                 <pinref part="U15" gate="G$1" pin="GND" />
@@ -16898,6 +16893,11 @@
                 <pinref part="C806" gate="G$1" pin="2" />
                 <wire x1="333.08" y1="91.00" x2="338.16" y2="91.00" width="0.1524" layer="91" />
                 <label x="338.16" y="91.00" size="1.016" layer="95" />
+              </segment>
+              <segment>
+                <pinref part="C807" gate="G$1" pin="2" />
+                <wire x1="365.08" y1="113.00" x2="370.16" y2="113.00" width="0.1524" layer="91" />
+                <label x="370.16" y="113.00" size="1.016" layer="95" />
               </segment>
             </net>
             <net name="USB_CHG_ALLOW" class="0">
@@ -16994,9 +16994,9 @@
             </net>
             <net name="CHG_EN_SINK_CTRL" class="0">
               <segment>
-                <pinref part="Q12" gate="G$1" pin="G" />
-                <wire x1="292.14" y1="146.00" x2="274.36" y2="146.00" width="0.1524" layer="91" />
-                <label x="274.36" y="146.00" size="1.016" layer="95" />
+                <pinref part="U18" gate="G$1" pin="A" />
+                <wire x1="292.14" y1="148.54" x2="274.36" y2="148.54" width="0.1524" layer="91" />
+                <label x="274.36" y="148.54" size="1.016" layer="95" />
               </segment>
               <segment>
                 <pinref part="R813" gate="G$1" pin="1" />
@@ -17006,7 +17006,7 @@
             </net>
             <net name="CHG_EN" class="0">
               <segment>
-                <pinref part="Q12" gate="G$1" pin="D" />
+                <pinref part="U18" gate="G$1" pin="Y" />
                 <wire x1="337.86" y1="147.27" x2="342.94" y2="147.27" width="0.1524" layer="91" />
                 <label x="342.94" y="147.27" size="1.016" layer="95" />
               </segment>
@@ -17014,6 +17014,23 @@
                 <pinref part="R812" gate="G$1" pin="2" />
                 <wire x1="348.08" y1="174.00" x2="353.16" y2="174.00" width="0.1524" layer="91" />
                 <label x="353.16" y="174.00" size="1.016" layer="95" />
+              </segment>
+            </net>
+            <net name="VCC_1V8_S3" class="0">
+              <segment>
+                <pinref part="U18" gate="G$1" pin="VCC" />
+                <wire x1="292.14" y1="146.00" x2="274.36" y2="146.00" width="0.1524" layer="91" />
+                <label x="274.36" y="146.00" size="1.016" layer="95" />
+              </segment>
+              <segment>
+                <pinref part="R812" gate="G$1" pin="1" />
+                <wire x1="337.92" y1="174.00" x2="320.14" y2="174.00" width="0.1524" layer="91" />
+                <label x="320.14" y="174.00" size="1.016" layer="95" />
+              </segment>
+              <segment>
+                <pinref part="C807" gate="G$1" pin="1" />
+                <wire x1="354.92" y1="113.00" x2="337.14" y2="113.00" width="0.1524" layer="91" />
+                <label x="337.14" y="113.00" size="1.016" layer="95" />
               </segment>
             </net>
             <net name="VCCA1V8_PLDO2_S0" class="0">
@@ -17079,13 +17096,6 @@
                 <pinref part="R811" gate="G$1" pin="2" />
                 <wire x1="209.08" y1="149.00" x2="214.16" y2="149.00" width="0.1524" layer="91" />
                 <label x="214.16" y="149.00" size="1.016" layer="95" />
-              </segment>
-            </net>
-            <net name="VCC_1V8_S3" class="0">
-              <segment>
-                <pinref part="R812" gate="G$1" pin="1" />
-                <wire x1="337.92" y1="174.00" x2="320.14" y2="174.00" width="0.1524" layer="91" />
-                <label x="320.14" y="174.00" size="1.016" layer="95" />
               </segment>
             </net>
             <net name="VBAT_2S_IN" class="0">
@@ -17435,6 +17445,71 @@
         <approved hash="104&#09;2&#09;213.36&#09;195.58&#09;U2&#09;VCCIO&#09;VCCA1V8_PLDO6_S3&#09;&#09;&#09;" />
         <approved hash="104&#09;3&#09;246.38&#09;223.52&#09;U7&#09;IN&#09;VCC5V0_SYS_S5&#09;&#09;&#09;" />
         <approved hash="104&#09;3&#09;60.96&#09;223.52&#09;U6&#09;IN&#09;VCC5V0_SYS_S5&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;165.1&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;167.64&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;170.18&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;172.72&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;175.26&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;177.8&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;180.34&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;182.88&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;185.42&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;187.96&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;190.5&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;193.04&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;195.58&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;198.12&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;200.66&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;203.2&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;205.74&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;208.28&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;210.82&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;213.36&#09;U11POWER&#09;VDDQ&#09;VDDQ_DDR_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;218.44&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;220.98&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;223.52&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;226.06&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;228.6&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;231.14&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;233.68&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;236.22&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;238.76&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;241.3&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;243.84&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;116.84&#09;246.38&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;165.1&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;167.64&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;170.18&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;172.72&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;175.26&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;177.8&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;180.34&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;182.88&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;185.42&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;187.96&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;190.5&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;193.04&#09;U11POWER&#09;VDD2&#09;VDD2_DDR_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;195.58&#09;U11POWER&#09;VDD1&#09;VCC_1V8_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;198.12&#09;U11POWER&#09;VDD1&#09;VCC_1V8_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;200.66&#09;U11POWER&#09;VDD1&#09;VCC_1V8_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;203.2&#09;U11POWER&#09;VDD1&#09;VCC_1V8_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;205.74&#09;U11POWER&#09;VDD1&#09;VCC_1V8_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;208.28&#09;U11POWER&#09;VDD1&#09;VCC_1V8_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;210.82&#09;U11POWER&#09;VDD1&#09;VCC_1V8_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;213.36&#09;U11POWER&#09;VDD1&#09;VCC_1V8_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;215.9&#09;U11POWER&#09;VDD1&#09;VCC_1V8_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;218.44&#09;U11POWER&#09;VDD1&#09;VCC_1V8_S3&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;220.98&#09;U11POWER&#09;VCCQ&#09;VCC_1V8_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;223.52&#09;U11POWER&#09;VCCQ&#09;VCC_1V8_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;226.06&#09;U11POWER&#09;VCCQ&#09;VCC_1V8_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;228.6&#09;U11POWER&#09;VCCQ&#09;VCC_1V8_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;231.14&#09;U11POWER&#09;VCCQ&#09;VCC_1V8_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;233.68&#09;U11POWER&#09;VCCQ&#09;VCC_1V8_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;236.22&#09;U11POWER&#09;VCCQ&#09;VCC_1V8_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;238.76&#09;U11POWER&#09;VCCQ&#09;VCC_1V8_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;241.3&#09;U11POWER&#09;VCC&#09;VCC_3V3_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;243.84&#09;U11POWER&#09;VCC&#09;VCC_3V3_S0&#09;&#09;&#09;" />
+        <approved hash="104&#09;7&#09;66.04&#09;246.38&#09;U11POWER&#09;VCC&#09;VCC_3V3_S0&#09;&#09;&#09;" />
       </errors>
     </schematic>
   </drawing>

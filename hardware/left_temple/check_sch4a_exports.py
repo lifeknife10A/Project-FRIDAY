@@ -75,6 +75,8 @@ def expected_rows(schematic):
         for net in sheet.findall("nets/net"):
             for pinref in net.findall("segment/pinref"):
                 part, gate, pin = (pinref.get(key) for key in ("part", "gate", "pin"))
+                if not mappings[part]:
+                    continue  # Schematic-only power flags have no physical pads.
                 net_name = net.get("name")
                 for pad in mappings[part][gate, pin]:
                     require((part, pad) not in physical_nets, f"Duplicate source pad {part}.{pad}")

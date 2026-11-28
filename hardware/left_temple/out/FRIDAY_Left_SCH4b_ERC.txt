@@ -1,0 +1,24 @@
+Fusion ERC — FRIDAY_Left_SCH4b.sch (Autodesk Fusion 2706.1.17)
+0 errors, 4 active warnings, 0 inherited approvals, 0 newly approved inherited eMCP warnings.
+Matched 58 native nets and 244 physical pad connections.
+
+DC sourcing model: CELL_POS, CELL_MID and PACK+_PROT cannot source any non-return J1 or J3 terminal.
+Protected pogo and aux grounds are the shared PACK-_PROT return. Leakage and fault currents are bench checks.
+U3/U4 source VBUS_OR only in the forward direction. Neither input can source the other in the model.
+U1.13 VIN is fed only from VBUS_OR through R4. L1 also starts on VBUS_OR.
+Harness J2: pad 1 PACK+_PROT after F1, pad 2 PACK-_PROT after Q1 and RS1.
+ISET: 90000 / 450 kΩ = 200 mA nominal.
+F1: 2 A, 75% of rating continuous and 150% at pulse. Pulse duration and repetitive-pulse qualification remain open.
+RS1: 20 mΩ, 1 W at 70 °C. 30 mV / 0.0450 W at 1.5 A; 60 mV / 0.180 W at 3 A.
+HY2120 discharge threshold at maximum stated FET pair resistance: 6.54–8.85 A at 170–230 mV and 20 + 6 mΩ, VGS 4.5 V / 25 °C.
+At 3 A the shunt and maximum specified FET pair drop sum to 78 mV. Bench-check hot trip and fuse coordination.
+Left SD_MODE high: 3.656–4.517 V at 4.50–5.50 V amp supply. Shutdown screen ≤22.7 mV at the rated 55 °C P-FET leakage point.
+SD selector input trip screen 0.640–0.878 V between host low ≤0.487 V and high ≥1.225 V.
+MAX98357A gain +3 dB. Speaker outputs remain a local floating BTL pair.
+Preserved 191 baseline pads outside replaced Q1.
+
+Active warnings
+Sheet 5 / code 104 / POWER pin U5 VDD connected to VCC5V0_SYS_S5_AMP. MAX98357A power input uses the named local 5 V supply.
+Sheet 5 / code 104 / POWER pin U5 EP connected to PACK-_PROT. Connect the exposed pad to the local ground as specified by MAX98357A.
+Sheet 5 / code 104 / POWER pin U5 GND connected to PACK-_PROT. Left-board return is the protected pack negative.
+Sheet 1 / code 106 / Only one pin on net FET_COMMON_DRAIN. Q1 has one logical common-drain terminal covering physical pins 2 and 3.

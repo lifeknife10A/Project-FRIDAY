@@ -64,7 +64,7 @@ def add_audio_library(design, efuse=False):
     for section in ("packages", "symbols", "devicesets"):
         element(audio, section)
     original = power_library(ElementTree.Element("libraries"))
-    for name in ("AO3401A", "DMN2058U", "C_1206"):
+    for name in ("AO3401A", "C_1206"):
         copy_support_device(audio, original, name)
     if efuse:
         for name in ("TPS259470", "SMF_TVS"):
@@ -145,3 +145,15 @@ def sd_mode_screen(series_ohms, supply_low=4.50, supply_high=5.50):
     high = supply_high * parallel_high / (series_ohms * 0.99 + parallel_high)
     off = 5e-6 * parallel_high
     return low, high, off
+
+
+def gpio_channel_screen():
+    """Check nominal divider tolerances against the full Rockchip 1.8 V GPIO range."""
+    reference_low = 4.50 * 9900 / (56560 + 9900) - 0.030
+    reference_high = 5.50 * 10100 / (55440 + 10100) + 0.030
+    host_low_max = 0.25 * 1.95
+    host_high_min = 0.75 * 1.65 * 99000 / (99000 + 1010)
+    if not host_low_max < reference_low < reference_high < host_high_min:
+        raise ValueError("Comparator references fail the 1.8 V GPIO limits")
+    return (f"SD selector input trip screen {reference_low:.3f}–{reference_high:.3f} V "
+            f"between host low ≤{host_low_max:.3f} V and high ≥{host_high_min:.3f} V.")
