@@ -625,3 +625,4 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
 - D16 decided by Krishna: Option B battery on left, 3-pin pogo + USB-C (charge+flash). Added to plan1.md decision table. SCH-4a (left power board) prompt issued.
 - SCH-4a preflight stop: IP2326 has built-in 2S balancing (drop HY2212 unless Krishna wants extra); ISET 300k = 0.3 A verified; need GNB cell datasheet (needs >=11C for 3.25 A peak).
 - Cell selection e275129: no temple-width cell gives 3.25 A; EEMB picks are 30 mm wide (don't fit). Need Krishna: power cap (rec <=1.5 A pack / ~8 W) + temple cell envelope; then re-search incl. LiHV drone cells charged to 4.2 V.
+- D17 recorded (8 W burst / 3 W sustained cap). Hydrogen cell re-search prompt issued. Recommended buying a cheap RK3576 SBC (no dev kit owned).

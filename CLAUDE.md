@@ -97,6 +97,10 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Krishna DECISION D17 (2026-11-28): 8 W burst / ~3 W sustained software power cap (<=1.5 A pack); cells >=1.5 A cont,
+  >=3 A pulse preferred; LiHV allowed charged to 4.20 V. Krishna has NO RK3576 dev board (Firefly not bought) -> I
+  recommended buying a cheap RK3576 SBC before custom fab (power, IMX708 driver gate, RKLLM port). Cell re-search issued.
+
 - Cell selection @ e275129 (Hydrogen) HONEST, NOT APPROVED. Verified EEMB LP453030HA DS p.3: 10C5A = 3.0 A cont,
   <=4.8 x 30.5 x 31 mm, ~6 g; LP453048HC 20C 9.6 A, 30.5 x 49 mm, 9.6 g. Both 30.5 mm WIDE -> do not fit a temple
   (12.5 mm). No 12 mm-wide cell reaches 3.25 A. Root cause: 3.25 A = unthrottled 16.5 W regulator sizing; thermal plan
