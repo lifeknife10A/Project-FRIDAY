@@ -97,6 +97,13 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- SCH-4a stopped at preflight (correct; no commit, main @ 1f712ef). My checks of fetched DS: IP2326 (LCSC C5441281,
+  V1.6) ICHRG 1.0 A @ RISET 90k -> I = 90k/R -> 300k = 0.30 A (BOM value now VERIFIED); IP2326 INTEGRATES 2S charge
+  balancing (VBATM pin 23, VBAT_GND pin 24) -> separate HY2212 likely unnecessary. HY2212 variants 3.6 V (Sol, DS not
+  reachable from here); HY2213 = 1-cell balance IC, BB3A 4.200 V, CB3A 4.180 V. Cell DS missing: 3.25 A pack peak needs
+  ~11C from 300 mAh cells -> typical 1-2C pouch cells CANNOT; plan.md Directive says 30C/60C -> must be high-rate cells
+  (verify) else power budget/DVFS cap. Fuse rating waits on cell DS.
+
 - Krishna DECISION D16 (2026-11-28, plan deviation approved): Option B (cells+protection+balance+charger LEFT; protected
   PACK+/- harness only), 3-pin pogo (VBUS/GND/DET) left tip, USB-C right = charge + flash, ideal-diode OR at charger.
   Mass est (plan.md table): R ~32.0 g / L ~42.1 g (11.5 g cells) or L ~35.1 g (8 g BOM cells). SCH-4a prompt issued.

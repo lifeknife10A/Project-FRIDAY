@@ -623,3 +623,4 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
 - SCH-2 (eMCP+LPDDR4X/eMMC) @ 08e94c8 ACCEPTED after independent netlist + datasheet ball checks. Suggested next: inter-board FPC pinout, then SCH-3 camera bridge / SCH-4 battery-audio-wireless.
 - Interconnect pinout v0 4623c81 accepted. Battery-split decision pending Krishna (my rec: Option B, pack on left; Option A needs right-cell fuse). DF37 pin crosswalk blocks SCH-3 connector capture.
 - D16 decided by Krishna: Option B battery on left, 3-pin pogo + USB-C (charge+flash). Added to plan1.md decision table. SCH-4a (left power board) prompt issued.
+- SCH-4a preflight stop: IP2326 has built-in 2S balancing (drop HY2212 unless Krishna wants extra); ISET 300k = 0.3 A verified; need GNB cell datasheet (needs >=11C for 3.25 A peak).
