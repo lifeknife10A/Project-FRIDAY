@@ -1,0 +1,3 @@
+pin,net,direction,voltage,max_current,type,notes
+1,WIFI_BT_RF,Bidirectional,RF amplitude UNVERIFIED,UNVERIFIED,RF,Coax center. 50 Ω nominal per schematic_components.md line 190; exact connector/antenna and route UNVERIFIED.
+2,RF_GND,return,0 V reference,UNVERIFIED,GND,Coax shell/shield. Source schematic_components.md line 190. Local route in right temple only in this candidate.

@@ -1,0 +1,31 @@
+pin,net,direction,voltage,max_current,type,notes
+1,AFVDD,Bridge → Sensor,UNVERIFIED,UNVERIFIED,PWR,AF supply pin per Pi schematic p.2 J2. Voltage/current mapping requires source confirmation; autofocus commands via I2C. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+2,GND,return,0 V,UNVERIFIED,GND,Pi schematic p.2 J2. Preserve reference return and verify analog/digital ground implementation. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+3,VO1V8,UNVERIFIED,1.8 V named; direction UNVERIFIED,UNVERIFIED,PWR,Sensor pin function/board connection must be verified; do not drive a possible output. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+4,DVDD,Bridge → Sensor,1.1 V,0.60 A reference rail max; contact allocation UNVERIFIED,PWR,Pi schematic p.2. DF37 current budget fails conservative single-contact assumption; see document. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+5,XCLR,Bridge → Sensor,UNVERIFIED,UNVERIFIED,LS,J2 marks /PWDN; reference drives XCLR from POR after MCLK. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+6,DGND4,return,0 V,UNVERIFIED,GND,Pi schematic p.2 J2. Preserve reference return and verify analog/digital ground implementation. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+7,MCLK,Bridge → Sensor,UNVERIFIED,UNVERIFIED,LS,Pi schematic p.2 local 24 MHz oscillator. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+8,DGND3,return,0 V,UNVERIFIED,GND,Pi schematic p.2 J2. Preserve reference return and verify analog/digital ground implementation. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+9,AGND,return,0 V,UNVERIFIED,GND,Pi schematic p.2 J2. Preserve reference return and verify analog/digital ground implementation. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+10,VA2V8,Bridge → Sensor,2.8 V,0.05 A reference rail max,PWR,Shared analog rail allocation UNVERIFIED; Pi schematic p.2. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+11,DVDD_GPIO,UNVERIFIED,UNVERIFIED,UNVERIFIED,LS,Reference symbol label DVDD/GPIO. Confirm actual strap/rail and sharing before assigning. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+12,DGND2,return,0 V,UNVERIFIED,GND,Pi schematic p.2 J2. Preserve reference return and verify analog/digital ground implementation. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+13,NC2,—,—,—,NC,Leave open per Pi schematic p.2 J2. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+14,NC1,—,—,—,NC,Leave open per Pi schematic p.2 J2. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+15,DGND1,return,0 V,UNVERIFIED,GND,Pi schematic p.2 J2. Preserve reference return and verify analog/digital ground implementation. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+16,DGND5,return,0 V,UNVERIFIED,GND,Pi schematic p.2 J2. Preserve reference return and verify analog/digital ground implementation. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+17,NC6,—,—,—,NC,Leave open per Pi schematic p.2 J2. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+18,NC7,—,—,—,NC,Leave open per Pi schematic p.2 J2. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+19,DGND6,return,0 V,UNVERIFIED,GND,Pi schematic p.2 J2. Preserve reference return and verify analog/digital ground implementation. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+20,CSI0_D1_N,Sensor → Bridge,D-PHY swing UNVERIFIED,UNVERIFIED,HS-diff,Pi schematic p.2 J2. Keep same polarity through bridge filtering. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+21,CSI0_D1_P,Sensor → Bridge,D-PHY swing UNVERIFIED,UNVERIFIED,HS-diff,Pi schematic p.2 J2. Keep same polarity through bridge filtering. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+22,DGND7,return,0 V,UNVERIFIED,GND,Pi schematic p.2 J2. Preserve reference return and verify analog/digital ground implementation. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+23,CSI0_D0_N,Sensor → Bridge,D-PHY swing UNVERIFIED,UNVERIFIED,HS-diff,Pi schematic p.2 J2. Keep same polarity through bridge filtering. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+24,CSI0_D0_P,Sensor → Bridge,D-PHY swing UNVERIFIED,UNVERIFIED,HS-diff,Pi schematic p.2 J2. Keep same polarity through bridge filtering. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+25,DGND8,return,0 V,UNVERIFIED,GND,Pi schematic p.2 J2. Preserve reference return and verify analog/digital ground implementation. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+26,CSI0_CLK_N,Sensor → Bridge,D-PHY swing UNVERIFIED,UNVERIFIED,HS-diff,Pi schematic p.2 J2. Keep same polarity through bridge filtering. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+27,CSI0_CLK_P,Sensor → Bridge,D-PHY swing UNVERIFIED,UNVERIFIED,HS-diff,Pi schematic p.2 J2. Keep same polarity through bridge filtering. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+28,DGND9,return,0 V,UNVERIFIED,GND,Pi schematic p.2 J2. Preserve reference return and verify analog/digital ground implementation. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+29,I2C_CAM_SCL,Bridge → Sensor (open drain),1.8 V,UNVERIFIED,LS,Pi schematic p.2 J2. Bridge I2C route and pull-up placement per SCH-3 review. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.
+30,I2C_CAM_SDA,Bidirectional (open drain),1.8 V,UNVERIFIED,LS,Pi schematic p.2 J2. AF control also uses camera control architecture; AF driver support UNVERIFIED. Pin column is Pi J2 logical numbering. Physical Hirose pad crosswalk UNVERIFIED.

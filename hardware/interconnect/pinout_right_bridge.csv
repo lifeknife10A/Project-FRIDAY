@@ -1,0 +1,25 @@
+pin,net,direction,voltage,max_current,type,notes
+1,GND,return,0 V,UNVERIFIED,GND,Reference and return. See interconnect_pinout.md return budget.
+2,CSI0_D0_N,Bridge → Right,D-PHY swing UNVERIFIED,UNVERIFIED,HS-diff,"RK3576.lbr lines 821–854 and 1562–1595, U1 AL20. Pi RP-008969-SD PDF p.2, J2 pin 23."
+3,CSI0_D0_P,Bridge → Right,D-PHY swing UNVERIFIED,UNVERIFIED,HS-diff,"RK3576.lbr lines 821–854 and 1562–1595, U1 AK20. Pi RP-008969-SD PDF p.2, J2 pin 24."
+4,GND,return,0 V,UNVERIFIED,GND,Reference and return. See interconnect_pinout.md return budget.
+5,CSI0_D1_N,Bridge → Right,D-PHY swing UNVERIFIED,UNVERIFIED,HS-diff,"RK3576.lbr lines 821–854 and 1562–1595, U1 AL21. Pi RP-008969-SD PDF p.2, J2 pin 20."
+6,CSI0_D1_P,Bridge → Right,D-PHY swing UNVERIFIED,UNVERIFIED,HS-diff,"RK3576.lbr lines 821–854 and 1562–1595, U1 AK21. Pi RP-008969-SD PDF p.2, J2 pin 21."
+7,GND,return,0 V,UNVERIFIED,GND,Reference and return. See interconnect_pinout.md return budget.
+8,CSI0_CLK_N,Bridge → Right,D-PHY swing UNVERIFIED,UNVERIFIED,HS-diff,"RK3576.lbr lines 821–854 and 1562–1595, U1 AL22. Pi RP-008969-SD PDF p.2, J2 pin 26."
+9,CSI0_CLK_P,Bridge → Right,D-PHY swing UNVERIFIED,UNVERIFIED,HS-diff,"RK3576.lbr lines 821–854 and 1562–1595, U1 AK22. Pi RP-008969-SD PDF p.2, J2 pin 27."
+10,GND,return,0 V,0.175 A UNVERIFIED,GND,"Pair guard and parallel camera 3.3 V return, equal-share estimate."
+11,I2C_CAM_SCL,Right → Bridge (open drain),1.8 V,UNVERIFIED,LS,"I2C4_M3, U1 1E9; io_bank_map.md line 14."
+12,I2C_CAM_SDA,Bidirectional (open drain),1.8 V,UNVERIFIED,LS,"I2C4_M3, U1 1D12; io_bank_map.md line 14."
+13,CAM_ENABLE,Right → Bridge,1.8 V proposed UNVERIFIED,UNVERIFIED,LS,"CAM_PWDN/ENABLE function. SoC GPIO, polarity and sequencing UNVERIFIED; schematic_components.md line 187 and Pi schematic p.2."
+14,CAM_RST_L_RESERVED,Right → Bridge if fitted,UNVERIFIED,UNVERIFIED,LS,Default open pending review. Bridge-local POR drives sensor XCLR; schematic_components.md line 187 and Pi schematic p.2.
+15,CAM_MCLK_RESERVED,Right → Bridge if fitted,UNVERIFIED,UNVERIFIED,LS,Default open with local 24 MHz oscillator. docs/plan.md line 155 and schematic_components.md line 187.
+16,CAM_CRADLE_NTC_RESERVED,Bridge → Right if fitted,UNVERIFIED,UNVERIFIED,LS,"Legacy optical thermistor reservation; docs/plan.md line 157. Sensor, bias and assignment UNVERIFIED."
+17,VCC_3V3_S3,Right → Bridge,3.3 V,0.175 A per pin UNVERIFIED,PWR,Parallel camera regulator feed. 0.35 A total provisional budget; interconnect_pinout.md power table.
+18,VCC_3V3_S3,Right → Bridge,3.3 V,0.175 A per pin UNVERIFIED,PWR,Parallel camera regulator feed. 0.35 A total provisional budget; interconnect_pinout.md power table.
+19,GND,return,0 V,0.175 A UNVERIFIED,GND,"Parallel camera 3.3 V return with pin 10, equal-share estimate."
+20,VCC_1V8_S0,Right → Bridge,1.8 V,0.06 A UNVERIFIED,PWR,Shared switched input for camera I/O and locally filtered INMP441 supply. Capacity and gating UNVERIFIED.
+21,GND,return,0 V,0.06 A UNVERIFIED,GND,Camera I/O and MIC reference/return. Return sharing across ground pins UNVERIFIED.
+22,SAI1_BCLK_M0,Right → Bridge,1.8 V,UNVERIFIED,LS,io_bank_map.md lines 11 and 20–22. U1 1C6.
+23,SAI1_LRCK_M0,Right → Bridge,1.8 V,UNVERIFIED,LS,io_bank_map.md lines 11 and 20–22. U1 1B6.
+24,SAI1_SDI0_M0,Bridge → Right,1.8 V,UNVERIFIED,LS,io_bank_map.md lines 11 and 20–22. U1 1A6. Shared two-mic data; L/R strapped locally per plan1.md lines 217–224.

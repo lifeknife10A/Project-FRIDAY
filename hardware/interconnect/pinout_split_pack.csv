@@ -1,0 +1,4 @@
+pin,net,direction,voltage,max_current,type,notes
+1,PACK_POS,Right ↔ Left,6.0–8.4 V pack,3.25 A provisional envelope UNVERIFIED,PWR,Dedicated lead A only. Can be charge/sense only for local right-side positive; whether separate raw/protected positive is required depends on protection topology.
+2,CELL_MID,Left ↔ Right,One-cell potential UNVERIFIED,3.25 A provisional envelope UNVERIFIED,PWR,Dedicated lead B; left cell positive to right cell negative. Full series current. High-impedance sense/bleed are separate branches.
+3,PACK_RET_PROTECTED,Right ↔ Left,Pack return / compute GND at approved bond,3.25 A provisional envelope UNVERIFIED,GND,Dedicated lead C; protected return to compute J4 pad 2. Raw cell negative stays at its cell/protection node. Verify enclosure and harness fault isolation.

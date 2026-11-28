@@ -1,0 +1,25 @@
+pin,net,direction,voltage,max_current,type,notes
+1,GND,return,0 V,0.225 A UNVERIFIED,GND,Left amp return with pin 4.
+2,VCC5V0_SYS_S5_AMP,Right → Left,5.0 V,0.225 A per pin UNVERIFIED,PWR,Parallel left MAX98357A feed; 0.45 A total provisional budget. Local branch protection UNVERIFIED.
+3,VCC5V0_SYS_S5_AMP,Right → Left,5.0 V,0.225 A per pin UNVERIFIED,PWR,Parallel left MAX98357A feed; 0.45 A total provisional budget. Local branch protection UNVERIFIED.
+4,GND,return,0 V,0.225 A UNVERIFIED,GND,Left amp return with pin 1.
+5,SAI1_BCLK_M0,Right → Left,1.8 V,UNVERIFIED,LS,io_bank_map.md lines 11 and 20–22. U1 1C6.
+6,GND,return,0 V,UNVERIFIED,GND,Audio clock reference; plane and shared return.
+7,SAI1_LRCK_M0,Right → Left,1.8 V,UNVERIFIED,LS,io_bank_map.md lines 11 and 20–22. U1 1B6.
+8,SAI1_SDO0_M0,Right → Left,1.8 V,UNVERIFIED,LS,io_bank_map.md lines 11 and 20–22. U1 A7. MAX98357A DIN.
+9,SD_MODE_L,Right → Left,1.8 V pull-up per plan,0.18 mA nominal per plan; maximum UNVERIFIED,LS,docs/plan.md lines 180–185. Open-drain mute/strap implementation UNVERIFIED.
+10,SCL_CHG_RESERVED,Right → Left (open drain),UNVERIFIED,UNVERIFIED,LS,Conditional; docs/plan.md line 143. Use only with chosen charger/control scheme.
+11,SDA_CHG_RESERVED,Bidirectional (open drain),UNVERIFIED,UNVERIFIED,LS,Conditional; docs/plan.md line 143. Use only with chosen charger/control scheme.
+12,CHG_STAT_RESERVED,Left → Right,UNVERIFIED,UNVERIFIED,LS,Conditional; docs/plan.md line 144. BOM charger status output and GPIO assignment UNVERIFIED.
+13,CHG_DISABLE_RESERVED,Right → Left (open drain),UNVERIFIED,UNVERIFIED,LS,Conditional; docs/plan.md line 145. Legacy CD; applicability and fail-safe state UNVERIFIED.
+14,CELL2_NTC_RESERVED,Right → Left (sensed),UNVERIFIED,UNVERIFIED,LS,Conditional; docs/plan.md line 146. Remote right-cell sensor only if approved; dedicated sense reference required.
+15,CELL_MID_SENSE_RESERVED,Cell midpoint → BMS/ADC,UNVERIFIED,UNVERIFIED,LS,Conditional; docs/plan.md line 141. Kelvin only. Do not bond at both ends or apply to a SoC ADC without an approved divider/protection. Fault-limited high impedance required.
+16,BALANCE_BLEED_RESERVED,BMS-dependent,Cell-relative UNVERIFIED,0.035 A BOM / ~0.055 A legacy; maximum UNVERIFIED,LS,Default open until BMS topology. docs/hardware_bom.md line 150 and docs/plan.md line 142. Isolate from logic and protect at cell.
+17,VAUX_1V8_RESERVED,Left → Right if fitted,1.8 V,UNVERIFIED,PWR,Legacy Apollo4 boot rail per docs/plan.md lines 148 and 199–201. One provisional contact only; default open.
+18,GND,return,0 V,UNVERIFIED,GND,Logic/thermistor reference placeholder. Approved Kelvin/NTC return topology required.
+19,VBUS_5V_CHG_RESERVED,Right → Left if fitted,5.0 V,0.217 A per pin UNVERIFIED,PWR,"Three parallel contacts, 0.65 A total provisional charger-input branch. Populate only with approved right-J1 charging architecture."
+20,VBUS_5V_CHG_RESERVED,Right → Left if fitted,5.0 V,0.217 A per pin UNVERIFIED,PWR,"Three parallel contacts, 0.65 A total provisional charger-input branch. Populate only with approved right-J1 charging architecture."
+21,VBUS_5V_CHG_RESERVED,Right → Left if fitted,5.0 V,0.217 A per pin UNVERIFIED,PWR,"Three parallel contacts, 0.65 A total provisional charger-input branch. Populate only with approved right-J1 charging architecture."
+22,GND,return,0 V,0.217 A UNVERIFIED,GND,One of three conditional charger-input return contacts. Keep discharge current in battery harness.
+23,GND,return,0 V,0.217 A UNVERIFIED,GND,One of three conditional charger-input return contacts. Keep discharge current in battery harness.
+24,GND,return,0 V,0.217 A UNVERIFIED,GND,One of three conditional charger-input return contacts. Keep discharge current in battery harness.
