@@ -1,0 +1,870 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE eagle SYSTEM "eagle.dtd">
+<eagle version="9.6.2">
+  <drawing>
+    <layers>
+      <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes" />
+      <layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes" />
+      <layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes" />
+      <layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes" />
+      <layer number="39" name="tKeepout" color="4" fill="1" visible="yes" active="yes" />
+      <layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes" />
+      <layer number="93" name="Pins" color="2" fill="1" visible="yes" active="yes" />
+      <layer number="94" name="Symbols" color="4" fill="1" visible="yes" active="yes" />
+      <layer number="95" name="Names" color="7" fill="1" visible="yes" active="yes" />
+      <layer number="96" name="Values" color="7" fill="1" visible="yes" active="yes" />
+    </layers>
+    <library>
+      <description>SK hynix 64 GB eMMC 5.1 and 32 Gbit LPDDR4X. Ball assignments from hardware/compute_board/emcp_ballmap_source.csv, datasheet p. 6. The optional NC gate contains all no-connect, do-not-use and vendor-specific balls.</description>
+      <packages>
+        <package name="FBGA254_11.5X13.0_P0.50">
+          <description>SK hynix H9HP52ACPMADAR Rev 1.0 p. 9: 254-ball FBGA, 11.5 x 13.0 mm body, 0.50 mm pitch, ball diameter 0.300 +/- 0.050 mm before reflow. The round SMD copper pads use the 0.300 mm nominal ball diameter from that drawing. Page 9 specifies package dimensions rather than a separate PCB land pattern. The top-view A1 orientation follows the ball map on p. 6. The layer 39 courtyard extends 0.25 mm beyond the nominal body.</description>
+          <wire x1="-5.75" y1="-6.5" x2="5.75" y2="-6.5" layer="51" width="0.10" />
+          <wire x1="5.75" y1="-6.5" x2="5.75" y2="6.5" layer="51" width="0.10" />
+          <wire x1="5.75" y1="6.5" x2="-5.75" y2="6.5" layer="51" width="0.10" />
+          <wire x1="-5.75" y1="6.5" x2="-5.75" y2="-6.5" layer="51" width="0.10" />
+          <wire x1="-6.0" y1="-6.75" x2="6.0" y2="-6.75" layer="39" width="0.05" />
+          <wire x1="6.0" y1="-6.75" x2="6.0" y2="6.75" layer="39" width="0.05" />
+          <wire x1="6.0" y1="6.75" x2="-6.0" y2="6.75" layer="39" width="0.05" />
+          <wire x1="-6.0" y1="6.75" x2="-6.0" y2="-6.75" layer="39" width="0.05" />
+          <circle x="-5.25" y="6.10" radius="0.20" width="0.15" layer="21" />
+          <text x="0" y="7.0" size="0.8" layer="25" align="bottom-center">&gt;NAME</text>
+          <text x="0" y="-7.0" size="0.8" layer="27" align="top-center">&gt;VALUE</text>
+          <smd name="A1" x="-4.25" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="A2" x="-3.75" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="A3" x="-3.25" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="A4" x="-2.75" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="A5" x="-2.25" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="A6" x="-1.75" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="A7" x="-1.25" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="A8" x="-0.75" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="A9" x="-0.25" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="A13" x="1.75" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="A14" x="2.25" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="A15" x="2.75" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="A16" x="3.25" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="A17" x="3.75" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="A18" x="4.25" y="5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="B1" x="-4.25" y="5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="B3" x="-3.25" y="5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="B4" x="-2.75" y="5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="B5" x="-2.25" y="5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="B6" x="-1.75" y="5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="B7" x="-1.25" y="5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="B8" x="-0.75" y="5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="B9" x="-0.25" y="5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="B13" x="1.75" y="5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="B14" x="2.25" y="5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="B15" x="2.75" y="5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="B16" x="3.25" y="5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="B18" x="4.25" y="5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="C3" x="-3.25" y="4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="C4" x="-2.75" y="4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="C5" x="-2.25" y="4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="C6" x="-1.75" y="4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="C7" x="-1.25" y="4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="C8" x="-0.75" y="4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="C9" x="-0.25" y="4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="C13" x="1.75" y="4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="C14" x="2.25" y="4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="C15" x="2.75" y="4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="C16" x="3.25" y="4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="D3" x="-3.25" y="4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="D4" x="-2.75" y="4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="D5" x="-2.25" y="4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="D6" x="-1.75" y="4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="D7" x="-1.25" y="4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="D8" x="-0.75" y="4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="D9" x="-0.25" y="4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="D13" x="1.75" y="4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="D14" x="2.25" y="4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="D15" x="2.75" y="4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="D16" x="3.25" y="4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="E13" x="1.75" y="3.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="E14" x="2.25" y="3.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="E15" x="2.75" y="3.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="E16" x="3.25" y="3.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="F13" x="1.75" y="3.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="F14" x="2.25" y="3.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="F15" x="2.75" y="3.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="F16" x="3.25" y="3.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="G3" x="-3.25" y="2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="G4" x="-2.75" y="2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="G5" x="-2.25" y="2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="G6" x="-1.75" y="2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="G7" x="-1.25" y="2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="G8" x="-0.75" y="2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="G9" x="-0.25" y="2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="G13" x="1.75" y="2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="G14" x="2.25" y="2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="G15" x="2.75" y="2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="G16" x="3.25" y="2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="H3" x="-3.25" y="2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="H4" x="-2.75" y="2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="H5" x="-2.25" y="2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="H6" x="-1.75" y="2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="H7" x="-1.25" y="2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="H8" x="-0.75" y="2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="H9" x="-0.25" y="2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="H13" x="1.75" y="2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="H14" x="2.25" y="2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="H15" x="2.75" y="2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="H16" x="3.25" y="2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="J3" x="-3.25" y="1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="J4" x="-2.75" y="1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="J5" x="-2.25" y="1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="J6" x="-1.75" y="1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="J7" x="-1.25" y="1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="J8" x="-0.75" y="1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="J9" x="-0.25" y="1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="J13" x="1.75" y="1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="J14" x="2.25" y="1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="J15" x="2.75" y="1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="J16" x="3.25" y="1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="J17" x="3.75" y="1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="K2" x="-3.75" y="1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="K3" x="-3.25" y="1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="K4" x="-2.75" y="1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="K5" x="-2.25" y="1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="K6" x="-1.75" y="1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="K7" x="-1.25" y="1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="K8" x="-0.75" y="1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="K9" x="-0.25" y="1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="K13" x="1.75" y="1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="K14" x="2.25" y="1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="K15" x="2.75" y="1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="K16" x="3.25" y="1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="K17" x="3.75" y="1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="L7" x="-1.25" y="0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="L8" x="-0.75" y="0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="L9" x="-0.25" y="0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="L12" x="1.25" y="0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="L13" x="1.75" y="0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="L14" x="2.25" y="0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="L15" x="2.75" y="0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="L16" x="3.25" y="0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="L17" x="3.75" y="0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="M3" x="-3.25" y="0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="M4" x="-2.75" y="0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="M5" x="-2.25" y="0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="M6" x="-1.75" y="0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="M7" x="-1.25" y="0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="M8" x="-0.75" y="0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="M9" x="-0.25" y="0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="M12" x="1.25" y="0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="M13" x="1.75" y="0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="M14" x="2.25" y="0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="M15" x="2.75" y="0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="M16" x="3.25" y="0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="M17" x="3.75" y="0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="N3" x="-3.25" y="-0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="N4" x="-2.75" y="-0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="N5" x="-2.25" y="-0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="N6" x="-1.75" y="-0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="N7" x="-1.25" y="-0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="N8" x="-0.75" y="-0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="N9" x="-0.25" y="-0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="N12" x="1.25" y="-0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="N13" x="1.75" y="-0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="N14" x="2.25" y="-0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="N15" x="2.75" y="-0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="N16" x="3.25" y="-0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="N17" x="3.75" y="-0.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="P7" x="-1.25" y="-0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="P8" x="-0.75" y="-0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="P9" x="-0.25" y="-0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="P12" x="1.25" y="-0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="P13" x="1.75" y="-0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="P14" x="2.25" y="-0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="P15" x="2.75" y="-0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="P16" x="3.25" y="-0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="P17" x="3.75" y="-0.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="R2" x="-3.75" y="-1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="R3" x="-3.25" y="-1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="R4" x="-2.75" y="-1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="R5" x="-2.25" y="-1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="R6" x="-1.75" y="-1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="R7" x="-1.25" y="-1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="R8" x="-0.75" y="-1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="R9" x="-0.25" y="-1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="R13" x="1.75" y="-1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="R14" x="2.25" y="-1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="R15" x="2.75" y="-1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="R16" x="3.25" y="-1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="R17" x="3.75" y="-1.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="T3" x="-3.25" y="-1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="T4" x="-2.75" y="-1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="T5" x="-2.25" y="-1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="T6" x="-1.75" y="-1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="T7" x="-1.25" y="-1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="T8" x="-0.75" y="-1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="T9" x="-0.25" y="-1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="T13" x="1.75" y="-1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="T14" x="2.25" y="-1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="T15" x="2.75" y="-1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="T16" x="3.25" y="-1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="T17" x="3.75" y="-1.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="U3" x="-3.25" y="-2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="U4" x="-2.75" y="-2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="U5" x="-2.25" y="-2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="U6" x="-1.75" y="-2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="U7" x="-1.25" y="-2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="U8" x="-0.75" y="-2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="U9" x="-0.25" y="-2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="U13" x="1.75" y="-2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="U14" x="2.25" y="-2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="U15" x="2.75" y="-2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="U16" x="3.25" y="-2.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="V3" x="-3.25" y="-2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="V4" x="-2.75" y="-2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="V5" x="-2.25" y="-2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="V6" x="-1.75" y="-2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="V7" x="-1.25" y="-2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="V8" x="-0.75" y="-2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="V9" x="-0.25" y="-2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="V13" x="1.75" y="-2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="V14" x="2.25" y="-2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="V15" x="2.75" y="-2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="V16" x="3.25" y="-2.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="W13" x="1.75" y="-3.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="W14" x="2.25" y="-3.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="W15" x="2.75" y="-3.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="W16" x="3.25" y="-3.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="Y13" x="1.75" y="-3.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="Y14" x="2.25" y="-3.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="Y15" x="2.75" y="-3.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="Y16" x="3.25" y="-3.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AA3" x="-3.25" y="-4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AA4" x="-2.75" y="-4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AA5" x="-2.25" y="-4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AA6" x="-1.75" y="-4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AA7" x="-1.25" y="-4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AA8" x="-0.75" y="-4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AA9" x="-0.25" y="-4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AA13" x="1.75" y="-4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AA14" x="2.25" y="-4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AA15" x="2.75" y="-4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AA16" x="3.25" y="-4.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AB3" x="-3.25" y="-4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AB4" x="-2.75" y="-4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AB5" x="-2.25" y="-4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AB6" x="-1.75" y="-4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AB7" x="-1.25" y="-4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AB8" x="-0.75" y="-4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AB9" x="-0.25" y="-4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AB13" x="1.75" y="-4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AB14" x="2.25" y="-4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AB15" x="2.75" y="-4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AB16" x="3.25" y="-4.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AC1" x="-4.25" y="-5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AC3" x="-3.25" y="-5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AC4" x="-2.75" y="-5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AC5" x="-2.25" y="-5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AC6" x="-1.75" y="-5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AC7" x="-1.25" y="-5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AC8" x="-0.75" y="-5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AC9" x="-0.25" y="-5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AC13" x="1.75" y="-5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AC14" x="2.25" y="-5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AC15" x="2.75" y="-5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AC16" x="3.25" y="-5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AC18" x="4.25" y="-5.25" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD1" x="-4.25" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD2" x="-3.75" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD3" x="-3.25" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD4" x="-2.75" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD5" x="-2.25" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD6" x="-1.75" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD7" x="-1.25" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD8" x="-0.75" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD9" x="-0.25" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD13" x="1.75" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD14" x="2.25" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD15" x="2.75" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD16" x="3.25" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD17" x="3.75" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+          <smd name="AD18" x="4.25" y="-5.75" dx="0.300" dy="0.300" layer="1" roundness="100" />
+        </package>
+      </packages>
+      <symbols>
+        <symbol name="LPDDR4X_CHA">
+          <wire x1="-20.32" y1="-29.21" x2="20.32" y2="-29.21" layer="94" width="0.254" />
+          <wire x1="20.32" y1="-29.21" x2="20.32" y2="29.21" layer="94" width="0.254" />
+          <wire x1="20.32" y1="29.21" x2="-20.32" y2="29.21" layer="94" width="0.254" />
+          <wire x1="-20.32" y1="29.21" x2="-20.32" y2="-29.21" layer="94" width="0.254" />
+          <text x="0" y="31.75" size="1.778" layer="95" align="bottom-center">&gt;NAME</text>
+          <text x="0" y="0" size="1.27" layer="94" align="center" rot="R90">LPDDR4X_CHA</text>
+          <pin name="CA0_A" x="-25.40" y="26.67" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CA1_A" x="-25.40" y="24.13" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CA2_A" x="-25.40" y="21.59" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CA3_A" x="-25.40" y="19.05" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CA4_A" x="-25.40" y="16.51" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CA5_A" x="-25.40" y="13.97" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CKE0_A" x="-25.40" y="11.43" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CKE1_A" x="-25.40" y="8.89" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CLK_c_A" x="-25.40" y="6.35" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CLK_t_A" x="-25.40" y="3.81" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CS0_A" x="-25.40" y="1.27" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CS1_A" x="-25.40" y="-1.27" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="RST_n" x="-25.40" y="-3.81" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="ZQ0" x="-25.40" y="-6.35" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="DMI0_A" x="25.40" y="26.67" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DMI1_A" x="25.40" y="24.13" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ0_A" x="25.40" y="21.59" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ1_A" x="25.40" y="19.05" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ2_A" x="25.40" y="16.51" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ3_A" x="25.40" y="13.97" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ4_A" x="25.40" y="11.43" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ5_A" x="25.40" y="8.89" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ6_A" x="25.40" y="6.35" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ7_A" x="25.40" y="3.81" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ8_A" x="25.40" y="1.27" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ9_A" x="25.40" y="-1.27" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ10_A" x="25.40" y="-3.81" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ11_A" x="25.40" y="-6.35" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ12_A" x="25.40" y="-8.89" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ13_A" x="25.40" y="-11.43" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ14_A" x="25.40" y="-13.97" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ15_A" x="25.40" y="-16.51" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQS0_c_A" x="25.40" y="-19.05" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQS0_t_A" x="25.40" y="-21.59" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQS1_c_A" x="25.40" y="-24.13" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQS1_t_A" x="25.40" y="-26.67" length="middle" direction="io" visible="both" rot="R180" />
+        </symbol>
+        <symbol name="LPDDR4X_CHB">
+          <wire x1="-20.32" y1="-29.21" x2="20.32" y2="-29.21" layer="94" width="0.254" />
+          <wire x1="20.32" y1="-29.21" x2="20.32" y2="29.21" layer="94" width="0.254" />
+          <wire x1="20.32" y1="29.21" x2="-20.32" y2="29.21" layer="94" width="0.254" />
+          <wire x1="-20.32" y1="29.21" x2="-20.32" y2="-29.21" layer="94" width="0.254" />
+          <text x="0" y="31.75" size="1.778" layer="95" align="bottom-center">&gt;NAME</text>
+          <text x="0" y="0" size="1.27" layer="94" align="center" rot="R90">LPDDR4X_CHB</text>
+          <pin name="CA0_B" x="-25.40" y="26.67" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CA1_B" x="-25.40" y="24.13" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CA2_B" x="-25.40" y="21.59" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CA3_B" x="-25.40" y="19.05" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CA4_B" x="-25.40" y="16.51" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CA5_B" x="-25.40" y="13.97" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CKE0_B" x="-25.40" y="11.43" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CKE1_B" x="-25.40" y="8.89" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CLK_c_B" x="-25.40" y="6.35" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CLK_t_B" x="-25.40" y="3.81" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CS0_B" x="-25.40" y="1.27" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CS1_B" x="-25.40" y="-1.27" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="ZQ1" x="-25.40" y="-3.81" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="DMI0_B" x="25.40" y="26.67" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DMI1_B" x="25.40" y="24.13" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ0_B" x="25.40" y="21.59" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ1_B" x="25.40" y="19.05" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ2_B" x="25.40" y="16.51" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ3_B" x="25.40" y="13.97" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ4_B" x="25.40" y="11.43" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ5_B" x="25.40" y="8.89" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ6_B" x="25.40" y="6.35" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ7_B" x="25.40" y="3.81" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ8_B" x="25.40" y="1.27" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ9_B" x="25.40" y="-1.27" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ10_B" x="25.40" y="-3.81" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ11_B" x="25.40" y="-6.35" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ12_B" x="25.40" y="-8.89" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ13_B" x="25.40" y="-11.43" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ14_B" x="25.40" y="-13.97" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQ15_B" x="25.40" y="-16.51" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQS0_c_B" x="25.40" y="-19.05" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQS0_t_B" x="25.40" y="-21.59" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQS1_c_B" x="25.40" y="-24.13" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DQS1_t_B" x="25.40" y="-26.67" length="middle" direction="io" visible="both" rot="R180" />
+        </symbol>
+        <symbol name="EMMC">
+          <wire x1="-20.32" y1="-11.43" x2="20.32" y2="-11.43" layer="94" width="0.254" />
+          <wire x1="20.32" y1="-11.43" x2="20.32" y2="11.43" layer="94" width="0.254" />
+          <wire x1="20.32" y1="11.43" x2="-20.32" y2="11.43" layer="94" width="0.254" />
+          <wire x1="-20.32" y1="11.43" x2="-20.32" y2="-11.43" layer="94" width="0.254" />
+          <text x="0" y="13.97" size="1.778" layer="95" align="bottom-center">&gt;NAME</text>
+          <text x="0" y="0" size="1.27" layer="94" align="center" rot="R90">EMMC</text>
+          <pin name="CLKm" x="-25.40" y="8.89" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="CMD" x="-25.40" y="6.35" length="middle" direction="io" visible="both" rot="R0" />
+          <pin name="DS" x="-25.40" y="3.81" length="middle" direction="out" visible="both" rot="R0" />
+          <pin name="RST_n" x="-25.40" y="1.27" length="middle" direction="in" visible="both" rot="R0" />
+          <pin name="DAT0" x="25.40" y="8.89" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DAT1" x="25.40" y="6.35" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DAT2" x="25.40" y="3.81" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DAT3" x="25.40" y="1.27" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DAT4" x="25.40" y="-1.27" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DAT5" x="25.40" y="-3.81" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DAT6" x="25.40" y="-6.35" length="middle" direction="io" visible="both" rot="R180" />
+          <pin name="DAT7" x="25.40" y="-8.89" length="middle" direction="io" visible="both" rot="R180" />
+        </symbol>
+        <symbol name="POWER">
+          <wire x1="-20.32" y1="-43.18" x2="20.32" y2="-43.18" layer="94" width="0.254" />
+          <wire x1="20.32" y1="-43.18" x2="20.32" y2="43.18" layer="94" width="0.254" />
+          <wire x1="20.32" y1="43.18" x2="-20.32" y2="43.18" layer="94" width="0.254" />
+          <wire x1="-20.32" y1="43.18" x2="-20.32" y2="-43.18" layer="94" width="0.254" />
+          <text x="0" y="45.72" size="1.778" layer="95" align="bottom-center">&gt;NAME</text>
+          <text x="0" y="0" size="1.27" layer="94" align="center" rot="R90">POWER</text>
+          <pin name="VCC@M17" x="-25.40" y="40.64" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VCC@N17" x="-25.40" y="38.10" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VCC@P17" x="-25.40" y="35.56" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VCCQ@J15" x="-25.40" y="33.02" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VCCQ@J16" x="-25.40" y="30.48" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VCCQ@J17" x="-25.40" y="27.94" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VCCQ@K15" x="-25.40" y="25.40" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VCCQ@R13" x="-25.40" y="22.86" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VCCQ@R14" x="-25.40" y="20.32" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VCCQ@T15" x="-25.40" y="17.78" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VCCQ@T16" x="-25.40" y="15.24" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD1@A4" x="-25.40" y="12.70" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD1@A9" x="-25.40" y="10.16" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD1@A15" x="-25.40" y="7.62" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD1@A16" x="-25.40" y="5.08" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD1@B15" x="-25.40" y="2.54" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD1@AC15" x="-25.40" y="0.00" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD1@AD4" x="-25.40" y="-2.54" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD1@AD9" x="-25.40" y="-5.08" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD1@AD15" x="-25.40" y="-7.62" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD1@AD16" x="-25.40" y="-10.16" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD2@A5" x="-25.40" y="-12.70" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD2@A8" x="-25.40" y="-15.24" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD2@B9" x="-25.40" y="-17.78" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD2@B13" x="-25.40" y="-20.32" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD2@B14" x="-25.40" y="-22.86" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD2@G7" x="-25.40" y="-25.40" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD2@G8" x="-25.40" y="-27.94" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD2@G9" x="-25.40" y="-30.48" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD2@K2" x="-25.40" y="-33.02" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD2@L7" x="-25.40" y="-35.56" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD2@L8" x="-25.40" y="-38.10" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD2@L9" x="-25.40" y="-40.64" length="middle" direction="pwr" visible="both" rot="R0" />
+          <pin name="VDD2@P7" x="25.40" y="40.64" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDD2@P8" x="25.40" y="38.10" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDD2@P9" x="25.40" y="35.56" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDD2@R2" x="25.40" y="33.02" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDD2@V7" x="25.40" y="30.48" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDD2@V8" x="25.40" y="27.94" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDD2@V9" x="25.40" y="25.40" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDD2@AC9" x="25.40" y="22.86" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDD2@AC13" x="25.40" y="20.32" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDD2@AC14" x="25.40" y="17.78" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDD2@AD5" x="25.40" y="15.24" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDD2@AD8" x="25.40" y="12.70" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDI" x="25.40" y="10.16" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VDDQ@A6" x="25.40" y="7.62" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@A7" x="25.40" y="5.08" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@A13" x="25.40" y="2.54" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@A14" x="25.40" y="0.00" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@B5" x="25.40" y="-2.54" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@H5" x="25.40" y="-5.08" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@H9" x="25.40" y="-7.62" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@J4" x="25.40" y="-10.16" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@J5" x="25.40" y="-12.70" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@J8" x="25.40" y="-15.24" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@T4" x="25.40" y="-17.78" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@T5" x="25.40" y="-20.32" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@T8" x="25.40" y="-22.86" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@U5" x="25.40" y="-25.40" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@U9" x="25.40" y="-27.94" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@AC5" x="25.40" y="-30.48" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@AD6" x="25.40" y="-33.02" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@AD7" x="25.40" y="-35.56" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@AD13" x="25.40" y="-38.10" length="middle" direction="pwr" visible="both" rot="R180" />
+          <pin name="VDDQ@AD14" x="25.40" y="-40.64" length="middle" direction="pwr" visible="both" rot="R180" />
+        </symbol>
+        <symbol name="GND">
+          <wire x1="-20.32" y1="-46.99" x2="20.32" y2="-46.99" layer="94" width="0.254" />
+          <wire x1="20.32" y1="-46.99" x2="20.32" y2="46.99" layer="94" width="0.254" />
+          <wire x1="20.32" y1="46.99" x2="-20.32" y2="46.99" layer="94" width="0.254" />
+          <wire x1="-20.32" y1="46.99" x2="-20.32" y2="-46.99" layer="94" width="0.254" />
+          <text x="0" y="49.53" size="1.778" layer="95" align="bottom-center">&gt;NAME</text>
+          <text x="0" y="0" size="1.27" layer="94" align="center" rot="R90">GND</text>
+          <pin name="VSS@B4" x="-25.40" y="44.45" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@B6" x="-25.40" y="41.91" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@B8" x="-25.40" y="39.37" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@C4" x="-25.40" y="36.83" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@C5" x="-25.40" y="34.29" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@C7" x="-25.40" y="31.75" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@C14" x="-25.40" y="29.21" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@D4" x="-25.40" y="26.67" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@D6" x="-25.40" y="24.13" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@D8" x="-25.40" y="21.59" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@D14" x="-25.40" y="19.05" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@D15" x="-25.40" y="16.51" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@E14" x="-25.40" y="13.97" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@F14" x="-25.40" y="11.43" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@G4" x="-25.40" y="8.89" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@G5" x="-25.40" y="6.35" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@G6" x="-25.40" y="3.81" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@G13" x="-25.40" y="1.27" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@G15" x="-25.40" y="-1.27" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@H4" x="-25.40" y="-3.81" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@H7" x="-25.40" y="-6.35" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@H13" x="-25.40" y="-8.89" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@H15" x="-25.40" y="-11.43" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@J6" x="-25.40" y="-13.97" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@K4" x="-25.40" y="-16.51" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@K7" x="-25.40" y="-19.05" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@K8" x="-25.40" y="-21.59" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@R4" x="-25.40" y="-24.13" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@R7" x="-25.40" y="-26.67" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@R8" x="-25.40" y="-29.21" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@T6" x="-25.40" y="-31.75" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@U4" x="-25.40" y="-34.29" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@U7" x="-25.40" y="-36.83" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@U13" x="-25.40" y="-39.37" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@U15" x="-25.40" y="-41.91" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@V4" x="-25.40" y="-44.45" length="middle" direction="pas" visible="both" rot="R0" />
+          <pin name="VSS@V5" x="25.40" y="44.45" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@V6" x="25.40" y="41.91" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@V13" x="25.40" y="39.37" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@V15" x="25.40" y="36.83" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@W14" x="25.40" y="34.29" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@Y14" x="25.40" y="31.75" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@AA4" x="25.40" y="29.21" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@AA6" x="25.40" y="26.67" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@AA8" x="25.40" y="24.13" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@AA14" x="25.40" y="21.59" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@AA15" x="25.40" y="19.05" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@AB4" x="25.40" y="16.51" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@AB5" x="25.40" y="13.97" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@AB7" x="25.40" y="11.43" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@AB14" x="25.40" y="8.89" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@AC4" x="25.40" y="6.35" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@AC6" x="25.40" y="3.81" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSS@AC8" x="25.40" y="1.27" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@K13" x="25.40" y="-1.27" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@K14" x="25.40" y="-3.81" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@K16" x="25.40" y="-6.35" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@L12" x="25.40" y="-8.89" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@L15" x="25.40" y="-11.43" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@L16" x="25.40" y="-13.97" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@M8" x="25.40" y="-16.51" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@M13" x="25.40" y="-19.05" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@M14" x="25.40" y="-21.59" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@N8" x="25.40" y="-24.13" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@N12" x="25.40" y="-26.67" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@N15" x="25.40" y="-29.21" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@N16" x="25.40" y="-31.75" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@P13" x="25.40" y="-34.29" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@P14" x="25.40" y="-36.83" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@R15" x="25.40" y="-39.37" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@R16" x="25.40" y="-41.91" length="middle" direction="pas" visible="both" rot="R180" />
+          <pin name="VSSm@R17" x="25.40" y="-44.45" length="middle" direction="pas" visible="both" rot="R180" />
+        </symbol>
+        <symbol name="NC">
+          <wire x1="-20.32" y1="-22.86" x2="20.32" y2="-22.86" layer="94" width="0.254" />
+          <wire x1="20.32" y1="-22.86" x2="20.32" y2="22.86" layer="94" width="0.254" />
+          <wire x1="20.32" y1="22.86" x2="-20.32" y2="22.86" layer="94" width="0.254" />
+          <wire x1="-20.32" y1="22.86" x2="-20.32" y2="-22.86" layer="94" width="0.254" />
+          <text x="0" y="25.40" size="1.778" layer="95" align="bottom-center">&gt;NAME</text>
+          <text x="0" y="0" size="1.27" layer="94" align="center" rot="R90">NC</text>
+          <pin name="DNU@A1" x="-25.40" y="20.32" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="DNU@A2" x="-25.40" y="17.78" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="DNU@A17" x="-25.40" y="15.24" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="DNU@A18" x="-25.40" y="12.70" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="DNU@B1" x="-25.40" y="10.16" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="DNU@B18" x="-25.40" y="7.62" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="DNU@AC1" x="-25.40" y="5.08" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="DNU@AC18" x="-25.40" y="2.54" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="DNU@AD1" x="-25.40" y="0.00" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="DNU@AD2" x="-25.40" y="-2.54" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="DNU@AD17" x="-25.40" y="-5.08" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="DNU@AD18" x="-25.40" y="-7.62" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="NC@D16" x="-25.40" y="-10.16" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="NC@H14" x="-25.40" y="-12.70" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="NC@J13" x="-25.40" y="-15.24" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="NC@J14" x="-25.40" y="-17.78" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="NC@K17" x="-25.40" y="-20.32" length="middle" direction="nc" visible="both" rot="R0" />
+          <pin name="NC@N7" x="25.40" y="20.32" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="NC@T13" x="25.40" y="17.78" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="NC@T14" x="25.40" y="15.24" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="NC@T17" x="25.40" y="12.70" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="NC@U14" x="25.40" y="10.16" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="NC@AB16" x="25.40" y="7.62" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="NC@AC16" x="25.40" y="5.08" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="VSF1" x="25.40" y="2.54" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="VSF2" x="25.40" y="0.00" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="VSF3" x="25.40" y="-2.54" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="VSF4" x="25.40" y="-5.08" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="VSF5" x="25.40" y="-7.62" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="VSF6" x="25.40" y="-10.16" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="VSF7" x="25.40" y="-12.70" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="VSF8" x="25.40" y="-15.24" length="middle" direction="nc" visible="both" rot="R180" />
+          <pin name="VSF9" x="25.40" y="-17.78" length="middle" direction="nc" visible="both" rot="R180" />
+        </symbol>
+      </symbols>
+      <devicesets>
+        <deviceset name="H9HP52ACPMADAR-KMM" prefix="U">
+          <gates>
+            <gate name="LPDDR4X_CHA" symbol="LPDDR4X_CHA" x="0.0" y="0" addlevel="must" />
+            <gate name="LPDDR4X_CHB" symbol="LPDDR4X_CHB" x="63.5" y="0" addlevel="must" />
+            <gate name="EMMC" symbol="EMMC" x="127.0" y="0" addlevel="must" />
+            <gate name="POWER" symbol="POWER" x="190.5" y="0" addlevel="must" />
+            <gate name="GND" symbol="GND" x="254.0" y="0" addlevel="must" />
+            <gate name="NC" symbol="NC" x="317.5" y="0" addlevel="request" />
+          </gates>
+          <devices>
+            <device name="" package="FBGA254_11.5X13.0_P0.50">
+              <connects>
+                <connect gate="LPDDR4X_CHA" pin="CA0_A" pad="G14" />
+                <connect gate="LPDDR4X_CHA" pin="CA1_A" pad="F13" />
+                <connect gate="LPDDR4X_CHA" pin="CA2_A" pad="C13" />
+                <connect gate="LPDDR4X_CHA" pin="CA3_A" pad="D13" />
+                <connect gate="LPDDR4X_CHA" pin="CA4_A" pad="E13" />
+                <connect gate="LPDDR4X_CHA" pin="CA5_A" pad="C15" />
+                <connect gate="LPDDR4X_CHA" pin="CKE0_A" pad="E16" />
+                <connect gate="LPDDR4X_CHA" pin="CKE1_A" pad="F16" />
+                <connect gate="LPDDR4X_CHA" pin="CLK_c_A" pad="G16" />
+                <connect gate="LPDDR4X_CHA" pin="CLK_t_A" pad="H16" />
+                <connect gate="LPDDR4X_CHA" pin="CS0_A" pad="E15" />
+                <connect gate="LPDDR4X_CHA" pin="CS1_A" pad="F15" />
+                <connect gate="LPDDR4X_CHA" pin="RST_n" pad="AA16" />
+                <connect gate="LPDDR4X_CHA" pin="ZQ0" pad="B16" />
+                <connect gate="LPDDR4X_CHA" pin="DMI0_A" pad="D5" />
+                <connect gate="LPDDR4X_CHA" pin="DMI1_A" pad="H3" />
+                <connect gate="LPDDR4X_CHA" pin="DQ0_A" pad="A3" />
+                <connect gate="LPDDR4X_CHA" pin="DQ1_A" pad="B3" />
+                <connect gate="LPDDR4X_CHA" pin="DQ2_A" pad="C3" />
+                <connect gate="LPDDR4X_CHA" pin="DQ3_A" pad="D3" />
+                <connect gate="LPDDR4X_CHA" pin="DQ4_A" pad="B7" />
+                <connect gate="LPDDR4X_CHA" pin="DQ5_A" pad="C6" />
+                <connect gate="LPDDR4X_CHA" pin="DQ6_A" pad="D7" />
+                <connect gate="LPDDR4X_CHA" pin="DQ7_A" pad="C8" />
+                <connect gate="LPDDR4X_CHA" pin="DQ8_A" pad="K5" />
+                <connect gate="LPDDR4X_CHA" pin="DQ9_A" pad="K6" />
+                <connect gate="LPDDR4X_CHA" pin="DQ10_A" pad="K3" />
+                <connect gate="LPDDR4X_CHA" pin="DQ11_A" pad="J3" />
+                <connect gate="LPDDR4X_CHA" pin="DQ12_A" pad="J7" />
+                <connect gate="LPDDR4X_CHA" pin="DQ13_A" pad="G3" />
+                <connect gate="LPDDR4X_CHA" pin="DQ14_A" pad="H6" />
+                <connect gate="LPDDR4X_CHA" pin="DQ15_A" pad="H8" />
+                <connect gate="LPDDR4X_CHA" pin="DQS0_c_A" pad="D9" />
+                <connect gate="LPDDR4X_CHA" pin="DQS0_t_A" pad="C9" />
+                <connect gate="LPDDR4X_CHA" pin="DQS1_c_A" pad="J9" />
+                <connect gate="LPDDR4X_CHA" pin="DQS1_t_A" pad="K9" />
+                <connect gate="LPDDR4X_CHB" pin="CA0_B" pad="V14" />
+                <connect gate="LPDDR4X_CHB" pin="CA1_B" pad="W13" />
+                <connect gate="LPDDR4X_CHB" pin="CA2_B" pad="AB13" />
+                <connect gate="LPDDR4X_CHB" pin="CA3_B" pad="AA13" />
+                <connect gate="LPDDR4X_CHB" pin="CA4_B" pad="Y13" />
+                <connect gate="LPDDR4X_CHB" pin="CA5_B" pad="AB15" />
+                <connect gate="LPDDR4X_CHB" pin="CKE0_B" pad="Y16" />
+                <connect gate="LPDDR4X_CHB" pin="CKE1_B" pad="W16" />
+                <connect gate="LPDDR4X_CHB" pin="CLK_c_B" pad="V16" />
+                <connect gate="LPDDR4X_CHB" pin="CLK_t_B" pad="U16" />
+                <connect gate="LPDDR4X_CHB" pin="CS0_B" pad="Y15" />
+                <connect gate="LPDDR4X_CHB" pin="CS1_B" pad="W15" />
+                <connect gate="LPDDR4X_CHB" pin="ZQ1" pad="C16" />
+                <connect gate="LPDDR4X_CHB" pin="DMI0_B" pad="AA5" />
+                <connect gate="LPDDR4X_CHB" pin="DMI1_B" pad="U3" />
+                <connect gate="LPDDR4X_CHB" pin="DQ0_B" pad="AD3" />
+                <connect gate="LPDDR4X_CHB" pin="DQ1_B" pad="AC3" />
+                <connect gate="LPDDR4X_CHB" pin="DQ2_B" pad="AB3" />
+                <connect gate="LPDDR4X_CHB" pin="DQ3_B" pad="AA3" />
+                <connect gate="LPDDR4X_CHB" pin="DQ4_B" pad="AC7" />
+                <connect gate="LPDDR4X_CHB" pin="DQ5_B" pad="AB6" />
+                <connect gate="LPDDR4X_CHB" pin="DQ6_B" pad="AA7" />
+                <connect gate="LPDDR4X_CHB" pin="DQ7_B" pad="AB8" />
+                <connect gate="LPDDR4X_CHB" pin="DQ8_B" pad="R5" />
+                <connect gate="LPDDR4X_CHB" pin="DQ9_B" pad="R6" />
+                <connect gate="LPDDR4X_CHB" pin="DQ10_B" pad="R3" />
+                <connect gate="LPDDR4X_CHB" pin="DQ11_B" pad="T3" />
+                <connect gate="LPDDR4X_CHB" pin="DQ12_B" pad="T7" />
+                <connect gate="LPDDR4X_CHB" pin="DQ13_B" pad="V3" />
+                <connect gate="LPDDR4X_CHB" pin="DQ14_B" pad="U6" />
+                <connect gate="LPDDR4X_CHB" pin="DQ15_B" pad="U8" />
+                <connect gate="LPDDR4X_CHB" pin="DQS0_c_B" pad="AA9" />
+                <connect gate="LPDDR4X_CHB" pin="DQS0_t_B" pad="AB9" />
+                <connect gate="LPDDR4X_CHB" pin="DQS1_c_B" pad="T9" />
+                <connect gate="LPDDR4X_CHB" pin="DQS1_t_B" pad="R9" />
+                <connect gate="EMMC" pin="CLKm" pad="P12" />
+                <connect gate="EMMC" pin="CMD" pad="M9" />
+                <connect gate="EMMC" pin="DS" pad="M12" />
+                <connect gate="EMMC" pin="RST_n" pad="N9" />
+                <connect gate="EMMC" pin="DAT0" pad="P16" />
+                <connect gate="EMMC" pin="DAT1" pad="M15" />
+                <connect gate="EMMC" pin="DAT2" pad="N13" />
+                <connect gate="EMMC" pin="DAT3" pad="P15" />
+                <connect gate="EMMC" pin="DAT4" pad="M16" />
+                <connect gate="EMMC" pin="DAT5" pad="N14" />
+                <connect gate="EMMC" pin="DAT6" pad="L14" />
+                <connect gate="EMMC" pin="DAT7" pad="L13" />
+                <connect gate="POWER" pin="VCC@M17" pad="M17" />
+                <connect gate="POWER" pin="VCC@N17" pad="N17" />
+                <connect gate="POWER" pin="VCC@P17" pad="P17" />
+                <connect gate="POWER" pin="VCCQ@J15" pad="J15" />
+                <connect gate="POWER" pin="VCCQ@J16" pad="J16" />
+                <connect gate="POWER" pin="VCCQ@J17" pad="J17" />
+                <connect gate="POWER" pin="VCCQ@K15" pad="K15" />
+                <connect gate="POWER" pin="VCCQ@R13" pad="R13" />
+                <connect gate="POWER" pin="VCCQ@R14" pad="R14" />
+                <connect gate="POWER" pin="VCCQ@T15" pad="T15" />
+                <connect gate="POWER" pin="VCCQ@T16" pad="T16" />
+                <connect gate="POWER" pin="VDD1@A4" pad="A4" />
+                <connect gate="POWER" pin="VDD1@A9" pad="A9" />
+                <connect gate="POWER" pin="VDD1@A15" pad="A15" />
+                <connect gate="POWER" pin="VDD1@A16" pad="A16" />
+                <connect gate="POWER" pin="VDD1@B15" pad="B15" />
+                <connect gate="POWER" pin="VDD1@AC15" pad="AC15" />
+                <connect gate="POWER" pin="VDD1@AD4" pad="AD4" />
+                <connect gate="POWER" pin="VDD1@AD9" pad="AD9" />
+                <connect gate="POWER" pin="VDD1@AD15" pad="AD15" />
+                <connect gate="POWER" pin="VDD1@AD16" pad="AD16" />
+                <connect gate="POWER" pin="VDD2@A5" pad="A5" />
+                <connect gate="POWER" pin="VDD2@A8" pad="A8" />
+                <connect gate="POWER" pin="VDD2@B9" pad="B9" />
+                <connect gate="POWER" pin="VDD2@B13" pad="B13" />
+                <connect gate="POWER" pin="VDD2@B14" pad="B14" />
+                <connect gate="POWER" pin="VDD2@G7" pad="G7" />
+                <connect gate="POWER" pin="VDD2@G8" pad="G8" />
+                <connect gate="POWER" pin="VDD2@G9" pad="G9" />
+                <connect gate="POWER" pin="VDD2@K2" pad="K2" />
+                <connect gate="POWER" pin="VDD2@L7" pad="L7" />
+                <connect gate="POWER" pin="VDD2@L8" pad="L8" />
+                <connect gate="POWER" pin="VDD2@L9" pad="L9" />
+                <connect gate="POWER" pin="VDD2@P7" pad="P7" />
+                <connect gate="POWER" pin="VDD2@P8" pad="P8" />
+                <connect gate="POWER" pin="VDD2@P9" pad="P9" />
+                <connect gate="POWER" pin="VDD2@R2" pad="R2" />
+                <connect gate="POWER" pin="VDD2@V7" pad="V7" />
+                <connect gate="POWER" pin="VDD2@V8" pad="V8" />
+                <connect gate="POWER" pin="VDD2@V9" pad="V9" />
+                <connect gate="POWER" pin="VDD2@AC9" pad="AC9" />
+                <connect gate="POWER" pin="VDD2@AC13" pad="AC13" />
+                <connect gate="POWER" pin="VDD2@AC14" pad="AC14" />
+                <connect gate="POWER" pin="VDD2@AD5" pad="AD5" />
+                <connect gate="POWER" pin="VDD2@AD8" pad="AD8" />
+                <connect gate="POWER" pin="VDDI" pad="L17" />
+                <connect gate="POWER" pin="VDDQ@A6" pad="A6" />
+                <connect gate="POWER" pin="VDDQ@A7" pad="A7" />
+                <connect gate="POWER" pin="VDDQ@A13" pad="A13" />
+                <connect gate="POWER" pin="VDDQ@A14" pad="A14" />
+                <connect gate="POWER" pin="VDDQ@B5" pad="B5" />
+                <connect gate="POWER" pin="VDDQ@H5" pad="H5" />
+                <connect gate="POWER" pin="VDDQ@H9" pad="H9" />
+                <connect gate="POWER" pin="VDDQ@J4" pad="J4" />
+                <connect gate="POWER" pin="VDDQ@J5" pad="J5" />
+                <connect gate="POWER" pin="VDDQ@J8" pad="J8" />
+                <connect gate="POWER" pin="VDDQ@T4" pad="T4" />
+                <connect gate="POWER" pin="VDDQ@T5" pad="T5" />
+                <connect gate="POWER" pin="VDDQ@T8" pad="T8" />
+                <connect gate="POWER" pin="VDDQ@U5" pad="U5" />
+                <connect gate="POWER" pin="VDDQ@U9" pad="U9" />
+                <connect gate="POWER" pin="VDDQ@AC5" pad="AC5" />
+                <connect gate="POWER" pin="VDDQ@AD6" pad="AD6" />
+                <connect gate="POWER" pin="VDDQ@AD7" pad="AD7" />
+                <connect gate="POWER" pin="VDDQ@AD13" pad="AD13" />
+                <connect gate="POWER" pin="VDDQ@AD14" pad="AD14" />
+                <connect gate="GND" pin="VSS@B4" pad="B4" />
+                <connect gate="GND" pin="VSS@B6" pad="B6" />
+                <connect gate="GND" pin="VSS@B8" pad="B8" />
+                <connect gate="GND" pin="VSS@C4" pad="C4" />
+                <connect gate="GND" pin="VSS@C5" pad="C5" />
+                <connect gate="GND" pin="VSS@C7" pad="C7" />
+                <connect gate="GND" pin="VSS@C14" pad="C14" />
+                <connect gate="GND" pin="VSS@D4" pad="D4" />
+                <connect gate="GND" pin="VSS@D6" pad="D6" />
+                <connect gate="GND" pin="VSS@D8" pad="D8" />
+                <connect gate="GND" pin="VSS@D14" pad="D14" />
+                <connect gate="GND" pin="VSS@D15" pad="D15" />
+                <connect gate="GND" pin="VSS@E14" pad="E14" />
+                <connect gate="GND" pin="VSS@F14" pad="F14" />
+                <connect gate="GND" pin="VSS@G4" pad="G4" />
+                <connect gate="GND" pin="VSS@G5" pad="G5" />
+                <connect gate="GND" pin="VSS@G6" pad="G6" />
+                <connect gate="GND" pin="VSS@G13" pad="G13" />
+                <connect gate="GND" pin="VSS@G15" pad="G15" />
+                <connect gate="GND" pin="VSS@H4" pad="H4" />
+                <connect gate="GND" pin="VSS@H7" pad="H7" />
+                <connect gate="GND" pin="VSS@H13" pad="H13" />
+                <connect gate="GND" pin="VSS@H15" pad="H15" />
+                <connect gate="GND" pin="VSS@J6" pad="J6" />
+                <connect gate="GND" pin="VSS@K4" pad="K4" />
+                <connect gate="GND" pin="VSS@K7" pad="K7" />
+                <connect gate="GND" pin="VSS@K8" pad="K8" />
+                <connect gate="GND" pin="VSS@R4" pad="R4" />
+                <connect gate="GND" pin="VSS@R7" pad="R7" />
+                <connect gate="GND" pin="VSS@R8" pad="R8" />
+                <connect gate="GND" pin="VSS@T6" pad="T6" />
+                <connect gate="GND" pin="VSS@U4" pad="U4" />
+                <connect gate="GND" pin="VSS@U7" pad="U7" />
+                <connect gate="GND" pin="VSS@U13" pad="U13" />
+                <connect gate="GND" pin="VSS@U15" pad="U15" />
+                <connect gate="GND" pin="VSS@V4" pad="V4" />
+                <connect gate="GND" pin="VSS@V5" pad="V5" />
+                <connect gate="GND" pin="VSS@V6" pad="V6" />
+                <connect gate="GND" pin="VSS@V13" pad="V13" />
+                <connect gate="GND" pin="VSS@V15" pad="V15" />
+                <connect gate="GND" pin="VSS@W14" pad="W14" />
+                <connect gate="GND" pin="VSS@Y14" pad="Y14" />
+                <connect gate="GND" pin="VSS@AA4" pad="AA4" />
+                <connect gate="GND" pin="VSS@AA6" pad="AA6" />
+                <connect gate="GND" pin="VSS@AA8" pad="AA8" />
+                <connect gate="GND" pin="VSS@AA14" pad="AA14" />
+                <connect gate="GND" pin="VSS@AA15" pad="AA15" />
+                <connect gate="GND" pin="VSS@AB4" pad="AB4" />
+                <connect gate="GND" pin="VSS@AB5" pad="AB5" />
+                <connect gate="GND" pin="VSS@AB7" pad="AB7" />
+                <connect gate="GND" pin="VSS@AB14" pad="AB14" />
+                <connect gate="GND" pin="VSS@AC4" pad="AC4" />
+                <connect gate="GND" pin="VSS@AC6" pad="AC6" />
+                <connect gate="GND" pin="VSS@AC8" pad="AC8" />
+                <connect gate="GND" pin="VSSm@K13" pad="K13" />
+                <connect gate="GND" pin="VSSm@K14" pad="K14" />
+                <connect gate="GND" pin="VSSm@K16" pad="K16" />
+                <connect gate="GND" pin="VSSm@L12" pad="L12" />
+                <connect gate="GND" pin="VSSm@L15" pad="L15" />
+                <connect gate="GND" pin="VSSm@L16" pad="L16" />
+                <connect gate="GND" pin="VSSm@M8" pad="M8" />
+                <connect gate="GND" pin="VSSm@M13" pad="M13" />
+                <connect gate="GND" pin="VSSm@M14" pad="M14" />
+                <connect gate="GND" pin="VSSm@N8" pad="N8" />
+                <connect gate="GND" pin="VSSm@N12" pad="N12" />
+                <connect gate="GND" pin="VSSm@N15" pad="N15" />
+                <connect gate="GND" pin="VSSm@N16" pad="N16" />
+                <connect gate="GND" pin="VSSm@P13" pad="P13" />
+                <connect gate="GND" pin="VSSm@P14" pad="P14" />
+                <connect gate="GND" pin="VSSm@R15" pad="R15" />
+                <connect gate="GND" pin="VSSm@R16" pad="R16" />
+                <connect gate="GND" pin="VSSm@R17" pad="R17" />
+                <connect gate="NC" pin="DNU@A1" pad="A1" />
+                <connect gate="NC" pin="DNU@A2" pad="A2" />
+                <connect gate="NC" pin="DNU@A17" pad="A17" />
+                <connect gate="NC" pin="DNU@A18" pad="A18" />
+                <connect gate="NC" pin="DNU@B1" pad="B1" />
+                <connect gate="NC" pin="DNU@B18" pad="B18" />
+                <connect gate="NC" pin="DNU@AC1" pad="AC1" />
+                <connect gate="NC" pin="DNU@AC18" pad="AC18" />
+                <connect gate="NC" pin="DNU@AD1" pad="AD1" />
+                <connect gate="NC" pin="DNU@AD2" pad="AD2" />
+                <connect gate="NC" pin="DNU@AD17" pad="AD17" />
+                <connect gate="NC" pin="DNU@AD18" pad="AD18" />
+                <connect gate="NC" pin="NC@D16" pad="D16" />
+                <connect gate="NC" pin="NC@H14" pad="H14" />
+                <connect gate="NC" pin="NC@J13" pad="J13" />
+                <connect gate="NC" pin="NC@J14" pad="J14" />
+                <connect gate="NC" pin="NC@K17" pad="K17" />
+                <connect gate="NC" pin="NC@N7" pad="N7" />
+                <connect gate="NC" pin="NC@T13" pad="T13" />
+                <connect gate="NC" pin="NC@T14" pad="T14" />
+                <connect gate="NC" pin="NC@T17" pad="T17" />
+                <connect gate="NC" pin="NC@U14" pad="U14" />
+                <connect gate="NC" pin="NC@AB16" pad="AB16" />
+                <connect gate="NC" pin="NC@AC16" pad="AC16" />
+                <connect gate="NC" pin="VSF1" pad="M3" />
+                <connect gate="NC" pin="VSF2" pad="N3" />
+                <connect gate="NC" pin="VSF3" pad="M4" />
+                <connect gate="NC" pin="VSF4" pad="N4" />
+                <connect gate="NC" pin="VSF5" pad="M5" />
+                <connect gate="NC" pin="VSF6" pad="N5" />
+                <connect gate="NC" pin="VSF7" pad="M6" />
+                <connect gate="NC" pin="VSF8" pad="N6" />
+                <connect gate="NC" pin="VSF9" pad="M7" />
+              </connects>
+              <technologies>
+                <technology name="" />
+              </technologies>
+            </device>
+          </devices>
+        </deviceset>
+      </devicesets>
+    </library>
+  </drawing>
+</eagle>
