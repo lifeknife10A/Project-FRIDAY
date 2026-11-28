@@ -20,3 +20,18 @@ SW1 MaskROM is wired to RK3576 SARADC_IN0 (A25) via R18. SW2 is wired to RK806 P
 The planned 1.8 V peripheral signals in the table all use 1.8 V banks. The audio interconnect lists a 3.3 V feed. An INMP441 powered directly from it requires a logic-high input of at least 2.31 V (0.7 × VDD). For the later audio sheet, the 1.8 V SAI1 assignment requires a 1.8 V microphone rail or translation at the microphone interface. The microphone rail and camera reset/power-down GPIO assignments are **UNVERIFIED** for that sheet. (INMP441 DS p. 5, Digital Input. Project component specification §8.)
 
 SCH-2 Y3 records a 1.8 V INMP441 supply for the future audio sheet, matching the 1.8 V SAI1_M0 bank. (INMP441 DS p. 5.)
+
+## SCH-4b inter-board and audio assignments
+
+The accepted SCH-2 rails supply these interfaces. GPIO selections are for the SCH-4b compute sheet and its firmware pinmux only.
+
+| Bank or domain | Ball(s) | Supply | SCH-4b function | Source |
+| --- | --- | --- | --- | --- |
+| CSI0 DCPHY | AK20 / AL20, AK21 / AL21, AK22 / AL22 | Dedicated CSI0 PHY domains from SCH-1 | D0 P/N, D1 P/N and CLK P/N on J5. CSI1–4 and other CSI0 lanes retain their baseline state. | RK3576 DS §2, ball list |
+| VCCIO5 | 1E9, 1D12 | 1.8 V `VCC_1V8_S0` | I2C4_M3 SCL/SDA on J5. Open drain, pull-ups only on SCH-3 bridge to local DOVDD. | EVB PDF p. 19, U1000I |
+| VCCIO5 | 1D7, 1D9 | 1.8 V `VCC_1V8_S0` | GPIO3_C6 requests CAM_ENABLE through the local 1.8 V buffer. GPIO3_C4 authorizes the USB charge branch through its buffer. Both have 100 kΩ pulldowns at the GPIO. | EVB PDF p. 19, U1000I and RK3576 DS §2 |
+| VCCIO2 | 1C6, 1B6, A7, 1A6 | 1.8 V `VCC_1V8_S0` | SAI1_M0 BCLK, LRCK, SDO0 and SDI0. BCLK/LRCK have 22 Ω source damping. SDO0 feeds both amps. SDI0 comes from the bridge mics. | EVB PDF p. 18, U1000F and RK3576 HDG audio routing |
+| VCCIO2 | 1D6, 1C5 | 1.8 V `VCC_1V8_S0` | GPIO4_A2 drives SD_MODE_L through J6. GPIO4_A4 drives the right amp selector. High enables the assigned channel. Low or high-impedance shuts down. | EVB PDF p. 18, U1000F and RK3576 DS §2 |
+| VCCIO7 | 1AD2, AK4 | 1.8 V `VCC_1V8_S0` | GPIO4_D0 / GPIO4_D1 read DOCK_DET / CHG_STAT on J6. A 10 kΩ pull-up per pin is on compute. | EVB PDF p. 13, U1000K, and auxiliary interconnect CSV |
+| PMUIO0 | 1U21 | 1.8 V `VCC_1V8_S3` | GPIO0_A7 drives a local N-FET open-drain sink. GPIO high pulls J6 CHG_EN low. A 4.7 kΩ pull-up to the PMU I/O supply releases the line. | EVB PDF p. 11, U1000D, and auxiliary interconnect CSV |
+| SARADC | 1B19 | 1.8 V `SARADC_AVDD1V8` | SARADC_IN2 pack monitor through a filtered high-value divider and powered-off isolation switch. A25 boot input keeps its existing role. | RK3576 DS §§2, 3.2 and 3.9, HDG PDF pp. 85–86 |
