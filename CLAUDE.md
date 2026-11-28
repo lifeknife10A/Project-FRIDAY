@@ -97,6 +97,18 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- SCH-4a @ 35468e7/b18ec80/fb0e470/e000598 ACCEPTED (my netlist walk). Cells BT1/BT2 series; CELL_POS only via F1
+  0451002 2 A -> PACK+_PROT; CELL_NEG only on Q1.S1/U2.VSS/C1/C2 -> no protection bypass; Q1 AON5816 + RS1 50 mOhm ->
+  PACK-_PROT; HY2120-CB VDD/VC/VSS/CS per DS. IP2326 VOUT->PACK+_PROT, VBAT_GND->PACK-_PROT (charges through protector),
+  VBATM via 120R + Q2 AO3401A P-FET (gate to PACK-_PROT) -> blocks upper-cell leak through charger when protector off
+  (good). ISET 450k = 0.20 A. Inputs: pogo + VBUS_5V_CHG each via TPS259470 eFuse (reverse blocking, UVLO 4.19 V, OVLO
+  5.58 V, ILIM 0.552 A, all verified vs TI DS) -> VBUS_OR; pogo VBUS input-only, pogo GND = protected return. Status via
+  DMN2058 open drains. Battery kit e898bfe: 3/3 tests pass (my run); full DL24 kit (budget UPDATE not applied).
+  FINDINGS: S1 shunt 50 mOhm puts HY2120 OC trip at ~2.7-3.65 A (189 mV @ 3 A in 170-230 mV band) -> conflicts with D17
+  3 A pulse headroom -> 20 mOhm (trip >=~5 A, 30 mV @1.5 A). S2 AON5816 = Last Time Buy -> qualify replacement. WATCHLIST:
+  charge up to 4.25 V/cell (IP2326 8.3-8.5 V) vs HY2120-CB 4.28+-0.025 -> possible nuisance OV stop (safe; OK for LiHV);
+  harness-open -> return via aux flex GNDs; fuse I2t under repeated pulses (bench).
+
 - Cell round 2 @ aef6369 (Hydrogen) HONEST: no datasheet-backed <=12.5 mm cell gives 1.5 A. Verified DNK601245 DS:
   1C cont, 3C @10 ms pulse, 0.5C max charge. FPV cells (Tattu/Gens Ace = Grepow brands, GNB) fit width but no public DS.
   Closest: Grepow GRP5811047 / C200 200 mAh 20C (brochure image, values unverified by me). My plan: (1) ask Grepow for
