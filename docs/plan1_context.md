@@ -628,3 +628,4 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
 - D17 recorded (8 W burst / 3 W sustained cap). Hydrogen cell re-search prompt issued. Recommended buying a cheap RK3576 SBC (no dev kit owned).
 - Cell round 2 aef6369: no DS-qualified narrow high-rate cell. Plan: Grepow spec request + bench-characterise FPV cells; SCH-4a unblocked cell-agnostic (HY2120-CB, 2 A fuse, ISET 450k=0.2 A).
 - SCH-4a e000598 ACCEPTED; fix S1 (shunt 50->20 mOhm) + S2 (AON5816 LTB replacement) in the next left-board round (SCH-4b).
+- SCH-3 6ae5713 ACCEPTED; DF37 crosswalk needs Krishna's physical evidence (pin-1 photo of SA31VA30P tail + Hirose plug drawing). Next: SCH-4b (left amp/speaker + S1/S2 fixes).

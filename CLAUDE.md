@@ -97,6 +97,16 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- SCH-3 @ df81d4a/b041a31/5e0a570/6ae5713 ACCEPTED (my netlist walk). J2 24 pins == pinout_right_bridge.csv. DVDD
+  AP3429 FB 20k/24k -> 0.6*(1+20/24)=1.10 V; AVDD+AFVDD AP7331-28, DOVDD AP7331-18 (local, from 3V3_S3); all EN from
+  CAM_ENABLE via SN74LV1T34 (1.8->3.3 V, 100k pulldown). TPS386000 senses 1.1/1.8/2.8 V at ~92-94% (0.4 V thresh;
+  15.4k/10k, 32.4k/10k, 54.9k/10k), open-drain RESET1-3 wired to XCLR + 10k to DOVDD, MR = enable -> XCLR >= 14 ms after
+  rails; SiT1602B 24 MHz on DOVDD (OE=VDD, 22R). CSI via 3x Murata DLP11SN900 CM chokes; sensor side open. Mics MK1 L/R=GND,
+  MK2 L/R=1V8, shared SD + 100k pulldown, on VCC_1V8_S0 (Y3). I2C 2.2k pull-ups to switched DOVDD (only on bridge).
+  DF37 J1 UNPROVEN -> all 30 contacts open (correct). WATCHLIST: 3V3 draw 361 mA vs 350 mA screen (2+2 pins carry 0.5 A
+  derated -> update screen); host must idle I2C4_M3 while camera off (pull-ups on switched rail); AF/startup current
+  unmeasured; RK3576 IMX708 driver gate still open.
+
 - SCH-4a @ 35468e7/b18ec80/fb0e470/e000598 ACCEPTED (my netlist walk). Cells BT1/BT2 series; CELL_POS only via F1
   0451002 2 A -> PACK+_PROT; CELL_NEG only on Q1.S1/U2.VSS/C1/C2 -> no protection bypass; Q1 AON5816 + RS1 50 mOhm ->
   PACK-_PROT; HY2120-CB VDD/VC/VSS/CS per DS. IP2326 VOUT->PACK+_PROT, VBAT_GND->PACK-_PROT (charges through protector),
