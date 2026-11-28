@@ -97,6 +97,16 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Interconnect v0 @ 4623c81 ACCEPTED as v0 (docs only). Math re-checked: 3.06/3.24 A pack, 13 FH12 contacts/3.25 A,
+  0.228/0.356 ohm paths, 80/160/154 mV drops, 22 AWG 45 mV, 2 mm/70 um 104 mV, camera 0.285 A in. Right-bridge 24p: GND
+  around each CSI pair OK; aux 24p OK. Good catch: DF37 lib numbering (odd/even rows) != Pi J2 (1-15/30-16) -> SCH-3
+  connector capture held until crosswalk. Option A = plan.md 2.1 baseline (split cells, BQ protector left). HAZARD to
+  record: a hinge crush short PACK+ <-> CELL_MID shorts the RIGHT cell with no protection FET in the loop -> needs a
+  fuse/PTC at the right cell or Option B. My recommendation to Krishna: B with pack+protection+charger on LEFT (mass
+  balances compute on right; only protected PACK+/PACK- cross) — plan deviation, Krishna decides. WATCHLIST: 3.25 A vs
+  ~3 A BMS trip; SAI1 clocks fan out to 3 loads (bridge mics, left amp, right amp); DVDD 0.6 A on 1 DF37 contact (0.3 A)
+  = regulator max not load, measure; CAM rail is S3 + CAM_ENABLE (ok).
+
 - SCH-2 @ 1db7bf9/cfaf580/08e94c8 ACCEPTED (netlist-verified by me). eMCP U11: all 221 wired balls = my verified ball map
   (VDD1 VCC_1V8_S3, VDD2 VDD2_DDR_S3/BUCK9, VDDQ VDDQ_DDR_S0, VCC VCC_3V3_S0, VCCQ VCC_1V8_S0 = eMMC bank VCCIO0, VDDI
   EMMC_VDDI 100n, VSS/VSSm GND), 33 VSF/DNU/NC open; 83 signals 1:1 by name; all 69 SoC DDR balls + 12 eMMC balls match

@@ -621,3 +621,4 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
 - 2026-11-28: gap audit e0f5a4e reviewed: useful; fix G1-G6 (invented mass table, Y4 wording, eMCP height/FOV, unverified JLC/IP2326 numbers, missing antenna/memory-list/CSI chokes). eMCP library = first SCH-2 step.
 - Gap audit 83a67c0 accepted. SCH-2 (eMCP lib + LPDDR4X/eMMC sheets, Y1/Y2/Y4) prompt issued to gpt-6.2-sol high.
 - SCH-2 (eMCP+LPDDR4X/eMMC) @ 08e94c8 ACCEPTED after independent netlist + datasheet ball checks. Suggested next: inter-board FPC pinout, then SCH-3 camera bridge / SCH-4 battery-audio-wireless.
+- Interconnect pinout v0 4623c81 accepted. Battery-split decision pending Krishna (my rec: Option B, pack on left; Option A needs right-cell fuse). DF37 pin crosswalk blocks SCH-3 connector capture.
