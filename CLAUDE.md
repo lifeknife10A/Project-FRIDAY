@@ -97,6 +97,14 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Cell round 2 @ aef6369 (Hydrogen) HONEST: no datasheet-backed <=12.5 mm cell gives 1.5 A. Verified DNK601245 DS:
+  1C cont, 3C @10 ms pulse, 0.5C max charge. FPV cells (Tattu/Gens Ace = Grepow brands, GNB) fit width but no public DS.
+  Closest: Grepow GRP5811047 / C200 200 mAh 20C (brochure image, values unverified by me). My plan: (1) ask Grepow for
+  the spec sheet; (2) buy 4 Tattu/Grepow ~200-220 mAh 1S cells and BENCH-CHARACTERISE (IR, 1.5 A 10 min, 3 A pulse,
+  temp) -> committed log = evidence; (3) unblock SCH-4a now: cell-agnostic pads, HY2120-CB (4.28 V OV), fuse 0451002
+  2 A, ISET 450k (0.20 A, <=1C for 200 mAh), IP2326 integrated balance, NTC. Runtime drops (~1.5 Wh pack -> ~2 h at
+  0.6 W avg) -> Krishna to accept. Geometry: 2 cells ~94-110 mm end-to-end or ~11.7-14 mm stacked -> temple measurement.
+
 - Krishna DECISION D17 (2026-11-28): 8 W burst / ~3 W sustained software power cap (<=1.5 A pack); cells >=1.5 A cont,
   >=3 A pulse preferred; LiHV allowed charged to 4.20 V. Krishna has NO RK3576 dev board (Firefly not bought) -> I
   recommended buying a cheap RK3576 SBC before custom fab (power, IMX708 driver gate, RKLLM port). Cell re-search issued.
