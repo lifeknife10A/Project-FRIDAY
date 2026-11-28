@@ -97,6 +97,9 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Gap audit fix @ 83a67c0 ACCEPTED (G1-G6 verified: D.4 = plan.md 115.0 g quoted + labelled estimate, Y4 = p.54
+  passives, eMCP 1.20 mm, FOV 75 deg, SCH-1 SHAs, UNVERIFIED tags, G6 rows added). SCH-2 prompt issued (Sol high).
+
 - Gap audit docs/hardware_gap_audit.md @ e0f5a4e (Gemini Flash) -> USEFUL, fix G1-G6 (docs only). HDG citations
   spot-checked OK (p.171 Table 3-3, p.237 LPDDR4X 90R/5/90 mil, p.243 MIPI 100R/95R, p.244 eMMC 50R/120 mil). G1 BLOCK
   D.4 mass table invented (PETG 16 g frame, 15 g lenses, 18 g enclosures -> 121 g) and cites plan.md L223-231, whose

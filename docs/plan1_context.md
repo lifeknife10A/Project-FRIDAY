@@ -619,3 +619,4 @@ Kaggle `7571e39` weights, kept locally in `FRIDAY_weights/` (not in git):
 - 905cd31 ref-triage fix accepted; SCH-2 (eMCP/LPDDR4X) unblocked. Ask: Krishna sends eMCP spec p.6-8 images (not to git).
 - eMCP p.6 ball map independently verified (254/254) from Krishna's PDF upload; Y4 eMMC passives from p.54 Table 14 carried into SCH-2.
 - 2026-11-28: gap audit e0f5a4e reviewed: useful; fix G1-G6 (invented mass table, Y4 wording, eMCP height/FOV, unverified JLC/IP2326 numbers, missing antenna/memory-list/CSI chokes). eMCP library = first SCH-2 step.
+- Gap audit 83a67c0 accepted. SCH-2 (eMCP lib + LPDDR4X/eMMC sheets, Y1/Y2/Y4) prompt issued to gpt-6.2-sol high.
