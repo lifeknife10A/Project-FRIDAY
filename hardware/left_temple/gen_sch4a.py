@@ -163,7 +163,10 @@ def power_library(libraries):
                  (("1", -0.95, -1.00, 0.68, 0.90), ("2", 0.95, -1.00, 0.68, 0.90),
                   ("3", 0, 1.00, 0.68, 0.90)))
     inline_device(library, "AO3401A", "SOT23_3", (("D", "3"), ("G", "1")), (("S", "2"),))
-    inline_device(library, "MMBT3904", "SOT23_3", (("B", "1"),), (("C", "3"), ("E", "2")))
+    land_pattern(library, "DIODES_SOT23", 2.9, 1.3,
+                 (("1", -0.95, -1.00, 0.80, 0.90), ("2", 0.95, -1.00, 0.80, 0.90),
+                  ("3", 0, 1.00, 1.35, 0.90)))
+    inline_device(library, "DMN2058U", "DIODES_SOT23", (("G", "1"),), (("D", "3"), ("S", "2")))
 
     land_pattern(library, "NANO2_2410", 6.10, 2.69, horizontal_pair(2.445, 2.16, 3.15))
     land_pattern(library, "XAL5030", 5.48, 5.28, horizontal_pair(1.94, 1.52, 4.7))
@@ -422,22 +425,22 @@ def interface_sheet(design):
     design.part(sheet, "J3", "FH12-24S-0.5SH(55)", "FH12-24S-0.5SH(55)", 95.25, 161.29,
                 aux_connections, AUXILIARY)
 
-    for reference, raw_signal, base_signal, output_signal, row, series, pulldown, first_resistor in (
-        ("Q3", "POGO_DET_RAW", "DETECT_BASE", "DOCK_DET", 200.66, "47k 1%", "100k 1%", 22),
-        ("Q4", "CHARGER_BAT_STAT", "STATUS_BASE", "CHG_STAT", 139.70, "47k 1%", "100k 1%", 24),
-        ("Q5", "CHG_EN", "ENABLE_BASE", "CHARGER_RUN", 78.74, "4.7k 1%", "1M 1%", 26),
+    for reference, raw_signal, gate_signal, output_signal, row, series, pulldown, first_resistor in (
+        ("Q3", "POGO_DET_RAW", "DETECT_GATE", "DOCK_DET", 200.66, "47k 1%", "100k 1%", 22),
+        ("Q4", "CHARGER_BAT_STAT", "STATUS_GATE", "CHG_STAT", 139.70, "4.7k 1%", "1M 1%", 24),
+        ("Q5", "CHG_EN", "ENABLE_GATE", "CHARGER_RUN", 78.74, "4.7k 1%", "1M 1%", 26),
     ):
-        design.part(sheet, reference, "MMBT3904", "MMBT3904LT1G", 269.24, row,
-                    {"B": base_signal, "C": output_signal, "E": RETURN})
+        design.part(sheet, reference, "DMN2058U", "DMN2058U-7", 269.24, row,
+                    {"G": gate_signal, "D": output_signal, "S": RETURN})
         design.passive(sheet, f"R{first_resistor}", "R_0603", series, 185.42, row + 11.43,
-                       raw_signal, base_signal)
+                       raw_signal, gate_signal)
         design.passive(sheet, f"R{first_resistor + 1}", "R_0603", pulldown, 185.42, row - 11.43,
-                       base_signal, RETURN)
+                       gate_signal, RETURN)
 
     design.passive(sheet, "R28", "R_0603", "5.1k 1%", 342.90, 78.74, "VBUS_OR", "CHARGER_RUN")
     design.note(sheet, "J3 pin 1 as marked at the contact row. Fit pin 1 to pin 1 with the contact side per the interconnect drawing.",
                 15.24, 254.00)
-    design.note(sheet, "Right pulls DOCK_DET and CHG_STAT to VCCIO7 1.8 V. Both left outputs are open collector.",
+    design.note(sheet, "Right pulls DOCK_DET and CHG_STAT to VCCIO7 1.8 V. Both left outputs are open drain.",
                 15.24, 246.38)
     design.note(sheet, "CHG_EN low requests charge. An unpowered or unplugged right side defaults to local charging.",
                 15.24, 45.72)

@@ -1366,6 +1366,20 @@
               <smd name="2" x="0.95" y="-1.0" dx="0.68" dy="0.9" layer="1" cream="yes" />
               <smd name="3" x="0" y="1.0" dx="0.68" dy="0.9" layer="1" cream="yes" />
             </package>
+            <package name="DIODES_SOT23">
+              <wire x1="-1.45" y1="-0.65" x2="1.45" y2="-0.65" width="0.1524" layer="51" />
+              <wire x1="1.45" y1="-0.65" x2="1.45" y2="0.65" width="0.1524" layer="51" />
+              <wire x1="1.45" y1="0.65" x2="-1.45" y2="0.65" width="0.1524" layer="51" />
+              <wire x1="-1.45" y1="0.65" x2="-1.45" y2="-0.65" width="0.1524" layer="51" />
+              <wire x1="-1.7" y1="-0.9" x2="1.7" y2="-0.9" width="0.1524" layer="39" />
+              <wire x1="1.7" y1="-0.9" x2="1.7" y2="0.9" width="0.1524" layer="39" />
+              <wire x1="1.7" y1="0.9" x2="-1.7" y2="0.9" width="0.1524" layer="39" />
+              <wire x1="-1.7" y1="0.9" x2="-1.7" y2="-0.9" width="0.1524" layer="39" />
+              <text x="-1.45" y="1.0" size="0.8" layer="25">&gt;NAME</text>
+              <smd name="1" x="-0.95" y="-1.0" dx="0.8" dy="0.9" layer="1" cream="yes" />
+              <smd name="2" x="0.95" y="-1.0" dx="0.8" dy="0.9" layer="1" cream="yes" />
+              <smd name="3" x="0" y="1.0" dx="1.35" dy="0.9" layer="1" cream="yes" />
+            </package>
             <package name="NANO2_2410">
               <wire x1="-3.05" y1="-1.345" x2="3.05" y2="-1.345" width="0.1524" layer="51" />
               <wire x1="3.05" y1="-1.345" x2="3.05" y2="1.345" width="0.1524" layer="51" />
@@ -1577,16 +1591,16 @@
               <pin name="G" x="-22.86" y="-1.27" length="middle" direction="pas" visible="pin" rot="R0" />
               <pin name="S" x="22.86" y="0.0" length="middle" direction="pas" visible="pin" rot="R180" />
             </symbol>
-            <symbol name="MMBT3904">
+            <symbol name="DMN2058U">
               <wire x1="-17.78" y1="-5.08" x2="17.78" y2="-5.08" width="0.1524" layer="94" />
               <wire x1="17.78" y1="-5.08" x2="17.78" y2="5.08" width="0.1524" layer="94" />
               <wire x1="17.78" y1="5.08" x2="-17.78" y2="5.08" width="0.1524" layer="94" />
               <wire x1="-17.78" y1="5.08" x2="-17.78" y2="-5.08" width="0.1524" layer="94" />
               <text x="-17.78" y="6.35" size="1.27" layer="95">&gt;NAME</text>
               <text x="-17.78" y="-7.62" size="1.27" layer="96">&gt;VALUE</text>
-              <pin name="B" x="-22.86" y="0.0" length="middle" direction="pas" visible="pin" rot="R0" />
-              <pin name="C" x="22.86" y="1.27" length="middle" direction="pas" visible="pin" rot="R180" />
-              <pin name="E" x="22.86" y="-1.27" length="middle" direction="pas" visible="pin" rot="R180" />
+              <pin name="G" x="-22.86" y="0.0" length="middle" direction="pas" visible="pin" rot="R0" />
+              <pin name="D" x="22.86" y="1.27" length="middle" direction="pas" visible="pin" rot="R180" />
+              <pin name="S" x="22.86" y="-1.27" length="middle" direction="pas" visible="pin" rot="R180" />
             </symbol>
             <symbol name="NANO2_FUSE">
               <pin name="1" x="-5.08" y="0.0" length="short" direction="pas" visible="off" rot="R0" />
@@ -1808,16 +1822,16 @@
                 </device>
               </devices>
             </deviceset>
-            <deviceset name="MMBT3904" uservalue="yes">
+            <deviceset name="DMN2058U" uservalue="yes">
               <gates>
-                <gate name="G$1" symbol="MMBT3904" x="0" y="0" />
+                <gate name="G$1" symbol="DMN2058U" x="0" y="0" />
               </gates>
               <devices>
-                <device name="" package="SOT23_3">
+                <device name="" package="DIODES_SOT23">
                   <connects>
-                    <connect gate="G$1" pin="B" pad="1" />
-                    <connect gate="G$1" pin="C" pad="3" />
-                    <connect gate="G$1" pin="E" pad="2" />
+                    <connect gate="G$1" pin="G" pad="1" />
+                    <connect gate="G$1" pin="D" pad="3" />
+                    <connect gate="G$1" pin="S" pad="2" />
                   </connects>
                   <technologies>
                     <technology name="" />
@@ -2062,13 +2076,13 @@
         <part name="TP6" library="FRIDAY_SCH1_Support" deviceset="TP_1MM" device="" value="VBUS OR" />
         <part name="FRAME4" library="FRIDAY_SCH1_Support" deviceset="A3_FRAME" device="" value="" />
         <part name="J3" library="FH12-24S-0.5SH_55_" deviceset="FH12-24S-0.5SH(55)" device="" value="FH12-24S-0.5SH(55)" />
-        <part name="Q3" library="FRIDAY_SCH4a_Power" deviceset="MMBT3904" device="" value="MMBT3904LT1G" />
+        <part name="Q3" library="FRIDAY_SCH4a_Power" deviceset="DMN2058U" device="" value="DMN2058U-7" />
         <part name="R22" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="47k 1%" />
         <part name="R23" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="100k 1%" />
-        <part name="Q4" library="FRIDAY_SCH4a_Power" deviceset="MMBT3904" device="" value="MMBT3904LT1G" />
-        <part name="R24" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="47k 1%" />
-        <part name="R25" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="100k 1%" />
-        <part name="Q5" library="FRIDAY_SCH4a_Power" deviceset="MMBT3904" device="" value="MMBT3904LT1G" />
+        <part name="Q4" library="FRIDAY_SCH4a_Power" deviceset="DMN2058U" device="" value="DMN2058U-7" />
+        <part name="R24" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="4.7k 1%" />
+        <part name="R25" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="1M 1%" />
+        <part name="Q5" library="FRIDAY_SCH4a_Power" deviceset="DMN2058U" device="" value="DMN2058U-7" />
         <part name="R26" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="4.7k 1%" />
         <part name="R27" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="1M 1%" />
         <part name="R28" library="FRIDAY_SCH1_Support" deviceset="R_0603" device="" value="5.1k 1%" />
@@ -3180,7 +3194,7 @@
             <text x="15.24" y="281.94" size="2.54" layer="94">FRIDAY / SCH-4a / AUXILIARY FLEX AND 1.8 V CONTROL</text>
             <text x="15.24" y="274.32" size="1.78" layer="94">Existing audio assignments pass through the interface. Audio circuitry is in SCH-4b.</text>
             <text x="15.24" y="254.0" size="1.78" layer="94">J3 pin 1 as marked at the contact row. Fit pin 1 to pin 1 with the contact side per the interconnect drawing.</text>
-            <text x="15.24" y="246.38" size="1.78" layer="94">Right pulls DOCK_DET and CHG_STAT to VCCIO7 1.8 V. Both left outputs are open collector.</text>
+            <text x="15.24" y="246.38" size="1.78" layer="94">Right pulls DOCK_DET and CHG_STAT to VCCIO7 1.8 V. Both left outputs are open drain.</text>
             <text x="15.24" y="45.72" size="1.78" layer="94">CHG_EN low requests charge. An unpowered or unplugged right side defaults to local charging.</text>
             <text x="15.24" y="38.1" size="1.78" layer="94">AUX and pogo ground join only PACK-_PROT. PACK- harness stays the main load-current return.</text>
           </plain>
@@ -3285,7 +3299,7 @@
                 <label x="67.31" y="130.81" size="1.016" layer="95" />
               </segment>
               <segment>
-                <pinref part="Q3" gate="G$1" pin="E" />
+                <pinref part="Q3" gate="G$1" pin="S" />
                 <wire x1="292.10" y1="199.39" x2="297.18" y2="199.39" width="0.1524" layer="91" />
                 <label x="297.18" y="199.39" size="1.016" layer="95" />
               </segment>
@@ -3295,7 +3309,7 @@
                 <label x="195.58" y="189.23" size="1.016" layer="95" />
               </segment>
               <segment>
-                <pinref part="Q4" gate="G$1" pin="E" />
+                <pinref part="Q4" gate="G$1" pin="S" />
                 <wire x1="292.10" y1="138.43" x2="297.18" y2="138.43" width="0.1524" layer="91" />
                 <label x="297.18" y="138.43" size="1.016" layer="95" />
               </segment>
@@ -3305,7 +3319,7 @@
                 <label x="195.58" y="128.27" size="1.016" layer="95" />
               </segment>
               <segment>
-                <pinref part="Q5" gate="G$1" pin="E" />
+                <pinref part="Q5" gate="G$1" pin="S" />
                 <wire x1="292.10" y1="77.47" x2="297.18" y2="77.47" width="0.1524" layer="91" />
                 <label x="297.18" y="77.47" size="1.016" layer="95" />
               </segment>
@@ -3362,7 +3376,7 @@
                 <label x="67.31" y="171.45" size="1.016" layer="95" />
               </segment>
               <segment>
-                <pinref part="Q3" gate="G$1" pin="C" />
+                <pinref part="Q3" gate="G$1" pin="D" />
                 <wire x1="292.10" y1="201.93" x2="297.18" y2="201.93" width="0.1524" layer="91" />
                 <label x="297.18" y="201.93" size="1.016" layer="95" />
               </segment>
@@ -3374,7 +3388,7 @@
                 <label x="67.31" y="166.37" size="1.016" layer="95" />
               </segment>
               <segment>
-                <pinref part="Q4" gate="G$1" pin="C" />
+                <pinref part="Q4" gate="G$1" pin="D" />
                 <wire x1="292.10" y1="140.97" x2="297.18" y2="140.97" width="0.1524" layer="91" />
                 <label x="297.18" y="140.97" size="1.016" layer="95" />
               </segment>
@@ -3408,9 +3422,9 @@
                 <label x="67.31" y="143.51" size="1.016" layer="95" />
               </segment>
             </net>
-            <net name="DETECT_BASE" class="0">
+            <net name="DETECT_GATE" class="0">
               <segment>
-                <pinref part="Q3" gate="G$1" pin="B" />
+                <pinref part="Q3" gate="G$1" pin="G" />
                 <wire x1="246.38" y1="200.66" x2="228.60" y2="200.66" width="0.1524" layer="91" />
                 <label x="228.60" y="200.66" size="1.016" layer="95" />
               </segment>
@@ -3432,9 +3446,9 @@
                 <label x="162.56" y="212.09" size="1.016" layer="95" />
               </segment>
             </net>
-            <net name="STATUS_BASE" class="0">
+            <net name="STATUS_GATE" class="0">
               <segment>
-                <pinref part="Q4" gate="G$1" pin="B" />
+                <pinref part="Q4" gate="G$1" pin="G" />
                 <wire x1="246.38" y1="139.70" x2="228.60" y2="139.70" width="0.1524" layer="91" />
                 <label x="228.60" y="139.70" size="1.016" layer="95" />
               </segment>
@@ -3456,9 +3470,9 @@
                 <label x="162.56" y="151.13" size="1.016" layer="95" />
               </segment>
             </net>
-            <net name="ENABLE_BASE" class="0">
+            <net name="ENABLE_GATE" class="0">
               <segment>
-                <pinref part="Q5" gate="G$1" pin="B" />
+                <pinref part="Q5" gate="G$1" pin="G" />
                 <wire x1="246.38" y1="78.74" x2="228.60" y2="78.74" width="0.1524" layer="91" />
                 <label x="228.60" y="78.74" size="1.016" layer="95" />
               </segment>
@@ -3475,7 +3489,7 @@
             </net>
             <net name="CHARGER_RUN" class="0">
               <segment>
-                <pinref part="Q5" gate="G$1" pin="C" />
+                <pinref part="Q5" gate="G$1" pin="D" />
                 <wire x1="292.10" y1="80.01" x2="297.18" y2="80.01" width="0.1524" layer="91" />
                 <label x="297.18" y="80.01" size="1.016" layer="95" />
               </segment>

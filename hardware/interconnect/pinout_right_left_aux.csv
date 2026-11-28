@@ -8,9 +8,9 @@ pin,net,direction,voltage,max_current,type,notes
 7,SAI1_LRCK_M0,Right → Left,1.8 V,UNVERIFIED,LS,io_bank_map.md lines 11 and 20–22. U1 1B6.
 8,SAI1_SDO0_M0,Right → Left,1.8 V,UNVERIFIED,LS,io_bank_map.md lines 11 and 20–22. U1 A7. MAX98357A DIN.
 9,SD_MODE_L,Right → Left,1.8 V pull-up per plan,0.18 mA nominal per plan; maximum UNVERIFIED,LS,docs/plan.md lines 180–185. Open-drain mute/strap implementation UNVERIFIED.
-10,DOCK_DET,Left → Right (active low),1.8 V,GPIO pull-up current,LS,"U1 GPIO4_D0 (1AD2), VCCIO7. Right-side 1.8 V pull-up; left open collector. I/O map line 16; RK3576.lbr line 1858."
+10,DOCK_DET,Left → Right (active low),1.8 V,GPIO pull-up current,LS,"U1 GPIO4_D0 (1AD2), VCCIO7. Right-side 1.8 V pull-up; left open drain. I/O map line 16; RK3576.lbr line 1858."
 11,GND,Reference,0 V,UNVERIFIED,GND,Signal return on protected side.
-12,CHG_STAT,Left → Right (inverted BAT_STAT),1.8 V,GPIO pull-up current,LS,"U1 GPIO4_D1 (AK4), VCCIO7. Right-side 1.8 V pull-up; left open collector. I/O map line 16; RK3576.lbr line 1619."
+12,CHG_STAT,Left → Right (inverted BAT_STAT),1.8 V,GPIO pull-up current,LS,"U1 GPIO4_D1 (AK4), VCCIO7. Right-side 1.8 V pull-up; left open drain. I/O map line 16; RK3576.lbr line 1619."
 13,CHG_EN,"Right → Left (open drain, low requests enable)",1.8 V,UNVERIFIED,LS,"U1 GPIO0_A7 (1U21), PMUIO0. Right-side 1.8 V pull-up; left inverting stage. I/O map line 7; EVB p.11 U1000D; RK3576.lbr line 1920."
 14,GND,Reference,0 V,UNVERIFIED,GND,Signal return on protected side.
 15,RESERVED,—,—,—,NC,Keep open.

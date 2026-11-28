@@ -1,0 +1,20 @@
+Fusion ERC — FRIDAY_Left_SCH4a.sch (Autodesk Fusion 2706.1.17)
+Schematic checked: True
+0 errors, 5 active warnings, 0 warning approvals.
+Native vs source: matched 50 named nets and 198 connected physical pads.
+
+DC sourcing model: CELL_POS, CELL_MID and PACK+_PROT cannot source any non-return J1 or J3 terminal.
+Protected pogo and aux grounds are the shared PACK-_PROT return. Leakage and fault currents are bench checks.
+U3/U4 source VBUS_OR only in the forward direction. Neither input can source the other in the model.
+U1.13 VIN is fed only from VBUS_OR through R4. L1 also starts on VBUS_OR.
+Harness J2: pad 1 PACK+_PROT after F1, pad 2 PACK-_PROT after Q1 and RS1.
+ISET: 90000 / 450 kΩ = 200 mA nominal.
+F1: 2 A, 75% of rating continuous and 150% at pulse. Pulse duration and repetitive-pulse qualification remain open.
+RS1: 50 mΩ, 1 W at 70 °C. 75 mV / 0.1125 W at 1.5 A; 150 mV / 0.450 W at 3 A.
+
+Active issues (no approvals)
+Sheet 1 / code 106 / Only one pin on net FET_COMMON_DRAIN. Q1 common drain and exposed pad form a local copper island.
+Sheet 4 / code 106 / Only one pin on net SAI1_BCLK_M0. Left amp clock terminal is reserved for SCH-4b.
+Sheet 4 / code 106 / Only one pin on net SAI1_LRCK_M0. Left amp word-clock terminal is reserved for SCH-4b.
+Sheet 4 / code 106 / Only one pin on net SAI1_SDO0_M0. Left amp data terminal is reserved for SCH-4b.
+Sheet 4 / code 106 / Only one pin on net SD_MODE_L. Left amp shutdown terminal is reserved for SCH-4b.
