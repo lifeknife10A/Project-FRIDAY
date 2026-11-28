@@ -24,6 +24,12 @@ def add_note(sheet, text, x, y, size="1.778"):
                            size=size, layer="94").text = text
 
 
+def place_label(instance, name, x_position, y_position, layer, align="bottom-left"):
+    instance.set("smashed", "yes")
+    ElementTree.SubElement(instance, "attribute", name=name, x=f"{x_position:.2f}",
+                           y=f"{y_position:.2f}", size="1.27", layer=layer, align=align)
+
+
 def add_sheet(schematic, number, title, sources):
     sheet = ElementTree.SubElement(schematic.find("sheets"), "sheet")
     for name in ("plain", "instances", "busses", "nets"):
@@ -47,8 +53,12 @@ def add_memory(schematic, ddr_sheet, power_sheet, emmc_sheet):
         (power_sheet, "GND", "294.64", "205.74"),
         (emmc_sheet, "EMMC", "106.68", "205.74"),
     ):
-        ElementTree.SubElement(sheet.find("instances"), "instance", part=EMCP_PART,
-                               gate=gate_name, x=x, y=y, rot="R0")
+        instance = ElementTree.SubElement(sheet.find("instances"), "instance", part=EMCP_PART,
+                                          gate=gate_name, x=x, y=y, rot="R0")
+        symbol = library.find(f"symbols/symbol[@name='{gate_name}']")
+        symbol_label = symbol.find("text[@layer='95']")
+        place_label(instance, "NAME", float(x), float(y) + float(symbol_label.get("y")),
+                    "95", align="bottom-center")
     return library
 
 
@@ -87,8 +97,18 @@ def connect_pin(locations, part_name, connection, net_name):
 def add_resistor(schematic, sheet, name, value, left_net, right_net, x, y,
                  deviceset="R_0201", populate=True):
     add_part(schematic, sheet, name, deviceset, value, x, y, "R0", populate)
+    instance = sheet.find(f"instances/instance[@part='{name}']")
+    place_label(instance, "NAME", x - 2.54, y + 1.70, "95")
+    place_label(instance, "VALUE", x - 2.54, y - 3.81, "96")
     horizontal_stub(sheet, left_net, name, "G$1", "1", x - 5.08, y, -1)
     horizontal_stub(sheet, right_net, name, "G$1", "2", x + 5.08, y, 1)
+
+
+def add_labeled_capacitor(schematic, sheet, name, deviceset, value, rail, x, y):
+    add_capacitor(schematic, sheet, name, deviceset, value, rail, x, y)
+    instance = sheet.find(f"instances/instance[@part='{name}']")
+    place_label(instance, "NAME", x + 3.81, y + 0.64, "95")
+    place_label(instance, "VALUE", x + 3.81, y - 1.27, "96")
 
 
 def add_capacitor_bank(schematic, sheet, name, types, rail, first_number, row_y):
@@ -98,7 +118,7 @@ def add_capacitor_bank(schematic, sheet, name, types, rail, first_number, row_y)
             offset = number - first_number
             x = 25.4 + 30.48 * (offset % 12)
             y = row_y - 22.86 * (offset // 12)
-            add_capacitor(schematic, sheet, f"C{number}", deviceset, value, rail, x, y)
+            add_labeled_capacitor(schematic, sheet, f"C{number}", deviceset, value, rail, x, y)
             number += 1
     add_note(sheet, name, 12.7, row_y + 12.7, "1.524")
 
@@ -132,7 +152,7 @@ def add_power(schematic, power_sheet, emmc_sheet):
         ("C4003", "C_0402", "4.7uF 10V X5R", EMMC_POWER["VCC"], 228.6),
         ("C4004", "C_0201", "100nF 10V X5R", EMMC_POWER["VDDI"], 304.8),
     ):
-        add_capacitor(schematic, emmc_sheet, name, deviceset, value, rail, position, 50.8)
+        add_labeled_capacitor(schematic, emmc_sheet, name, deviceset, value, rail, position, 50.8)
     add_note(emmc_sheet, "eMMC VCCQ (1.8 V), VCC (3.3 V) and VDDI bypass", 25.4, 67.31)
 
 

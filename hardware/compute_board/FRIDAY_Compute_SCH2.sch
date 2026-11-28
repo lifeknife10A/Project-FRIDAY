@@ -13042,13 +13042,32 @@
           </plain>
           <instances>
             <instance part="FRAME6" gate="G$1" x="0.00" y="0.00" rot="R0" />
-            <instance part="U11" gate="LPDDR4X_CHA" x="106.68" y="180.34" rot="R0" />
-            <instance part="U11" gate="LPDDR4X_CHB" x="304.80" y="180.34" rot="R0" />
-            <instance part="R3802" gate="G$1" x="73.66" y="107.95" rot="R0" />
-            <instance part="R1200" gate="G$1" x="73.66" y="92.71" rot="R0" />
-            <instance part="R3804" gate="G$1" x="271.78" y="107.95" rot="R0" />
-            <instance part="R1201" gate="G$1" x="271.78" y="92.71" rot="R0" />
-            <instance part="R1400" gate="G$1" x="73.66" y="50.80" rot="R0" />
+            <instance part="U11" gate="LPDDR4X_CHA" x="106.68" y="180.34" rot="R0" smashed="yes">
+              <attribute name="NAME" x="106.68" y="212.09" size="1.27" layer="95" align="bottom-center" />
+            </instance>
+            <instance part="U11" gate="LPDDR4X_CHB" x="304.80" y="180.34" rot="R0" smashed="yes">
+              <attribute name="NAME" x="304.80" y="212.09" size="1.27" layer="95" align="bottom-center" />
+            </instance>
+            <instance part="R3802" gate="G$1" x="73.66" y="107.95" rot="R0" smashed="yes">
+              <attribute name="NAME" x="71.12" y="109.65" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="71.12" y="104.14" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="R1200" gate="G$1" x="73.66" y="92.71" rot="R0" smashed="yes">
+              <attribute name="NAME" x="71.12" y="94.41" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="71.12" y="88.90" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="R3804" gate="G$1" x="271.78" y="107.95" rot="R0" smashed="yes">
+              <attribute name="NAME" x="269.24" y="109.65" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="269.24" y="104.14" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="R1201" gate="G$1" x="271.78" y="92.71" rot="R0" smashed="yes">
+              <attribute name="NAME" x="269.24" y="94.41" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="269.24" y="88.90" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="R1400" gate="G$1" x="73.66" y="50.80" rot="R0" smashed="yes">
+              <attribute name="NAME" x="71.12" y="52.50" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="71.12" y="46.99" size="1.27" layer="96" align="bottom-left" />
+            </instance>
           </instances>
           <busses />
           <nets>
@@ -13622,94 +13641,230 @@
           </plain>
           <instances>
             <instance part="FRAME7" gate="G$1" x="0.00" y="0.00" rot="R0" />
-            <instance part="U11" gate="POWER" x="91.44" y="205.74" rot="R0" />
-            <instance part="U11" gate="GND" x="294.64" y="205.74" rot="R0" />
-            <instance part="R3809" gate="G$1" x="330.20" y="121.92" rot="R0" />
-            <instance part="C3800" gate="G$1" x="25.40" y="121.92" rot="R270" />
+            <instance part="U11" gate="POWER" x="91.44" y="205.74" rot="R0" smashed="yes">
+              <attribute name="NAME" x="91.44" y="251.46" size="1.27" layer="95" align="bottom-center" />
+            </instance>
+            <instance part="U11" gate="GND" x="294.64" y="205.74" rot="R0" smashed="yes">
+              <attribute name="NAME" x="294.64" y="255.27" size="1.27" layer="95" align="bottom-center" />
+            </instance>
+            <instance part="R3809" gate="G$1" x="330.20" y="121.92" rot="R0" smashed="yes">
+              <attribute name="NAME" x="327.66" y="123.62" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="327.66" y="118.11" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="C3800" gate="G$1" x="25.40" y="121.92" rot="R270" smashed="yes">
+              <attribute name="NAME" x="29.21" y="122.56" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="29.21" y="120.65" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3800" gate="G$1" x="25.40" y="111.76" rot="R0" />
-            <instance part="C3801" gate="G$1" x="55.88" y="121.92" rot="R270" />
+            <instance part="C3801" gate="G$1" x="55.88" y="121.92" rot="R270" smashed="yes">
+              <attribute name="NAME" x="59.69" y="122.56" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="59.69" y="120.65" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3801" gate="G$1" x="55.88" y="111.76" rot="R0" />
-            <instance part="C3802" gate="G$1" x="86.36" y="121.92" rot="R270" />
+            <instance part="C3802" gate="G$1" x="86.36" y="121.92" rot="R270" smashed="yes">
+              <attribute name="NAME" x="90.17" y="122.56" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="90.17" y="120.65" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3802" gate="G$1" x="86.36" y="111.76" rot="R0" />
-            <instance part="C3803" gate="G$1" x="116.84" y="121.92" rot="R270" />
+            <instance part="C3803" gate="G$1" x="116.84" y="121.92" rot="R270" smashed="yes">
+              <attribute name="NAME" x="120.65" y="122.56" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="120.65" y="120.65" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3803" gate="G$1" x="116.84" y="111.76" rot="R0" />
-            <instance part="C3804" gate="G$1" x="147.32" y="121.92" rot="R270" />
+            <instance part="C3804" gate="G$1" x="147.32" y="121.92" rot="R270" smashed="yes">
+              <attribute name="NAME" x="151.13" y="122.56" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="151.13" y="120.65" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3804" gate="G$1" x="147.32" y="111.76" rot="R0" />
-            <instance part="C3805" gate="G$1" x="177.80" y="121.92" rot="R270" />
+            <instance part="C3805" gate="G$1" x="177.80" y="121.92" rot="R270" smashed="yes">
+              <attribute name="NAME" x="181.61" y="122.56" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="181.61" y="120.65" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3805" gate="G$1" x="177.80" y="111.76" rot="R0" />
-            <instance part="C3806" gate="G$1" x="25.40" y="99.06" rot="R270" />
+            <instance part="C3806" gate="G$1" x="25.40" y="99.06" rot="R270" smashed="yes">
+              <attribute name="NAME" x="29.21" y="99.70" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="29.21" y="97.79" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3806" gate="G$1" x="25.40" y="88.90" rot="R0" />
-            <instance part="C3807" gate="G$1" x="55.88" y="99.06" rot="R270" />
+            <instance part="C3807" gate="G$1" x="55.88" y="99.06" rot="R270" smashed="yes">
+              <attribute name="NAME" x="59.69" y="99.70" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="59.69" y="97.79" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3807" gate="G$1" x="55.88" y="88.90" rot="R0" />
-            <instance part="C3808" gate="G$1" x="86.36" y="99.06" rot="R270" />
+            <instance part="C3808" gate="G$1" x="86.36" y="99.06" rot="R270" smashed="yes">
+              <attribute name="NAME" x="90.17" y="99.70" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="90.17" y="97.79" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3808" gate="G$1" x="86.36" y="88.90" rot="R0" />
-            <instance part="C3809" gate="G$1" x="116.84" y="99.06" rot="R270" />
+            <instance part="C3809" gate="G$1" x="116.84" y="99.06" rot="R270" smashed="yes">
+              <attribute name="NAME" x="120.65" y="99.70" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="120.65" y="97.79" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3809" gate="G$1" x="116.84" y="88.90" rot="R0" />
-            <instance part="C3810" gate="G$1" x="147.32" y="99.06" rot="R270" />
+            <instance part="C3810" gate="G$1" x="147.32" y="99.06" rot="R270" smashed="yes">
+              <attribute name="NAME" x="151.13" y="99.70" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="151.13" y="97.79" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3810" gate="G$1" x="147.32" y="88.90" rot="R0" />
-            <instance part="C3811" gate="G$1" x="177.80" y="99.06" rot="R270" />
+            <instance part="C3811" gate="G$1" x="177.80" y="99.06" rot="R270" smashed="yes">
+              <attribute name="NAME" x="181.61" y="99.70" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="181.61" y="97.79" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3811" gate="G$1" x="177.80" y="88.90" rot="R0" />
-            <instance part="C3812" gate="G$1" x="208.28" y="99.06" rot="R270" />
+            <instance part="C3812" gate="G$1" x="208.28" y="99.06" rot="R270" smashed="yes">
+              <attribute name="NAME" x="212.09" y="99.70" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="212.09" y="97.79" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3812" gate="G$1" x="208.28" y="88.90" rot="R0" />
-            <instance part="C3813" gate="G$1" x="238.76" y="99.06" rot="R270" />
+            <instance part="C3813" gate="G$1" x="238.76" y="99.06" rot="R270" smashed="yes">
+              <attribute name="NAME" x="242.57" y="99.70" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="242.57" y="97.79" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3813" gate="G$1" x="238.76" y="88.90" rot="R0" />
-            <instance part="C3814" gate="G$1" x="269.24" y="99.06" rot="R270" />
+            <instance part="C3814" gate="G$1" x="269.24" y="99.06" rot="R270" smashed="yes">
+              <attribute name="NAME" x="273.05" y="99.70" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="273.05" y="97.79" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3814" gate="G$1" x="269.24" y="88.90" rot="R0" />
-            <instance part="C3815" gate="G$1" x="299.72" y="99.06" rot="R270" />
+            <instance part="C3815" gate="G$1" x="299.72" y="99.06" rot="R270" smashed="yes">
+              <attribute name="NAME" x="303.53" y="99.70" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="303.53" y="97.79" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3815" gate="G$1" x="299.72" y="88.90" rot="R0" />
-            <instance part="C3816" gate="G$1" x="330.20" y="99.06" rot="R270" />
+            <instance part="C3816" gate="G$1" x="330.20" y="99.06" rot="R270" smashed="yes">
+              <attribute name="NAME" x="334.01" y="99.70" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="334.01" y="97.79" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3816" gate="G$1" x="330.20" y="88.90" rot="R0" />
-            <instance part="C3817" gate="G$1" x="360.68" y="99.06" rot="R270" />
+            <instance part="C3817" gate="G$1" x="360.68" y="99.06" rot="R270" smashed="yes">
+              <attribute name="NAME" x="364.49" y="99.70" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="364.49" y="97.79" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3817" gate="G$1" x="360.68" y="88.90" rot="R0" />
-            <instance part="C3818" gate="G$1" x="25.40" y="76.20" rot="R270" />
+            <instance part="C3818" gate="G$1" x="25.40" y="76.20" rot="R270" smashed="yes">
+              <attribute name="NAME" x="29.21" y="76.84" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="29.21" y="74.93" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3818" gate="G$1" x="25.40" y="66.04" rot="R0" />
-            <instance part="C3819" gate="G$1" x="55.88" y="76.20" rot="R270" />
+            <instance part="C3819" gate="G$1" x="55.88" y="76.20" rot="R270" smashed="yes">
+              <attribute name="NAME" x="59.69" y="76.84" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="59.69" y="74.93" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3819" gate="G$1" x="55.88" y="66.04" rot="R0" />
-            <instance part="C3820" gate="G$1" x="86.36" y="76.20" rot="R270" />
+            <instance part="C3820" gate="G$1" x="86.36" y="76.20" rot="R270" smashed="yes">
+              <attribute name="NAME" x="90.17" y="76.84" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="90.17" y="74.93" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3820" gate="G$1" x="86.36" y="66.04" rot="R0" />
-            <instance part="C3821" gate="G$1" x="116.84" y="76.20" rot="R270" />
+            <instance part="C3821" gate="G$1" x="116.84" y="76.20" rot="R270" smashed="yes">
+              <attribute name="NAME" x="120.65" y="76.84" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="120.65" y="74.93" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3821" gate="G$1" x="116.84" y="66.04" rot="R0" />
-            <instance part="C3822" gate="G$1" x="147.32" y="76.20" rot="R270" />
+            <instance part="C3822" gate="G$1" x="147.32" y="76.20" rot="R270" smashed="yes">
+              <attribute name="NAME" x="151.13" y="76.84" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="151.13" y="74.93" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3822" gate="G$1" x="147.32" y="66.04" rot="R0" />
-            <instance part="C3823" gate="G$1" x="25.40" y="53.34" rot="R270" />
+            <instance part="C3823" gate="G$1" x="25.40" y="53.34" rot="R270" smashed="yes">
+              <attribute name="NAME" x="29.21" y="53.98" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="29.21" y="52.07" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3823" gate="G$1" x="25.40" y="43.18" rot="R0" />
-            <instance part="C3824" gate="G$1" x="55.88" y="53.34" rot="R270" />
+            <instance part="C3824" gate="G$1" x="55.88" y="53.34" rot="R270" smashed="yes">
+              <attribute name="NAME" x="59.69" y="53.98" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="59.69" y="52.07" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3824" gate="G$1" x="55.88" y="43.18" rot="R0" />
-            <instance part="C3825" gate="G$1" x="86.36" y="53.34" rot="R270" />
+            <instance part="C3825" gate="G$1" x="86.36" y="53.34" rot="R270" smashed="yes">
+              <attribute name="NAME" x="90.17" y="53.98" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="90.17" y="52.07" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3825" gate="G$1" x="86.36" y="43.18" rot="R0" />
-            <instance part="C3826" gate="G$1" x="116.84" y="53.34" rot="R270" />
+            <instance part="C3826" gate="G$1" x="116.84" y="53.34" rot="R270" smashed="yes">
+              <attribute name="NAME" x="120.65" y="53.98" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="120.65" y="52.07" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3826" gate="G$1" x="116.84" y="43.18" rot="R0" />
-            <instance part="C3827" gate="G$1" x="147.32" y="53.34" rot="R270" />
+            <instance part="C3827" gate="G$1" x="147.32" y="53.34" rot="R270" smashed="yes">
+              <attribute name="NAME" x="151.13" y="53.98" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="151.13" y="52.07" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3827" gate="G$1" x="147.32" y="43.18" rot="R0" />
-            <instance part="C3828" gate="G$1" x="177.80" y="53.34" rot="R270" />
+            <instance part="C3828" gate="G$1" x="177.80" y="53.34" rot="R270" smashed="yes">
+              <attribute name="NAME" x="181.61" y="53.98" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="181.61" y="52.07" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3828" gate="G$1" x="177.80" y="43.18" rot="R0" />
-            <instance part="C3829" gate="G$1" x="208.28" y="53.34" rot="R270" />
+            <instance part="C3829" gate="G$1" x="208.28" y="53.34" rot="R270" smashed="yes">
+              <attribute name="NAME" x="212.09" y="53.98" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="212.09" y="52.07" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3829" gate="G$1" x="208.28" y="43.18" rot="R0" />
-            <instance part="C3830" gate="G$1" x="238.76" y="53.34" rot="R270" />
+            <instance part="C3830" gate="G$1" x="238.76" y="53.34" rot="R270" smashed="yes">
+              <attribute name="NAME" x="242.57" y="53.98" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="242.57" y="52.07" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3830" gate="G$1" x="238.76" y="43.18" rot="R0" />
-            <instance part="C3831" gate="G$1" x="269.24" y="53.34" rot="R270" />
+            <instance part="C3831" gate="G$1" x="269.24" y="53.34" rot="R270" smashed="yes">
+              <attribute name="NAME" x="273.05" y="53.98" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="273.05" y="52.07" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3831" gate="G$1" x="269.24" y="43.18" rot="R0" />
-            <instance part="C3832" gate="G$1" x="299.72" y="53.34" rot="R270" />
+            <instance part="C3832" gate="G$1" x="299.72" y="53.34" rot="R270" smashed="yes">
+              <attribute name="NAME" x="303.53" y="53.98" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="303.53" y="52.07" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3832" gate="G$1" x="299.72" y="43.18" rot="R0" />
-            <instance part="C3833" gate="G$1" x="330.20" y="53.34" rot="R270" />
+            <instance part="C3833" gate="G$1" x="330.20" y="53.34" rot="R270" smashed="yes">
+              <attribute name="NAME" x="334.01" y="53.98" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="334.01" y="52.07" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3833" gate="G$1" x="330.20" y="43.18" rot="R0" />
-            <instance part="C3834" gate="G$1" x="360.68" y="53.34" rot="R270" />
+            <instance part="C3834" gate="G$1" x="360.68" y="53.34" rot="R270" smashed="yes">
+              <attribute name="NAME" x="364.49" y="53.98" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="364.49" y="52.07" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3834" gate="G$1" x="360.68" y="43.18" rot="R0" />
-            <instance part="C3835" gate="G$1" x="25.40" y="30.48" rot="R270" />
+            <instance part="C3835" gate="G$1" x="25.40" y="30.48" rot="R270" smashed="yes">
+              <attribute name="NAME" x="29.21" y="31.12" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="29.21" y="29.21" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3835" gate="G$1" x="25.40" y="20.32" rot="R0" />
-            <instance part="C3836" gate="G$1" x="55.88" y="30.48" rot="R270" />
+            <instance part="C3836" gate="G$1" x="55.88" y="30.48" rot="R270" smashed="yes">
+              <attribute name="NAME" x="59.69" y="31.12" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="59.69" y="29.21" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3836" gate="G$1" x="55.88" y="20.32" rot="R0" />
-            <instance part="C3837" gate="G$1" x="86.36" y="30.48" rot="R270" />
+            <instance part="C3837" gate="G$1" x="86.36" y="30.48" rot="R270" smashed="yes">
+              <attribute name="NAME" x="90.17" y="31.12" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="90.17" y="29.21" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3837" gate="G$1" x="86.36" y="20.32" rot="R0" />
-            <instance part="C3838" gate="G$1" x="116.84" y="30.48" rot="R270" />
+            <instance part="C3838" gate="G$1" x="116.84" y="30.48" rot="R270" smashed="yes">
+              <attribute name="NAME" x="120.65" y="31.12" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="120.65" y="29.21" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3838" gate="G$1" x="116.84" y="20.32" rot="R0" />
-            <instance part="C3839" gate="G$1" x="147.32" y="30.48" rot="R270" />
+            <instance part="C3839" gate="G$1" x="147.32" y="30.48" rot="R270" smashed="yes">
+              <attribute name="NAME" x="151.13" y="31.12" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="151.13" y="29.21" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3839" gate="G$1" x="147.32" y="20.32" rot="R0" />
-            <instance part="C3840" gate="G$1" x="177.80" y="30.48" rot="R270" />
+            <instance part="C3840" gate="G$1" x="177.80" y="30.48" rot="R270" smashed="yes">
+              <attribute name="NAME" x="181.61" y="31.12" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="181.61" y="29.21" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3840" gate="G$1" x="177.80" y="20.32" rot="R0" />
-            <instance part="C3841" gate="G$1" x="208.28" y="30.48" rot="R270" />
+            <instance part="C3841" gate="G$1" x="208.28" y="30.48" rot="R270" smashed="yes">
+              <attribute name="NAME" x="212.09" y="31.12" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="212.09" y="29.21" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3841" gate="G$1" x="208.28" y="20.32" rot="R0" />
-            <instance part="C3842" gate="G$1" x="238.76" y="30.48" rot="R270" />
+            <instance part="C3842" gate="G$1" x="238.76" y="30.48" rot="R270" smashed="yes">
+              <attribute name="NAME" x="242.57" y="31.12" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="242.57" y="29.21" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C3842" gate="G$1" x="238.76" y="20.32" rot="R0" />
           </instances>
           <busses />
@@ -14872,28 +15027,78 @@
           </plain>
           <instances>
             <instance part="FRAME8" gate="G$1" x="0.00" y="0.00" rot="R0" />
-            <instance part="U11" gate="EMMC" x="106.68" y="205.74" rot="R0" />
-            <instance part="C4000" gate="G$1" x="50.80" y="50.80" rot="R270" />
+            <instance part="U11" gate="EMMC" x="106.68" y="205.74" rot="R0" smashed="yes">
+              <attribute name="NAME" x="106.68" y="219.71" size="1.27" layer="95" align="bottom-center" />
+            </instance>
+            <instance part="C4000" gate="G$1" x="50.80" y="50.80" rot="R270" smashed="yes">
+              <attribute name="NAME" x="54.61" y="51.44" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="54.61" y="49.53" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C4000" gate="G$1" x="50.80" y="40.64" rot="R0" />
-            <instance part="C4001" gate="G$1" x="101.60" y="50.80" rot="R270" />
+            <instance part="C4001" gate="G$1" x="101.60" y="50.80" rot="R270" smashed="yes">
+              <attribute name="NAME" x="105.41" y="51.44" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="105.41" y="49.53" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C4001" gate="G$1" x="101.60" y="40.64" rot="R0" />
-            <instance part="C4002" gate="G$1" x="177.80" y="50.80" rot="R270" />
+            <instance part="C4002" gate="G$1" x="177.80" y="50.80" rot="R270" smashed="yes">
+              <attribute name="NAME" x="181.61" y="51.44" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="181.61" y="49.53" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C4002" gate="G$1" x="177.80" y="40.64" rot="R0" />
-            <instance part="C4003" gate="G$1" x="228.60" y="50.80" rot="R270" />
+            <instance part="C4003" gate="G$1" x="228.60" y="50.80" rot="R270" smashed="yes">
+              <attribute name="NAME" x="232.41" y="51.44" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="232.41" y="49.53" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C4003" gate="G$1" x="228.60" y="40.64" rot="R0" />
-            <instance part="C4004" gate="G$1" x="304.80" y="50.80" rot="R270" />
+            <instance part="C4004" gate="G$1" x="304.80" y="50.80" rot="R270" smashed="yes">
+              <attribute name="NAME" x="308.61" y="51.44" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="308.61" y="49.53" size="1.27" layer="96" align="bottom-left" />
+            </instance>
             <instance part="PWR_C4004" gate="G$1" x="304.80" y="40.64" rot="R0" />
-            <instance part="R4000" gate="G$1" x="264.16" y="205.74" rot="R0" />
-            <instance part="R4001" gate="G$1" x="50.80" y="121.92" rot="R0" />
-            <instance part="R4002" gate="G$1" x="127.00" y="121.92" rot="R0" />
-            <instance part="R4003" gate="G$1" x="203.20" y="121.92" rot="R0" />
-            <instance part="R4004" gate="G$1" x="279.40" y="121.92" rot="R0" />
-            <instance part="R4005" gate="G$1" x="355.60" y="121.92" rot="R0" />
-            <instance part="R4006" gate="G$1" x="50.80" y="93.98" rot="R0" />
-            <instance part="R4007" gate="G$1" x="127.00" y="93.98" rot="R0" />
-            <instance part="R4008" gate="G$1" x="203.20" y="93.98" rot="R0" />
-            <instance part="R4009" gate="G$1" x="279.40" y="93.98" rot="R0" />
-            <instance part="R4010" gate="G$1" x="355.60" y="93.98" rot="R0" />
+            <instance part="R4000" gate="G$1" x="264.16" y="205.74" rot="R0" smashed="yes">
+              <attribute name="NAME" x="261.62" y="207.44" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="261.62" y="201.93" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="R4001" gate="G$1" x="50.80" y="121.92" rot="R0" smashed="yes">
+              <attribute name="NAME" x="48.26" y="123.62" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="48.26" y="118.11" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="R4002" gate="G$1" x="127.00" y="121.92" rot="R0" smashed="yes">
+              <attribute name="NAME" x="124.46" y="123.62" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="124.46" y="118.11" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="R4003" gate="G$1" x="203.20" y="121.92" rot="R0" smashed="yes">
+              <attribute name="NAME" x="200.66" y="123.62" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="200.66" y="118.11" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="R4004" gate="G$1" x="279.40" y="121.92" rot="R0" smashed="yes">
+              <attribute name="NAME" x="276.86" y="123.62" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="276.86" y="118.11" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="R4005" gate="G$1" x="355.60" y="121.92" rot="R0" smashed="yes">
+              <attribute name="NAME" x="353.06" y="123.62" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="353.06" y="118.11" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="R4006" gate="G$1" x="50.80" y="93.98" rot="R0" smashed="yes">
+              <attribute name="NAME" x="48.26" y="95.68" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="48.26" y="90.17" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="R4007" gate="G$1" x="127.00" y="93.98" rot="R0" smashed="yes">
+              <attribute name="NAME" x="124.46" y="95.68" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="124.46" y="90.17" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="R4008" gate="G$1" x="203.20" y="93.98" rot="R0" smashed="yes">
+              <attribute name="NAME" x="200.66" y="95.68" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="200.66" y="90.17" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="R4009" gate="G$1" x="279.40" y="93.98" rot="R0" smashed="yes">
+              <attribute name="NAME" x="276.86" y="95.68" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="276.86" y="90.17" size="1.27" layer="96" align="bottom-left" />
+            </instance>
+            <instance part="R4010" gate="G$1" x="355.60" y="93.98" rot="R0" smashed="yes">
+              <attribute name="NAME" x="353.06" y="95.68" size="1.27" layer="95" align="bottom-left" />
+              <attribute name="VALUE" x="353.06" y="90.17" size="1.27" layer="96" align="bottom-left" />
+            </instance>
           </instances>
           <busses />
           <nets>

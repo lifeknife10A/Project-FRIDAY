@@ -1,0 +1,97 @@
+Fusion ERC — FRIDAY_Compute_SCH2.sch (Autodesk Fusion 2706.1.17)
+Schematic checked: True
+0 errors, 65 active warnings, 23 inherited approvals and 0 new approvals.
+Active code 104 warnings are eMCP power pins on the named FRIDAY rails.
+
+Native netlist: 221 eMCP balls wired once (83 signal, 138 supply/ground).
+33 VSF/DNU/NC balls open. DDR pin-map matches 69 native SoC-to-eMCP connections.
+
+Sheet | Code | Position (mm) | Ball | Fusion message | State
+1 | 104 | (121.92, 233.68) |  | POWER pin U10 PVIN connected to VBAT_2S_IN | approved in SCH-1
+1 | 104 | (121.92, 231.14) |  | POWER pin U10 VCC connected to U10_VCC | approved in SCH-1
+1 | 104 | (73.66, 132.08) |  | POWER pin J1 VBUS connected to VBUS_5V | approved in SCH-1
+1 | 104 | (172.72, 119.38) |  | POWER pin D1 VBUS connected to VBUS_5V | approved in SCH-1
+2 | 104 | (213.36, 114.3) |  | POWER pin U2 VCC9 connected to VCC5V0_SYS_S5 | approved in SCH-1
+2 | 104 | (213.36, 124.46) |  | POWER pin U2 VCC8 connected to VCC5V0_SYS_S5 | approved in SCH-1
+2 | 104 | (167.64, 137.16) |  | POWER pin U2 VCC14 connected to VCC_1V1_NLDO_S3 | approved in SCH-1
+2 | 104 | (167.64, 147.32) |  | POWER pin U2 VCC13 connected to VCC_1V1_NLDO_S3 | approved in SCH-1
+2 | 104 | (213.36, 195.58) |  | POWER pin U2 VCCIO connected to VCCA1V8_PLDO6_S3 | approved in SCH-1
+2 | 104 | (213.36, 193.04) |  | POWER pin U2 VCCA connected to VCC5V0_SYS_S5 | approved in SCH-1
+2 | 104 | (213.36, 170.18) |  | POWER pin U2 VCC4 connected to VCC5V0_SYS_S5 | approved in SCH-1
+2 | 104 | (213.36, 101.6) |  | POWER pin U2 VCC10 connected to VCC5V0_SYS_S5 | approved in SCH-1
+2 | 104 | (213.36, 147.32) |  | POWER pin U2 VCC6 connected to VCC5V0_SYS_S5 | approved in SCH-1
+2 | 104 | (213.36, 190.5) |  | POWER pin U2 VDC connected to PMIC_VDC | approved in SCH-1
+2 | 104 | (167.64, 96.52) |  | POWER pin U2 VCC2 connected to VCC5V0_SYS_S5 | approved in SCH-1
+2 | 104 | (213.36, 134.62) |  | POWER pin U2 VCC7 connected to VCC5V0_SYS_S5 | approved in SCH-1
+2 | 104 | (213.36, 160.02) |  | POWER pin U2 VCC5 connected to VCC5V0_SYS_S5 | approved in SCH-1
+2 | 104 | (167.64, 109.22) |  | POWER pin U2 VCC1 connected to VCC5V0_SYS_S5 | approved in SCH-1
+2 | 104 | (213.36, 180.34) |  | POWER pin U2 VCC3 connected to VCC5V0_SYS_S5 | approved in SCH-1
+2 | 104 | (167.64, 124.46) |  | POWER pin U2 VCC11 connected to VCC_2V0_PLDO_S3 | approved in SCH-1
+2 | 104 | (167.64, 114.3) |  | POWER pin U2 VCC12 connected to VCC5V0_SYS_S5 | approved in SCH-1
+3 | 104 | (60.96, 223.52) |  | POWER pin U6 IN connected to VCC5V0_SYS_S5 | approved in SCH-1
+3 | 104 | (246.38, 223.52) |  | POWER pin U7 IN connected to VCC5V0_SYS_S5 | approved in SCH-1
+7 | 104 | (66.04, 246.38) | M17 | POWER pin U11POWER VCC connected to VCC_3V3_S0 | active
+7 | 104 | (66.04, 243.84) | N17 | POWER pin U11POWER VCC connected to VCC_3V3_S0 | active
+7 | 104 | (66.04, 241.3) | P17 | POWER pin U11POWER VCC connected to VCC_3V3_S0 | active
+7 | 104 | (66.04, 238.76) | J15 | POWER pin U11POWER VCCQ connected to VCC_1V8_S0 | active
+7 | 104 | (66.04, 236.22) | J16 | POWER pin U11POWER VCCQ connected to VCC_1V8_S0 | active
+7 | 104 | (66.04, 233.68) | J17 | POWER pin U11POWER VCCQ connected to VCC_1V8_S0 | active
+7 | 104 | (66.04, 231.14) | K15 | POWER pin U11POWER VCCQ connected to VCC_1V8_S0 | active
+7 | 104 | (66.04, 228.6) | R13 | POWER pin U11POWER VCCQ connected to VCC_1V8_S0 | active
+7 | 104 | (66.04, 226.06) | R14 | POWER pin U11POWER VCCQ connected to VCC_1V8_S0 | active
+7 | 104 | (66.04, 223.52) | T15 | POWER pin U11POWER VCCQ connected to VCC_1V8_S0 | active
+7 | 104 | (66.04, 220.98) | T16 | POWER pin U11POWER VCCQ connected to VCC_1V8_S0 | active
+7 | 104 | (66.04, 218.44) | A4 | POWER pin U11POWER VDD1 connected to VCC_1V8_S3 | active
+7 | 104 | (66.04, 215.9) | A9 | POWER pin U11POWER VDD1 connected to VCC_1V8_S3 | active
+7 | 104 | (66.04, 213.36) | A15 | POWER pin U11POWER VDD1 connected to VCC_1V8_S3 | active
+7 | 104 | (66.04, 210.82) | A16 | POWER pin U11POWER VDD1 connected to VCC_1V8_S3 | active
+7 | 104 | (66.04, 208.28) | B15 | POWER pin U11POWER VDD1 connected to VCC_1V8_S3 | active
+7 | 104 | (66.04, 205.74) | AC15 | POWER pin U11POWER VDD1 connected to VCC_1V8_S3 | active
+7 | 104 | (66.04, 203.2) | AD4 | POWER pin U11POWER VDD1 connected to VCC_1V8_S3 | active
+7 | 104 | (66.04, 200.66) | AD9 | POWER pin U11POWER VDD1 connected to VCC_1V8_S3 | active
+7 | 104 | (66.04, 198.12) | AD15 | POWER pin U11POWER VDD1 connected to VCC_1V8_S3 | active
+7 | 104 | (66.04, 195.58) | AD16 | POWER pin U11POWER VDD1 connected to VCC_1V8_S3 | active
+7 | 104 | (66.04, 193.04) | A5 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (66.04, 190.5) | A8 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (66.04, 187.96) | B9 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (66.04, 185.42) | B13 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (66.04, 182.88) | B14 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (66.04, 180.34) | G7 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (66.04, 177.8) | G8 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (66.04, 175.26) | G9 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (66.04, 172.72) | K2 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (66.04, 170.18) | L7 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (66.04, 167.64) | L8 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (66.04, 165.1) | L9 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (116.84, 246.38) | P7 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (116.84, 243.84) | P8 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (116.84, 241.3) | P9 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (116.84, 238.76) | R2 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (116.84, 236.22) | V7 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (116.84, 233.68) | V8 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (116.84, 231.14) | V9 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (116.84, 228.6) | AC9 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (116.84, 226.06) | AC13 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (116.84, 223.52) | AC14 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (116.84, 220.98) | AD5 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (116.84, 218.44) | AD8 | POWER pin U11POWER VDD2 connected to VDD2_DDR_S3 | active
+7 | 104 | (116.84, 213.36) | A6 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 210.82) | A7 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 208.28) | A13 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 205.74) | A14 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 203.2) | B5 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 200.66) | H5 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 198.12) | H9 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 195.58) | J4 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 193.04) | J5 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 190.5) | J8 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 187.96) | T4 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 185.42) | T5 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 182.88) | T8 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 180.34) | U5 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 177.8) | U9 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 175.26) | AC5 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 172.72) | AD6 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 170.18) | AD7 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 167.64) | AD13 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active
+7 | 104 | (116.84, 165.1) | AD14 | POWER pin U11POWER VDDQ connected to VDDQ_DDR_S0 | active

@@ -1,0 +1,1684 @@
+Netlist
+
+Exported from FRIDAY_Compute_SCH2.sch.sch at 28/11/26 6:37 am
+
+EAGLE Version 9.7.0 Copyright (c) 1988-2026 Autodesk, Inc.
+
+Net                       Part      Pad      Pin        Sheet
+
+DDRPHY_ZQ_A               R1200     1        1          6
+                          U1        1R6      ZQ_A_1R6   5
+
+DDRPHY_ZQ_B               R1201     1        1          6
+                          U1        1J6      ZQ_B_1J6   5
+
+DDR_PLL_AVDD1V8           C1213     1        1          4
+                          R1202     2        2          4
+                          U1        2D2      DDRPHY_PLL_AVDD1V8_2D2 4
+
+DRAM_ZQ0                  R3802     1        1          6
+                          U11       B16      ZQ0        6
+
+DRAM_ZQ1                  R3804     1        1          6
+                          U11       C16      ZQ1        6
+
+EMMC_CLK                  R4000     1        1          8
+                          U1        1G23     EMMC_CLK_FSPI0_CLK_SAI0_SDO3_M2_SAI0_SDI1_M2_PDM0_CLK0_M1_PWM2_CH7_M1_GPIO1_B1_D_1G23 5
+
+EMMC_CLKOUT               R4000     2        2          8
+                          U11       P12      CLKM       8
+
+EMMC_CMD                  R4001     1        1          8
+                          U1        1F22     EMMC_CMD_FSPI0_RSTN_FSPI0_CSN1_UART6_TX_M2_I2C7_SCL_M0_GPIO1_B0_U_1F22 5
+                          U11       M9       CMD        8
+
+EMMC_D0                   R4002     1        1          8
+                          U1        E28      EMMC_D0_FSPI0_D0_SAI0_SCLK_M2_UART7_RTSN_M1_I2C2_SCL_M1_GPIO1_A0_U_E28 5
+                          U11       P16      DAT0       8
+
+EMMC_D1                   R4003     1        1          8
+                          U1        E29      EMMC_D1_FSPI0_D1_SAI0_LRCK_M2_UART7_CTSN_M1_I2C2_SDA_M1_GPIO1_A1_U_E29 5
+                          U11       M15      DAT1       8
+
+EMMC_D2                   R4004     1        1          8
+                          U1        1C24     EMMC_D2_FSPI0_D2_SAI0_SDO1_M2_SAI0_SDI3_M2_PDM0_SDI3_M1_UART7_TX_M1_UART6_RTSN_M2_GPIO1_A2_U_1C24 5
+                          U11       N13      DAT2       8
+
+EMMC_D3                   R4005     1        1          8
+                          U1        F28      EMMC_D3_FSPI0_D3_SAI0_SDO2_M2_SAI0_SDI2_M2_PDM0_SDI1_M1_UART7_RX_M1_UART6_CTSN_M2_GPIO1_A3_U_F28 5
+                          U11       P15      DAT3       8
+
+EMMC_D4                   R4006     1        1          8
+                          U1        1D24     EMMC_D4_SAI0_MCLK_M2_SAI3_MCLK_M0_SPI0_CSN0_M2_GPIO1_A4_U_1D24 5
+                          U11       M16      DAT4       8
+
+EMMC_D5                   R4007     1        1          8
+                          U1        G28      EMMC_D5_SAI3_SCLK_M0_PDM0_SDI2_M1_SPI0_MOSI_M2_I2C9_SCL_M0_GPIO1_A5_U_G28 5
+                          U11       N14      DAT5       8
+
+EMMC_D6                   R4008     1        1          8
+                          U1        D28      EMMC_D6_SAI3_LRCK_M0_PDM0_CLK1_M1_SPI0_MISO_M2_I2C9_SDA_M0_GPIO1_A6_U_D28 5
+                          U11       L14      DAT6       8
+
+EMMC_D7                   R4009     1        1          8
+                          U1        1B24     EMMC_D7_SAI0_SDO0_M2_SAI3_SDI_M0_SPI0_CLK_M2_GPIO1_A7_U_1B24 5
+                          U11       L13      DAT7       8
+
+EMMC_RSTN                 R4010     1        1          8
+                          U1        1D23     EMMC_RSTN_FSPI0_CSN0_UART6_RX_M2_I2C7_SDA_M0_MIPI_TE_M3_PWM2_CH1_M0_GPIO1_B3_U_1D23 5
+                          U11       N9       RST_N      8
+
+EMMC_STRB                 U1        1F23     EMMC_STRB_SAI0_SDI0_M2_SAI3_SDO_M0_PDM0_SDI0_M1_SPI0_CSN1_M2_GPIO1_B2_D_1F23 5
+                          U11       M12      DS         8
+
+EMMC_VDDI                 C4004     1        1          8
+                          U11       L17      VDDI       7
+
+GND                       C1        2        2          5
+                          C10       2        2          2
+                          C100      2        2          1
+                          C1000     2        2          4
+                          C1001     2        2          4
+                          C1002     2        2          4
+                          C1003     2        2          4
+                          C1004     2        2          4
+                          C1005     2        2          4
+                          C1006     2        2          4
+                          C1007     2        2          4
+                          C1009     2        2          4
+                          C101      2        2          1
+                          C1010     2        2          4
+                          C1011     2        2          4
+                          C1012     2        2          4
+                          C1013     2        2          4
+                          C1015     2        2          4
+                          C1016     2        2          4
+                          C1017     2        2          4
+                          C1018     2        2          4
+                          C1020     2        2          4
+                          C1021     2        2          4
+                          C1023     2        2          4
+                          C1024     2        2          4
+                          C1026     2        2          4
+                          C1027     2        2          4
+                          C1028     2        2          4
+                          C1029     2        2          4
+                          C103      2        2          1
+                          C1030     2        2          4
+                          C1031     2        2          4
+                          C1032     2        2          4
+                          C1033     2        2          4
+                          C1034     2        2          4
+                          C1035     2        2          4
+                          C1036     2        2          4
+                          C1037     2        2          4
+                          C1038     2        2          4
+                          C1039     2        2          4
+                          C104      2        2          1
+                          C1040     2        2          4
+                          C105      2        2          1
+                          C106      2        2          1
+                          C107      2        2          1
+                          C11       2        2          2
+                          C110      2        2          1
+                          C1102     2        2          5
+                          C1103     2        2          4
+                          C1104     2        2          4
+                          C1105     2        2          4
+                          C1106     2        2          4
+                          C1107     2        2          4
+                          C1108     2        2          5
+                          C111      2        2          1
+                          C1116     2        2          5
+                          C1117     2        2          4
+                          C1118     2        2          4
+                          C1119     2        2          5
+                          C12       2        2          2
+                          C1200     2        2          4
+                          C1201     2        2          4
+                          C1202     2        2          4
+                          C1203     2        2          4
+                          C1204     2        2          4
+                          C1205     2        2          4
+                          C1206     2        2          4
+                          C1207     2        2          4
+                          C1208     2        2          4
+                          C1209     2        2          4
+                          C1210     2        2          4
+                          C1211     2        2          4
+                          C1212     2        2          4
+                          C1213     2        2          4
+                          C1214     2        2          4
+                          C13       2        2          2
+                          C1300     2        2          4
+                          C1302     2        2          4
+                          C1303     2        2          4
+                          C1305     2        2          4
+                          C1306     2        2          4
+                          C1308     2        2          4
+                          C1309     2        2          4
+                          C14       2        2          2
+                          C1400     2        2          4
+                          C1401     2        2          4
+                          C1402     2        2          4
+                          C1403     2        2          4
+                          C1405     2        2          4
+                          C1406     2        2          4
+                          C1408     2        2          4
+                          C15       2        2          2
+                          C1503     2        2          4
+                          C1504     2        2          4
+                          C1505     2        2          4
+                          C1506     2        2          4
+                          C1509     2        2          4
+                          C16       2        2          2
+                          C17       2        2          3
+                          C18       2        2          3
+                          C1801     2        2          4
+                          C1802     2        2          4
+                          C1901     2        2          4
+                          C1903     2        2          4
+                          C2        2        2          5
+                          C2311     2        2          2
+                          C2334     2        2          2
+                          C2351     2        2          2
+                          C2352     2        2          2
+                          C2357     2        2          2
+                          C2360     2        2          2
+                          C2361     2        2          2
+                          C2362     2        2          2
+                          C2363     2        2          2
+                          C2365     2        2          2
+                          C2366     2        2          2
+                          C2367     2        2          2
+                          C2368     2        2          2
+                          C2369     2        2          2
+                          C2370     2        2          2
+                          C2372     2        2          2
+                          C2405     2        2          3
+                          C2407     2        2          3
+                          C2410     2        2          3
+                          C2411     2        2          3
+                          C2412     2        2          3
+                          C2413     2        2          3
+                          C2423     2        2          4
+                          C35       2        2          2
+                          C36       2        2          2
+                          C37       2        2          2
+                          C38       2        2          2
+                          C3800     2        2          7
+                          C3801     2        2          7
+                          C3802     2        2          7
+                          C3803     2        2          7
+                          C3804     2        2          7
+                          C3805     2        2          7
+                          C3806     2        2          7
+                          C3807     2        2          7
+                          C3808     2        2          7
+                          C3809     2        2          7
+                          C3810     2        2          7
+                          C3811     2        2          7
+                          C3812     2        2          7
+                          C3813     2        2          7
+                          C3814     2        2          7
+                          C3815     2        2          7
+                          C3816     2        2          7
+                          C3817     2        2          7
+                          C3818     2        2          7
+                          C3819     2        2          7
+                          C3820     2        2          7
+                          C3821     2        2          7
+                          C3822     2        2          7
+                          C3823     2        2          7
+                          C3824     2        2          7
+                          C3825     2        2          7
+                          C3826     2        2          7
+                          C3827     2        2          7
+                          C3828     2        2          7
+                          C3829     2        2          7
+                          C3830     2        2          7
+                          C3831     2        2          7
+                          C3832     2        2          7
+                          C3833     2        2          7
+                          C3834     2        2          7
+                          C3835     2        2          7
+                          C3836     2        2          7
+                          C3837     2        2          7
+                          C3838     2        2          7
+                          C3839     2        2          7
+                          C3840     2        2          7
+                          C3841     2        2          7
+                          C3842     2        2          7
+                          C39       2        2          2
+                          C40       2        2          2
+                          C4000     2        2          8
+                          C4001     2        2          8
+                          C4002     2        2          8
+                          C4003     2        2          8
+                          C4004     2        2          8
+                          C41       2        2          2
+                          C42       2        2          2
+                          C47       2        2          1
+                          C48       2        2          1
+                          C53       2        2          2
+                          C54       2        2          2
+                          C55       2        2          2
+                          C56       2        2          2
+                          C57       2        2          2
+                          C58       2        2          2
+                          C59       2        2          2
+                          C60       2        2          2
+                          C61       2        2          2
+                          C62       2        2          2
+                          C63       2        2          2
+                          C64       2        2          2
+                          C65       2        2          2
+                          C66       2        2          2
+                          C67       2        2          2
+                          C68       2        2          2
+                          C7        2        2          2
+                          C71       2        2          2
+                          C72       2        2          2
+                          C73       2        2          2
+                          C74       2        2          2
+                          C75       2        2          2
+                          C76       2        2          2
+                          C77       2        2          2
+                          C78       2        2          2
+                          C79       2        2          3
+                          C8        2        2          2
+                          C80       2        2          3
+                          C82       2        2          1
+                          C83       2        2          1
+                          C84       2        2          1
+                          C85       2        2          1
+                          C86       2        2          1
+                          C9        2        2          2
+                          D1        2        GND        1
+                          D2        1        1          1
+                          D3        1        1          1
+                          J1        A1_B12   GND        1
+                          J1        B1_A12   GND        1
+                          J1        S1       SHIELD     1
+                          J1        S2       SHIELD     1
+                          J1        S3       SHIELD     1
+                          J1        S4       SHIELD     1
+                          J4        2        GND        1
+                          R1        2        2          1
+                          R101      2        2          1
+                          R103      2        2          1
+                          R105      2        2          1
+                          R107      2        2          1
+                          R109      2        2          1
+                          R110      2        2          1
+                          R1400     2        2          6
+                          R1401     2        2          4
+                          R1402     2        2          4
+                          R17       2        2          5
+                          R2        2        2          1
+                          R21       2        2          2
+                          R2304     2        2          2
+                          R2305     2        2          2
+                          R2314     2        2          2
+                          R2320     2        2          2
+                          R2321     2        2          2
+                          R2330     2        2          2
+                          R24       2        2          2
+                          R2405     2        2          3
+                          R2406     2        2          3
+                          R2413     2        2          3
+                          R2414     2        2          3
+                          R26       2        2          3
+                          R28       2        2          3
+                          R29       2        2          3
+                          R32       2        2          1
+                          SW1       C        NO         5
+                          SW1       D        NO         5
+                          SW2       C        NO         2
+                          SW2       D        NO         2
+                          TP3       1        1          5
+                          U1        1A2      VSS_7_1A2  5
+                          U1        1A3      VSS_8_1A3  5
+                          U1        1AA2     VSS_91_1AA2 5
+                          U1        1AA21    VSS_93_1AA21 5
+                          U1        1AA24    VSS_94_1AA24 5
+                          U1        1AA4     VSS_92_1AA4 5
+                          U1        1AB2     VSS_95_1AB2 5
+                          U1        1AB20    AVSS_10_1AB20 5
+                          U1        1AB21    AVSS_11_1AB21 5
+                          U1        1AB22    AVSS_12_1AB22 5
+                          U1        1AB23    AVSS_13_1AB23 5
+                          U1        1AB24    AVSS_14_1AB24 5
+                          U1        1AB5     VSS_96_1AB5 5
+                          U1        1AB6     VSS_97_1AB6 5
+                          U1        1AC1     VSS_98_1AC1 5
+                          U1        1AC2     VSS_99_1AC2 5
+                          U1        1AC20    AVSS_15_1AC20 5
+                          U1        1AC21    AVSS_16_1AC21 5
+                          U1        1AC24    AVSS_17_1AC24 5
+                          U1        1AC3     VSS_100_1AC3 5
+                          U1        1AC4     VSS_101_1AC4 5
+                          U1        1AC5     VSS_102_1AC5 5
+                          U1        1AD20    AVSS_18_1AD20 5
+                          U1        1AD23    AVSS_19_1AD23 5
+                          U1        1AD24    AVSS_20_1AD24 5
+                          U1        1AD3     VSS_103_1AD3 5
+                          U1        1AE20    AVSS_23_1AE20 5
+                          U1        1AE21    AVSS_24_1AE21 5
+                          U1        1AE23    AVSS_25_1AE23 5
+                          U1        1AE3     VSS_104_1AE3 5
+                          U1        1AE4     AVSS_21_1AE4 5
+                          U1        1AE6     AVSS_22_1AE6 5
+                          U1        1B2      VSS_9_1B2  5
+                          U1        1C13     VSS_13_1C13 5
+                          U1        1C16     VSS_14_1C16 5
+                          U1        1C2      VSS_10_1C2 5
+                          U1        1C21     VSS_15_1C21 5
+                          U1        1C4      VSS_11_1C4 5
+                          U1        1C9      VSS_12_1C9 5
+                          U1        1D1      VSS_16_1D1 5
+                          U1        1D3      VSS_17_1D3 5
+                          U1        1D5      VSS_18_1D5 5
+                          U1        1E10     VSS_23_1E10 5
+                          U1        1E13     VSS_24_1E13 5
+                          U1        1E16     VSS_25_1E16 5
+                          U1        1E2      VSS_19_1E2 5
+                          U1        1E23     VSS_26_1E23 5
+                          U1        1E24     VSS_27_1E24 5
+                          U1        1E3      VSS_20_1E3 5
+                          U1        1E5      VSS_21_1E5 5
+                          U1        1E6      VSS_22_1E6 5
+                          U1        1F20     VSS_31_1F20 5
+                          U1        1F21     VSS_32_1F21 5
+                          U1        1F24     VSS_33_1F24 5
+                          U1        1F3      VSS_28_1F3 5
+                          U1        1F5      VSS_29_1F5 5
+                          U1        1F6      VSS_30_1F6 5
+                          U1        1G20     VSS_36_1G20 5
+                          U1        1G21     VSS_37_1G21 5
+                          U1        1G22     VSS_38_1G22 5
+                          U1        1G24     VSS_39_1G24 5
+                          U1        1G3      VSS_34_1G3 5
+                          U1        1G6      VSS_35_1G6 5
+                          U1        1H1      VSS_40_1H1 5
+                          U1        1H2      VSS_41_1H2 5
+                          U1        1H20     VSS_45_1H20 5
+                          U1        1H21     AVSS1_3_1H21 5
+                          U1        1H24     AVSS1_4_1H24 5
+                          U1        1H3      VSS_42_1H3 5
+                          U1        1H4      VSS_43_1H4 5
+                          U1        1H6      VSS_44_1H6 5
+                          U1        1J2      VSS_46_1J2 5
+                          U1        1J21     AVSS1_5_1J21 5
+                          U1        1J22     AVSS1_6_1J22 5
+                          U1        1J23     AVSS1_7_1J23 5
+                          U1        1J24     AVSS1_8_1J24 5
+                          U1        1J4      VSS_47_1J4 5
+                          U1        1K20     AVSS1_9_1K20 5
+                          U1        1K21     AVSS1_10_1K21 5
+                          U1        1K24     AVSS1_11_1K24 5
+                          U1        1K3      VSS_48_1K3 5
+                          U1        1K6      VSS_49_1K6 5
+                          U1        1L2      VSS_50_1L2 5
+                          U1        1L20     AVSS1_12_1L20 5
+                          U1        1L21     AVSS1_13_1L21 5
+                          U1        1L22     AVSS1_14_1L22 5
+                          U1        1L24     AVSS1_15_1L24 5
+                          U1        1L3      VSS_51_1L3 5
+                          U1        1L4      VSS_52_1L4 5
+                          U1        1L5      VSS_53_1L5 5
+                          U1        1L6      VSS_54_1L6 5
+                          U1        1M1      VSS_55_1M1 5
+                          U1        1M2      VSS_56_1M2 5
+                          U1        1M20     AVSS1_16_1M20 5
+                          U1        1M21     AVSS1_17_1M21 5
+                          U1        1M22     AVSS1_18_1M22 5
+                          U1        1M24     AVSS1_19_1M24 5
+                          U1        1M4      VSS_57_1M4 5
+                          U1        1M6      VSS_58_1M6 5
+                          U1        1N2      VSS_59_1N2 5
+                          U1        1N20     AVSS1_20_1N20 5
+                          U1        1N21     AVSS1_21_1N21 5
+                          U1        1N24     AVSS1_22_1N24 5
+                          U1        1N4      VSS_60_1N4 5
+                          U1        1N6      VSS_61_1N6 5
+                          U1        1P2      VSS_62_1P2 5
+                          U1        1P20     VSS_66_1P20 5
+                          U1        1P21     VSS_67_1P21 5
+                          U1        1P22     VSS_68_1P22 5
+                          U1        1P24     VSS_69_1P24 5
+                          U1        1P3      VSS_63_1P3 5
+                          U1        1P4      VSS_64_1P4 5
+                          U1        1P6      VSS_65_1P6 5
+                          U1        1R1      VSS_70_1R1 5
+                          U1        1R2      VSS_71_1R2 5
+                          U1        1T20     VSS_75_1T20 5
+                          U1        1T3      VSS_72_1T3 5
+                          U1        1T5      VSS_73_1T5 5
+                          U1        1T6      VSS_74_1T6 5
+                          U1        1U2      VSS_76_1U2 5
+                          U1        1U3      VSS_77_1U3 5
+                          U1        1U4      VSS_78_1U4 5
+                          U1        1U6      VSS_79_1U6 5
+                          U1        1V2      VSS_80_1V2 5
+                          U1        1V6      VSS_81_1V6 5
+                          U1        1W1      VSS_82_1W1 5
+                          U1        1W20     MIPI_DPHY_CSI1_2_RX_AVDD1V8_1W20 5
+                          U1        1W3      VSS_83_1W3 5
+                          U1        1W5      VSS_84_1W5 5
+                          U1        1W6      VSS_85_1W6 5
+                          U1        1Y2      VSS_86_1Y2 5
+                          U1        1Y20     AVSS_9_1Y20 5
+                          U1        1Y3      VSS_87_1Y3 5
+                          U1        1Y4      VSS_88_1Y4 5
+                          U1        1Y5      VSS_89_1Y5 5
+                          U1        1Y6      VSS_90_1Y6 5
+                          U1        2A1      VSS_105_2A1 4
+                          U1        2A11     VSS_109_2A11 4
+                          U1        2A12     VSS_110_2A12 4
+                          U1        2A3      VSS_106_2A3 4
+                          U1        2A6      VSS_107_2A6 4
+                          U1        2A9      VSS_108_2A9 4
+                          U1        2B1      VSS_111_2B1 4
+                          U1        2B11     VSS_119_2B11 4
+                          U1        2B12     VSS_120_2B12 4
+                          U1        2B3      VSS_112_2B3 4
+                          U1        2B4      VSS_113_2B4 4
+                          U1        2B5      VSS_114_2B5 4
+                          U1        2B6      VSS_115_2B6 4
+                          U1        2B7      VSS_116_2B7 4
+                          U1        2B8      VSS_117_2B8 4
+                          U1        2B9      VSS_118_2B9 4
+                          U1        2C1      VSS_121_2C1 4
+                          U1        2C10     VSS_123_2C10 4
+                          U1        2C11     VSS_124_2C11 4
+                          U1        2C12     VSS_125_2C12 4
+                          U1        2C2      DDRPHY_PLL_AVSS_2C2 4
+                          U1        2C6      VSS_122_2C6 4
+                          U1        2D10     AVSS1_23_2D10 4
+                          U1        2D11     MIPI_DPHY_CSI3_4_RX_AVDD0V75_2D11 4
+                          U1        2D12     MIPI_DPHY_CSI3_4_RX_AVDD1V8_2D12 4
+                          U1        2D3      VSS_126_2D3 4
+                          U1        2D6      VSS_127_2D6 4
+                          U1        2D9      VSS_128_2D9 4
+                          U1        2E10     AVSS1_24_2E10 4
+                          U1        2E11     PCIE1_SATA1_USB3_OTG1_AVDD0V85_2E11 4
+                          U1        2E12     PCIE1_SATA1_USB3_OTG1_AVDD1V8_2E12 4
+                          U1        2E3      VSS_129_2E3 4
+                          U1        2E5      VSS_130_2E5 4
+                          U1        2E6      VSS_131_2E6 4
+                          U1        2E8      VSS_132_2E8 4
+                          U1        2E9      VSS_133_2E9 4
+                          U1        2F11     PCIE0_SATA0_AVDD0V85_2F11 4
+                          U1        2F12     PCIE0_SATA0_AVDD1V8_2F12 4
+                          U1        2F4      VSS_134_2F4 4
+                          U1        2F5      VSS_135_2F5 4
+                          U1        2F6      VSS_136_2F6 4
+                          U1        2G10     VSS_139_2G10 4
+                          U1        2G12     PLL_AVSS_2G12 4
+                          U1        2G4      VSS_137_2G4 4
+                          U1        2G7      VSS_138_2G7 4
+                          U1        2H10     TVSS_2H10  4
+                          U1        2H3      VSS_140_2H3 4
+                          U1        2H5      VSS_141_2H5 4
+                          U1        2J1      VSS_142_2J1 4
+                          U1        2J11     VSS_145_2J11 4
+                          U1        2J12     VSS_146_2J12 4
+                          U1        2J5      VSS_143_2J5 4
+                          U1        2J8      VSS_144_2J8 4
+                          U1        2K1      VSS_147_2K1 4
+                          U1        2K10     VSS_152_2K10 4
+                          U1        2K12     VSS_153_2K12 4
+                          U1        2K2      VSS_148_2K2 4
+                          U1        2K5      VSS_149_2K5 4
+                          U1        2K8      VSS_150_2K8 4
+                          U1        2K9      VSS_151_2K9 4
+                          U1        2L1      VSS_154_2L1 4
+                          U1        2L11     MIPI_DPHY_CSI1_2_RX_AVDD0V7_2L11 4
+                          U1        2L12     VSS_162_2L12 4
+                          U1        2L3      VSS_155_2L3 4
+                          U1        2L4      VSS_156_2L4 4
+                          U1        2L5      VSS_157_2L5 4
+                          U1        2L6      VSS_158_2L6 4
+                          U1        2L7      VSS_159_2L7 4
+                          U1        2L8      VSS_160_2L8 4
+                          U1        2L9      VSS_161_2L9 4
+                          U1        2M1      AVSS_26_2M1 4
+                          U1        2M10     AVSS_30_2M10 4
+                          U1        2M11     AVSS_31_2M11 4
+                          U1        2M12     AVSS_32_2M12 4
+                          U1        2M4      AVSS_27_2M4 4
+                          U1        2M6      AVSS_28_2M6 4
+                          U1        2M9      AVSS_29_2M9 4
+                          U1        2N1      AVSS_33_2N1 4
+                          U1        2N10     HDMI_TX_EDP_TX_AVDDIO1V8_2N10 4
+                          U1        2N11     HDMI_TX_EDP_TX_AVDDD0V75_2N11 4
+                          U1        2N12     AVSS_37_2N12 4
+                          U1        2N6      AVSS_34_2N6 4
+                          U1        2N8      AVSS_35_2N8 4
+                          U1        2N9      AVSS_36_2N9 4
+                          U1        2P1      AVSS_38_2P1 4
+                          U1        2P10     HDMI_TX_EDP_TX_AVDDCMN1V8_2P10 4
+                          U1        2P11     HDMI_TX_EDP_TX_AVDDC0V75_2P11 4
+                          U1        2P12     AVSS_41_2P12 4
+                          U1        2P6      AVSS_39_2P6 4
+                          U1        2P9      AVSS_40_2P9 4
+                          U1        2R1      AVSS_42_2R1 4
+                          U1        2R10     AVSS_48_2R10 4
+                          U1        2R11     AVSS_49_2R11 4
+                          U1        2R12     AVSS_50_2R12 4
+                          U1        2R4      AVSS_43_2R4 4
+                          U1        2R5      AVSS_44_2R5 4
+                          U1        2R7      AVSS_45_2R7 4
+                          U1        2R8      AVSS_46_2R8 4
+                          U1        2R9      AVSS_47_2R9 4
+                          U1        2T1      AVSS_51_2T1 4
+                          U1        2T11     AVSS_54_2T11 4
+                          U1        2T6      AVSS_52_2T6 4
+                          U1        2T8      AVSS_53_2T8 4
+                          U1        2U1      AVSS_55_2U1 4
+                          U1        2U10     AVSS_63_2U10 4
+                          U1        2U11     AVSS_64_2U11 4
+                          U1        2U2      AVSS_56_2U2 4
+                          U1        2U3      AVSS_57_2U3 4
+                          U1        2U4      AVSS_58_2U4 4
+                          U1        2U5      AVSS_59_2U5 4
+                          U1        2U6      AVSS_60_2U6 4
+                          U1        2U7      AVSS_61_2U7 4
+                          U1        2U9      AVSS_62_2U9 4
+                          U1        2V1      AVSS_65_2V1 4
+                          U1        2V10     AVSS_74_2V10 4
+                          U1        2V11     AVSS_75_2V11 4
+                          U1        2V12     AVSS_76_2V12 4
+                          U1        2V2      AVSS_66_2V2 4
+                          U1        2V3      AVSS_67_2V3 4
+                          U1        2V4      AVSS_68_2V4 4
+                          U1        2V5      AVSS_69_2V5 4
+                          U1        2V6      AVSS_70_2V6 4
+                          U1        2V7      AVSS_71_2V7 4
+                          U1        2V8      AVSS_72_2V8 4
+                          U1        2V9      AVSS_73_2V9 4
+                          U1        A1       VSS_0_A1   5
+                          U1        A29      VSS_2_A29  5
+                          U1        A4       VSS_1_A4   5
+                          U1        AJ29     AVSS_0_AJ29 5
+                          U1        AK14     AVSS_2_AK14 5
+                          U1        AK25     AVSS_3_AK25 5
+                          U1        AK6      AVSS_1_AK6 5
+                          U1        AL1      VSS_6_AL1  5
+                          U1        AL14     AVSS_6_AL14 5
+                          U1        AL25     AVSS_7_AL25 5
+                          U1        AL29     AVSS_8_AL29 5
+                          U1        AL4      AVSS_4_AL4 5
+                          U1        AL8      AVSS_5_AL8 5
+                          U1        B5       VSS_3_B5   5
+                          U1        C1       VSS_4_C1   5
+                          U1        G29      AVSS1_0_G29 5
+                          U1        T28      AVSS1_1_T28 5
+                          U1        T29      AVSS1_2_T29 5
+                          U1        V28      VSS_5_V28  5
+                          U10       9        GND        1
+                          U11       AA14     VSS        7
+                          U11       AA15     VSS        7
+                          U11       AA4      VSS        7
+                          U11       AA6      VSS        7
+                          U11       AA8      VSS        7
+                          U11       AB14     VSS        7
+                          U11       AB4      VSS        7
+                          U11       AB5      VSS        7
+                          U11       AB7      VSS        7
+                          U11       AC4      VSS        7
+                          U11       AC6      VSS        7
+                          U11       AC8      VSS        7
+                          U11       B4       VSS        7
+                          U11       B6       VSS        7
+                          U11       B8       VSS        7
+                          U11       C14      VSS        7
+                          U11       C4       VSS        7
+                          U11       C5       VSS        7
+                          U11       C7       VSS        7
+                          U11       D14      VSS        7
+                          U11       D15      VSS        7
+                          U11       D4       VSS        7
+                          U11       D6       VSS        7
+                          U11       D8       VSS        7
+                          U11       E14      VSS        7
+                          U11       F14      VSS        7
+                          U11       G13      VSS        7
+                          U11       G15      VSS        7
+                          U11       G4       VSS        7
+                          U11       G5       VSS        7
+                          U11       G6       VSS        7
+                          U11       H13      VSS        7
+                          U11       H15      VSS        7
+                          U11       H4       VSS        7
+                          U11       H7       VSS        7
+                          U11       J6       VSS        7
+                          U11       K13      VSSM       7
+                          U11       K14      VSSM       7
+                          U11       K16      VSSM       7
+                          U11       K4       VSS        7
+                          U11       K7       VSS        7
+                          U11       K8       VSS        7
+                          U11       L12      VSSM       7
+                          U11       L15      VSSM       7
+                          U11       L16      VSSM       7
+                          U11       M13      VSSM       7
+                          U11       M14      VSSM       7
+                          U11       M8       VSSM       7
+                          U11       N12      VSSM       7
+                          U11       N15      VSSM       7
+                          U11       N16      VSSM       7
+                          U11       N8       VSSM       7
+                          U11       P13      VSSM       7
+                          U11       P14      VSSM       7
+                          U11       R15      VSSM       7
+                          U11       R16      VSSM       7
+                          U11       R17      VSSM       7
+                          U11       R4       VSS        7
+                          U11       R7       VSS        7
+                          U11       R8       VSS        7
+                          U11       T6       VSS        7
+                          U11       U13      VSS        7
+                          U11       U15      VSS        7
+                          U11       U4       VSS        7
+                          U11       U7       VSS        7
+                          U11       V13      VSS        7
+                          U11       V15      VSS        7
+                          U11       V4       VSS        7
+                          U11       V5       VSS        7
+                          U11       V6       VSS        7
+                          U11       W14      VSS        7
+                          U11       Y14      VSS        7
+                          U2        2        SYNC       2
+                          U2        3        SYNC_CLK   2
+                          U2        69       EPAD       2
+                          U5        12       GND        1
+                          U5        3        CP2        1
+                          U6        2        GND        3
+                          U7        2        GND        3
+                          U8        2        GND        3
+                          U9        B1       GND        3
+                          Y1        2        2          5
+                          Y1        4        4          5
+
+I2C1_SCL_M0_RK806         R1122     2        2          5
+                          R5        2        2          2
+                          U2        17       CLK/SCL    2
+
+I2C1_SDA_M0_RK806         R1123     2        2          5
+                          R6        2        2          2
+                          U2        15       MOSI       2
+
+LP4X_A0_A                 U1        T1       LP4_A0_A_LP4X_A0_A_LP5_A0_A_T1 5
+                          U11       G14      CA0_A      6
+
+LP4X_A0_B                 U1        L1       LP4_A0_B_LP4X_A0_B_LP5_A0_B_L1 5
+                          U11       V14      CA0_B      6
+
+LP4X_A1_A                 U1        1N1      LP4_A1_A_LP4X_A1_A_LP5_A1_A_1N1 5
+                          U11       F13      CA1_A      6
+
+LP4X_A1_B                 U1        1J1      LP4_A1_B_LP4X_A1_B_LP5_A1_B_1J1 5
+                          U11       W13      CA1_B      6
+
+LP4X_A2_A                 U1        1R3      LP4_A2_A_LP4X_A2_A_LP5_A2_A_1R3 5
+                          U11       C13      CA2_A      6
+
+LP4X_A2_B                 U1        1J3      LP4_A2_B_LP4X_A2_B_LP5_A2_B_1J3 5
+                          U11       AB13     CA2_B      6
+
+LP4X_A3_A                 U1        1T2      LP4_A3_A_LP4X_A3_A_LP5_A3_A_1T2 5
+                          U11       D13      CA3_A      6
+
+LP4X_A3_B                 U1        1G2      LP4_A3_B_LP4X_A3_B_LP5_A3_B_1G2 5
+                          U11       AA13     CA3_B      6
+
+LP4X_A4_A                 U1        1M5      LP4_A4_A_LP4X_A4_A_LP5_A4_A_1M5 5
+                          U11       E13      CA4_A      6
+
+LP4X_A4_B                 U1        1F4      LP4_A4_B_LP4X_A4_B_LP5_A4_B_1F4 5
+                          U11       Y13      CA4_B      6
+
+LP4X_A5_A                 U1        1P5      LP4_A5_A_LP4X_A5_A_LP5_A5_A_1P5 5
+                          U11       C15      CA5_A      6
+
+LP4X_A5_B                 U1        1K5      LP4_A5_B_LP4X_A5_B_LP5_A5_B_1K5 5
+                          U11       AB15     CA5_B      6
+
+LP4X_CKE0_A               U1        1N3      LP4_CKE0_A_LP4X_CKE0_A_LP5_CSN0_A_1N3 5
+                          U11       E16      CKE0_A     6
+
+LP4X_CKE0_B               U1        1K2      LP4_CKE0_B_LP4X_CKE0_B_LP5_CSN_B_1K2 5
+                          U11       Y16      CKE0_B     6
+
+LP4X_CKE1_A               U1        1N5      LP4_CKE1_A_LP4X_CKE1_A_LP5_CSN1_A_1N5 5
+                          U11       F16      CKE1_A     6
+
+LP4X_CKE1_B               U1        1M3      LP4_CKE1_B_LP4X_CKE1_B_LP5_CSN1_B_1M3 5
+                          U11       W16      CKE1_B     6
+
+LP4X_CLKN_A               U1        P1       LP4_CLKN_A_LP4X_CLKN_A_LP5_CLKN_A_P1 5
+                          U11       G16      CLK_C_A    6
+
+LP4X_CLKN_B               U1        N1       LP4_CLKN_B_LP4X_CLKN_B_LP5_CLKN_B_N1 5
+                          U11       V16      CLK_C_B    6
+
+LP4X_CLKP_A               U1        1L1      LP4_CLKP_A_LP4X_CLKP_A_LP5_CLKP_A_1L1 5
+                          U11       H16      CLK_T_A    6
+
+LP4X_CLKP_B               U1        1K1      LP4_CLKP_B_LP4X_CLKP_B_LP5_CLKP_B_1K1 5
+                          U11       U16      CLK_T_B    6
+
+LP4X_CSN0_A               U1        1R4      LP4_CSN0_A_LP4X_CSN0_A_1R4 5
+                          U11       E15      CS0_A      6
+
+LP4X_CSN0_B               U1        1J5      LP4_CSN0_B_LP4X_CSN0_B_1J5 5
+                          U11       Y15      CS0_B      6
+
+LP4X_CSN1_A               U1        1T4      LP4_CSN1_A_LP4X_CSN1_A_1T4 5
+                          U11       F15      CS1_A      6
+
+LP4X_CSN1_B               U1        1K4      LP4_CSN1_B_LP4X_CSN1_B_1K4 5
+                          U11       W15      CS1_B      6
+
+LP4X_DMI0_A               U1        1V1      LP4_DMI0_A_LP4X_DMI0_A_LP5_DMI0_A_1V1 5
+                          U11       D5       DMI0_A     6
+
+LP4X_DMI0_B               U1        B4       LP4_DMI0_B_LP4X_DMI0_B_LP5_DMI0_B_B4 5
+                          U11       AA5      DMI0_B     6
+
+LP4X_DMI1_A               U1        AE1      LP4_DMI1_A_LP4X_DMI1_A_LP5_DMI1_A_AE1 5
+                          U11       H3       DMI1_A     6
+
+LP4X_DMI1_B               U1        1B1      LP4_DMI1_B_LP4X_DMI1_B_LP5_DMI1_B_1B1 5
+                          U11       U3       DMI1_B     6
+
+LP4X_DQ0_A                U1        W1       LP4_DQ0_A_LP4X_DQ0_A_LP5_DQ0_A_W1 5
+                          U11       A3       DQ0_A      6
+
+LP4X_DQ0_B                U1        1D2      LP4_DQ0_B_LP4X_DQ0_B_LP5_DQ0_B_1D2 5
+                          U11       AD3      DQ0_B      6
+
+LP4X_DQ1_A                U1        1T1      LP4_DQ1_A_LP4X_DQ1_A_LP5_DQ1_A_1T1 5
+                          U11       B3       DQ1_A      6
+
+LP4X_DQ1_B                U1        1F2      LP4_DQ1_B_LP4X_DQ1_B_LP5_DQ1_B_1F2 5
+                          U11       AC3      DQ1_B      6
+
+LP4X_DQ2_A                U1        1P1      LP4_DQ2_A_LP4X_DQ2_A_LP5_DQ2_A_1P1 5
+                          U11       C3       DQ2_A      6
+
+LP4X_DQ2_B                U1        1G1      LP4_DQ2_B_LP4X_DQ2_B_LP5_DQ2_B_1G1 5
+                          U11       AB3      DQ2_B      6
+
+LP4X_DQ3_A                U1        U1       LP4_DQ3_A_LP4X_DQ3_A_LP5_DQ3_A_U1 5
+                          U11       D3       DQ3_A      6
+
+LP4X_DQ3_B                U1        K1       LP4_DQ3_B_LP4X_DQ3_B_LP5_DQ3_B_K1 5
+                          U11       AA3      DQ3_B      6
+
+LP4X_DQ4_A                U1        1V3      LP4_DQ4_A_LP4X_DQ4_A_LP5_DQ4_A_1V3 5
+                          U11       B7       DQ4_A      6
+
+LP4X_DQ4_B                U1        1C3      LP4_DQ4_B_LP4X_DQ4_B_LP5_DQ4_B_1C3 5
+                          U11       AC7      DQ4_B      6
+
+LP4X_DQ5_A                U1        1W4      LP4_DQ5_A_LP4X_DQ5_A_LP5_DQ5_A_1W4 5
+                          U11       C6       DQ5_A      6
+
+LP4X_DQ5_B                U1        1B3      LP4_DQ5_B_LP4X_DQ5_B_LP5_DQ5_B_1B3 5
+                          U11       AB6      DQ5_B      6
+
+LP4X_DQ6_A                U1        AC1      LP4_DQ6_A_LP4X_DQ6_A_LP5_DQ6_A_AC1 5
+                          U11       D7       DQ6_A      6
+
+LP4X_DQ6_B                U1        A5       LP4_DQ6_B_LP4X_DQ6_B_LP5_DQ6_B_A5 5
+                          U11       AA7      DQ6_B      6
+
+LP4X_DQ7_A                U1        AB1      LP4_DQ7_A_LP4X_DQ7_A_LP5_DQ7_A_AB1 5
+                          U11       C8       DQ7_A      6
+
+LP4X_DQ7_B                U1        G1       LP4_DQ7_B_LP4X_DQ7_B_LP5_DQ7_B_G1 5
+                          U11       AB8      DQ7_B      6
+
+LP4X_DQ8_A                U1        AF1      LP4_DQ8_A_LP4X_DQ8_A_LP5_DQ8_A_AF1 5
+                          U11       K5       DQ8_A      6
+
+LP4X_DQ8_B                U1        1A1      LP4_DQ8_B_LP4X_DQ8_B_LP5_DQ8_B_1A1 5
+                          U11       R5       DQ8_B      6
+
+LP4X_DQ9_A                U1        1AB1     LP4_DQ9_A_LP4X_DQ9_A_LP5_DQ9_A_1AB1 5
+                          U11       K6       DQ9_A      6
+
+LP4X_DQ9_B                U1        B1       LP4_DQ9_B_LP4X_DQ9_B_LP5_DQ9_B_B1 5
+                          U11       R6       DQ9_B      6
+
+LP4X_DQ10_A               U1        1AD1     LP4_DQ10_A_LP4X_DQ10_A_LP5_DQ10_A_1AD1 5
+                          U11       K3       DQ10_A     6
+
+LP4X_DQ10_B               U1        B2       LP4_DQ10_B_LP4X_DQ10_B_LP5_DQ10_B_B2 5
+                          U11       R3       DQ10_B     6
+
+LP4X_DQ11_A               U1        AH1      LP4_DQ11_A_LP4X_DQ11_A_LP5_DQ11_A_AH1 5
+                          U11       J3       DQ11_A     6
+
+LP4X_DQ11_B               U1        A2       LP4_DQ11_B_LP4X_DQ11_B_LP5_DQ11_B_A2 5
+                          U11       T3       DQ11_B     6
+
+LP4X_DQ12_A               U1        1Y1      LP4_DQ12_A_LP4X_DQ12_A_LP5_DQ12_A_1Y1 5
+                          U11       J7       DQ12_A     6
+
+LP4X_DQ12_B               U1        1E1      LP4_DQ12_B_LP4X_DQ12_B_LP5_DQ1_1E1 5
+                          U11       T7       DQ12_B     6
+
+LP4X_DQ13_A               U1        1W2      LP4_DQ13_A_LP4X_DQ13_A_LP5_DQ13_A_1W2 5
+                          U11       G3       DQ13_A     6
+
+LP4X_DQ13_B               U1        1C1      LP4_DQ13_B_LP4X_DQ13_B_LP5_DQ13_B_1C1 5
+                          U11       V3       DQ13_B     6
+
+LP4X_DQ14_A               U1        1AA3     LP4_DQ14_A_LP4X_DQ14_A_LP5_DQ14_A_1AA3 5
+                          U11       H6       DQ14_A     6
+
+LP4X_DQ14_B               U1        E1       LP4_DQ14_B_LP4X_DQ14_B_LP5_DQ14_B_E1 5
+                          U11       U6       DQ14_B     6
+
+LP4X_DQ15_A               U1        1AA1     LP4_DQ15_A_LP4X_DQ15_A_LP5_DQ15_A_1AA1 5
+                          U11       H8       DQ15_A     6
+
+LP4X_DQ15_B               U1        D1       LP4_DQ15_B_LP4X_DQ15_B_LP5_DQ15_B_D1 5
+                          U11       U8       DQ15_B     6
+
+LP4X_DQS0N_A              U1        Y1       LP4_DQS0N_A_LP4X_DQS0N_A_LP5_RDQS0N_A_Y1 5
+                          U11       D9       DQS0_C_A   6
+
+LP4X_DQS0N_B              U1        1F1      LP4_DQS0N_B_LP4X_DQS0N_B_LP5_RDQS0N_B_1F1 5
+                          U11       AA9      DQS0_C_B   6
+
+LP4X_DQS0P_A              U1        1U1      LP4_DQS0P_A_LP4X_DQS0P_A_LP5_RDQS0P_A_1U1 5
+                          U11       C9       DQS0_T_A   6
+
+LP4X_DQS0P_B              U1        H1       LP4_DQS0P_B_LP4X_DQS0P_B_LP5_RDQS0P_B_H1 5
+                          U11       AB9      DQS0_T_B   6
+
+LP4X_DQS1N_A              U1        1AB3     LP4_DQS1N_A_LP4X_DQS1N_A_LP5_RDQS1N_A_1AB3 5
+                          U11       J9       DQS1_C_A   6
+
+LP4X_DQS1N_B              U1        B3       LP4_DQS1N_B_LP4X_DQS1N_B_LP5_RDQS1N_B_B3 5
+                          U11       T9       DQS1_C_B   6
+
+LP4X_DQS1P_A              U1        1AB4     LP4_DQS1P_A_LP4X_DQS1P_A_LP5_RDQS1P_A_1AB4 5
+                          U11       K9       DQS1_T_A   6
+
+LP4X_DQS1P_B              U1        A3       LP4_DQS1P_B_LP4X_DQS1P_B_LP5_RDQS1P_B_A3 5
+                          U11       R9       DQS1_T_B   6
+
+LP4X_RESET                U1        1U5      LP4_RESET_LP4X_RESET_LP5_RESET_1U5 5
+                          U11       AA16     RST_N      6
+
+MASKROM_SW                R18       2        2          5
+                          SW1       A        COM        5
+                          SW1       B        COM        5
+
+MIPI_DCPHY_AVDD           C1504     1        1          4
+                          C1505     1        1          4
+                          R1502     2        2          4
+                          U1        2M7      MIPI_DCPHY_AVDD_2M7 4
+
+MIPI_DCPHY_VREG           C1503     1        1          4
+                          U1        2N7      MIPI_DCPHY_VREG_2N7 4
+
+MUX_ST                    R111      2        2          1
+                          U5        9        ST         1
+
+NPOR_PIN                  C1119     1        1          5
+                          R1106     1        1          5
+                          U1        W28      NPOR_W28   5
+
+OSC_1V8                   C1102     1        1          5
+                          R1119     2        2          5
+                          U1        2J10     OSC_AVDD1V8_2J10 4
+
+PMIC_CS_I2C               R2324     2        2          2
+                          U2        18       CS         2
+
+PMIC_EXT_EN_OUT           R2405     1        1          3
+                          R2406     1        1          3
+                          U2        39       EXT_EN     2
+                          U6        1        EN         3
+                          U7        1        EN         3
+
+PMIC_FB5                  R2302     2        2          2
+                          R2305     1        1          2
+                          U2        47       FB5        2
+
+PMIC_FB6                  C2317     2        2          2
+                          R19       2        2          2
+                          R21       1        1          2
+                          U2        31       FB6        2
+
+PMIC_FB9                  C2329     2        2          2
+                          R22       2        2          2
+                          R24       1        1          2
+                          U2        66       FB9        2
+
+PMIC_INT_L                R1116     2        2          5
+                          U2        19       INT        2
+
+PMIC_PWRCTRL3_TP          TP2318    1        1          2
+                          U2        16       MISO       2
+
+PMIC_PWR_CTRL1            R1112     2        2          5
+                          U2        62       PWRCRTL1   2
+
+PMIC_PWR_CTRL2            R1114     2        2          5
+                          U2        61       PWRCRTL2   2
+
+PMIC_SW1                  L1        1        1          2
+                          U2        50       SW1        2
+                          U2        51       SW1        2
+
+PMIC_SW2                  L2        1        1          2
+                          U2        35       SW2        2
+                          U2        36       SW2        2
+
+PMIC_SW3                  L3        1        1          2
+                          U2        55       SW3        2
+
+PMIC_SW4                  L4        1        1          2
+                          U2        23       SW4        2
+
+PMIC_SW5                  L5        1        1          2
+                          U2        45       SW5        2
+
+PMIC_SW6                  L6        1        1          2
+                          U2        29       SW6        2
+
+PMIC_SW7                  L7        1        1          2
+                          U2        42       SW7        2
+
+PMIC_SW8                  L8        1        1          2
+                          U2        6        SW8        2
+
+PMIC_SW9                  L9        1        1          2
+                          U2        68       SW9        2
+
+PMIC_SW10                 L10       1        1          2
+                          U2        26       SW10       2
+
+PMIC_VDC                  C2368     1        1          2
+                          D2301     2        2          2
+                          R2330     1        1          2
+                          R2332     2        2          2
+                          U2        32       VDC        2
+
+PWRON_L                   C2369     1        1          2
+                          R9006     1        1          2
+                          U2        4        PWRON      2
+
+PWRON_SW                  R9006     2        2          2
+                          SW2       A        COM        2
+                          SW2       B        COM        2
+
+RESET_L                   C2366     1        1          2
+                          R1105     2        2          5
+                          R1106     2        2          5
+                          R1107     2        2          5
+                          U2        40       !RESET     2
+
+SARADC_AVDD1V8            C1116     1        1          5
+                          R1147     2        2          5
+                          R16       1        1          5
+                          U1        2A10     SARADC_AVDD1V8_2A10 4
+
+SARADC_IN0_BOOT           C1108     1        1          5
+                          R16       2        2          5
+                          R17       1        1          5
+                          R18       1        1          5
+                          U1        A25      SARADC_IN0_BOOT_A25 5
+
+SOC_I2C1_SCL              R1122     1        1          5
+                          U1        1T22     SPI2_CLK_M0_I2C1_SCL_M0_GPIO0_B2_Z_1T22 5
+
+SOC_I2C1_SDA              R1123     1        1          5
+                          U1        1T23     SPI2_MOSI_M0_I2C1_SDA_M0_GPIO0_B3_Z_1T23 5
+
+SOC_PMIC_INT              R1116     1        1          5
+                          U1        1T21     PMIC_INT_GPIO0_A6_U_1T21 5
+
+SOC_PWR_CTRL1             R1112     1        1          5
+                          U1        Y28      PWR_CTRL1_TSADC_CTRL_M1_GPIO0_A3_D_Y28 5
+
+SOC_PWR_CTRL2             R1114     1        1          5
+                          U1        1T24     PWR_CTRL2_GPIO0_A4_D_1T24 5
+
+TSADC_CTRL_M0             R1107     1        1          5
+                          U1        1R24     TSADC_CTRL_M0_TSADC_CTRL_ORG_GPIO0_A1_Z_1R24 5
+
+U5_ILIM                   R110      1        1          1
+                          U5        10       ILIM       1
+
+U5_OV1                    R106      2        2          1
+                          R107      1        1          1
+                          U5        5        OV1        1
+
+U5_OV2                    R108      2        2          1
+                          R109      1        1          1
+                          U5        4        OV2        1
+
+U5_PR1                    R104      2        2          1
+                          R105      1        1          1
+                          U5        6        PR1        1
+
+U5_SS                     C110      1        1          1
+                          U5        11       SS         1
+
+U6_FB                     C2403     2        2          3
+                          R25       2        2          3
+                          R26       1        1          3
+                          U6        5        FB         3
+
+U6_LX                     L11       1        1          3
+                          U6        3        LX         3
+
+U7_FB                     C2402     2        2          3
+                          R27       2        2          3
+                          R28       1        1          3
+                          U7        5        FB         3
+
+U7_LX                     L12       1        1          3
+                          U7        3        LX         3
+
+U8_EN                     R2412     2        2          3
+                          R2414     1        1          3
+                          U8        4        EN         3
+
+U8_ISET                   R29       1        1          3
+                          U8        3        ISET       3
+
+U9_ON                     R2411     2        2          3
+                          R2413     1        1          3
+                          U9        B2       ON         3
+
+U10_BS                    C81       1        1          1
+                          U10       1        BS         1
+
+U10_EN                    R100      2        2          1
+                          R101      1        1          1
+                          U10       3        EN         1
+
+U10_FB                    C102      2        2          1
+                          R31       2        2          1
+                          R32       1        1          1
+                          U10       5        FB         1
+
+U10_LX                    C81       2        2          1
+                          L13       1        1          1
+                          U10       2        LX         1
+
+U10_SS                    C100      1        1          1
+                          U10       4        SS         1
+
+U10_VCC                   C82       1        1          1
+                          U10       6        VCC        1
+
+UART0_RX_M0_DEBUG         R9905     1        1          5
+                          U1        AA28     UART0_RX_M0_JTAG_TMS_M1_GPIO0_D5_U_AA28 5
+
+UART0_RX_TP               R9905     2        2          5
+                          TP2       1        1          5
+
+UART0_TX_M0_DEBUG         R9906     1        1          5
+                          U1        1U24     UART0_TX_M0_JTAG_TCK_M1_GPIO0_D4_U_1U24 5
+
+UART0_TX_TP               R9906     2        2          5
+                          TP1       1        1          5
+
+UFS_AVDD0V85              C1302     1        1          4
+                          C1303     1        1          4
+                          R1320     2        2          4
+                          U1        2N2      UFS_AVDD0V85_2N2 4
+
+UFS_AVDD1V8               C1305     1        1          4
+                          C1306     1        1          4
+                          R1323     2        2          4
+                          U1        2P2      UFS_AVDD1V8_2P2 4
+
+USB2_OTG0_DM              D1        4        I/O2_OUT   1
+                          U1        AL9      USB2_OTG0_DM_AL9 5
+
+USB2_OTG0_DP              D1        6        I/O1_OUT   1
+                          U1        AK9      USB2_OTG0_DP_AK9 5
+
+USB2_OTG0_REXT            R1401     1        1          4
+                          U1        2R3      USB2_OTG0_REXT_2R3 4
+
+USB2_OTG0_VBUSDET         C105      1        1          1
+                          R102      2        2          1
+                          R103      1        1          1
+                          U1        2P3      USB2_OTG0_VBUSDET_2P3 4
+
+USB2_OTG1_REXT            R1402     1        1          4
+                          U1        2U8      USB2_OTG1_REXT_2U8 4
+
+USB3_OTG0_REXT_DP_TX_REXT R1400     1        1          6
+                          U1        2T7      USB3_OTG0_REXT_DP_TX_REXT_2T7 4
+
+USB_CC1                   J1        A5       CC1        1
+                          R1        1        1          1
+
+USB_CC2                   J1        B5       CC2        1
+                          R2        1        1          1
+
+USB_CONN_DN               D1        3        I/O2_IN    1
+                          J1        A7       DN1        1
+                          J1        B7       DN2        1
+
+USB_CONN_DP               D1        1        I/O1_IN    1
+                          J1        A6       DP1        1
+                          J1        B6       DP2        1
+
+VBAT_2S_IN                C83       1        1          1
+                          C84       1        1          1
+                          J4        1        VBAT+      1
+                          R100      1        1          1
+                          U10       7        PVIN       1
+                          U10       8        PVIN       1
+
+VBAT_BUCK_5V              C101      1        1          1
+                          C102      1        1          1
+                          C107      1        1          1
+                          C85       1        1          1
+                          C86       1        1          1
+                          L13       2        2          1
+                          R108      1        1          1
+                          R31       1        1          1
+                          U5        2        IN2        1
+                          U5        2_1      IN2        1
+
+VBUS_5V                   C103      1        1          1
+                          C104      1        1          1
+                          C106      1        1          1
+                          C47       1        1          1
+                          D1        5        VBUS       1
+                          D2        2        2          1
+                          J1        A4_B9    VBUS       1
+                          J1        B4_A9    VBUS       1
+                          R102      1        1          1
+                          R104      1        1          1
+                          R106      1        1          1
+                          U5        7        IN1        1
+                          U5        7_1      IN1        1
+
+VCC5V0_SYS_S5             C10       1        1          2
+                          C11       1        1          2
+                          C111      1        1          1
+                          C12       1        1          2
+                          C13       1        1          2
+                          C14       1        1          2
+                          C15       1        1          2
+                          C16       1        1          2
+                          C17       1        1          3
+                          C18       1        1          3
+                          C2361     1        1          2
+                          C2362     1        1          2
+                          C36       1        1          2
+                          C48       1        1          1
+                          C7        1        1          2
+                          C8        1        1          2
+                          C9        1        1          2
+                          D2301     1        1          2
+                          D3        2        2          1
+                          R111      1        1          1
+                          R2324     1        1          2
+                          R2332     1        1          2
+                          U2        1        VCC9       2
+                          U2        21       VCCA       2
+                          U2        22       VCC4       2
+                          U2        27       VCC10      2
+                          U2        28       VCC6       2
+                          U2        33       VCC2       2
+                          U2        34       VCC2       2
+                          U2        43       VCC7       2
+                          U2        44       VCC5       2
+                          U2        52       VCC1       2
+                          U2        53       VCC1       2
+                          U2        54       VCC3       2
+                          U2        64       VCC12      2
+                          U2        7        VCC8       2
+                          U5        1        OUT        1
+                          U5        1_1      OUT        1
+                          U5        8        OUT        1
+                          U5        8_1      OUT        1
+                          U6        4        IN         3
+                          U7        4        IN         3
+
+VCCA1V8_PLDO2_S0          C40       1        1          2
+                          R1147     1        1          5
+                          U2        58       PLDO2      2
+
+VCCA1V8_PLDO6_S3          C2357     1        1          2
+                          R5        1        1          2
+                          R6        1        1          2
+                          U2        20       VCCIO      2
+
+VCCA_1V8_S0               C1105     1        1          4
+                          C1402     1        1          4
+                          C1403     1        1          4
+                          C1406     1        1          4
+                          C1509     1        1          4
+                          C39       1        1          2
+                          R1119     1        1          5
+                          R1202     1        1          4
+                          R1323     1        1          4
+                          R2411     1        1          3
+                          R2412     1        1          3
+                          U1        2H12     PLL_AVDD1V8_2H12 4
+                          U1        2M2      OSC_UFS_AVDD_2M2 4
+                          U1        2N4      USB3_OTG0_DP_TX_AVDD1V8_2N4 4
+                          U1        2P4      USB2_OTG_AVDD1V8_2P4 4
+                          U1        2P8      MIPI_DCPHY_AVDD1V8_2P8 4
+                          U2        60       PLDO1      2
+
+VCCA_3V3_S0               C42       1        1          2
+                          U2        63       PLDO4      2
+
+VCCIO_SD_S0               C1309     1        1          4
+                          C2360     1        1          2
+                          U1        2A8      VCCIO1_VCC_2A8 4
+                          U2        65       PLDO5      2
+
+VCCIO_WL                  C1801     1        1          4
+                          C2423     1        1          4
+                          R2427     2        2          4
+                          U1        2B10     VCCIO3_VCC_2B10 4
+
+VCC_1V1_NLDO_S3           C2402     1        1          3
+                          C2407     1        1          3
+                          C37       1        1          2
+                          C38       1        1          2
+                          C80       1        1          3
+                          L12       2        2          3
+                          R27       1        1          3
+                          U2        13       VCC13      2
+                          U2        9        VCC14      2
+
+VCC_1V8_S0                C1300     1        1          4
+                          C1308     1        1          4
+                          C1903     1        1          4
+                          C2411     1        1          3
+                          C4000     1        1          8
+                          C4001     1        1          8
+                          R4001     2        2          8
+                          R4002     2        2          8
+                          R4003     2        2          8
+                          R4004     2        2          8
+                          R4005     2        2          8
+                          R4006     2        2          8
+                          R4007     2        2          8
+                          R4008     2        2          8
+                          R4009     2        2          8
+                          R4010     2        2          8
+                          U1        1J20     VCCIO0_VCC1V8_1J20 5
+                          U1        2A2      VCCIO2_VCC_2A2 4
+                          U1        2A4      VCCIO5_VCC_0_2A4 4
+                          U1        2A5      VCCIO5_VCC_1_2A5 4
+                          U1        2M3      VCCIO7_VCC_2M3 4
+                          U11       J15      VCCQ       7
+                          U11       J16      VCCQ       7
+                          U11       J17      VCCQ       7
+                          U11       K15      VCCQ       7
+                          U11       R13      VCCQ       7
+                          U11       R14      VCCQ       7
+                          U11       T15      VCCQ       7
+                          U11       T16      VCCQ       7
+                          U9        A1       OUT        3
+
+VCC_1V8_S3                C1103     1        1          4
+                          C2410     1        1          3
+                          C3800     1        1          7
+                          C3801     1        1          7
+                          C3802     1        1          7
+                          C3803     1        1          7
+                          C3804     1        1          7
+                          C3805     1        1          7
+                          C73       1        1          2
+                          C74       1        1          2
+                          L8        2        2          2
+                          R1105     1        1          5
+                          R2427     1        1          4
+                          U1        2K11     PMUIO0_VCC1V8_2K11 4
+                          U11       A15      VDD1       7
+                          U11       A16      VDD1       7
+                          U11       A4       VDD1       7
+                          U11       A9       VDD1       7
+                          U11       AC15     VDD1       7
+                          U11       AD15     VDD1       7
+                          U11       AD16     VDD1       7
+                          U11       AD4      VDD1       7
+                          U11       AD9      VDD1       7
+                          U11       B15      VDD1       7
+                          U2        5        VOUT8      2
+                          U9        A2       IN         3
+
+VCC_2V0_PLDO_S3           C2403     1        1          3
+                          C2405     1        1          3
+                          C35       1        1          2
+                          C79       1        1          3
+                          L11       2        2          3
+                          R25       1        1          3
+                          U2        59       VCC11      2
+
+VCC_3V3_S0                C1408     1        1          4
+                          C1802     1        1          4
+                          C1901     1        1          4
+                          C2413     1        1          3
+                          C4002     1        1          8
+                          C4003     1        1          8
+                          U1        2A7      VCCIO4_VCC_2A7 4
+                          U1        2N3      VCCIO6_VCC_2N3 4
+                          U1        2P7      USB2_OTG_AVDD3V3_2P7 4
+                          U11       M17      VCC        7
+                          U11       N17      VCC        7
+                          U11       P17      VCC        7
+                          U8        1        OUT        3
+
+VCC_3V3_S3                C1106     1        1          4
+                          C2412     1        1          3
+                          C62       1        1          2
+                          C63       1        1          2
+                          C64       1        1          2
+                          L4        2        2          2
+                          U1        1U20     PMUIO1_VCC_1U20 5
+                          U2        24       VOUT4      2
+                          U8        5        IN         3
+
+VDD2_DDR_S3               C2329     1        1          2
+                          C3806     1        1          7
+                          C3807     1        1          7
+                          C3808     1        1          7
+                          C3809     1        1          7
+                          C3810     1        1          7
+                          C3811     1        1          7
+                          C3812     1        1          7
+                          C3813     1        1          7
+                          C3814     1        1          7
+                          C3815     1        1          7
+                          C3816     1        1          7
+                          C3817     1        1          7
+                          C3818     1        1          7
+                          C3819     1        1          7
+                          C3820     1        1          7
+                          C3821     1        1          7
+                          C3822     1        1          7
+                          C75       1        1          2
+                          C76       1        1          2
+                          L9        2        2          2
+                          R22       1        1          2
+                          R3809     1        1          7
+                          U11       A5       VDD2       7
+                          U11       A8       VDD2       7
+                          U11       AC13     VDD2       7
+                          U11       AC14     VDD2       7
+                          U11       AC9      VDD2       7
+                          U11       AD5      VDD2       7
+                          U11       AD8      VDD2       7
+                          U11       B13      VDD2       7
+                          U11       B14      VDD2       7
+                          U11       B9       VDD2       7
+                          U11       G7       VDD2       7
+                          U11       G8       VDD2       7
+                          U11       G9       VDD2       7
+                          U11       K2       VDD2       7
+                          U11       L7       VDD2       7
+                          U11       L8       VDD2       7
+                          U11       L9       VDD2       7
+                          U11       P7       VDD2       7
+                          U11       P8       VDD2       7
+                          U11       P9       VDD2       7
+                          U11       R2       VDD2       7
+                          U11       V7       VDD2       7
+                          U11       V8       VDD2       7
+                          U11       V9       VDD2       7
+                          U2        67       VOUT9      2
+
+VDDA0V75_HDMI_S0          C2367     1        1          2
+                          U2        11       NLDO3      2
+
+VDDA_0V75_S0              C1104     1        1          4
+                          C1117     1        1          4
+                          C1405     1        1          4
+                          C2372     1        1          2
+                          R1502     1        1          4
+                          U1        2G11     PLL_DVDD0V75_2G11 4
+                          U1        2H11     OTP_DVDD0V75_2H11 4
+                          U1        2P5      USB2_OTG_DVDD0V75_2P5 4
+                          U2        8        NLDO5      2
+
+VDDA_0V85_S0              C1400     1        1          4
+                          C1401     1        1          4
+                          C2370     1        1          2
+                          R1320     1        1          4
+                          U1        2M5      USB3_OTG0_DP_TX_AVDD0V85_2M5 4
+                          U1        2N5      USB3_OTG0_DP_TX_DVDD0V85_2N5 4
+                          U2        10       NLDO4      2
+
+VDDA_1V2_S0               C1506     1        1          4
+                          C41       1        1          2
+                          U1        2M8      MIPI_DCPHY_AVDD1V2_2M8 4
+                          U2        57       PLDO3      2
+
+VDDA_DDR_PLL_S0           C1212     1        1          4
+                          C2365     1        1          2
+                          U1        2C3      DDRPHY_PLL_DVDD_2C3 4
+                          U2        12       NLDO2      2
+
+VDDQ_DDR_CKE_S3           C1214     1        1          4
+                          R3809     2        2          7
+                          U1        2B2      DDRPHY_CKE_VDDQ_2B2 4
+
+VDDQ_DDR_S0               C1200     1        1          4
+                          C1201     1        1          4
+                          C1202     1        1          4
+                          C1203     1        1          4
+                          C1204     1        1          4
+                          C1205     1        1          4
+                          C2317     1        1          2
+                          C3823     1        1          7
+                          C3824     1        1          7
+                          C3825     1        1          7
+                          C3826     1        1          7
+                          C3827     1        1          7
+                          C3828     1        1          7
+                          C3829     1        1          7
+                          C3830     1        1          7
+                          C3831     1        1          7
+                          C3832     1        1          7
+                          C3833     1        1          7
+                          C3834     1        1          7
+                          C3835     1        1          7
+                          C3836     1        1          7
+                          C3837     1        1          7
+                          C3838     1        1          7
+                          C3839     1        1          7
+                          C3840     1        1          7
+                          C3841     1        1          7
+                          C3842     1        1          7
+                          C67       1        1          2
+                          C68       1        1          2
+                          L6        2        2          2
+                          R1200     2        2          6
+                          R1201     2        2          6
+                          R19       1        1          2
+                          R3802     2        2          6
+                          R3804     2        2          6
+                          U1        2D1      DDRPHY_CK_VDDQ_2D1 4
+                          U1        2E1      DDRPHY_VDDQ_0_2E1 4
+                          U1        2F1      DDRPHY_VDDQ_1_2F1 4
+                          U1        2F2      DDRPHY_VDDQ_2_2F2 4
+                          U1        2G1      DDRPHY_VDDQ_3_2G1 4
+                          U1        2H1      DDRPHY_VDDQ_4_2H1 4
+                          U1        2J2      DDRPHY_VDDQ_5_2J2 4
+                          U11       A13      VDDQ       7
+                          U11       A14      VDDQ       7
+                          U11       A6       VDDQ       7
+                          U11       A7       VDDQ       7
+                          U11       AC5      VDDQ       7
+                          U11       AD13     VDDQ       7
+                          U11       AD14     VDDQ       7
+                          U11       AD6      VDDQ       7
+                          U11       AD7      VDDQ       7
+                          U11       B5       VDDQ       7
+                          U11       H5       VDDQ       7
+                          U11       H9       VDDQ       7
+                          U11       J4       VDDQ       7
+                          U11       J5       VDDQ       7
+                          U11       J8       VDDQ       7
+                          U11       T4       VDDQ       7
+                          U11       T5       VDDQ       7
+                          U11       T8       VDDQ       7
+                          U11       U5       VDDQ       7
+                          U11       U9       VDDQ       7
+                          U2        30       VOUT6      2
+
+VDD_0V75_S3               C1107     1        1          4
+                          C1118     1        1          4
+                          C2363     1        1          2
+                          U1        2L10     PMU_LOGIC_DVDD0V75_1_2L10 4
+                          U1        2L2      PMU_LOGIC_DVDD0V75_0_2L2 4
+                          U2        14       NLDO1      2
+
+VDD_CPU_BIG_S0            C1000     1        1          4
+                          C1001     1        1          4
+                          C1002     1        1          4
+                          C1003     1        1          4
+                          C1004     1        1          4
+                          C1005     1        1          4
+                          C1006     1        1          4
+                          C1007     1        1          4
+                          C2311     1        1          2
+                          C53       1        1          2
+                          C54       1        1          2
+                          C55       1        1          2
+                          L1        2        2          2
+                          R2304     1        1          2
+                          U1        2G5      CPU_BIG_DVDD_0_2G5 4
+                          U1        2G6      CPU_BIG_DVDD_1_2G6 4
+                          U1        2H6      CPU_BIG_DVDD_2_2H6 4
+                          U1        2H7      CPU_BIG_DVDD_3_2H7 4
+                          U1        2J6      CPU_BIG_DVDD_4_2J6 4
+                          U1        2J7      CPU_BIG_DVDD_5_2J7 4
+                          U1        2K6      CPU_BIG_DVDD_6_2K6 4
+                          U1        2K7      CPU_BIG_DVDD_7_2K7 4
+                          U2        49       VOUT1      2
+
+VDD_CPU_LIT_S0            C1009     1        1          4
+                          C1010     1        1          4
+                          C1011     1        1          4
+                          C1012     1        1          4
+                          C1013     1        1          4
+                          C2334     1        1          2
+                          C59       1        1          2
+                          C60       1        1          2
+                          C61       1        1          2
+                          L3        2        2          2
+                          R2314     1        1          2
+                          U1        2H4      CPU_LIT_DVDD_0_2H4 4
+                          U1        2J3      CPU_LIT_DVDD_1_2J3 4
+                          U1        2J4      CPU_LIT_DVDD_2_2J4 4
+                          U1        2K3      CPU_LIT_DVDD_3_2K3 4
+                          U1        2K4      CPU_LIT_DVDD_4_2K4 4
+                          U2        56       VOUT3      2
+
+VDD_DDR_S0                C1206     1        1          4
+                          C1207     1        1          4
+                          C1208     1        1          4
+                          C1209     1        1          4
+                          C1210     1        1          4
+                          C1211     1        1          4
+                          C2351     1        1          2
+                          C77       1        1          2
+                          C78       1        1          2
+                          L10       2        2          2
+                          R2320     1        1          2
+                          U1        2E2      DDRPHY_DVDD_0_2E2 4
+                          U1        2F3      DDRPHY_DVDD_1_2F3 4
+                          U1        2G2      DDRPHY_DVDD_2_2G2 4
+                          U1        2G3      DDRPHY_DVDD_3_2G3 4
+                          U1        2H2      DDRPHY_DVDD_4_2H2 4
+                          U2        25       VOUT10     2
+
+VDD_GPU_S0                C1026     1        1          4
+                          C1027     1        1          4
+                          C1028     1        1          4
+                          C1029     1        1          4
+                          C1030     1        1          4
+                          C1031     1        1          4
+                          C1039     1        1          4
+                          C65       1        1          2
+                          C66       1        1          2
+                          L5        2        2          2
+                          R2302     1        1          2
+                          U1        2C4      GPU_DVDD_0_2C4 4
+                          U1        2C5      GPU_DVDD_1_2C5 4
+                          U1        2D4      GPU_DVDD_2_2D4 4
+                          U1        2D5      GPU_DVDD_3_2D5 4
+                          U1        2E4      GPU_DVDD_4_2E4 4
+                          U2        46       VOUT5      2
+
+VDD_LOGIC_S0              C1015     1        1          4
+                          C1016     1        1          4
+                          C1017     1        1          4
+                          C1018     1        1          4
+                          C1020     1        1          4
+                          C1021     1        1          4
+                          C1023     1        1          4
+                          C1024     1        1          4
+                          C2352     1        1          2
+                          C71       1        1          2
+                          C72       1        1          2
+                          L7        2        2          2
+                          R2321     1        1          2
+                          U1        2E7      LOGIC_DVDD_0_2E7 4
+                          U1        2F7      LOGIC_MEM_DVDD_0_2F7 4
+                          U1        2F8      LOGIC_DVDD_1_2F8 4
+                          U1        2F9      LOGIC_DVDD_2_2F9 4
+                          U1        2G8      LOGIC_DVDD_3_2G8 4
+                          U1        2G9      LOGIC_DVDD_4_2G9 4
+                          U1        2H8      LOGIC_DVDD_5_2H8 4
+                          U1        2H9      LOGIC_DVDD_6_2H9 4
+                          U1        2J9      LOGIC_MEM_DVDD_1_2J9 4
+                          U2        41       VOUT7      2
+
+VDD_NPU_S0                C1032     1        1          4
+                          C1033     1        1          4
+                          C1034     1        1          4
+                          C1035     1        1          4
+                          C1036     1        1          4
+                          C1037     1        1          4
+                          C1038     1        1          4
+                          C1040     1        1          4
+                          C56       1        1          2
+                          C57       1        1          2
+                          C58       1        1          2
+                          L2        2        2          2
+                          U1        2C7      NPU_DVDD_0_2C7 4
+                          U1        2C8      NPU_DVDD_1_2C8 4
+                          U1        2C9      NPU_DVDD_2_2C9 4
+                          U1        2D7      NPU_DVDD_3_2D7 4
+                          U1        2D8      NPU_DVDD_4_2D8 4
+                          U2        37       VOUT2      2
+
+XIN_24M                   C2        1        1          5
+                          R37       2        2          5
+                          U1        U28      OSC_XIN_U28 5
+                          Y1        3        3          5
+
+XOUT_24M                  R14       2        2          5
+                          R37       1        1          5
+                          U1        U29      OSC_XOUT_U29 5
+
+Y1_X1                     C1        1        1          5
+                          R14       1        1          5
+                          Y1        1        1          5
