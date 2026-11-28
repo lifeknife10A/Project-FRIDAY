@@ -18,3 +18,5 @@ Voltages and source rails are from the revised SCH-1 Fusion netlist. Peripheral 
 SW1 MaskROM is wired to RK3576 SARADC_IN0 (A25) via R18. SW2 is wired to RK806 PWRON (pin 4) via R9006. Both keys use dedicated inputs outside the GPIO banks. (EVB PDF pp. 11, 21 and 26.)
 
 The planned 1.8 V peripheral signals in the table all use 1.8 V banks. The audio interconnect lists a 3.3 V feed. An INMP441 powered directly from it requires a logic-high input of at least 2.31 V (0.7 × VDD). For the later audio sheet, the 1.8 V SAI1 assignment requires a 1.8 V microphone rail or translation at the microphone interface. The microphone rail and camera reset/power-down GPIO assignments are **UNVERIFIED** for that sheet. (INMP441 DS p. 5, Digital Input. Project component specification §8.)
+
+SCH-2 Y3 records a 1.8 V INMP441 supply for the future audio sheet, matching the 1.8 V SAI1_M0 bank. (INMP441 DS p. 5.)
