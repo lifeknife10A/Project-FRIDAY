@@ -97,6 +97,15 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- SCH-4b @ 72f4ff4/9b0fa64/f9cd01b/0847541 ACCEPTED (my netlist checks). Compute J5 == bridge J2 all 24 pins (0 diffs);
+  compute J6 == left J3 (only GND naming GND vs PACK-_PROT, same net). S1 RS1 = WSK2512R0200 20 mOhm; S2 Q1 = Vishay
+  SiSF04DN (active, 30 V). Left SD_MODE: GPIO -> N-FET -> P-FET from 5 V via 1k/4.7k -> ~4.1 V (LEFT, >1.4 V); right:
+  5 V via 16.2k/4.7k -> 1.12 V (RIGHT window 0.77-1.4 V); low -> shutdown. Pack divider unswitched ~8 uA, TMUX1511 isolates
+  SARADC_IN2, 0.55 V at 8.5 V (< 1.62 V FS). 65 SCH-2 warnings approved with note. WATCHLIST: HY2120 OC trip now 6.5-8.9 A
+  (Rds 6 mOhm lower than assumed) -> 2-8 A faults cleared by 2 A fuse in seconds; consider 30-33 mOhm (trip ~4.7-6.4 A);
+  USB eFuse 0.507 A low corner vs charger input; speaker 1510 rating unknown (8 ohm/0.8 W assumed); divider uses ~1/3 ADC
+  range. Remaining schematic: SCH-5 (Wi-Fi RTL8723DS + antenna, USB2 data, touch, LEDs/TPs). DF37 crosswalk still open.
+
 - SCH-3 @ df81d4a/b041a31/5e0a570/6ae5713 ACCEPTED (my netlist walk). J2 24 pins == pinout_right_bridge.csv. DVDD
   AP3429 FB 20k/24k -> 0.6*(1+20/24)=1.10 V; AVDD+AFVDD AP7331-28, DOVDD AP7331-18 (local, from 3V3_S3); all EN from
   CAM_ENABLE via SN74LV1T34 (1.8->3.3 V, 100k pulldown). TPS386000 senses 1.1/1.8/2.8 V at ~92-94% (0.4 V thresh;
