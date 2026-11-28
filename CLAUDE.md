@@ -97,6 +97,10 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Krishna DECISION D16 (2026-11-28, plan deviation approved): Option B (cells+protection+balance+charger LEFT; protected
+  PACK+/- harness only), 3-pin pogo (VBUS/GND/DET) left tip, USB-C right = charge + flash, ideal-diode OR at charger.
+  Mass est (plan.md table): R ~32.0 g / L ~42.1 g (11.5 g cells) or L ~35.1 g (8 g BOM cells). SCH-4a prompt issued.
+
 - Interconnect v0 @ 4623c81 ACCEPTED as v0 (docs only). Math re-checked: 3.06/3.24 A pack, 13 FH12 contacts/3.25 A,
   0.228/0.356 ohm paths, 80/160/154 mV drops, 22 AWG 45 mV, 2 mm/70 um 104 mV, camera 0.285 A in. Right-bridge 24p: GND
   around each CSI pair OK; aux 24p OK. Good catch: DF37 lib numbering (odd/even rows) != Pi J2 (1-15/30-16) -> SCH-3

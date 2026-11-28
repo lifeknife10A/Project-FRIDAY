@@ -314,3 +314,4 @@ GPU-h are estimates, redone after E-THR-1 measures real throughput. Weeks count 
 | D13 | Weight limit 120 g vs 125 g | 120 g hard |
 | D14 | Clean the Gemini Notebook sources (remove the AI-generated "Technical Evaluation" doc; add primary papers) | Yes |
 | D15 | Is Hindi (F10) required for the purchase/grant gate? | No; low priority, after the gate |
+| D16 | Battery placement + charging (2026-11-28; deviation from plan.md §2.1 split cells) | Option B: both cells + 2S protection + balance + charger on LEFT temple; only protected PACK+/PACK- cross the frame. Charging: 3-pin magnetic pogo (VBUS/GND/DET) on left tip for daily use + USB-C on right for charge AND flash, ideal-diode OR at the charger input |
