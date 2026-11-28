@@ -97,6 +97,15 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- SCH-2 @ 1db7bf9/cfaf580/08e94c8 ACCEPTED (netlist-verified by me). eMCP U11: all 221 wired balls = my verified ball map
+  (VDD1 VCC_1V8_S3, VDD2 VDD2_DDR_S3/BUCK9, VDDQ VDDQ_DDR_S0, VCC VCC_3V3_S0, VCCQ VCC_1V8_S0 = eMMC bank VCCIO0, VDDI
+  EMMC_VDDI 100n, VSS/VSSm GND), 33 VSF/DNU/NC open; 83 signals 1:1 by name; all 69 SoC DDR balls + 12 eMMC balls match
+  RK3576 DS pin table; ZQ0/ZQ1 240R 1% -> VDDQ, SoC ZQ_A/ZQ_B present; both ranks wired; Y1 R1400 8.2k 2T7->GND; Y2
+  R3809 0R VDD2_DDR_S3 -> VDDQ_DDR_CKE_S3; Y4 VCC 2x4.7u, VCCQ 2x2.2u, CMD 10k, DAT 50k x8, RSTn 50k DNP, CLK 27R, DS none;
+  DDR decaps = ref note counts (VDD1 6, VDD2 17, VDDQ 20). Footprint 254 pads on exact 0.5 mm grid. WATCHLIST: pads 0.30 mm
+  = ball dia (decide NSMD ~0.25 at stack-up review); 65 active code-104 warnings (approve w/ note next round); memory
+  support list + part availability; HDG "p.15" = printed page. Next: FPC/inter-board pinout, then SCH-3/4.
+
 - Gap audit fix @ 83a67c0 ACCEPTED (G1-G6 verified: D.4 = plan.md 115.0 g quoted + labelled estimate, Y4 = p.54
   passives, eMCP 1.20 mm, FOV 75 deg, SCH-1 SHAs, UNVERIFIED tags, G6 rows added). SCH-2 prompt issued (Sol high).
 
