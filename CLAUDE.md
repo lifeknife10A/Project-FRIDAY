@@ -97,6 +97,13 @@ Approvals name one SHA; any new commit restarts at step 3.
 
 ## 7. Current state (update every review)
 
+- Cell selection @ e275129 (Hydrogen) HONEST, NOT APPROVED. Verified EEMB LP453030HA DS p.3: 10C5A = 3.0 A cont,
+  <=4.8 x 30.5 x 31 mm, ~6 g; LP453048HC 20C 9.6 A, 30.5 x 49 mm, 9.6 g. Both 30.5 mm WIDE -> do not fit a temple
+  (12.5 mm). No 12 mm-wide cell reaches 3.25 A. Root cause: 3.25 A = unthrottled 16.5 W regulator sizing; thermal plan
+  is ~3 W burst -> a hard power cap is needed anyway. Hydrogen's req 1 too strict: LiHV cells charged to 4.20 V are
+  safe (less capacity) -> drone-class 300 mAh 1S (~12 x 6.5-7 x 50-55 mm, GNB/BetaFPV) qualify if a real DS exists.
+  Decisions for Krishna: (1) system pack-current cap (my rec <=1.5 A ~ 8 W), (2) left-temple cell envelope (L/T).
+
 - SCH-4a stopped at preflight (correct; no commit, main @ 1f712ef). My checks of fetched DS: IP2326 (LCSC C5441281,
   V1.6) ICHRG 1.0 A @ RISET 90k -> I = 90k/R -> 300k = 0.30 A (BOM value now VERIFIED); IP2326 INTEGRATES 2S charge
   balancing (VBATM pin 23, VBAT_GND pin 24) -> separate HY2212 likely unnecessary. HY2212 variants 3.6 V (Sol, DS not
