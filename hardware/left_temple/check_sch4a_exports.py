@@ -83,7 +83,10 @@ def expected_rows(schematic):
     return rows
 
 
-def check_paths(pins, values):
+def check_paths(pins, values, protection_pads=None, shunt_ohms=0.050):
+    if protection_pads is None:
+        protection_pads = {"G1": "G1", "G2": "G2", "S1A": "S1A", "S1B": "S1B",
+                           "S2A": "S2A", "S2B": "S2B", "EP": "EP"}
     def match(part, expected):
         for pad, net_name in expected.items():
             require(pins.get((part, pad)) == net_name, f"{part}.{pad} must be on {net_name}")
@@ -94,9 +97,10 @@ def check_paths(pins, values):
     match("U2", {"1": "DISCHARGE_GATE", "2": "CHARGE_GATE", "3": "PROTECT_CS",
                  "4": "PROTECT_VC", "5": "PROTECT_VDD", "6": "CELL_NEG"})
     match("R3", {"1": PACK_RETURN, "2": "PROTECT_CS"})
-    match("Q1", {"G1": "DISCHARGE_GATE", "G2": "CHARGE_GATE", "S1A": "CELL_NEG",
-                 "S1B": "CELL_NEG", "S2A": "SHUNT_FET_SIDE", "S2B": "SHUNT_FET_SIDE",
-                 "EP": "FET_COMMON_DRAIN"})
+    protection_nets = {"G1": "DISCHARGE_GATE", "G2": "CHARGE_GATE", "S1A": "CELL_NEG",
+                       "S1B": "CELL_NEG", "S2A": "SHUNT_FET_SIDE", "S2B": "SHUNT_FET_SIDE",
+                       "EP": "FET_COMMON_DRAIN"}
+    match("Q1", {physical: protection_nets[alias] for physical, alias in protection_pads.items()})
     match("RS1", {"P1": "SHUNT_FET_SIDE", "P2": PACK_RETURN, "K1": "SHUNT_K-", "K2": "SHUNT_K+"})
     match("J1", {"1": "POGO_VBUS_IN", "2": PACK_RETURN, "3": "POGO_DET_RAW"})
     match("J2", {"1": PACK_POSITIVE, "2": PACK_RETURN})
@@ -156,7 +160,9 @@ def check_paths(pins, values):
     pair("RS1", "P1", "P2", True)
     pair("RS1", "P1", "K1", True)
     pair("RS1", "P2", "K2", True)
-    pair("Q1", "S1A", "S2A", True)
+    first_source = next(pad for pad, alias in protection_pads.items() if alias == "S1A")
+    second_source = next(pad for pad, alias in protection_pads.items() if alias == "S2A")
+    pair("Q1", first_source, second_source, True)
     pair("Q2", "3", "2", True)
     for part in ("U3", "U4"):
         pair(part, "5", "6")
@@ -188,10 +194,9 @@ def check_paths(pins, values):
                 f"{input_net} lacks a charger path or can back-feed the other connector")
 
     require(values["R5"] == "450k 1%" and values["F1"] == "0451002.MRL 2A"
-            and "50mR 1W" in values["RS1"], "ISET, fuse or shunt rating changed")
+            and f"{shunt_ohms * 1000:g}mR 1W" in values["RS1"], "ISET, fuse or shunt rating changed")
     iset_kilohms = float(values["R5"].split("k")[0])
     nominal_charge_milliamps = 90000 / iset_kilohms
-    shunt_ohms = 0.050
     fuse_amps = 2.0
     continuous_amps = 1.5
     pulse_amps = 3.0
